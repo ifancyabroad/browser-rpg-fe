@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+    install:
+        #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
+        #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
+        runtime-versions:
+            nodejs: 18
+    pre_build:
+        commands:
+            - echo Installing source NPM dependencies...
+            - yarn
+    build:
+        commands:
+            - echo Build started on 'date'
+            - yarn build
+    post_build:
+        commands:
+            - aws s3 cp --recursive --acl public-read ./build s3://browser-rpg-fe/
+            - aws s3 cp --acl public-read --cache-control="max-age=0, no-cache, no-store, must-revalidate" ./build/index.html s3://browser-rpg-fe/
+            - aws cloudfront create-invalidation --distribution-id E1SBYI7G6KFV8U --paths /index.html
+artifacts:
+    files:
+        - "build/*"
+        - "build/**/*"
