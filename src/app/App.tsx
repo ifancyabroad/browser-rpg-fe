@@ -1,4 +1,4 @@
-import { HOCLayout } from "common/components";
+import { HOCLayout, HOCSession } from "common/components";
 import { AuthContext } from "common/context";
 import { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -9,13 +9,15 @@ function App() {
 	const user = useContext(AuthContext);
 
 	return (
-		<Router>
-			<HOCLayout>
-				<Routes>
-					{user ? <Route path="/" element={<Game />} /> : <Route path="/" element={<Landing />} />}
-				</Routes>
-			</HOCLayout>
-		</Router>
+		<HOCSession>
+			<Router>
+				<HOCLayout>
+					<Routes>
+						{user ? <Route path="/" element={<Game />} /> : <Route path="/" element={<Landing />} />}
+					</Routes>
+				</HOCLayout>
+			</Router>
+		</HOCSession>
 	);
 }
 

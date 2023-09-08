@@ -5,7 +5,6 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "app/store";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { AuthProvider } from "common/provider";
 import theme from "theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
@@ -14,9 +13,7 @@ root.render(
 		<Provider store={store}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<AuthProvider>
-					<App />
-				</AuthProvider>
+				<App />
 			</ThemeProvider>
 		</Provider>
 	</React.StrictMode>,
