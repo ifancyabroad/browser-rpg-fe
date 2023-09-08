@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { PageLoader } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { fetchSession, getSessionChecked } from "features/authentication/authenticationSlice";
+import { fetchSession } from "features/authentication/authenticationSlice";
 
 interface IProps {
 	children: React.ReactNode;
@@ -9,7 +9,7 @@ interface IProps {
 
 export const HOCSession: React.FC<IProps> = ({ children }) => {
 	const dispatch = useAppDispatch();
-	const isSessionChecked = useAppSelector(getSessionChecked);
+	const isSessionChecked = useAppSelector((state) => state.authentication.sessionChecked);
 
 	useEffect(() => {
 		dispatch(fetchSession());

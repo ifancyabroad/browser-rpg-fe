@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Landing } from "features/landing";
 import { Game } from "features/game";
+import { LoginModal } from "features/modals";
 
 function App() {
 	const user = useContext(AuthContext);
@@ -17,6 +18,8 @@ function App() {
 					</Routes>
 				</HOCLayout>
 			</Router>
+
+			<LoginModal />
 		</HOCSession>
 	);
 }

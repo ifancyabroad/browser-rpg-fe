@@ -5,3 +5,8 @@ export interface IUser {
 export interface ISession {
 	session: boolean;
 }
+
+export interface ILoginPayload {
+	email: string;
+	password: string;
+}

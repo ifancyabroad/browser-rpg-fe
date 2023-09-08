@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios from "axios";
-import { ISession, IUser } from "common/types";
+import { ILoginPayload, ISession, IUser } from "common/types";
 
 interface IAuthenticationState {
 	sessionChecked: boolean;
@@ -23,9 +23,14 @@ export const fetchSession = createAsyncThunk("authentication/fetchSession", asyn
 	return response.data.session;
 });
 
+export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload) => {
+	const response = await axios.post<IUser>("/api/auth/login", payload);
+	return response.data;
+});
+
 export const authenticationSelector = (state: RootState) => state.authentication;
 
-export const getSessionChecked = createSelector(authenticationSelector, ({ sessionChecked }) => sessionChecked);
+export const getIsLoading = createSelector(authenticationSelector, ({ status }) => status === "loading");
 
 export const authenticationSlice = createSlice({
 	name: "authentication",
@@ -36,7 +41,6 @@ export const authenticationSlice = createSlice({
 			state.status = "loading";
 		});
 		builder.addCase(fetchSession.fulfilled, (state, action) => {
-			console.log(action.payload);
 			state.status = "succeeded";
 			state.session = action.payload;
 			state.sessionChecked = true;
@@ -45,6 +49,17 @@ export const authenticationSlice = createSlice({
 			state.status = "failed";
 			state.error = action.error.message;
 			state.sessionChecked = true;
+		});
+		builder.addCase(login.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(login.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.user = action.payload;
+		});
+		builder.addCase(login.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
 		});
 	},
 });
