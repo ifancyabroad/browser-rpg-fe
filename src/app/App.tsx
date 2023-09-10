@@ -1,5 +1,5 @@
 import { HOCGameData, HOCLayout, HOCSession } from "common/components";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Landing } from "features/landing";
 import { Game } from "features/game";
 import { LoginModal } from "features/modals";
@@ -26,6 +26,7 @@ function App() {
 				) : (
 					<Routes>
 						<Route path="/" element={<Landing />} />
+						<Route path="*" element={<Navigate to="/" replace />} />
 					</Routes>
 				)}
 			</Router>

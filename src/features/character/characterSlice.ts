@@ -45,6 +45,10 @@ export const getHasActiveCharacter = createSelector(characterSelector, ({ charac
 	return character?.status === Status.Alive;
 });
 
+export const getActiveCharacterKills = createSelector(characterSelector, ({ character }) => {
+	return character?.history.filter(({ defeated }) => defeated).length;
+});
+
 export const characterSlice = createSlice({
 	name: "character",
 	initialState,

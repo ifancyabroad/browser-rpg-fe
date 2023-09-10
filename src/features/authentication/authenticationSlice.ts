@@ -33,6 +33,11 @@ export const login = createAsyncThunk("authentication/login", async (payload: IL
 	return response.data;
 });
 
+export const logout = createAsyncThunk("authentication/logout", async () => {
+	const response = await axios.delete<string>("/api/auth/logout");
+	return response.data;
+});
+
 export const authenticationSelector = (state: RootState) => state.authentication;
 
 export const getIsLoading = createSelector(authenticationSelector, ({ status }) => status === "loading");
@@ -76,6 +81,18 @@ export const authenticationSlice = createSlice({
 			state.user = action.payload;
 		});
 		builder.addCase(login.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(logout.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(logout.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.session = false;
+			state.user = null;
+		});
+		builder.addCase(logout.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
