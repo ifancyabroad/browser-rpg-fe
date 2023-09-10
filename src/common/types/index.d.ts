@@ -1,14 +1,8 @@
-export interface IUser {
-	email: string;
-}
+import { DamageType, EquipmentSlot, Stat } from "common/utils";
 
-export interface ISession {
-	session: boolean;
-}
+export type TStats = Record<Stat, number>;
+export type TDamageTypes = Record<DamageType, number>;
+export type TEquipment = Record<EquipmentSlot, string>;
 
-export interface ILoginPayload {
-	email: string;
-	password: string;
-}
-
+export * from "./user";
 export * from "./character";

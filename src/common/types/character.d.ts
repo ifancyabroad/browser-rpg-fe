@@ -1,4 +1,4 @@
-import { CharacterClass, State, Status } from "common/utils";
+import { ArmourType, CharacterClass, SkillClass, State, Status, WeaponType } from "common/utils";
 
 export interface ISkill {
 	skill: string;
@@ -50,4 +50,17 @@ export interface ICharacter {
 	equipment: IEquipment;
 	hitPoints: number;
 	stats: IStats;
+}
+
+export interface ICharacterClass {
+	id: string;
+	description: string;
+	name: string;
+	portrait: string;
+	skillClasses: SkillClass[];
+	armourTypes: ArmourType[];
+	weaponTypes: WeaponType[];
+	skills: string[];
+	stats: TStats;
+	equipment?: Partial<TEquipment>;
 }
