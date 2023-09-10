@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios from "axios";
-import { ICharacter, ICharacterClass } from "common/types";
+import { ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
 import { Status } from "common/utils";
 
 interface ICharacerState {
@@ -27,6 +27,11 @@ export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async
 export const fetchClasses = createAsyncThunk("character/fetchClasses", async () => {
 	const response = await axios.get<{ classes: ICharacterClass[] }>("/api/character/classes");
 	return response.data.classes;
+});
+
+export const createCharacter = createAsyncThunk("character/createCharacter", async (payload: ICharacterPayload) => {
+	const response = await axios.put<{ character: ICharacter }>("/api/character/create", payload);
+	return response.data.character;
 });
 
 export const characterSelector = (state: RootState) => state.character;
@@ -64,6 +69,17 @@ export const characterSlice = createSlice({
 			state.classes = action.payload;
 		});
 		builder.addCase(fetchClasses.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(createCharacter.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(createCharacter.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(createCharacter.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
