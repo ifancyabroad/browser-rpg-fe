@@ -23,6 +23,11 @@ export const fetchSession = createAsyncThunk("authentication/fetchSession", asyn
 	return response.data.session;
 });
 
+export const fetchUser = createAsyncThunk("authentication/fetchUser", async () => {
+	const response = await axios.get<IUser>("/api/auth/user");
+	return response.data;
+});
+
 export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload) => {
 	const response = await axios.post<IUser>("/api/auth/login", payload);
 	return response.data;
@@ -50,11 +55,24 @@ export const authenticationSlice = createSlice({
 			state.error = action.error.message;
 			state.sessionChecked = true;
 		});
+		builder.addCase(fetchUser.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(fetchUser.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.session = true;
+			state.user = action.payload;
+		});
+		builder.addCase(fetchUser.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
 		builder.addCase(login.pending, (state) => {
 			state.status = "loading";
 		});
 		builder.addCase(login.fulfilled, (state, action) => {
 			state.status = "succeeded";
+			state.session = true;
 			state.user = action.payload;
 		});
 		builder.addCase(login.rejected, (state, action) => {

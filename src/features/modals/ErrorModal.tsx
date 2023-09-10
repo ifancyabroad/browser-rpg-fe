@@ -1,6 +1,6 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeErrorModal } from "features/modals/modalsSlice";
+import { closeErrorModal } from "features/modals";
 
 export const ErrorModal: React.FC = () => {
 	const dispatch = useAppDispatch();

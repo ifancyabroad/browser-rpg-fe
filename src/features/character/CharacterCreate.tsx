@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export const Game: React.FC = () => {
+export const CharacterCreate: React.FC = () => {
 	return (
 		<Box
 			sx={{
@@ -13,7 +13,7 @@ export const Game: React.FC = () => {
 			}}
 		>
 			<Typography variant="h5">BROWSER HEROES</Typography>
-			<Typography>This is the game page!</Typography>
+			<Typography>Please select a class!</Typography>
 		</Box>
 	);
 };

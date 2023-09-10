@@ -1,15 +1,22 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { getIsLoading, login } from "features/authentication/authenticationSlice";
-import { closeLoginModal } from "features/modals/modalsSlice";
-import { useRef } from "react";
+import { getIsLoading, login } from "features/authentication";
+import { closeLoginModal } from "features/modals";
+import { useEffect, useRef } from "react";
 
 export const LoginModal: React.FC = () => {
 	const dispatch = useAppDispatch();
+	const isLoggedIn = useAppSelector((state) => state.authentication.session);
 	const open = useAppSelector((state) => state.modals.loginModalOpen);
 	const isLoading = useAppSelector(getIsLoading);
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (isLoggedIn) {
+			dispatch(closeLoginModal());
+		}
+	}, [dispatch, isLoggedIn]);
 
 	const handleClose = () => {
 		dispatch(closeLoginModal());

@@ -1,22 +1,33 @@
-import { HOCLayout, HOCSession } from "common/components";
-import { AuthContext } from "common/context";
-import { useContext } from "react";
+import { HOCGameData, HOCLayout, HOCSession } from "common/components";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Landing } from "features/landing";
 import { Game } from "features/game";
 import { LoginModal } from "features/modals";
+import { useAppSelector } from "common/hooks";
+import { Start } from "features/start";
+import { CharacterCreate } from "features/character";
 
 function App() {
-	const user = useContext(AuthContext);
+	const isLoggedIn = useAppSelector((state) => state.authentication.session);
 
 	return (
 		<HOCSession>
 			<Router>
-				<HOCLayout>
+				{isLoggedIn ? (
+					<HOCGameData>
+						<HOCLayout>
+							<Routes>
+								<Route path="/" element={<Start />} />
+								<Route path="/create" element={<CharacterCreate />} />
+								<Route path="/game" element={<Game />} />
+							</Routes>
+						</HOCLayout>
+					</HOCGameData>
+				) : (
 					<Routes>
-						{user ? <Route path="/" element={<Game />} /> : <Route path="/" element={<Landing />} />}
+						<Route path="/" element={<Landing />} />
 					</Routes>
-				</HOCLayout>
+				)}
 			</Router>
 
 			<LoginModal />

@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { PageLoader } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { fetchSession } from "features/authentication/authenticationSlice";
+import { fetchSession } from "features/authentication";
 
 interface IProps {
 	children: React.ReactNode;
@@ -15,9 +15,5 @@ export const HOCSession: React.FC<IProps> = ({ children }) => {
 		dispatch(fetchSession());
 	}, [dispatch]);
 
-	if (!isSessionChecked) {
-		return <PageLoader />;
-	}
-
-	return <Fragment>{children}</Fragment>;
+	return isSessionChecked ? <Fragment>{children}</Fragment> : <PageLoader />;
 };
