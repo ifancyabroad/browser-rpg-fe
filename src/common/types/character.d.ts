@@ -1,8 +1,58 @@
-import { ArmourType, SkillClass, State, Status, WeaponType } from "common/utils";
+import {
+	ArmourType,
+	DamageType,
+	EquipmentSlot,
+	EquipmentType,
+	SkillClass,
+	State,
+	Status,
+	WeaponSize,
+	WeaponType,
+} from "common/utils";
+import { ISkillEffect, IWeaponEffect } from "./effect";
+import { TProperty } from "./property";
+import { TEquipment, TStats } from ".";
+
+export interface IArmour {
+	id: string;
+	type: EquipmentType;
+	armourType: ArmourType;
+	name: string;
+	description: string;
+	icon: string;
+	price: number;
+	level: number;
+	defense: number;
+	properties?: TProperty[];
+}
+
+export interface IWeapon {
+	id: string;
+	type: EquipmentType.Weapon;
+	weaponType: WeaponType;
+	size: WeaponSize;
+	name: string;
+	description: string;
+	icon: string;
+	price: number;
+	level: number;
+	damageType: DamageType;
+	min: number;
+	max: number;
+	effects?: IWeaponEffect[];
+	properties?: TProperty[];
+}
 
 export interface ISkill {
-	skill: string;
-	remaining: number;
+	id: string;
+	class: SkillClass;
+	name: string;
+	description: string;
+	icon: string;
+	effects: ISkillEffect[];
+	price: number;
+	maxUses: number;
+	level: number;
 }
 
 export interface IHistory {
@@ -12,44 +62,17 @@ export interface IHistory {
 	defeated: boolean;
 }
 
-export interface IStats {
-	strength: number;
-	dexterity: number;
-	constitution: number;
-	intelligence: number;
-	wisdom: number;
-	charisma: number;
-}
-
 export interface IEquipment {
-	head: string | null;
-	neck: string | null;
-	body: string | null;
-	waist: string | null;
-	hands: string | null;
-	feet: string | null;
-	finger1: string | null;
-	finger2: string | null;
-	hand1: string | null;
-	hand2: string | null;
-}
-
-export interface ICharacter {
-	id: string;
-	user: string;
-	name: string;
-	characterClass: string;
-	status: Status;
-	state: State;
-	experience: number;
-	level: number;
-	gold: number;
-	day: number;
-	skills: ISkill[];
-	history: IHistory[];
-	equipment: IEquipment;
-	hitPoints: number;
-	stats: IStats;
+	[EquipmentSlot.Head]: IArmour | null;
+	[EquipmentSlot.Neck]: IArmour | null;
+	[EquipmentSlot.Body]: IArmour | null;
+	[EquipmentSlot.Waist]: IArmour | null;
+	[EquipmentSlot.Hands]: IArmour | null;
+	[EquipmentSlot.Feet]: IArmour | null;
+	[EquipmentSlot.Finger1]: IArmour | null;
+	[EquipmentSlot.Finger2]: IArmour | null;
+	[EquipmentSlot.Hand1]: IWeapon | null;
+	[EquipmentSlot.Hand2]: IWeapon | IArmour | null;
 }
 
 export interface ICharacterClass {
@@ -68,4 +91,22 @@ export interface ICharacterClass {
 export interface ICharacterPayload {
 	name: string;
 	characterClass: string;
+}
+
+export interface ICharacter {
+	id: string;
+	user: string;
+	name: string;
+	characterClass: ICharacterClass;
+	status: Status;
+	state: State;
+	experience: number;
+	level: number;
+	gold: number;
+	day: number;
+	skills: ISkill[];
+	history: IHistory[];
+	equipment: IEquipment;
+	hitPoints: number;
+	stats: TStats;
 }

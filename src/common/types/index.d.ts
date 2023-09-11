@@ -6,3 +6,5 @@ export type TEquipment = Record<EquipmentSlot, string>;
 
 export * from "./user";
 export * from "./character";
+export * from "./effect";
+export * from "./property";

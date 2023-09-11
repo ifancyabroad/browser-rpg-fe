@@ -19,6 +19,9 @@ export const CharacterSheet: React.FC = () => {
 			}}
 		>
 			<Typography variant="h4">{character.name}</Typography>
+			<Typography variant="subtitle1" color="textSecondary">
+				Level {character.level} {character.characterClass.name}
+			</Typography>
 		</Box>
 	);
 };
