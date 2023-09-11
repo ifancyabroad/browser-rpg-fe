@@ -5,7 +5,7 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
 import { getActiveCharacterKills } from "features/character";
 
-export const Header = () => {
+export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
 	const kills = useAppSelector(getActiveCharacterKills);
