@@ -137,3 +137,8 @@ export enum ArmourType {
 	Medium = "medium",
 	Light = "light",
 }
+
+export enum CharacterSheetTab {
+	Skills,
+	Inventory,
+}

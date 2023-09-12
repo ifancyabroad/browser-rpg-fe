@@ -1,13 +1,14 @@
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios from "axios";
 import { ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
-import { Status } from "common/utils";
+import { CharacterSheetTab, Status } from "common/utils";
 
 interface ICharacerState {
 	character: ICharacter | null;
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classes: ICharacterClass[];
+	characterSheetTab: CharacterSheetTab;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
@@ -15,6 +16,7 @@ interface ICharacerState {
 const initialState: ICharacerState = {
 	character: null,
 	characterStatus: "idle",
+	characterSheetTab: CharacterSheetTab.Skills,
 	classes: [],
 	status: "idle",
 };
@@ -52,7 +54,11 @@ export const getActiveCharacterKills = createSelector(characterSelector, ({ char
 export const characterSlice = createSlice({
 	name: "character",
 	initialState,
-	reducers: {},
+	reducers: {
+		setCharacterSheetTab: (state, action: PayloadAction<CharacterSheetTab>) => {
+			state.characterSheetTab = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchCharacter.pending, (state) => {
 			state.characterStatus = "loading";
@@ -91,6 +97,6 @@ export const characterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-// export const { } = classesSlice.actions;
+export const { setCharacterSheetTab } = characterSlice.actions;
 
 export default characterSlice.reducer;

@@ -4,3 +4,4 @@ export * from "./HOCGameData";
 export * from "./PageLoader";
 export * from "./Header";
 export * from "./LinearProgressWithLabel";
+export * from "./SkillIcon";

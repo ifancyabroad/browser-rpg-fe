@@ -1,4 +1,4 @@
-import { Stat } from "common/utils";
+import { SkillType, Stat } from "common/utils";
 
 export const STATS_ABBR_MAP: Record<Stat, string> = {
 	[Stat.Charisma]: "CHR",
@@ -16,4 +16,13 @@ export const STATS_NAME_MAP: Record<Stat, string> = {
 	[Stat.Intelligence]: "Intelligence",
 	[Stat.Strength]: "Strength",
 	[Stat.Wisdom]: "Wisdom",
+};
+
+export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
+	[SkillType.WeaponAttack]: "Weapon Attack",
+	[SkillType.Attack]: "Attack",
+	[SkillType.Heal]: "Heal",
+	[SkillType.Buff]: "Buff",
+	[SkillType.Debuff]: "Debuff",
+	[SkillType.Other]: "Other",
 };
