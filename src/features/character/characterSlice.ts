@@ -36,6 +36,11 @@ export const createCharacter = createAsyncThunk("character/createCharacter", asy
 	return response.data.character;
 });
 
+export const retireCharacter = createAsyncThunk("character/retireCharacter", async () => {
+	const response = await axios.post<{ character: ICharacter }>("/api/character/retire");
+	return response.data.character;
+});
+
 export const characterSelector = (state: RootState) => state.character;
 
 export const getIsLoaded = createSelector(
@@ -90,6 +95,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(createCharacter.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(retireCharacter.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(retireCharacter.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(retireCharacter.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

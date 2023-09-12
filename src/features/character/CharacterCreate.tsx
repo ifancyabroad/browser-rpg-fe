@@ -59,7 +59,7 @@ export const CharacterCreate: React.FC = () => {
 				<Typography>Please select a class!</Typography>
 				<Stack direction="row" spacing={2}>
 					{classes.map(({ id, portrait, name, description }) => (
-						<Card sx={{ maxWidth: 345 }}>
+						<Card key={id} sx={{ maxWidth: 345 }}>
 							<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
 							<CardContent>
 								<Typography gutterBottom variant="h5" component="div">

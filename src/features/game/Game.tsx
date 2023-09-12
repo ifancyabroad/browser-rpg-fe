@@ -1,7 +1,20 @@
 import { Box, Typography } from "@mui/material";
+import { useAppSelector } from "common/hooks";
+import { Status } from "common/utils";
 import { CharacterSheet } from "features/character";
+import { Navigate } from "react-router-dom";
 
 export const Game: React.FC = () => {
+	const character = useAppSelector((state) => state.character.character);
+
+	if (!character) {
+		return <Navigate to="/" />;
+	}
+
+	if (character.status === Status.Retired) {
+		return <Navigate to="/" />;
+	}
+
 	return (
 		<Box
 			sx={{

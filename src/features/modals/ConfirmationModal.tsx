@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const ConfirmationModal: React.FC<IProps> = ({ open, title, content, handleClose, handleConfirm, disabled }) => (
-	<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+	<Dialog open={open} onClose={handleClose} maxWidth="xs" aria-labelledby="form-dialog-title">
 		<DialogTitle id="form-dialog-title">{title}</DialogTitle>
 		<DialogContent>
 			<DialogContentText>{content}</DialogContentText>
