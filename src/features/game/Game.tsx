@@ -12,7 +12,7 @@ export const Game: React.FC = () => {
 			<Box
 				sx={{
 					flexGrow: 1,
-					minHeight: "calc(100vh - 52px)",
+					height: "calc(100vh - 52px)",
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",

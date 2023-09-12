@@ -5,6 +5,7 @@ import { CharacterSheetTab, STATS_ABBR_MAP, Stat } from "common/utils";
 import { Fragment } from "react";
 import { setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
+import { EquipmentList } from "./EquipmentList";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -41,10 +42,11 @@ export const CharacterSheet: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				minHeight: "calc(100vh - 52px)",
+				height: "calc(100vh - 52px)",
 				width: "400px",
 				bgcolor: darken(theme.palette.background.paper, 0.25),
 				p: 2,
+				overflow: "auto",
 			}}
 		>
 			<Box mb={2}>
@@ -68,7 +70,7 @@ export const CharacterSheet: React.FC = () => {
 
 			<Stack direction="row" spacing={2} justifyContent="space-between" mb={2}>
 				{Object.entries(stats).map(([k, v]) => (
-					<Fragment>
+					<Fragment key={k}>
 						<Box textAlign="center">
 							<Typography variant="caption" color="textSecondary">
 								{STATS_ABBR_MAP[k as Stat]}
@@ -100,7 +102,7 @@ export const CharacterSheet: React.FC = () => {
 					<SkillList skills={character.skills} />
 				</TabPanel>
 				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
-					Item Two
+					<EquipmentList equipment={character.equipment} />
 				</TabPanel>
 			</Box>
 		</Box>

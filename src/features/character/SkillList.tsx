@@ -10,7 +10,7 @@ export const SkillList: React.FC<IProps> = ({ skills }) => {
 	return (
 		<Stack spacing={2} my={2}>
 			{skills.map((skill) => (
-				<SkillCard skill={skill} />
+				<SkillCard key={skill.id} skill={skill} />
 			))}
 		</Stack>
 	);
