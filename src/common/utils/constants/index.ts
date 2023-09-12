@@ -49,6 +49,19 @@ export const EQUIPMENT_TYPE_NAME_MAP: Record<EquipmentType | WeaponType, string>
 	[WeaponType.Sword]: "Sword",
 };
 
+export const EQUIPMENT_SLOTS = [
+	EquipmentSlot.Head,
+	EquipmentSlot.Neck,
+	EquipmentSlot.Body,
+	EquipmentSlot.Waist,
+	EquipmentSlot.Hands,
+	EquipmentSlot.Feet,
+	EquipmentSlot.Finger1,
+	EquipmentSlot.Finger2,
+	EquipmentSlot.Hand1,
+	EquipmentSlot.Hand2,
+] as const;
+
 export const EQUIPMENT_SLOT_NAME_MAP: Record<EquipmentSlot, string> = {
 	[EquipmentSlot.Head]: "Head",
 	[EquipmentSlot.Neck]: "Neck",

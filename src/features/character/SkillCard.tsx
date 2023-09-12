@@ -16,7 +16,7 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 				avatar={<SkillIcon skill={skill} />}
 				title={skill.name}
 				subheader={secondaryText}
-				action={<Button variant="contained">Use</Button>}
+				action={<Button variant="contained">View</Button>}
 			/>
 		</Card>
 	);
