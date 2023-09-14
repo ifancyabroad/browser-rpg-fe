@@ -1,8 +1,8 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { Status } from "common/utils";
 import { CharacterSheet } from "features/character";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
@@ -33,8 +33,7 @@ export const Game: React.FC = () => {
 					gap: 2,
 				}}
 			>
-				<Typography variant="h5">BROWSER HEROES</Typography>
-				<Typography>This is the game page!</Typography>
+				<Outlet />
 			</Box>
 		</Box>
 	);

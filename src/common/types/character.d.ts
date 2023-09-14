@@ -106,6 +106,7 @@ export interface ICharacter {
 	day: number;
 	skills: ISkill[];
 	history: IHistory[];
+	availableItems: (IWeapon | IArmour)[];
 	equipment: IEquipment;
 	hitPoints: number;
 	maxHitPoints: number;

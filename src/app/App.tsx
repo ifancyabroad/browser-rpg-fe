@@ -1,7 +1,7 @@
 import { HOCGameData, HOCLayout, HOCSession } from "common/components";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Landing } from "features/landing";
-import { Game } from "features/game";
+import { Game, Menu, Shop } from "features/game";
 import { LoginModal } from "features/modals";
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
@@ -19,7 +19,10 @@ function App() {
 							<Routes>
 								<Route path="/" element={<Start />} />
 								<Route path="/create" element={<CharacterCreate />} />
-								<Route path="/game" element={<Game />} />
+								<Route path="/game" element={<Game />}>
+									<Route index element={<Menu />} />
+									<Route path="shop" element={<Shop />} />
+								</Route>
 							</Routes>
 						</HOCLayout>
 					</HOCGameData>
