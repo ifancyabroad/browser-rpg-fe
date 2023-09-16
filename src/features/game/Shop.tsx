@@ -1,19 +1,41 @@
 import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
-import { useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EquipmentType } from "common/utils";
+import { CharacterSheetTab, EquipmentType, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
+import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
+import { useEffect } from "react";
 
 export const Shop: React.FC = () => {
+	const dispatch = useAppDispatch();
+	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
 	const availabeItems = character ? character.availableItems : [];
 	const armour = availabeItems.filter(({ type }) => type !== EquipmentType.Weapon) as IArmour[];
 	const weapons = availabeItems.filter(({ type }) => type === EquipmentType.Weapon) as IWeapon[];
 
-	const handleSelectItem = () => {
-		console.log("Item Selected!");
+	useEffect(() => {
+		dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
+	}, [dispatch]);
+
+	const handleBuyItem = (item: IArmour | IWeapon) => {
+		if (!character) {
+			return;
+		}
+
+		const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
+		if (slot) {
+			dispatch(
+				buyItem({
+					id: item.id,
+					slot,
+				}),
+			);
+		}
+
+		// TODO: Open replace item modal
 	};
 
 	return (
@@ -44,12 +66,12 @@ export const Shop: React.FC = () => {
 				<Typography>This is the shop!</Typography>
 				<Stack direction="row" spacing={2}>
 					{armour.map((item) => (
-						<ShopItem key={item.id} item={item} onSelectItem={handleSelectItem} />
+						<ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />
 					))}
 				</Stack>
 				<Stack direction="row" spacing={2}>
 					{weapons.map((item) => (
-						<ShopItem key={item.id} item={item} onSelectItem={handleSelectItem} />
+						<ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />
 					))}
 				</Stack>
 			</Paper>

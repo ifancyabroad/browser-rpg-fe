@@ -1,5 +1,6 @@
-import { ISkill } from "common/types";
-import { EffectType, SkillType, Target } from "common/utils/enums";
+import { IArmour, IEquipment, ISkill, IWeapon } from "common/types";
+import { EffectType, EquipmentSlot, EquipmentType, SkillType, Target, WeaponSize } from "common/utils/enums";
+import { EQUIPMENT_SLOT_TYPE_MAP } from "../constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -29,4 +30,23 @@ export const getSkillType = (skill: ISkill) => {
 	}
 
 	return SkillType.Other;
+};
+
+const handSlots = [EquipmentSlot.Hand1, EquipmentSlot.Hand2];
+
+const getFilteredSlots = (equipmentType: EquipmentType, isTwoHandedWeaponEquipped: boolean) =>
+	EQUIPMENT_SLOT_TYPE_MAP[equipmentType].filter((slot) => !(handSlots.includes(slot) && isTwoHandedWeaponEquipped));
+
+export const getAvailableItemSlot = (
+	item: IArmour | IWeapon,
+	equipment: IEquipment,
+	isTwoHandedWeaponEquipped: boolean,
+) => {
+	if ("size" in item && item.size === WeaponSize.TwoHanded) {
+		const isBothHandsFree = handSlots.every((slot) => equipment[slot] === null);
+		return isBothHandsFree ? EquipmentSlot.Hand1 : undefined;
+	}
+
+	const slots = getFilteredSlots(item.type, isTwoHandedWeaponEquipped);
+	return slots.find((slot) => equipment[slot] === null);
 };

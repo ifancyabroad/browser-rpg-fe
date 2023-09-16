@@ -112,3 +112,8 @@ export interface ICharacter {
 	maxHitPoints: number;
 	stats: TStats;
 }
+
+export interface IBuyItemPayload {
+	id: string;
+	slot: EquipmentSlot;
+}

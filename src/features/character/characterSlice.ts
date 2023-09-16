@@ -1,8 +1,8 @@
 import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios from "axios";
-import { ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
-import { CharacterSheetTab, Status } from "common/utils";
+import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
+import { CharacterSheetTab, Status, WeaponSize } from "common/utils";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -41,6 +41,11 @@ export const retireCharacter = createAsyncThunk("character/retireCharacter", asy
 	return response.data.character;
 });
 
+export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyItemPayload) => {
+	const response = await axios.post<{ character: ICharacter }>("/api/character/buy", payload);
+	return response.data.character;
+});
+
 export const characterSelector = (state: RootState) => state.character;
 
 export const getIsLoaded = createSelector(
@@ -54,6 +59,10 @@ export const getHasActiveCharacter = createSelector(characterSelector, ({ charac
 
 export const getActiveCharacterKills = createSelector(characterSelector, ({ character }) => {
 	return character?.history.filter(({ defeated }) => defeated).length;
+});
+
+export const getIsTwoHandedWeaponEquipped = createSelector(characterSelector, ({ character }) => {
+	return character?.equipment.hand1?.size === WeaponSize.TwoHanded;
 });
 
 export const characterSlice = createSlice({
@@ -106,6 +115,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(retireCharacter.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(buyItem.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(buyItem.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(buyItem.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
