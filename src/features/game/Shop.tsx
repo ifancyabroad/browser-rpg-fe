@@ -1,7 +1,7 @@
 import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { CharacterSheetTab, EQUIPMENT_SLOT_TYPE_MAP, EquipmentType, getAvailableItemSlot } from "common/utils";
+import { CharacterSheetTab, EquipmentType, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
@@ -28,32 +28,11 @@ export const Shop: React.FC = () => {
 
 		const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
 		if (slot) {
-			await dispatch(
-				buyItem({
-					id: item.id,
-					slot,
-				}),
-			);
+			await dispatch(buyItem({ id: item.id, slot }));
 			return Promise.resolve();
 		}
 
-		const slots = EQUIPMENT_SLOT_TYPE_MAP[item.type];
-		if (slots.length > 1) {
-			dispatch(
-				openReplaceItemModal({
-					slots,
-				}),
-			);
-			return;
-		}
-
-		const replaceItem = character.equipment[slots[0]]?.name;
-		dispatch(
-			openReplaceItemModal({
-				message: `Confirm you wish to replace ${replaceItem}`,
-				slots,
-			}),
-		);
+		dispatch(openReplaceItemModal({ item }));
 	};
 
 	return (

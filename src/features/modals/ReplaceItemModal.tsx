@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EquipmentSlot } from "common/utils";
+import { EQUIPMENT_SLOT_TYPE_MAP, EquipmentSlot } from "common/utils";
 import { buyItem } from "features/character";
 import { closeReplaceItemModal } from "features/modals";
 import CloseIcon from "@mui/icons-material/Close";
@@ -22,7 +22,7 @@ import CloseIcon from "@mui/icons-material/Close";
 interface IProps {
 	item: IArmour | IWeapon | null;
 	slot: EquipmentSlot;
-	onSelectItem: (id: string, slot: EquipmentSlot) => void;
+	onSelectItem: (slot: EquipmentSlot) => void;
 }
 
 const Item: React.FC<IProps> = ({ item, slot, onSelectItem }) => {
@@ -33,10 +33,10 @@ const Item: React.FC<IProps> = ({ item, slot, onSelectItem }) => {
 		return null;
 	}
 
-	const { description, icon, name, id } = item;
+	const { description, icon, name } = item;
 
 	const handleSelectItem = () => {
-		onSelectItem(id, slot);
+		onSelectItem(slot);
 	};
 
 	return (
@@ -61,25 +61,30 @@ const Item: React.FC<IProps> = ({ item, slot, onSelectItem }) => {
 
 export const ReplaceItemModal: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { open, title, message, slots } = useAppSelector((state) => state.modals.replaceItemModal);
+	const { open, item } = useAppSelector((state) => state.modals.replaceItemModal);
 	const character = useAppSelector((state) => state.character.character);
+
+	if (!character || !item) {
+		return null;
+	}
+
+	const { id, type } = item;
+	const slots = EQUIPMENT_SLOT_TYPE_MAP[type];
+	const replaceItem = character.equipment[slots[0]]?.name;
+	const message = slots.length > 1 ? "Choose an item to replace" : `Confirm you wish to replace ${replaceItem}`;
 
 	const handleClose = () => {
 		dispatch(closeReplaceItemModal());
 	};
 
-	const handleSelectItem = async (id: string, slot: EquipmentSlot) => {
+	const handleSelectItem = async (slot: EquipmentSlot) => {
 		await dispatch(buyItem({ id, slot }));
 		dispatch(closeReplaceItemModal());
 	};
 
-	if (!character) {
-		return null;
-	}
-
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">{title || "Replace item?"}</DialogTitle>
+			<DialogTitle id="form-dialog-title">Replace item?</DialogTitle>
 			<IconButton
 				aria-label="close"
 				onClick={handleClose}
@@ -93,7 +98,7 @@ export const ReplaceItemModal: React.FC = () => {
 				<CloseIcon />
 			</IconButton>
 			<DialogContent>
-				<DialogContentText mb={2}>{message || "Choose an item to replace"}</DialogContentText>
+				<DialogContentText mb={2}>{message}</DialogContentText>
 				<Stack direction="row" spacing={2}>
 					{slots.map((slot) => (
 						<Item

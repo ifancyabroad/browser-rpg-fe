@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { EquipmentSlot } from "common/utils";
+import { IArmour, IWeapon } from "common/types";
 
 interface ModalsState {
 	loginModalOpen: boolean;
@@ -11,9 +11,7 @@ interface ModalsState {
 	};
 	replaceItemModal: {
 		open: boolean;
-		title?: string;
-		message?: string;
-		slots: EquipmentSlot[];
+		item?: IArmour | IWeapon;
 	};
 }
 
@@ -25,7 +23,6 @@ const initialState: ModalsState = {
 	},
 	replaceItemModal: {
 		open: false,
-		slots: [],
 	},
 };
 
@@ -57,18 +54,14 @@ export const modalsSlice = createSlice({
 		},
 		openReplaceItemModal: (
 			state,
-			action: PayloadAction<{ title?: string; message?: string; slots: EquipmentSlot[] }>,
+			action: PayloadAction<{ title?: string; message?: string; item: IArmour | IWeapon }>,
 		) => {
 			state.replaceItemModal.open = true;
-			state.replaceItemModal.title = action.payload.title;
-			state.replaceItemModal.message = action.payload.message;
-			state.replaceItemModal.slots = action.payload.slots;
+			state.replaceItemModal.item = action.payload.item;
 		},
 		closeReplaceItemModal: (state) => {
 			state.replaceItemModal.open = false;
-			state.replaceItemModal.title = undefined;
-			state.replaceItemModal.message = undefined;
-			state.replaceItemModal.slots = [];
+			state.replaceItemModal.item = undefined;
 		},
 	},
 });

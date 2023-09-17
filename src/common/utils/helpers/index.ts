@@ -50,3 +50,7 @@ export const getAvailableItemSlot = (
 	const slots = getFilteredSlots(item.type, isTwoHandedWeaponEquipped);
 	return slots.find((slot) => equipment[slot] === null);
 };
+
+export const getRestPrice = (day: number) => {
+	return day * 100;
+};

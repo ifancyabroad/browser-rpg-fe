@@ -46,6 +46,11 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 	return response.data.character;
 });
 
+export const rest = createAsyncThunk("character/rest", async () => {
+	const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
+	return response.data.character;
+});
+
 export const characterSelector = (state: RootState) => state.character;
 
 export const getIsLoaded = createSelector(
@@ -126,6 +131,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(buyItem.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(rest.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(rest.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(rest.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
