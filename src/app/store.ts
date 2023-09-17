@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import modalsReducer from "features/modals/modalsSlice";
 import authenticationReducer from "features/authentication/authenticationSlice";
 import characterReducer from "features/character/characterSlice";
+import gameReducer from "features/game/gameSlice";
 
 export const store = configureStore({
 	reducer: {
 		modals: modalsReducer,
 		authentication: authenticationReducer,
 		character: characterReducer,
+		game: gameReducer,
 	},
 });
 

@@ -5,6 +5,7 @@ import { rest } from "features/character";
 import { ConfirmationModal } from "features/modals";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { startBattle } from "./gameSlice";
 
 export const Menu: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -17,6 +18,10 @@ export const Menu: React.FC = () => {
 	const handleRest = async () => {
 		await dispatch(rest());
 		setIsConfirmationOpen(false);
+	};
+
+	const handleStartBattle = () => {
+		dispatch(startBattle());
 	};
 
 	const openConfirmationModal = () => {
@@ -41,7 +46,7 @@ export const Menu: React.FC = () => {
 				<Button variant="contained" component={Link} to="/game/shop">
 					Shop
 				</Button>
-				<Button variant="contained" component={Link} to="/game/battle">
+				<Button variant="contained" onClick={handleStartBattle} disabled={isLoading}>
 					Battle
 				</Button>
 			</Stack>

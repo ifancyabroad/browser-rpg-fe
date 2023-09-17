@@ -1,78 +1,11 @@
-import {
-	ArmourType,
-	DamageType,
-	EquipmentSlot,
-	EquipmentType,
-	SkillClass,
-	State,
-	Status,
-	WeaponSize,
-	WeaponType,
-} from "common/utils";
-import { ISkillEffect, IWeaponEffect } from "./effect";
-import { TProperty } from "./property";
-import { TEquipment, TStats } from ".";
-
-export interface IArmour {
-	id: string;
-	type: EquipmentType;
-	armourType: ArmourType;
-	name: string;
-	description: string;
-	icon: string;
-	price: number;
-	level: number;
-	defense: number;
-	properties?: TProperty[];
-}
-
-export interface IWeapon {
-	id: string;
-	type: EquipmentType.Weapon;
-	weaponType: WeaponType;
-	size: WeaponSize;
-	name: string;
-	description: string;
-	icon: string;
-	price: number;
-	level: number;
-	damageType: DamageType;
-	min: number;
-	max: number;
-	effects?: IWeaponEffect[];
-	properties?: TProperty[];
-}
-
-export interface ISkill {
-	id: string;
-	class: SkillClass;
-	name: string;
-	description: string;
-	icon: string;
-	effects: ISkillEffect[];
-	price: number;
-	maxUses: number;
-	level: number;
-}
+import { ArmourType, EquipmentSlot, SkillClass, State, Status, WeaponType } from "common/utils";
+import { IArmour, IEquipment, ISkill, IWeapon, TEquipment, TStats } from "common/types";
 
 export interface IHistory {
 	enemy: string;
 	level: number;
 	day: number;
 	defeated: boolean;
-}
-
-export interface IEquipment {
-	[EquipmentSlot.Head]: IArmour | null;
-	[EquipmentSlot.Neck]: IArmour | null;
-	[EquipmentSlot.Body]: IArmour | null;
-	[EquipmentSlot.Waist]: IArmour | null;
-	[EquipmentSlot.Hands]: IArmour | null;
-	[EquipmentSlot.Feet]: IArmour | null;
-	[EquipmentSlot.Finger1]: IArmour | null;
-	[EquipmentSlot.Finger2]: IArmour | null;
-	[EquipmentSlot.Hand1]: IWeapon | null;
-	[EquipmentSlot.Hand2]: IWeapon | IArmour | null;
 }
 
 export interface ICharacterClass {
