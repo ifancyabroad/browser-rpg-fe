@@ -34,7 +34,7 @@ export const getSkillType = (skill: ISkill) => {
 
 const handSlots = [EquipmentSlot.Hand1, EquipmentSlot.Hand2];
 
-const getFilteredSlots = (equipmentType: EquipmentType, isTwoHandedWeaponEquipped: boolean) =>
+export const getFilteredSlots = (equipmentType: EquipmentType, isTwoHandedWeaponEquipped: boolean) =>
 	EQUIPMENT_SLOT_TYPE_MAP[equipmentType].filter((slot) => !(handSlots.includes(slot) && isTwoHandedWeaponEquipped));
 
 export const getAvailableItemSlot = (

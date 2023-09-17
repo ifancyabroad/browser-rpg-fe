@@ -6,7 +6,7 @@ import { Fragment, useState } from "react";
 
 interface IProps {
 	item: IArmour | IWeapon;
-	onBuyItem: (item: IArmour | IWeapon) => void;
+	onBuyItem: (item: IArmour | IWeapon) => Promise<void>;
 }
 
 export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
@@ -18,8 +18,9 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 	const { id, icon, name, description, price } = item;
 	const isDisabled = Boolean(price > gold);
 
-	const handleBuyItem = () => {
-		onBuyItem(item);
+	const handleBuyItem = async () => {
+		await onBuyItem(item);
+		setIsConfirmationOpen(false);
 	};
 
 	const openConfirmationModal = () => {

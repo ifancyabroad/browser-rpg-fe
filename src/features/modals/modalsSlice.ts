@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { EquipmentSlot } from "common/utils";
 
 interface ModalsState {
 	loginModalOpen: boolean;
@@ -8,6 +9,12 @@ interface ModalsState {
 		title?: string;
 		message?: string;
 	};
+	replaceItemModal: {
+		open: boolean;
+		title?: string;
+		message?: string;
+		slots: EquipmentSlot[];
+	};
 }
 
 const initialState: ModalsState = {
@@ -15,6 +22,10 @@ const initialState: ModalsState = {
 	confirmationModalOpen: false,
 	errorModal: {
 		open: false,
+	},
+	replaceItemModal: {
+		open: false,
+		slots: [],
 	},
 };
 
@@ -44,6 +55,21 @@ export const modalsSlice = createSlice({
 			state.errorModal.title = undefined;
 			state.errorModal.message = undefined;
 		},
+		openReplaceItemModal: (
+			state,
+			action: PayloadAction<{ title?: string; message?: string; slots: EquipmentSlot[] }>,
+		) => {
+			state.replaceItemModal.open = true;
+			state.replaceItemModal.title = action.payload.title;
+			state.replaceItemModal.message = action.payload.message;
+			state.replaceItemModal.slots = action.payload.slots;
+		},
+		closeReplaceItemModal: (state) => {
+			state.replaceItemModal.open = false;
+			state.replaceItemModal.title = undefined;
+			state.replaceItemModal.message = undefined;
+			state.replaceItemModal.slots = [];
+		},
 	},
 });
 
@@ -55,6 +81,8 @@ export const {
 	closeConfirmationModal,
 	openErrorModal,
 	closeErrorModal,
+	openReplaceItemModal,
+	closeReplaceItemModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
