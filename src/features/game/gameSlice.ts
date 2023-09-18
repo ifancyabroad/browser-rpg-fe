@@ -16,12 +16,12 @@ const initialState: IGameState = {
 
 export const startBattle = createAsyncThunk("battle/startBattle", async () => {
 	const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start");
-	return response.data.battle;
+	return response.data;
 });
 
 export const fetchBattle = createAsyncThunk("battle/fetchBattle", async () => {
 	const response = await axios.get<{ battle: IBattle; character: ICharacter }>("/api/battle");
-	return response.data.battle;
+	return response.data;
 });
 
 export const gameSelector = (state: RootState) => state.game;
@@ -36,7 +36,7 @@ export const gameSlice = createSlice({
 		});
 		builder.addCase(startBattle.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.battle = action.payload;
+			state.battle = action.payload.battle;
 		});
 		builder.addCase(startBattle.rejected, (state, action) => {
 			state.status = "failed";
@@ -47,7 +47,7 @@ export const gameSlice = createSlice({
 		});
 		builder.addCase(fetchBattle.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.battle = action.payload;
+			state.battle = action.payload.battle;
 		});
 		builder.addCase(fetchBattle.rejected, (state, action) => {
 			state.status = "failed";

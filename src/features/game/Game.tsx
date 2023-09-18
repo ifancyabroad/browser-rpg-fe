@@ -1,11 +1,19 @@
 import { Box } from "@mui/material";
 import { useAppSelector } from "common/hooks";
-import { Status } from "common/utils";
+import { State, Status } from "common/utils";
 import { CharacterSheet } from "features/character";
-import { Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (character?.state === State.Battle) {
+			navigate("/game/battle");
+		}
+	}, [navigate, character]);
 
 	if (!character) {
 		return <Navigate to="/" />;
@@ -16,11 +24,7 @@ export const Game: React.FC = () => {
 	}
 
 	return (
-		<Box
-			sx={{
-				display: "flex",
-			}}
-		>
+		<Box display="flex">
 			<CharacterSheet />
 			<Box
 				sx={{

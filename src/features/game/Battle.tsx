@@ -1,5 +1,5 @@
 import { Box, Paper } from "@mui/material";
-import { useAppDispatch } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
@@ -8,14 +8,17 @@ import { Enemy } from "./Enemy";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
+	const battle = useAppSelector((state) => state.game.battle);
 
 	useEffect(() => {
 		dispatch(setCharacterSheetTab(CharacterSheetTab.Skills));
 	}, [dispatch]);
 
 	useEffect(() => {
-		dispatch(fetchBattle());
-	}, [dispatch]);
+		if (!battle) {
+			dispatch(fetchBattle());
+		}
+	}, [dispatch, battle]);
 
 	return (
 		<Box p={2} flex={1} width="100%">

@@ -3,6 +3,7 @@ import { RootState } from "app/store";
 import axios from "axios";
 import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
 import { CharacterSheetTab, Status, WeaponSize } from "common/utils";
+import { fetchBattle, startBattle } from "features/game/gameSlice";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -144,6 +145,12 @@ export const characterSlice = createSlice({
 		builder.addCase(rest.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
+		});
+		builder.addCase(startBattle.fulfilled, (state, action) => {
+			state.character = action.payload.character;
+		});
+		builder.addCase(fetchBattle.fulfilled, (state, action) => {
+			state.character = action.payload.character;
 		});
 	},
 });
