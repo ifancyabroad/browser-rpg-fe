@@ -24,3 +24,7 @@ export interface IBattle {
 	turns: ITurn[];
 	state: BattleState;
 }
+
+export interface IActionPayload {
+	id: string;
+}
