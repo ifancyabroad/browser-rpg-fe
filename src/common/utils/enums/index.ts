@@ -66,7 +66,7 @@ export enum DamageType {
 	Piercing = "piercing",
 	Cold = "cold",
 	Fire = "fire",
-	Lighting = "lighting",
+	Lighting = "lightning",
 	Radiant = "radiant",
 	Necrotic = "necrotic",
 	Poison = "poison",
@@ -141,4 +141,5 @@ export enum ArmourType {
 export enum CharacterSheetTab {
 	Skills,
 	Inventory,
+	Details,
 }

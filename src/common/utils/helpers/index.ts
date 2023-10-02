@@ -54,3 +54,10 @@ export const getAvailableItemSlot = (
 export const getRestPrice = (day: number) => {
 	return day * 100;
 };
+
+export const mapToArray = <T extends object>(object: T) => {
+	return Object.keys(object).map((id) => ({
+		...object[id as keyof typeof object],
+		id,
+	}));
+};

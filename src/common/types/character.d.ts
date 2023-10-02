@@ -1,5 +1,5 @@
 import { ArmourType, EquipmentSlot, SkillClass, State, Status, WeaponType } from "common/utils";
-import { IArmour, IEquipment, ISkill, IWeapon, TEquipment, TStats } from "common/types";
+import { IArmour, IEquipment, ISkill, IWeapon, TDamageTypes, TEquipment, TStats } from "common/types";
 
 export interface IHistory {
 	enemy: string;
@@ -44,6 +44,7 @@ export interface ICharacter {
 	hitPoints: number;
 	maxHitPoints: number;
 	stats: TStats;
+	resistances: TDamageTypes;
 }
 
 export interface IBuyItemPayload {

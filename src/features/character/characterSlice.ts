@@ -2,7 +2,7 @@ import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@r
 import { RootState } from "app/store";
 import axios from "axios";
 import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
-import { CharacterSheetTab, Status, WeaponSize } from "common/utils";
+import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
 import { completeBattle, fetchBattle, postAction, startBattle } from "features/game";
 
 interface ICharacerState {
@@ -70,6 +70,23 @@ export const getActiveCharacterKills = createSelector(characterSelector, ({ char
 export const getIsTwoHandedWeaponEquipped = createSelector(characterSelector, ({ character }) => {
 	return character?.equipment.hand1?.size === WeaponSize.TwoHanded;
 });
+
+export const getEquipmentAsArray = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return [];
+	}
+	return mapToArray(character.equipment);
+});
+
+export const getEquipmentBonus = createSelector(
+	getEquipmentAsArray,
+	(equipment) => (type: PropertyType, name: string) => {
+		return equipment
+			.flatMap((item) => (item.properties ? item.properties : []))
+			.filter((property) => property.type === type && property.name === name)
+			.reduce((n, { value }) => n + value, 0);
+	},
+);
 
 export const characterSlice = createSlice({
 	name: "character",

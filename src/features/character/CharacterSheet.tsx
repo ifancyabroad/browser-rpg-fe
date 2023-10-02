@@ -1,11 +1,11 @@
-import { Box, Divider, Stack, Tab, Tabs, Typography, darken, useTheme } from "@mui/material";
+import { Box, Tab, Tabs, Typography, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab, STATS_ABBR_MAP, Stat } from "common/utils";
-import { Fragment } from "react";
+import { CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
 import { EquipmentList } from "./EquipmentList";
+import { Details } from "./Details";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -37,7 +37,7 @@ export const CharacterSheet: React.FC = () => {
 		return null;
 	}
 
-	const { name, level, characterClass, hitPoints, maxHitPoints, experience, stats } = character;
+	const { name, level, characterClass, hitPoints, maxHitPoints, experience } = character;
 
 	return (
 		<Box
@@ -68,34 +68,12 @@ export const CharacterSheet: React.FC = () => {
 				/>
 			</Box>
 
-			<Stack direction="row" spacing={2} justifyContent="space-between" mb={2}>
-				{Object.entries(stats).map(([k, v]) => (
-					<Fragment key={k}>
-						<Box textAlign="center">
-							<Typography variant="caption" color="textSecondary">
-								{STATS_ABBR_MAP[k as Stat]}
-							</Typography>
-							<Typography variant="body1">{v}</Typography>
-						</Box>
-
-						<Divider
-							sx={{
-								"&:last-of-type": {
-									display: "none",
-								},
-							}}
-							orientation="vertical"
-							flexItem
-						/>
-					</Fragment>
-				))}
-			</Stack>
-
 			<Box>
 				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
 					<Tabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
 						<Tab label="Skills" value={CharacterSheetTab.Skills} />
 						<Tab label="Inventory" value={CharacterSheetTab.Inventory} />
+						<Tab label="Details" value={CharacterSheetTab.Details} />
 					</Tabs>
 				</Box>
 				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
@@ -103,6 +81,9 @@ export const CharacterSheet: React.FC = () => {
 				</TabPanel>
 				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
 					<EquipmentList equipment={character.equipment} />
+				</TabPanel>
+				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
+					<Details />
 				</TabPanel>
 			</Box>
 		</Box>
