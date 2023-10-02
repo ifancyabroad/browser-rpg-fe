@@ -17,12 +17,38 @@ export interface IEnemy {
 	resistances: IResistances;
 }
 
+export interface IDamage {
+	type: string;
+	value: number;
+	hitType: HitType;
+	target: Target;
+}
+
+export interface IHeal {
+	value: number;
+	target: Target;
+}
+
+export interface IAction {
+	weaponDamage: IDamage[][];
+	damage: IDamage[];
+	heal: IHeal[];
+	status: any[];
+	auxiliary: any[];
+}
+
+export interface IReward {
+	gold: number;
+	experience: number;
+}
+
 export interface IBattle {
 	user: string;
 	character: ICharacter;
 	enemy: IEnemy;
-	turns: ITurn[];
+	turns: IAction[][];
 	state: BattleState;
+	reward: IReward;
 }
 
 export interface IActionPayload {

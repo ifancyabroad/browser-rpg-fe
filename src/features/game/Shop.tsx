@@ -6,8 +6,8 @@ import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
-import { Fragment, useEffect } from "react";
-import { ReplaceItemModal, openReplaceItemModal } from "features/modals";
+import { useEffect } from "react";
+import { openReplaceItemModal } from "features/modals";
 
 export const Shop: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -36,50 +36,46 @@ export const Shop: React.FC = () => {
 	};
 
 	return (
-		<Fragment>
-			<Box p={2} flex={1} width="100%">
-				<Paper
-					sx={{
-						position: "relative",
-						height: "100%",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						flexDirection: "column",
-						gap: 2,
-						p: 2,
-					}}
+		<Box p={2} flex={1} width="100%">
+			<Paper
+				sx={{
+					position: "relative",
+					height: "100%",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+					flexDirection: "column",
+					gap: 2,
+					p: 2,
+				}}
+			>
+				<IconButton
+					sx={{ position: "absolute", top: 8, right: 8 }}
+					aria-label="close"
+					color="inherit"
+					type="button"
+					component={Link}
+					to="/game"
 				>
-					<IconButton
-						sx={{ position: "absolute", top: 8, right: 8 }}
-						aria-label="close"
-						color="inherit"
-						type="button"
-						component={Link}
-						to="/game"
-					>
-						<CloseIcon />
-					</IconButton>
-					<Typography variant="h5">BROWSER HEROES</Typography>
-					<Typography>This is the shop!</Typography>
-					<Stack direction="row" spacing={2}>
-						{armour.length ? (
-							armour.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
-						) : (
-							<Typography>Armour sold out!</Typography>
-						)}
-					</Stack>
-					<Stack direction="row" spacing={2}>
-						{weapons.length ? (
-							weapons.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
-						) : (
-							<Typography>Weapons sold out!</Typography>
-						)}
-					</Stack>
-				</Paper>
-			</Box>
-
-			<ReplaceItemModal />
-		</Fragment>
+					<CloseIcon />
+				</IconButton>
+				<Typography variant="h5">BROWSER HEROES</Typography>
+				<Typography>This is the shop!</Typography>
+				<Stack direction="row" spacing={2}>
+					{armour.length ? (
+						armour.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
+					) : (
+						<Typography>Armour sold out!</Typography>
+					)}
+				</Stack>
+				<Stack direction="row" spacing={2}>
+					{weapons.length ? (
+						weapons.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
+					) : (
+						<Typography>Weapons sold out!</Typography>
+					)}
+				</Stack>
+			</Paper>
+		</Box>
 	);
 };

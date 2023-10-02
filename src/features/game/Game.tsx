@@ -2,7 +2,8 @@ import { Box } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { CharacterSheet } from "features/character";
-import { useEffect } from "react";
+import { BattleCompleteModal, ReplaceItemModal } from "features/modals";
+import { Fragment, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 export const Game: React.FC = () => {
@@ -24,21 +25,26 @@ export const Game: React.FC = () => {
 	}
 
 	return (
-		<Box display="flex">
-			<CharacterSheet />
-			<Box
-				sx={{
-					flexGrow: 1,
-					height: "calc(100vh - 52px)",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					gap: 2,
-				}}
-			>
-				<Outlet />
+		<Fragment>
+			<Box display="flex">
+				<CharacterSheet />
+				<Box
+					sx={{
+						flexGrow: 1,
+						height: "calc(100vh - 52px)",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+						gap: 2,
+					}}
+				>
+					<Outlet />
+				</Box>
 			</Box>
-		</Box>
+
+			<BattleCompleteModal />
+			<ReplaceItemModal />
+		</Fragment>
 	);
 };

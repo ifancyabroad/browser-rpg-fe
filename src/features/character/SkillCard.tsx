@@ -12,6 +12,8 @@ interface IProps {
 export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
+	const status = useAppSelector((state) => state.game.status);
+	const isLoading = status === "loading";
 	const secondaryText = `Level ${skill.level} ${SKILL_TYPE_NAME_MAP[getSkillType(skill)]}`;
 
 	const handleUseSkill = () => {
@@ -32,7 +34,7 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 				subheader={secondaryText}
 				action={
 					isBattle ? (
-						<Button onClick={handleUseSkill} variant="contained">
+						<Button onClick={handleUseSkill} variant="contained" disabled={isLoading}>
 							Use
 						</Button>
 					) : (

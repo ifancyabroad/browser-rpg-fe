@@ -1,10 +1,11 @@
 import { Box, Paper } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab } from "common/utils";
+import { BattleState, CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { fetchBattle } from "./gameSlice";
 import { Enemy } from "./Enemy";
+import { openBattleCompleteModal } from "features/modals";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -17,6 +18,12 @@ export const Battle: React.FC = () => {
 	useEffect(() => {
 		if (!battle) {
 			dispatch(fetchBattle());
+		}
+	}, [dispatch, battle]);
+
+	useEffect(() => {
+		if (battle?.state === BattleState.Complete) {
+			dispatch(openBattleCompleteModal());
 		}
 	}, [dispatch, battle]);
 

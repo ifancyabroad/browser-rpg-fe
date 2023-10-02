@@ -13,6 +13,7 @@ interface ModalsState {
 		open: boolean;
 		item?: IArmour | IWeapon;
 	};
+	battleCompleteModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -24,6 +25,7 @@ const initialState: ModalsState = {
 	replaceItemModal: {
 		open: false,
 	},
+	battleCompleteModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -63,6 +65,12 @@ export const modalsSlice = createSlice({
 			state.replaceItemModal.open = false;
 			state.replaceItemModal.item = undefined;
 		},
+		openBattleCompleteModal: (state) => {
+			state.battleCompleteModalOpen = true;
+		},
+		closeBattleCompleteModal: (state) => {
+			state.battleCompleteModalOpen = false;
+		},
 	},
 });
 
@@ -76,6 +84,8 @@ export const {
 	closeErrorModal,
 	openReplaceItemModal,
 	closeReplaceItemModal,
+	openBattleCompleteModal,
+	closeBattleCompleteModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

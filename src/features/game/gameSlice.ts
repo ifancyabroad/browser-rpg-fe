@@ -24,6 +24,11 @@ export const fetchBattle = createAsyncThunk("battle/fetchBattle", async () => {
 	return response.data;
 });
 
+export const completeBattle = createAsyncThunk("battle/completeBattle", async () => {
+	const response = await axios.post<{ character: ICharacter }>("/api/battle/complete");
+	return response.data;
+});
+
 export const postAction = createAsyncThunk("battle/postAction", async (payload: IActionPayload) => {
 	const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/action", payload);
 	return response.data;
@@ -55,6 +60,16 @@ export const gameSlice = createSlice({
 			state.battle = action.payload.battle;
 		});
 		builder.addCase(fetchBattle.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(completeBattle.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(completeBattle.fulfilled, (state) => {
+			state.status = "succeeded";
+		});
+		builder.addCase(completeBattle.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
