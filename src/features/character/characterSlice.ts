@@ -3,7 +3,7 @@ import { RootState } from "app/store";
 import axios from "axios";
 import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
 import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
-import { completeBattle, fetchBattle, postAction, startBattle } from "features/game";
+import { fetchBattle, postAction, startBattle } from "features/game";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -61,10 +61,6 @@ export const getIsLoaded = createSelector(
 
 export const getHasActiveCharacter = createSelector(characterSelector, ({ character }) => {
 	return character?.status === Status.Alive;
-});
-
-export const getActiveCharacterKills = createSelector(characterSelector, ({ character }) => {
-	return character?.history.filter(({ defeated }) => defeated).length;
 });
 
 export const getIsTwoHandedWeaponEquipped = createSelector(characterSelector, ({ character }) => {
@@ -167,9 +163,6 @@ export const characterSlice = createSlice({
 			state.character = action.payload.character;
 		});
 		builder.addCase(fetchBattle.fulfilled, (state, action) => {
-			state.character = action.payload.character;
-		});
-		builder.addCase(completeBattle.fulfilled, (state, action) => {
 			state.character = action.payload.character;
 		});
 		builder.addCase(postAction.fulfilled, (state, action) => {

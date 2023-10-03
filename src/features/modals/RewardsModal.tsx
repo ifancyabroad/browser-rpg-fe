@@ -1,20 +1,18 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { completeBattle } from "features/game";
-import { closeBattleCompleteModal } from "./modalsSlice";
+import { closeRewardsModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
 
-export const BattleCompleteModal: React.FC = () => {
+export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const open = useAppSelector((state) => state.modals.battleCompleteModalOpen);
+	const open = useAppSelector((state) => state.modals.rewardsModalOpen);
 	const battle = useAppSelector((state) => state.game.battle);
 	const status = useAppSelector((state) => state.game.status);
 	const isLoading = status === "loading";
 
 	const handleCompleteBattle = async () => {
-		await dispatch(completeBattle());
-		dispatch(closeBattleCompleteModal());
+		dispatch(closeRewardsModal());
 		navigate("/game");
 	};
 

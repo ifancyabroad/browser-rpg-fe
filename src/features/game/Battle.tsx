@@ -5,7 +5,7 @@ import { setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { fetchBattle } from "./gameSlice";
 import { Enemy } from "./Enemy";
-import { openBattleCompleteModal } from "features/modals";
+import { openGameOverModal, openRewardsModal } from "features/modals";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -22,8 +22,11 @@ export const Battle: React.FC = () => {
 	}, [dispatch, battle]);
 
 	useEffect(() => {
-		if (battle?.state === BattleState.Complete) {
-			dispatch(openBattleCompleteModal());
+		if (battle?.state === BattleState.Won) {
+			dispatch(openRewardsModal());
+		}
+		if (battle?.state === BattleState.Lost) {
+			dispatch(openGameOverModal());
 		}
 	}, [dispatch, battle]);
 

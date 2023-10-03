@@ -1,13 +1,6 @@
 import { ArmourType, EquipmentSlot, SkillClass, State, Status, WeaponType } from "common/utils";
 import { IArmour, IEquipment, ISkill, IWeapon, TDamageTypes, TEquipment, TStats } from "common/types";
 
-export interface IHistory {
-	enemy: string;
-	level: number;
-	day: number;
-	defeated: boolean;
-}
-
 export interface ICharacterClass {
 	id: string;
 	description: string;
@@ -37,8 +30,9 @@ export interface ICharacter {
 	level: number;
 	gold: number;
 	day: number;
+	kills: number;
+	slainBy?: string;
 	skills: ISkill[];
-	history: IHistory[];
 	availableItems: (IWeapon | IArmour)[];
 	equipment: IEquipment;
 	hitPoints: number;

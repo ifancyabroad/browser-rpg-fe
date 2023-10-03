@@ -13,7 +13,8 @@ interface ModalsState {
 		open: boolean;
 		item?: IArmour | IWeapon;
 	};
-	battleCompleteModalOpen: boolean;
+	rewardsModalOpen: boolean;
+	gameOverModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -25,7 +26,8 @@ const initialState: ModalsState = {
 	replaceItemModal: {
 		open: false,
 	},
-	battleCompleteModalOpen: false,
+	rewardsModalOpen: false,
+	gameOverModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -65,11 +67,17 @@ export const modalsSlice = createSlice({
 			state.replaceItemModal.open = false;
 			state.replaceItemModal.item = undefined;
 		},
-		openBattleCompleteModal: (state) => {
-			state.battleCompleteModalOpen = true;
+		openRewardsModal: (state) => {
+			state.rewardsModalOpen = true;
 		},
-		closeBattleCompleteModal: (state) => {
-			state.battleCompleteModalOpen = false;
+		closeRewardsModal: (state) => {
+			state.rewardsModalOpen = false;
+		},
+		openGameOverModal: (state) => {
+			state.gameOverModalOpen = true;
+		},
+		closeGameOverModal: (state) => {
+			state.gameOverModalOpen = false;
 		},
 	},
 });
@@ -84,8 +92,10 @@ export const {
 	closeErrorModal,
 	openReplaceItemModal,
 	closeReplaceItemModal,
-	openBattleCompleteModal,
-	closeBattleCompleteModal,
+	openRewardsModal,
+	closeRewardsModal,
+	openGameOverModal,
+	closeGameOverModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

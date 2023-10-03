@@ -48,7 +48,7 @@ export interface IBattle {
 	enemy: IEnemy;
 	turns: IAction[][];
 	state: BattleState;
-	reward: IReward;
+	reward?: IReward;
 }
 
 export interface IActionPayload {

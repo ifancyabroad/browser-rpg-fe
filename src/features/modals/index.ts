@@ -3,5 +3,6 @@ export * from "./ErrorModal";
 export * from "./LoginModal";
 export * from "./CharacterNameModal";
 export * from "./ReplaceItemModal";
-export * from "./BattleCompleteModal";
+export * from "./RewardsModal";
+export * from "./GameOverModal";
 export * from "./modalsSlice";

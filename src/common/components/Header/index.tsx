@@ -3,13 +3,12 @@ import { Box, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/materia
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
-import { getActiveCharacterKills, retireCharacter } from "features/character";
+import { retireCharacter } from "features/character";
 import { ConfirmationModal } from "features/modals";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
-	const kills = useAppSelector(getActiveCharacterKills);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
@@ -49,7 +48,7 @@ export const Header: React.FC = () => {
 						<Fragment>
 							<Typography variant="body2">Day: {character.day}</Typography>
 							<Typography variant="body2">Gold: {character.gold}</Typography>
-							<Typography variant="body2">Kills: {kills}</Typography>
+							<Typography variant="body2">Kills: {character.kills}</Typography>
 						</Fragment>
 					)}
 				</Stack>

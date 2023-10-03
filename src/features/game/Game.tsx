@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { CharacterSheet } from "features/character";
-import { BattleCompleteModal, ReplaceItemModal } from "features/modals";
+import { GameOverModal, ReplaceItemModal, RewardsModal } from "features/modals";
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
@@ -43,7 +43,8 @@ export const Game: React.FC = () => {
 				</Box>
 			</Box>
 
-			<BattleCompleteModal />
+			<RewardsModal />
+			<GameOverModal />
 			<ReplaceItemModal />
 		</Fragment>
 	);
