@@ -12,17 +12,17 @@ export const BattleDetails: React.FC = () => {
 
 	return (
 		<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2, minWidth: "300px" }}>
-			<Box>
+			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
 				<Typography variant="h6">{battle.enemy.name} active effects</Typography>
-				<Paper variant="outlined" sx={{ minHeight: "100px" }}>
+				<Paper variant="outlined" sx={{ flex: 1, minHeight: "60px" }}>
 					{[].map(() => (
 						<div></div>
 					))}
 				</Paper>
 			</Box>
-			<Box>
+			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
 				<Typography variant="h6">{character.name} active effects</Typography>
-				<Paper variant="outlined" sx={{ minHeight: "100px" }}>
+				<Paper variant="outlined" sx={{ flex: 1, minHeight: "60px" }}>
 					{[].map(() => (
 						<div></div>
 					))}

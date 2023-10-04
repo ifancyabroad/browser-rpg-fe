@@ -16,18 +16,18 @@ const Action: React.FC<IAction> = ({ damage, enemy, heal, self, skill, weaponDam
 			</Typography>
 			{weaponDamage
 				.flatMap((damage) => damage)
-				.map((damage) => (
-					<Typography variant="body2">
+				.map((damage, index) => (
+					<Typography key={index} variant="body2">
 						{getTarget(damage.target)} takes {damage.value} damage ({damage.type}) ({damage.hitType})
 					</Typography>
 				))}
-			{damage.map((damage) => (
-				<Typography variant="body2">
+			{damage.map((damage, index) => (
+				<Typography key={index} variant="body2">
 					{getTarget(damage.target)} takes {damage.value} damage ({damage.type})
 				</Typography>
 			))}
-			{heal.map((heal) => (
-				<Typography variant="body2">
+			{heal.map((heal, index) => (
+				<Typography key={index} variant="body2">
 					{getTarget(heal.target)} restores {heal.value} hit points
 				</Typography>
 			))}
@@ -47,8 +47,10 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 		return null;
 	}
 
+	const reversedTurns = [...turns].reverse();
+
 	return (
-		<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h6">Combat Log</Typography>
 			<Paper
 				variant="outlined"
@@ -57,18 +59,20 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 					p: 2,
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "flex-end",
-					overflow: "auto",
+					maxHeight: "400px",
+					minHeight: "400px",
 				}}
 			>
-				{turns.map((turn, index) => (
-					<Fragment>
-						<Typography variant="body2">Turn {index + 1}</Typography>
-						{turn.map((action) => (
-							<Action {...action} />
-						))}
-					</Fragment>
-				))}
+				<Box sx={{ flex: 1, display: "flex", flexDirection: "column-reverse", overflowY: "scroll" }}>
+					{reversedTurns.map((turn, index) => (
+						<div key={index}>
+							<Typography variant="body2">Turn {reversedTurns.length - index}</Typography>
+							{turn.map((action, index2) => (
+								<Action key={`action-${index}-${index2}`} {...action} />
+							))}
+						</div>
+					))}
+				</Box>
 			</Paper>
 		</Box>
 	);
