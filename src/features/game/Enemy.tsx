@@ -12,7 +12,7 @@ export const Enemy: React.FC = () => {
 	const { name, image, level, hitPoints, maxHitPoints } = enemy;
 
 	return (
-		<Box>
+		<Box sx={{ minWidth: "600px" }}>
 			<Box mb={2}>
 				<Typography variant="h4">{name}</Typography>
 				<Typography variant="subtitle1" color="textSecondary">

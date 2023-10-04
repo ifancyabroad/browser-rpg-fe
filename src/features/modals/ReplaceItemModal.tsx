@@ -101,12 +101,7 @@ export const ReplaceItemModal: React.FC = () => {
 				<DialogContentText mb={2}>{message}</DialogContentText>
 				<Stack direction="row" spacing={2}>
 					{slots.map((slot) => (
-						<Item
-							key={character.equipment[slot]?.id}
-							item={character.equipment[slot]}
-							slot={slot}
-							onSelectItem={handleSelectItem}
-						/>
+						<Item key={slot} item={character.equipment[slot]} slot={slot} onSelectItem={handleSelectItem} />
 					))}
 				</Stack>
 			</DialogContent>
