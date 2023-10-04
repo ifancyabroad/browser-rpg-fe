@@ -39,6 +39,7 @@ export interface ICharacter {
 	maxHitPoints: number;
 	stats: TStats;
 	resistances: TDamageTypes;
+	activeEffects: ISkill[];
 }
 
 export interface IBuyItemPayload {

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { fetchBattle } from "./gameSlice";
 import { Enemy } from "./Enemy";
 import { openGameOverModal, openRewardsModal } from "features/modals";
+import { BattleDetails } from "./BattleDetails";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -44,8 +45,8 @@ export const Battle: React.FC = () => {
 					p: 2,
 				}}
 			>
-				<Box display="flex" justifyContent="space-between" width="100%">
-					<div />
+				<Box display="flex" justifyContent="space-between" gap={3} width="100%">
+					<BattleDetails />
 					<Enemy />
 				</Box>
 			</Paper>

@@ -1,7 +1,8 @@
-import { BattleState } from "common/utils";
+import { BattleState, Target } from "common/utils";
 import { ICharacter } from "./character";
 import { ISkill } from "./skill";
 import { IEquipment } from "./equipment";
+import { TDamageTypes, TStats } from "common/types";
 
 export interface IEnemy {
 	id: string;
@@ -13,8 +14,9 @@ export interface IEnemy {
 	equipment: IEquipment;
 	hitPoints: number;
 	maxHitPoints: number;
-	stats: IStats;
-	resistances: IResistances;
+	stats: TStats;
+	resistances: TDamageTypes;
+	activeEffects: ISkill[];
 }
 
 export interface IDamage {
@@ -30,6 +32,9 @@ export interface IHeal {
 }
 
 export interface IAction {
+	skill: string;
+	self: string;
+	enemy: string;
 	weaponDamage: IDamage[][];
 	damage: IDamage[];
 	heal: IHeal[];
