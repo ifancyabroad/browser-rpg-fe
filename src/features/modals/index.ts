@@ -5,4 +5,5 @@ export * from "./CharacterNameModal";
 export * from "./ReplaceItemModal";
 export * from "./RewardsModal";
 export * from "./GameOverModal";
+export * from "./LevelUpModal";
 export * from "./modalsSlice";

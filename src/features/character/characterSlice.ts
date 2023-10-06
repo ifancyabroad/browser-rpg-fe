@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios from "axios";
-import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload } from "common/types";
+import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload, ILevelUpPayload } from "common/types";
 import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
 
@@ -49,6 +49,11 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 
 export const rest = createAsyncThunk("character/rest", async () => {
 	const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
+	return response.data.character;
+});
+
+export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILevelUpPayload) => {
+	const response = await axios.post<{ character: ICharacter }>("/api/character/levelup", payload);
 	return response.data.character;
 });
 
@@ -156,6 +161,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(rest.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(levelUp.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(levelUp.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(levelUp.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

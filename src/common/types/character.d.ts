@@ -1,4 +1,4 @@
-import { ArmourType, EquipmentSlot, SkillClass, State, Status, WeaponType } from "common/utils";
+import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
 import { IArmour, IEquipment, ISkill, IWeapon, TDamageTypes, TEquipment, TStats } from "common/types";
 
 export interface ICharacterClass {
@@ -14,6 +14,11 @@ export interface ICharacterClass {
 	equipment?: Partial<TEquipment>;
 }
 
+export interface ILevelUp {
+	level: number;
+	skills: ISkill[];
+}
+
 export interface ICharacterPayload {
 	name: string;
 	characterClass: string;
@@ -27,6 +32,7 @@ export interface ICharacter {
 	status: Status;
 	state: State;
 	experience: number;
+	nextLevelExperience: number;
 	level: number;
 	gold: number;
 	day: number;
@@ -40,9 +46,15 @@ export interface ICharacter {
 	stats: TStats;
 	resistances: TDamageTypes;
 	activeEffects: ISkill[];
+	levelUp?: ILevelUp;
 }
 
 export interface IBuyItemPayload {
 	id: string;
 	slot: EquipmentSlot;
+}
+
+export interface ILevelUpPayload {
+	stat: Stat;
+	skill?: string;
 }

@@ -15,6 +15,7 @@ interface ModalsState {
 	};
 	rewardsModalOpen: boolean;
 	gameOverModalOpen: boolean;
+	levelUpModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -28,6 +29,7 @@ const initialState: ModalsState = {
 	},
 	rewardsModalOpen: false,
 	gameOverModalOpen: false,
+	levelUpModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -79,6 +81,12 @@ export const modalsSlice = createSlice({
 		closeGameOverModal: (state) => {
 			state.gameOverModalOpen = false;
 		},
+		openLevelUpModal: (state) => {
+			state.levelUpModalOpen = true;
+		},
+		closeLevelUpModal: (state) => {
+			state.levelUpModalOpen = false;
+		},
 	},
 });
 
@@ -96,6 +104,8 @@ export const {
 	closeRewardsModal,
 	openGameOverModal,
 	closeGameOverModal,
+	openLevelUpModal,
+	closeLevelUpModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
