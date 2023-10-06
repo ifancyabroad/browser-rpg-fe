@@ -1,5 +1,5 @@
 import { Button, Card, CardHeader } from "@mui/material";
-import { getSkillType, SKILL_TYPE_NAME_MAP, State } from "common/utils";
+import { State } from "common/utils";
 import { ISkill } from "common/types";
 import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
@@ -14,7 +14,7 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.game.status);
 	const isLoading = status === "loading";
-	const secondaryText = `Level ${skill.level} ${SKILL_TYPE_NAME_MAP[getSkillType(skill)]}`;
+	const secondaryText = skill.maxUses ? `${skill.remaining}/${skill.maxUses}` : undefined;
 
 	const handleUseSkill = () => {
 		dispatch(postAction({ id: skill.id }));

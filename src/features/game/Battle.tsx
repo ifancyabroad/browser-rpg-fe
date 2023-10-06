@@ -45,7 +45,7 @@ export const Battle: React.FC = () => {
 					p: 2,
 				}}
 			>
-				<Box display="flex" justifyContent="space-between" gap={3} width="100%">
+				<Box display="flex" justifyContent="center" gap={3} width="100%">
 					<BattleDetails />
 					<Enemy />
 				</Box>

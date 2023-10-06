@@ -33,10 +33,7 @@ export const Game: React.FC = () => {
 						flexGrow: 1,
 						height: "calc(100vh - 52px)",
 						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
 						flexDirection: "column",
-						gap: 2,
 					}}
 				>
 					<Outlet />

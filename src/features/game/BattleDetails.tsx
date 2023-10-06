@@ -11,9 +11,9 @@ export const BattleDetails: React.FC = () => {
 	}
 
 	return (
-		<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 2, minWidth: "300px" }}>
+		<Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "400px" }}>
 			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
-				<Typography variant="h6">{battle.enemy.name} active effects</Typography>
+				<Typography variant="h6">{character.name} active effects</Typography>
 				<Paper variant="outlined" sx={{ flex: 1, minHeight: "60px" }}>
 					{[].map(() => (
 						<div></div>
@@ -21,7 +21,7 @@ export const BattleDetails: React.FC = () => {
 				</Paper>
 			</Box>
 			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
-				<Typography variant="h6">{character.name} active effects</Typography>
+				<Typography variant="h6">{battle.enemy.name} active effects</Typography>
 				<Paper variant="outlined" sx={{ flex: 1, minHeight: "60px" }}>
 					{[].map(() => (
 						<div></div>

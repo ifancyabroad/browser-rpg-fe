@@ -8,4 +8,5 @@ export interface ISkill {
 	price: number;
 	maxUses: number;
 	level: number;
+	remaining: number;
 }

@@ -22,7 +22,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_ABBR_MAP, Stat, getSkillType } from "common/utils";
 import { levelUp } from "features/character";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { closeLevelUpModal } from "./modalsSlice";
 
 interface IProps {
@@ -58,16 +58,14 @@ export const LevelUpModal: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
-	const [stat, setStat] = useState<Stat>();
-	const [skill, setSkill] = useState<string>();
+	const [stat, setStat] = useState<Stat | null>(null);
+	const [skill, setSkill] = useState<string | null>(null);
 	const [showSkills, setShowSkills] = useState(false);
-	const skillRequired = (character?.levelUp?.skills.length ?? 0) > 0;
-	const isDisabled = isLoading || !stat;
 
 	useEffect(() => {
 		if (!open) {
-			setStat(undefined);
-			setSkill(undefined);
+			setStat(null);
+			setSkill(null);
 			setShowSkills(false);
 		}
 	}, [open]);
@@ -80,20 +78,16 @@ export const LevelUpModal: React.FC = () => {
 		setSkill(id);
 	};
 
-	const handleClick = async () => {
+	const handleNext = () => {
+		setShowSkills(true);
+	};
+
+	const handleConfirm = async () => {
 		if (!stat) {
 			return;
 		}
-		if (skillRequired && showSkills) {
-			await dispatch(levelUp({ stat, skill }));
-			dispatch(closeLevelUpModal());
-			return;
-		}
-		if (skillRequired) {
-			setShowSkills(true);
-			return;
-		}
-		await dispatch(levelUp({ stat }));
+		const payload = skill ? { stat, skill } : { stat };
+		await dispatch(levelUp(payload));
 		dispatch(closeLevelUpModal());
 	};
 
@@ -102,21 +96,31 @@ export const LevelUpModal: React.FC = () => {
 	}
 
 	const { level, skills } = character.levelUp;
+	const skillRequired = character.levelUp.skills.length > 0;
+	const showNextButton = skillRequired && !showSkills;
+	const isDisabled = isLoading || !stat;
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Level Up</DialogTitle>
+			<DialogTitle id="form-dialog-title">You have reached level {level}!</DialogTitle>
 			<DialogContent>
-				<DialogContentText mb={2}>You have reached level {level}!</DialogContentText>
 				{showSkills ? (
-					<Stack gap={2}>
-						{skills.map((sk) => (
-							<SkillCard onSelect={handleSkillChange} isSelected={sk.id === skill} skill={sk} />
-						))}
-					</Stack>
+					<Fragment>
+						<DialogContentText mb={2}>Choose a new skill</DialogContentText>
+						<Stack gap={2}>
+							{skills.map((sk) => (
+								<SkillCard
+									key={sk.id}
+									onSelect={handleSkillChange}
+									isSelected={sk.id === skill}
+									skill={sk}
+								/>
+							))}
+						</Stack>
+					</Fragment>
 				) : (
 					<FormControl>
-						<FormLabel id="attribute-label">Attribute</FormLabel>
+						<FormLabel id="attribute-label">Choose an attribute to increase</FormLabel>
 						<RadioGroup
 							row
 							aria-labelledby="attribute-label"
@@ -126,9 +130,10 @@ export const LevelUpModal: React.FC = () => {
 						>
 							{STATS.map((stat) => (
 								<FormControlLabel
+									key={stat}
 									value={stat}
 									control={<Radio disabled={character.stats[stat] >= 25} />}
-									label={STATS_ABBR_MAP[stat]}
+									label={`${STATS_ABBR_MAP[stat]} (${character.stats[stat]})`}
 								/>
 							))}
 						</RadioGroup>
@@ -136,9 +141,15 @@ export const LevelUpModal: React.FC = () => {
 				)}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClick} color="primary" disabled={isDisabled}>
-					Next
-				</Button>
+				{showNextButton ? (
+					<Button variant="contained" onClick={handleNext} color="primary" disabled={!stat}>
+						Next
+					</Button>
+				) : (
+					<Button variant="contained" onClick={handleConfirm} color="primary" disabled={isDisabled}>
+						Confirm
+					</Button>
+				)}
 			</DialogActions>
 		</Dialog>
 	);

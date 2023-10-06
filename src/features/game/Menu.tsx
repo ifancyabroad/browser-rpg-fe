@@ -1,4 +1,4 @@
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getRestPrice } from "common/utils";
 import { rest } from "features/character";
@@ -34,22 +34,33 @@ export const Menu: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Typography variant="h5">BROWSER HEROES</Typography>
-			<Typography>This is the game page!</Typography>
-			<Stack direction="row" spacing={2}>
-				<Button variant="contained" component={Link} to="/game/hall-of-fame">
-					Hall of Fame
-				</Button>
-				<Button variant="contained" onClick={openConfirmationModal}>
-					Rest
-				</Button>
-				<Button variant="contained" component={Link} to="/game/shop">
-					Shop
-				</Button>
-				<Button variant="contained" onClick={handleStartBattle} disabled={isLoading}>
-					Battle
-				</Button>
-			</Stack>
+			<Box
+				sx={{
+					flex: 1,
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					gap: 2,
+				}}
+			>
+				<Typography variant="h5">BROWSER HEROES</Typography>
+				<Typography>This is the game page!</Typography>
+				<Stack direction="row" spacing={2}>
+					<Button variant="contained" component={Link} to="/game/hall-of-fame">
+						Hall of Fame
+					</Button>
+					<Button variant="contained" onClick={openConfirmationModal}>
+						Rest
+					</Button>
+					<Button variant="contained" component={Link} to="/game/shop">
+						Shop
+					</Button>
+					<Button variant="contained" onClick={handleStartBattle} disabled={isLoading}>
+						Battle
+					</Button>
+				</Stack>
+			</Box>
 
 			<ConfirmationModal
 				title="Would you like to rest?"
