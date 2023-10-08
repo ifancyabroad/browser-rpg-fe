@@ -11,7 +11,7 @@ export interface IArmour {
 	icon: string;
 	price: number;
 	level: number;
-	defense: number;
+	defence: number;
 	properties?: TProperty[];
 }
 
