@@ -16,7 +16,8 @@ export interface IEnemy {
 	maxHitPoints: number;
 	stats: TStats;
 	resistances: TDamageTypes;
-	activeEffects: ISkill[];
+	activeStatusEffects: IStatus[];
+	activeAuxiliaryEffects: IAuxiliary[];
 }
 
 export interface IDamage {
@@ -31,6 +32,34 @@ export interface IHeal {
 	target: Target;
 }
 
+export interface IStatusSkill {
+	id: string;
+	name: string;
+	icon: string;
+}
+
+export interface IStatus {
+	skill: IStatusSkill;
+	target: Target;
+	properties: TProperty[];
+	remaining: number;
+	duration: number;
+	saved: boolean;
+	modifier?: Stat;
+	difficulty?: number;
+}
+
+export interface IAuxiliary {
+	skill: IStatusSkill;
+	target: Target;
+	effect: AuxiliaryEffect;
+	remaining: number;
+	duration: number;
+	saved: boolean;
+	modifier?: Stat;
+	difficulty?: number;
+}
+
 export interface IAction {
 	skill: string;
 	self: string;
@@ -38,8 +67,8 @@ export interface IAction {
 	weaponDamage: IDamage[][];
 	damage: IDamage[];
 	heal: IHeal[];
-	status: any[];
-	auxiliary: any[];
+	status: IStatus[];
+	auxiliary: IAuxiliary[];
 }
 
 export interface IReward {

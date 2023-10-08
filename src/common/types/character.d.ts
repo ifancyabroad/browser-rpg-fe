@@ -1,5 +1,15 @@
 import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
-import { IArmour, IEquipment, ISkill, IWeapon, TDamageTypes, TEquipment, TStats } from "common/types";
+import {
+	IArmour,
+	IAuxiliary,
+	IEquipment,
+	ISkill,
+	IStatus,
+	IWeapon,
+	TDamageTypes,
+	TEquipment,
+	TStats,
+} from "common/types";
 
 export interface ICharacterClass {
 	id: string;
@@ -45,7 +55,8 @@ export interface ICharacter {
 	maxHitPoints: number;
 	stats: TStats;
 	resistances: TDamageTypes;
-	activeEffects: ISkill[];
+	activeStatusEffects: IStatus[];
+	activeAuxiliaryEffects: IAuxiliary[];
 	levelUp?: ILevelUp;
 }
 

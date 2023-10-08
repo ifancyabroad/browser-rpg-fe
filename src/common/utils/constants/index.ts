@@ -1,4 +1,13 @@
-import { AuxiliaryStat, DamageType, EquipmentSlot, EquipmentType, SkillType, Stat, WeaponType } from "common/utils";
+import {
+	AuxiliaryEffect,
+	AuxiliaryStat,
+	DamageType,
+	EquipmentSlot,
+	EquipmentType,
+	SkillType,
+	Stat,
+	WeaponType,
+} from "common/utils";
 
 export const STATS = [
 	Stat.Strength,
@@ -95,6 +104,13 @@ export const RESISTANCES_COLOUR_MAP: Record<DamageType, string> = {
 	[DamageType.Acid]: "#A1EF8B",
 };
 
+export const AUXILIARY_EFFECTS_NAME_MAP: Record<AuxiliaryEffect, string> = {
+	[AuxiliaryEffect.Poison]: "Poison",
+	[AuxiliaryEffect.Stun]: "Stun",
+	[AuxiliaryEffect.Bleed]: "Bleed",
+	[AuxiliaryEffect.Disarm]: "Disarm",
+};
+
 export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
 	[SkillType.WeaponAttack]: "Weapon Attack",
 	[SkillType.Attack]: "Attack",
@@ -163,3 +179,5 @@ export const EQUIPMENT_SLOT_NAME_MAP: Record<EquipmentSlot, string> = {
 	[EquipmentSlot.Hand1]: "Main Hand",
 	[EquipmentSlot.Hand2]: "Off Hand",
 };
+
+export * from "./config";

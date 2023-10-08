@@ -1,5 +1,5 @@
 import { TProperty } from "common/types";
-import { AuxiliaryEffect, DamageType, EffectType } from "common/utils";
+import { AuxiliaryEffect, DamageType, EffectType, Stat } from "common/utils";
 
 export interface IWeaponDamageEffect {
 	type: EffectType.WeaponDamage;
@@ -25,7 +25,8 @@ export interface IHealEffect {
 export interface IStatusEffect {
 	type: EffectType.Status;
 	target: Target;
-	accuracy: number;
+	modifier?: Stat;
+	difficulty?: number;
 	duration: number;
 	properties?: TProperty[];
 }
@@ -33,9 +34,10 @@ export interface IStatusEffect {
 export interface IAuxiliaryEffect {
 	type: EffectType.Auxiliary;
 	target: Target;
-	effect: AuxiliaryEffect;
-	accuracy: number;
+	modifier?: Stat;
+	difficulty?: number;
 	duration: number;
+	effect: AuxiliaryEffect;
 }
 
 export type ISkillEffect = IWeaponDamageEffect | IDamageEffect | IHealEffect | IStatusEffect | IAuxiliaryEffect;

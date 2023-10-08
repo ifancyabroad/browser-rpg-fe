@@ -1,6 +1,6 @@
-import { IArmour, IEquipment, ISkill, IWeapon } from "common/types";
+import { IArmour, IEquipment, ISkill, IWeapon, TProperty } from "common/types";
 import { EffectType, EquipmentSlot, EquipmentType, SkillType, Target, WeaponSize } from "common/utils/enums";
-import { EQUIPMENT_SLOT_TYPE_MAP } from "../constants";
+import { EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -60,4 +60,9 @@ export const mapToArray = <T extends object>(object: T) => {
 		...object[id as keyof typeof object],
 		id,
 	}));
+};
+
+export const getPropertyConfig = (property: TProperty) => {
+	const { properties } = PROPERTY_CONFIG[property.type];
+	return properties.find((prop) => prop.key === property.name);
 };
