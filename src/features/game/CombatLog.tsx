@@ -1,10 +1,10 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { IAction } from "common/types";
-import { Target } from "common/utils";
+import { PROPERTY_CONFIG, PropertyType, Target, getPropertyConfig } from "common/utils";
 import { Fragment } from "react";
 
-const Action: React.FC<IAction> = ({ damage, enemy, heal, self, skill, weaponDamage }) => {
+const Action: React.FC<IAction> = ({ damage, enemy, heal, status, auxiliary, self, skill, weaponDamage }) => {
 	const getTarget = (target: Target) => {
 		return target === Target.Enemy ? enemy : self;
 	};
@@ -31,6 +31,29 @@ const Action: React.FC<IAction> = ({ damage, enemy, heal, self, skill, weaponDam
 					{getTarget(heal.target)} restores {heal.value} hit points
 				</Typography>
 			))}
+			{status.map((status) =>
+				status.properties.map((prop, index) => {
+					const config = getPropertyConfig(prop);
+					const prefix = prop.value >= 0 ? PROPERTY_CONFIG[prop.type as PropertyType].prefix : "";
+					const suffix = PROPERTY_CONFIG[prop.type as PropertyType].suffix;
+
+					if (status.saved) {
+						return (
+							<Typography key={`${status.skill.id}-${index}`} variant="body2">
+								{getTarget(status.target)} saves against {skill} ({config?.name})
+							</Typography>
+						);
+					}
+
+					return (
+						<Typography key={`${status.skill.id}-${index}`} variant="body2">
+							{getTarget(status.target)} receives {prefix}
+							{prop.value}
+							{suffix} to {config?.name}
+						</Typography>
+					);
+				}),
+			)}
 		</Fragment>
 	);
 };
