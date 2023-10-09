@@ -5,20 +5,33 @@ import { getPropertyConfig } from "common/utils";
 import { SkillIcon } from "common/components";
 
 export const StatusDetails: React.FC<IStatus> = (effect) => (
-	<Box component="ul" sx={{ margin: 0 }}>
+	<Box>
 		<Typography sx={{ fontWeight: "medium" }}>{effect.skill.name}</Typography>
-		{"properties" in effect && (
-			<Box component="ul">
-				{effect.properties?.map((stat) => (
-					<Typography key={stat.name} component="li" variant="body2">
-						<Box component="span" sx={{ fontWeight: "medium" }}>
-							{getPropertyConfig(stat)?.name}:{" "}
-						</Box>
-						{stat.value}
-					</Typography>
-				))}
-			</Box>
-		)}
+		<Box component="ul" sx={{ margin: 0 }}>
+			<Typography component="li" variant="body2">
+				<Box component="span" sx={{ fontWeight: "medium" }}>
+					Remaining:{" "}
+				</Box>
+				{effect.remaining} turns
+			</Typography>
+			{"properties" in effect && (
+				<Typography component="li" variant="body2">
+					<Box component="span" sx={{ fontWeight: "medium" }}>
+						Properties
+					</Box>
+					<Box component="ul">
+						{effect.properties?.map((stat) => (
+							<Typography key={stat.name} component="li" variant="body2">
+								<Box component="span" sx={{ fontWeight: "medium" }}>
+									{getPropertyConfig(stat)?.name}:{" "}
+								</Box>
+								{stat.value}
+							</Typography>
+						))}
+					</Box>
+				</Typography>
+			)}
+		</Box>
 	</Box>
 );
 

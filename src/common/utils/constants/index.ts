@@ -111,6 +111,13 @@ export const AUXILIARY_EFFECTS_NAME_MAP: Record<AuxiliaryEffect, string> = {
 	[AuxiliaryEffect.Disarm]: "Disarm",
 };
 
+export const AUXILIARY_EFFECTS_NAME_MAP_PASSED: Record<AuxiliaryEffect, string> = {
+	[AuxiliaryEffect.Poison]: "Poisoned",
+	[AuxiliaryEffect.Stun]: "Stuned",
+	[AuxiliaryEffect.Bleed]: "Bled",
+	[AuxiliaryEffect.Disarm]: "Disarmed",
+};
+
 export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
 	[SkillType.WeaponAttack]: "Weapon Attack",
 	[SkillType.Attack]: "Attack",

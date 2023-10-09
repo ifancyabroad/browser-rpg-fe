@@ -1,10 +1,28 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { IAction } from "common/types";
-import { PROPERTY_CONFIG, PropertyType, Target, getPropertyConfig } from "common/utils";
+import {
+	AUXILIARY_EFFECTS_NAME_MAP,
+	AUXILIARY_EFFECTS_NAME_MAP_PASSED,
+	AuxiliaryEffect,
+	PROPERTY_CONFIG,
+	PropertyType,
+	Target,
+	getPropertyConfig,
+} from "common/utils";
 import { Fragment } from "react";
 
-const Action: React.FC<IAction> = ({ damage, enemy, heal, status, auxiliary, self, skill, weaponDamage }) => {
+const Action: React.FC<IAction> = ({
+	damage,
+	enemy,
+	heal,
+	status,
+	auxiliary,
+	activeEffects,
+	self,
+	skill,
+	weaponDamage,
+}) => {
 	const getTarget = (target: Target) => {
 		return target === Target.Enemy ? enemy : self;
 	};
@@ -53,6 +71,40 @@ const Action: React.FC<IAction> = ({ damage, enemy, heal, status, auxiliary, sel
 						</Typography>
 					);
 				}),
+			)}
+			{auxiliary.map((status, index) => {
+				if (status.saved) {
+					return (
+						<Typography key={index} variant="body2">
+							{getTarget(status.target)} saves against{" "}
+							{AUXILIARY_EFFECTS_NAME_MAP[status.effect as AuxiliaryEffect]}
+						</Typography>
+					);
+				}
+
+				return (
+					<Typography key={index} variant="body2">
+						{getTarget(status.target)} is{" "}
+						{AUXILIARY_EFFECTS_NAME_MAP_PASSED[status.effect as AuxiliaryEffect]}
+					</Typography>
+				);
+			})}
+			{activeEffects.map(
+				(effect, index) =>
+					({
+						[AuxiliaryEffect.Stun]: (
+							<Typography key={index} variant="body2">
+								{getTarget(effect.target)} is unable to move
+							</Typography>
+						),
+						[AuxiliaryEffect.Poison]: (
+							<Typography key={index} variant="body2">
+								{getTarget(effect.target)} is hurt by the poison
+							</Typography>
+						),
+						[AuxiliaryEffect.Bleed]: null,
+						[AuxiliaryEffect.Disarm]: null,
+					})[effect.effect as AuxiliaryEffect],
 			)}
 		</Fragment>
 	);
