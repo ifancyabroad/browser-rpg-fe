@@ -9,36 +9,36 @@ import {
 	TextField,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { getIsLoading, login } from "features/authentication";
-import { closeLoginModal, openRegistrationModal } from "features/modals";
+import { getIsLoading, register } from "features/authentication";
+import { closeRegistrationModal, openLoginModal } from "features/modals";
 import { useEffect, useRef } from "react";
 
-export const LoginModal: React.FC = () => {
+export const RegistrationModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
-	const open = useAppSelector((state) => state.modals.loginModalOpen);
+	const open = useAppSelector((state) => state.modals.registrationModalOpen);
 	const isLoading = useAppSelector(getIsLoading);
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
 		if (isLoggedIn) {
-			dispatch(closeLoginModal());
+			dispatch(closeRegistrationModal());
 		}
 	}, [dispatch, isLoggedIn]);
 
 	const handleClose = () => {
-		dispatch(closeLoginModal());
+		dispatch(closeRegistrationModal());
 	};
 
 	const handleChangeModal = () => {
-		dispatch(closeLoginModal());
-		dispatch(openRegistrationModal());
+		dispatch(closeRegistrationModal());
+		dispatch(openLoginModal());
 	};
 
-	const handleLogin = async () => {
+	const handleRegister = async () => {
 		dispatch(
-			login({
+			register({
 				email: emailRef.current!.value,
 				password: passwordRef.current!.value,
 			}),
@@ -47,14 +47,14 @@ export const LoginModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Login</DialogTitle>
+			<DialogTitle id="form-dialog-title">Register</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					Please enter your email and password to login or click{" "}
+					Please enter your email and password to register or click{" "}
 					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
 						here
 					</Link>{" "}
-					to sign up.
+					to sign in.
 				</DialogContentText>
 				<TextField
 					inputRef={emailRef}
@@ -80,8 +80,8 @@ export const LoginModal: React.FC = () => {
 				<Button onClick={handleClose} color="primary">
 					Cancel
 				</Button>
-				<Button onClick={handleLogin} color="primary" disabled={isLoading}>
-					Login
+				<Button onClick={handleRegister} color="primary" disabled={isLoading}>
+					Register
 				</Button>
 			</DialogActions>
 		</Dialog>

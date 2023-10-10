@@ -3,6 +3,7 @@ import { IArmour, IWeapon } from "common/types";
 
 interface ModalsState {
 	loginModalOpen: boolean;
+	registrationModalOpen: boolean;
 	confirmationModalOpen: boolean;
 	errorModal: {
 		open: boolean;
@@ -20,6 +21,7 @@ interface ModalsState {
 
 const initialState: ModalsState = {
 	loginModalOpen: false,
+	registrationModalOpen: false,
 	confirmationModalOpen: false,
 	errorModal: {
 		open: false,
@@ -41,6 +43,12 @@ export const modalsSlice = createSlice({
 		},
 		closeLoginModal: (state) => {
 			state.loginModalOpen = false;
+		},
+		openRegistrationModal: (state) => {
+			state.registrationModalOpen = true;
+		},
+		closeRegistrationModal: (state) => {
+			state.registrationModalOpen = false;
 		},
 		openConfirmationModal: (state) => {
 			state.confirmationModalOpen = true;
@@ -94,6 +102,8 @@ export const modalsSlice = createSlice({
 export const {
 	openLoginModal,
 	closeLoginModal,
+	openRegistrationModal,
+	closeRegistrationModal,
 	openConfirmationModal,
 	closeConfirmationModal,
 	openErrorModal,

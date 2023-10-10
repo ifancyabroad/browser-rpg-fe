@@ -28,6 +28,11 @@ export const fetchUser = createAsyncThunk("authentication/fetchUser", async () =
 	return response.data;
 });
 
+export const register = createAsyncThunk("authentication/register", async (payload: ILoginPayload) => {
+	const response = await axios.put<IUser>("/api/auth/register", payload);
+	return response.data;
+});
+
 export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload) => {
 	const response = await axios.post<IUser>("/api/auth/login", payload);
 	return response.data;
@@ -69,6 +74,18 @@ export const authenticationSlice = createSlice({
 			state.user = action.payload;
 		});
 		builder.addCase(fetchUser.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(register.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(register.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.session = true;
+			state.user = action.payload;
+		});
+		builder.addCase(register.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

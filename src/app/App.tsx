@@ -6,6 +6,7 @@ import { LoginModal } from "features/modals";
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
+import { RegistrationModal } from "features/modals/RegistrationModal";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
@@ -36,6 +37,7 @@ function App() {
 			</Router>
 
 			<LoginModal />
+			<RegistrationModal />
 		</HOCSession>
 	);
 }

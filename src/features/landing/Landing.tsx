@@ -1,12 +1,16 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useAppDispatch } from "common/hooks";
-import { openLoginModal } from "features/modals";
+import { openLoginModal, openRegistrationModal } from "features/modals";
 
 export const Landing: React.FC = () => {
 	const dispatch = useAppDispatch();
 
 	const handleLogin = () => {
 		dispatch(openLoginModal());
+	};
+
+	const handleRegister = () => {
+		dispatch(openRegistrationModal());
 	};
 
 	return (
@@ -22,9 +26,14 @@ export const Landing: React.FC = () => {
 		>
 			<Typography variant="h5">BROWSER HEROES</Typography>
 			<Typography>Click the button below to login!</Typography>
-			<Button variant="contained" onClick={handleLogin}>
-				LOGIN
-			</Button>
+			<Box display="flex" justifyContent="center" gap={2}>
+				<Button variant="outlined" onClick={handleLogin}>
+					LOGIN
+				</Button>
+				<Button variant="contained" onClick={handleRegister}>
+					REGISTER
+				</Button>
+			</Box>
 		</Box>
 	);
 };
