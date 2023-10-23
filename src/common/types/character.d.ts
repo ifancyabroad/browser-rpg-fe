@@ -1,5 +1,6 @@
 import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
 import {
+	IActiveEffect,
 	IArmour,
 	IAuxiliary,
 	IEquipment,
@@ -56,7 +57,7 @@ export interface ICharacter {
 	stats: TStats;
 	resistances: TDamageTypes;
 	activeStatusEffects: IStatus[];
-	activeAuxiliaryEffects: IAuxiliary[];
+	activeAuxiliaryEffects: IActiveEffect[];
 	levelUp?: ILevelUp;
 }
 

@@ -94,12 +94,12 @@ const Action: React.FC<IAction> = ({
 					({
 						[AuxiliaryEffect.Stun]: (
 							<Typography key={index} variant="body2">
-								{getTarget(effect.target)} is unable to move
+								{self} is unable to move
 							</Typography>
 						),
 						[AuxiliaryEffect.Poison]: (
 							<Typography key={index} variant="body2">
-								{getTarget(effect.target)} is hurt by the poison
+								{self} is hurt by the poison
 							</Typography>
 						),
 						[AuxiliaryEffect.Bleed]: null,
