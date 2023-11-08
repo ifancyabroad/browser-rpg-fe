@@ -84,7 +84,7 @@ export interface IReward {
 
 export interface IBattle {
 	user: string;
-	character: ICharacter;
+	hero: string;
 	enemy: IEnemy;
 	turns: IAction[][];
 	state: BattleState;
