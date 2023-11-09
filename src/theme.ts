@@ -3,24 +3,56 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#56E39F",
+			main: "#67628a",
 		},
 		secondary: {
-			main: "#0091ad",
+			main: "#8b9a3b",
 		},
 		background: {
-			default: "#171d1c",
-			paper: "#293132",
+			default: "#182029",
+			paper: "#33333a",
 		},
 		mode: "dark",
 	},
 	typography: {
+		h1: {
+			fontFamily: "'Cinzel', serif",
+		},
+		h2: {
+			fontFamily: "'Cinzel', serif",
+		},
+		h3: {
+			fontFamily: "'Cinzel', serif",
+		},
+		h4: {
+			fontFamily: "'Cinzel', serif",
+		},
+		h5: {
+			fontFamily: "'Cinzel', serif",
+		},
 		allVariants: {
-			fontFamily: "'Open Sans', sans-serif",
+			fontFamily: "'Merriweather', serif",
 		},
 	},
 
 	components: {
+		MuiButton: {
+			defaultProps: {
+				disableElevation: true,
+			},
+			styleOverrides: {
+				root: {
+					borderRadius: 0,
+				},
+			},
+		},
+		MuiPaper: {
+			styleOverrides: {
+				root: {
+					borderRadius: 0,
+				},
+			},
+		},
 		MuiCssBaseline: {
 			styleOverrides: {
 				body: {
