@@ -70,7 +70,7 @@ export const CharacterCreate: React.FC = () => {
 								</Typography>
 							</CardContent>
 							<CardActions>
-								<Button size="small" onClick={handleSelectClass} data-value={id}>
+								<Button size="small" variant="contained" onClick={handleSelectClass} data-value={id}>
 									Select
 								</Button>
 							</CardActions>

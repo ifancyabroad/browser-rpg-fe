@@ -142,7 +142,7 @@ export const LevelUpModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				{showNextButton ? (
-					<Button variant="contained" onClick={handleNext} color="primary" disabled={!stat}>
+					<Button variant="contained" onClick={handleNext} color="secondary" disabled={!stat}>
 						Next
 					</Button>
 				) : (

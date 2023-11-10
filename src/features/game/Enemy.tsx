@@ -22,7 +22,12 @@ export const Enemy: React.FC = () => {
 
 			<Box mb={2}>
 				<Typography variant="body2">Health</Typography>
-				<LinearProgressWithLabel value={hitPoints} max={maxHitPoints} label={`${hitPoints}/${maxHitPoints}`} />
+				<LinearProgressWithLabel
+					color="success"
+					value={hitPoints}
+					max={maxHitPoints}
+					label={`${hitPoints}/${maxHitPoints}`}
+				/>
 			</Box>
 
 			<Box

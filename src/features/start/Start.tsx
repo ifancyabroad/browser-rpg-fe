@@ -22,7 +22,7 @@ export const Start: React.FC = () => {
 			{hasActiveCharacter ? (
 				<Fragment>
 					<Typography>Click the button below to continue your game!</Typography>
-					<Button variant="contained" component={Link} to="/game">
+					<Button variant="contained" color="secondary" component={Link} to="/game">
 						CONTINUE
 					</Button>
 				</Fragment>

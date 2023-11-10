@@ -1,4 +1,4 @@
-import { Box, Paper } from "@mui/material";
+import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { BattleState, CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
@@ -7,6 +7,7 @@ import { fetchBattle } from "./gameSlice";
 import { Enemy } from "./Enemy";
 import { openGameOverModal, openRewardsModal } from "features/modals";
 import { BattleDetails } from "./BattleDetails";
+import { TransparentPaper } from "common/components";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -33,23 +34,12 @@ export const Battle: React.FC = () => {
 
 	return (
 		<Box p={2} flex={1} width="100%">
-			<Paper
-				sx={{
-					position: "relative",
-					height: "100%",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					gap: 2,
-					p: 2,
-				}}
-			>
+			<TransparentPaper>
 				<Box display="flex" justifyContent="center" gap={3} width="100%">
 					<BattleDetails />
 					<Enemy />
 				</Box>
-			</Paper>
+			</TransparentPaper>
 		</Box>
 	);
 };

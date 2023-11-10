@@ -1,4 +1,4 @@
-import { Box, IconButton, Tab, Tabs, Typography, darken, useTheme } from "@mui/material";
+import { Box, IconButton, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab } from "common/utils";
@@ -50,7 +50,8 @@ export const CharacterSheet: React.FC = () => {
 			sx={{
 				height: "calc(100vh - 52px)",
 				width: "400px",
-				bgcolor: darken(theme.palette.background.paper, 0.25),
+				bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
+				boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
 				p: 2,
 				overflow: "auto",
 			}}
@@ -72,7 +73,12 @@ export const CharacterSheet: React.FC = () => {
 
 			<Box mb={2}>
 				<Typography variant="body2">Health</Typography>
-				<LinearProgressWithLabel value={hitPoints} max={maxHitPoints} label={`${hitPoints}/${maxHitPoints}`} />
+				<LinearProgressWithLabel
+					color="success"
+					value={hitPoints}
+					max={maxHitPoints}
+					label={`${hitPoints}/${maxHitPoints}`}
+				/>
 				<Typography variant="body2">Experience</Typography>
 				<LinearProgressWithLabel
 					value={experience}

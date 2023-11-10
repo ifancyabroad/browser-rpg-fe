@@ -6,3 +6,4 @@ export * from "./Header";
 export * from "./LinearProgressWithLabel";
 export * from "./SkillIcon";
 export * from "./EquipmentTypeIcon";
+export * from "./TransparentPaper";

@@ -38,10 +38,10 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={handleClose} color="secondary" variant="contained">
 					Cancel
 				</Button>
-				<Button onClick={handleConfirm} color="primary" disabled={isLoading}>
+				<Button onClick={handleConfirm} color="primary" variant="contained" disabled={isLoading}>
 					Confirm
 				</Button>
 			</DialogActions>

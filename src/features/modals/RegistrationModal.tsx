@@ -77,10 +77,10 @@ export const RegistrationModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={handleClose} color="secondary" variant="contained">
 					Cancel
 				</Button>
-				<Button onClick={handleRegister} color="primary" disabled={isLoading}>
+				<Button onClick={handleRegister} color="primary" variant="contained" disabled={isLoading}>
 					Register
 				</Button>
 			</DialogActions>

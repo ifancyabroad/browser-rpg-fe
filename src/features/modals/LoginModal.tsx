@@ -77,10 +77,10 @@ export const LoginModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary">
+				<Button onClick={handleClose} color="secondary" variant="contained">
 					Cancel
 				</Button>
-				<Button onClick={handleLogin} color="primary" disabled={isLoading}>
+				<Button onClick={handleLogin} color="primary" variant="contained" disabled={isLoading}>
 					Login
 				</Button>
 			</DialogActions>

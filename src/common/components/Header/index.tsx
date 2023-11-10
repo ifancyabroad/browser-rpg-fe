@@ -42,7 +42,16 @@ export const Header: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box sx={{ display: "flex", alignItems: "center", p: 1, bgcolor: "background.paper" }}>
+			<Box
+				sx={{
+					display: "flex",
+					alignItems: "center",
+					p: 1,
+					bgcolor: "background.paper",
+					boxShadow: "inset 0px 1px 0px 0px rgba(255,255,255,0.07)",
+					borderBottom: "1px solid #000",
+				}}
+			>
 				<Stack direction="row" spacing={2} flexGrow={1}>
 					{character && (
 						<Fragment>

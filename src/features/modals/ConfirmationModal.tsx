@@ -16,10 +16,10 @@ export const ConfirmationModal: React.FC<IProps> = ({ open, title, content, hand
 			<DialogContentText>{content}</DialogContentText>
 		</DialogContent>
 		<DialogActions>
-			<Button onClick={handleClose} color="primary">
+			<Button onClick={handleClose} color="secondary" variant="contained">
 				Cancel
 			</Button>
-			<Button onClick={handleConfirm} color="primary" disabled={disabled}>
+			<Button onClick={handleConfirm} color="primary" variant="contained" disabled={disabled}>
 				Confirm
 			</Button>
 		</DialogActions>

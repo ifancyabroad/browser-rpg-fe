@@ -32,7 +32,7 @@ export const RewardsModal: React.FC = () => {
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleCompleteBattle} color="primary" disabled={isLoading}>
+				<Button onClick={handleCompleteBattle} color="primary" variant="contained" disabled={isLoading}>
 					Return to town
 				</Button>
 			</DialogActions>

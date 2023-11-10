@@ -27,7 +27,7 @@ export const Landing: React.FC = () => {
 			<Typography variant="h5">BROWSER HEROES</Typography>
 			<Typography>Click the button below to login!</Typography>
 			<Box display="flex" justifyContent="center" gap={2}>
-				<Button variant="outlined" onClick={handleLogin}>
+				<Button color="secondary" variant="contained" onClick={handleLogin}>
 					LOGIN
 				</Button>
 				<Button variant="contained" onClick={handleRegister}>

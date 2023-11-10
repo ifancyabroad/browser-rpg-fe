@@ -8,9 +8,12 @@ const theme = createTheme({
 		secondary: {
 			main: "#8b9a3b",
 		},
+		success: {
+			main: "#397a41",
+		},
 		background: {
-			default: "#182029",
-			paper: "#33333a",
+			default: "#33333a",
+			paper: "#182029",
 		},
 		mode: "dark",
 	},
@@ -50,6 +53,7 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
+					boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
 				},
 			},
 		},

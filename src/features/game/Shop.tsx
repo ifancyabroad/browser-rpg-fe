@@ -1,4 +1,4 @@
-import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { CharacterSheetTab, EquipmentType, getAvailableItemSlot } from "common/utils";
@@ -8,6 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { openReplaceItemModal } from "features/modals";
+import { TransparentPaper } from "common/components";
 
 export const Shop: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -37,18 +38,7 @@ export const Shop: React.FC = () => {
 
 	return (
 		<Box p={2} flex={1} width="100%">
-			<Paper
-				sx={{
-					position: "relative",
-					height: "100%",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					gap: 2,
-					p: 2,
-				}}
-			>
+			<TransparentPaper>
 				<IconButton
 					sx={{ position: "absolute", top: 8, right: 8 }}
 					aria-label="close"
@@ -75,7 +65,7 @@ export const Shop: React.FC = () => {
 						<Typography>Weapons sold out!</Typography>
 					)}
 				</Stack>
-			</Paper>
+			</TransparentPaper>
 		</Box>
 	);
 };

@@ -29,7 +29,7 @@ export const GameOverModal: React.FC = () => {
 				<DialogContentText mb={2}>You have been slain by {name}.</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleGameOver} color="primary" disabled={isLoading}>
+				<Button onClick={handleGameOver} color="primary" variant="contained" disabled={isLoading}>
 					Try again
 				</Button>
 			</DialogActions>
