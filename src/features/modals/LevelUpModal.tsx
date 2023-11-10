@@ -91,12 +91,12 @@ export const LevelUpModal: React.FC = () => {
 		dispatch(closeLevelUpModal());
 	};
 
-	if (!character || !character.levelUp) {
+	if (!character || !character.levelUpData) {
 		return null;
 	}
 
-	const { level, skills } = character.levelUp;
-	const skillRequired = character.levelUp.skills.length > 0;
+	const { level, skills } = character.levelUpData;
+	const skillRequired = character.levelUpData.skills.length > 0;
 	const showNextButton = skillRequired && !showSkills;
 	const isDisabled = isLoading || !stat;
 

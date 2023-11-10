@@ -25,7 +25,7 @@ export interface ICharacterClass {
 	equipment?: Partial<TEquipment>;
 }
 
-export interface ILevelUp {
+export interface ILevelUpData {
 	level: number;
 	skills: ISkill[];
 }
@@ -58,7 +58,7 @@ export interface ICharacter {
 	resistances: TDamageTypes;
 	activeStatusEffects: IStatus[];
 	activeAuxiliaryEffects: IActiveEffect[];
-	levelUp?: ILevelUp;
+	levelUpData?: ILevelUpData;
 }
 
 export interface IBuyItemPayload {
