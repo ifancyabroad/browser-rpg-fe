@@ -1,10 +1,11 @@
 import { Fragment, useState } from "react";
-import { Box, IconButton, Menu, MenuItem, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
 import { retireCharacter } from "features/character";
 import { ConfirmationModal } from "features/modals";
+import logo from "assets/images/logos/browser_heroes.png";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -52,15 +53,19 @@ export const Header: React.FC = () => {
 					borderBottom: "1px solid #000",
 				}}
 			>
-				<Stack direction="row" spacing={2} flexGrow={1}>
-					{character && (
-						<Fragment>
-							<Typography variant="body2">Day: {character.day}</Typography>
-							<Typography variant="body2">Gold: {character.gold}</Typography>
-							<Typography variant="body2">Kills: {character.kills}</Typography>
-						</Fragment>
-					)}
-				</Stack>
+				<Box
+					sx={{
+						flexGrow: 1,
+						display: "flex",
+						alignItems: "center",
+						gap: 2,
+					}}
+				>
+					<Box component="img" src={logo} height={32} width={32} />
+					<Typography variant="h6" fontFamily="'Cinzel', serif" fontWeight="bold">
+						Browser Heroes
+					</Typography>
+				</Box>
 
 				<IconButton aria-label="menu" color="inherit" type="button" onClick={handleOpenMenu}>
 					<MenuIcon fontSize="small" />
