@@ -47,7 +47,7 @@ export const CharacterCreate: React.FC = () => {
 		<Fragment>
 			<Box
 				sx={{
-					height: "calc(100vh - 52px)",
+					minHeight: "calc(100vh - 52px)",
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",

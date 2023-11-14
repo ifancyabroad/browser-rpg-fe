@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { CharacterSheet } from "features/character";
@@ -28,16 +28,17 @@ export const Game: React.FC = () => {
 		<Fragment>
 			<Box display="flex">
 				<CharacterSheet />
-				<Box
-					sx={{
-						flexGrow: 1,
-						height: "calc(100vh - 52px)",
-						display: "flex",
-						flexDirection: "column",
-					}}
-				>
-					<Outlet />
-				</Box>
+				<Container>
+					<Box
+						sx={{
+							minHeight: "calc(100vh - 52px)",
+							display: "flex",
+							flexDirection: "column",
+						}}
+					>
+						<Outlet />
+					</Box>
+				</Container>
 			</Box>
 
 			<RewardsModal />

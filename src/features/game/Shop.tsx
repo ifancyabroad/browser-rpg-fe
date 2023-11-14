@@ -1,22 +1,20 @@
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { CharacterSheetTab, EquipmentType, getAvailableItemSlot } from "common/utils";
+import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { openReplaceItemModal } from "features/modals";
-import { TransparentPaper } from "common/components";
+import background from "assets/images/background/shop_interior.png";
 
 export const Shop: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
-	const availabeItems = character ? character.availableItems : [];
-	const armour = availabeItems.filter(({ type }) => type !== EquipmentType.Weapon) as IArmour[];
-	const weapons = availabeItems.filter(({ type }) => type === EquipmentType.Weapon) as IWeapon[];
+	const availableItems = character ? character.availableItems : [];
 
 	useEffect(() => {
 		dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
@@ -37,8 +35,23 @@ export const Shop: React.FC = () => {
 	};
 
 	return (
-		<Box p={2} flex={1} width="100%">
-			<TransparentPaper>
+		<Box p={2} flex={1} display="flex" flexDirection="column" width="100%">
+			<Typography variant="h2">Shop</Typography>
+			<Paper
+				sx={{
+					backgroundImage: `url(${background})`,
+					backgroundSize: "cover",
+					backgroundPosition: "bottom",
+					position: "relative",
+					flex: 1,
+					display: "flex",
+					justifyContent: "flex-end",
+					alignItems: "center",
+					flexDirection: "column",
+					gap: 2,
+					p: 2,
+				}}
+			>
 				<IconButton
 					sx={{ position: "absolute", top: 8, right: 8 }}
 					aria-label="close"
@@ -49,23 +62,14 @@ export const Shop: React.FC = () => {
 				>
 					<CloseIcon />
 				</IconButton>
-				<Typography variant="h5">BROWSER HEROES</Typography>
-				<Typography>This is the shop!</Typography>
-				<Stack direction="row" spacing={2}>
-					{armour.length ? (
-						armour.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
+				<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap">
+					{availableItems.length ? (
+						availableItems.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
 					) : (
-						<Typography>Armour sold out!</Typography>
+						<Typography>Sold out!</Typography>
 					)}
 				</Stack>
-				<Stack direction="row" spacing={2}>
-					{weapons.length ? (
-						weapons.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
-					) : (
-						<Typography>Weapons sold out!</Typography>
-					)}
-				</Stack>
-			</TransparentPaper>
+			</Paper>
 		</Box>
 	);
 };
