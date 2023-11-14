@@ -1,10 +1,10 @@
-import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
-import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { openReplaceItemModal } from "features/modals";
@@ -36,13 +36,18 @@ export const Shop: React.FC = () => {
 
 	return (
 		<Box p={2} flex={1} display="flex" flexDirection="column" width="100%">
-			<Typography variant="h2">Shop</Typography>
+			<Box display="flex" justifyContent="space-between" alignItems="center">
+				<Typography variant="h2">Shop</Typography>
+				<Button component={Link} to="/game" color="inherit">
+					<ArrowBackIcon sx={{ mr: 1 }} />
+					Return to town
+				</Button>
+			</Box>
 			<Paper
 				sx={{
 					backgroundImage: `url(${background})`,
 					backgroundSize: "cover",
 					backgroundPosition: "bottom",
-					position: "relative",
 					flex: 1,
 					display: "flex",
 					justifyContent: "flex-end",
@@ -52,16 +57,6 @@ export const Shop: React.FC = () => {
 					p: 2,
 				}}
 			>
-				<IconButton
-					sx={{ position: "absolute", top: 8, right: 8 }}
-					aria-label="close"
-					color="inherit"
-					type="button"
-					component={Link}
-					to="/game"
-				>
-					<CloseIcon />
-				</IconButton>
 				<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap">
 					{availableItems.length ? (
 						availableItems.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)

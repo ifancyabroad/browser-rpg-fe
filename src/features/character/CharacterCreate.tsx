@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
@@ -45,39 +45,53 @@ export const CharacterCreate: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box
-				sx={{
-					minHeight: "calc(100vh - 52px)",
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					gap: 2,
-				}}
-			>
-				<Typography variant="h5">BROWSER HEROES</Typography>
-				<Typography>Please select a class!</Typography>
-				<Stack direction="row" spacing={2}>
-					{classes.map(({ id, portrait, name, description }) => (
-						<Card key={id} sx={{ maxWidth: 345 }}>
-							<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="div">
-									{name}
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									{description}
-								</Typography>
-							</CardContent>
-							<CardActions>
-								<Button size="small" variant="contained" onClick={handleSelectClass} data-value={id}>
-									Select
-								</Button>
-							</CardActions>
-						</Card>
-					))}
-				</Stack>
-			</Box>
+			<Container>
+				<Box
+					sx={{
+						minHeight: "calc(100vh - 52px)",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+						gap: 2,
+						p: 2,
+					}}
+				>
+					<Typography variant="h5" textAlign="center">
+						Please select a class:
+					</Typography>
+					<Grid container spacing={2}>
+						{classes.map(({ id, portrait, name, description }) => (
+							<Grid item xs={12} md={4}>
+								<Card key={id} sx={{ maxWidth: 345, margin: "auto" }}>
+									<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
+									<CardContent>
+										<Typography gutterBottom variant="h5" component="div">
+											{name}
+										</Typography>
+										<Typography variant="body2" color="text.secondary">
+											{description}
+										</Typography>
+									</CardContent>
+									<CardActions>
+										<Button
+											size="small"
+											variant="contained"
+											onClick={handleSelectClass}
+											data-value={id}
+										>
+											Select
+										</Button>
+										<Button size="small" variant="contained" color="secondary" data-value={id}>
+											Details
+										</Button>
+									</CardActions>
+								</Card>
+							</Grid>
+						))}
+					</Grid>
+				</Box>
+			</Container>
 
 			<CharacterNameModal
 				isOpen={Boolean(selectedClass)}

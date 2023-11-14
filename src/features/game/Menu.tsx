@@ -52,7 +52,7 @@ export const Menu: React.FC = () => {
 								</Typography>
 							</CardContent>
 							<CardActions>
-								<Button size="small" variant="contained" onClick={handleStartBattle}>
+								<Button variant="contained" onClick={handleStartBattle}>
 									Start Battle
 								</Button>
 							</CardActions>
@@ -70,7 +70,7 @@ export const Menu: React.FC = () => {
 								</Typography>
 							</CardContent>
 							<CardActions>
-								<Button size="small" variant="contained" onClick={openConfirmationModal}>
+								<Button variant="contained" onClick={openConfirmationModal}>
 									Rest
 								</Button>
 							</CardActions>
@@ -88,7 +88,7 @@ export const Menu: React.FC = () => {
 								</Typography>
 							</CardContent>
 							<CardActions>
-								<Button size="small" variant="contained" component={Link} to="/game/shop">
+								<Button variant="contained" component={Link} to="/game/shop">
 									Enter Shop
 								</Button>
 							</CardActions>

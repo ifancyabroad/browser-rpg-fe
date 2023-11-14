@@ -36,7 +36,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 			<Card key={id} sx={{ width: 200 }} variant="outlined">
 				<CardMedia sx={{ height: 160 }} image={icon || "https://via.placeholder.com/1024"} title={name} />
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="div">
+					<Typography gutterBottom variant="h6" fontFamily="'Cinzel', serif" noWrap>
 						{name}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
@@ -46,6 +46,9 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 				<CardActions>
 					<Button size="small" variant="contained" onClick={openConfirmationModal} disabled={isDisabled}>
 						Buy
+					</Button>
+					<Button size="small" variant="contained" color="secondary">
+						Details
 					</Button>
 				</CardActions>
 			</Card>
