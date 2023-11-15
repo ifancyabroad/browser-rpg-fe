@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, alpha, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getRestPrice } from "common/utils";
 import { rest } from "features/character";
@@ -6,11 +6,10 @@ import { ConfirmationModal } from "features/modals";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { startBattle } from "./gameSlice";
-import arena from "assets/images/background/arena_exterior.png";
-import tavern from "assets/images/background/tavern.png";
-import shop from "assets/images/background/shop_exterior.png";
+import background from "assets/images/background/town_map.png";
 
 export const Menu: React.FC = () => {
+	const theme = useTheme();
 	const dispatch = useAppDispatch();
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const character = useAppSelector((state) => state.character.character);
@@ -39,62 +38,42 @@ export const Menu: React.FC = () => {
 		<Fragment>
 			<Box p={2} flex={1} display="flex" flexDirection="column" width="100%">
 				<Typography variant="h2">Town</Typography>
-				<Grid container spacing={2}>
-					<Grid item xs={12}>
-						<Card>
-							<CardMedia sx={{ height: 240 }} image={arena} title="Arena" />
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="div">
-									Arena
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									Take on your next foe in the arena!
-								</Typography>
-							</CardContent>
-							<CardActions>
-								<Button variant="contained" onClick={handleStartBattle}>
-									Start Battle
-								</Button>
-							</CardActions>
-						</Card>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<Card>
-							<CardMedia sx={{ height: 240 }} image={tavern} title="Tavern" />
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="div">
-									Tavern
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									Restore health and skills with a room at the tavern.
-								</Typography>
-							</CardContent>
-							<CardActions>
-								<Button variant="contained" onClick={openConfirmationModal}>
-									Rest
-								</Button>
-							</CardActions>
-						</Card>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<Card>
-							<CardMedia sx={{ height: 240 }} image={shop} title="Shop" />
-							<CardContent>
-								<Typography gutterBottom variant="h5" component="div">
-									Shop
-								</Typography>
-								<Typography variant="body2" color="text.secondary">
-									Browse the wares for the current day.
-								</Typography>
-							</CardContent>
-							<CardActions>
-								<Button variant="contained" component={Link} to="/game/shop">
-									Enter Shop
-								</Button>
-							</CardActions>
-						</Card>
-					</Grid>
-				</Grid>
+				<Paper
+					sx={{
+						backgroundImage: `url(${background})`,
+						backgroundSize: "cover",
+						backgroundPosition: "bottom left",
+						flex: 1,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						flexDirection: "column",
+						gap: 2,
+						p: 2,
+					}}
+				>
+					<Paper
+						sx={{
+							backgroundColor: alpha(theme.palette.background.paper, 0.8),
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "stretch",
+							flexDirection: "column",
+							gap: 2,
+							p: 4,
+						}}
+					>
+						<Button variant="contained" size="large" onClick={handleStartBattle}>
+							Battle
+						</Button>
+						<Button variant="contained" size="large" onClick={openConfirmationModal}>
+							Rest
+						</Button>
+						<Button variant="contained" size="large" component={Link} to="/game/shop">
+							Shop
+						</Button>
+					</Paper>
+				</Paper>
 			</Box>
 
 			<ConfirmationModal
