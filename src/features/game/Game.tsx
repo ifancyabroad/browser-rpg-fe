@@ -31,7 +31,7 @@ export const Game: React.FC = () => {
 				<Container>
 					<Box
 						sx={{
-							minHeight: "calc(100vh - 52px)",
+							minHeight: "calc(100vh - 53px)",
 							display: "flex",
 							flexDirection: "column",
 						}}

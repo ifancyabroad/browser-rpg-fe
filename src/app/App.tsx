@@ -29,10 +29,12 @@ function App() {
 						</HOCLayout>
 					</HOCGameData>
 				) : (
-					<Routes>
-						<Route path="/" element={<Landing />} />
-						<Route path="*" element={<Navigate to="/" replace />} />
-					</Routes>
+					<HOCLayout>
+						<Routes>
+							<Route path="/" element={<Landing />} />
+							<Route path="*" element={<Navigate to="/" replace />} />
+						</Routes>
+					</HOCLayout>
 				)}
 			</Router>
 

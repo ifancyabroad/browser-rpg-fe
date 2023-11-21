@@ -11,7 +11,7 @@ export const Start: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				minHeight: "calc(100vh - 52px)",
+				minHeight: "calc(100vh - 53px)",
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
