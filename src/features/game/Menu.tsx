@@ -16,6 +16,7 @@ export const Menu: React.FC = () => {
 	const restPrice = getRestPrice(character?.day ?? 1);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
+	const isRestDisabled = restPrice > (character?.gold ?? 0);
 
 	const handleRest = async () => {
 		await dispatch(rest());
@@ -66,7 +67,12 @@ export const Menu: React.FC = () => {
 						<Button variant="contained" size="large" onClick={handleStartBattle}>
 							Battle
 						</Button>
-						<Button variant="contained" size="large" onClick={openConfirmationModal}>
+						<Button
+							variant="contained"
+							size="large"
+							onClick={openConfirmationModal}
+							disabled={isRestDisabled}
+						>
 							Rest
 						</Button>
 						<Button variant="contained" size="large" component={Link} to="/game/shop">
