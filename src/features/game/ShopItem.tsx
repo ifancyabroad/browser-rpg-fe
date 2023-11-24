@@ -15,7 +15,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 	const isLoading = status === "loading";
 	const character = useAppSelector((state) => state.character.character);
 	const gold = character?.gold ?? 0;
-	const { id, icon, name, description, price } = item;
+	const { id, icon, name, price } = item;
 	const isDisabled = Boolean(price > gold);
 
 	const handleBuyItem = async () => {
@@ -40,7 +40,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 						{name}
 					</Typography>
 					<Typography variant="body2" color="text.secondary">
-						{description}
+						Price: {price}g
 					</Typography>
 				</CardContent>
 				<CardActions>
