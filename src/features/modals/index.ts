@@ -1,6 +1,7 @@
 export * from "./ConfirmationModal";
 export * from "./ErrorModal";
 export * from "./LoginModal";
+export * from "./RegistrationModal";
 export * from "./CharacterNameModal";
 export * from "./ReplaceItemModal";
 export * from "./RewardsModal";
