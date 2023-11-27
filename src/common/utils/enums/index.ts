@@ -67,7 +67,7 @@ export enum DamageType {
 	Piercing = "piercing",
 	Cold = "cold",
 	Fire = "fire",
-	Lighting = "lightning",
+	Lightning = "lightning",
 	Radiant = "radiant",
 	Necrotic = "necrotic",
 	Poison = "poison",

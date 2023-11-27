@@ -95,7 +95,7 @@ export const RESISTANCE_CONFIG: IPropertyConfig[] = [
 		colour: "#E4572E",
 	},
 	{
-		key: DamageType.Lighting,
+		key: DamageType.Lightning,
 		abbr: "LTG",
 		name: "Lightning Resistance",
 		colour: "#F9DC5C",
@@ -158,7 +158,7 @@ export const DAMAGE_CONFIG: IPropertyConfig[] = [
 		colour: "#E4572E",
 	},
 	{
-		key: DamageType.Lighting,
+		key: DamageType.Lightning,
 		abbr: "LTG",
 		name: "Lightning Damage",
 		colour: "#F9DC5C",
