@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
-import { openReplaceItemModal } from "features/modals";
+import { openErrorModal, openReplaceItemModal } from "features/modals";
 import background from "assets/images/background/shop_interior.png";
 
 export const Shop: React.FC = () => {
@@ -25,13 +25,18 @@ export const Shop: React.FC = () => {
 			return;
 		}
 
-		const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
-		if (slot) {
-			await dispatch(buyItem({ id: item.id, slot }));
-			return Promise.resolve();
-		}
+		try {
+			const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
+			if (slot) {
+				await dispatch(buyItem({ id: item.id, slot })).unwrap();
+				return Promise.resolve();
+			}
 
-		dispatch(openReplaceItemModal({ item }));
+			dispatch(openReplaceItemModal({ item }));
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	return (

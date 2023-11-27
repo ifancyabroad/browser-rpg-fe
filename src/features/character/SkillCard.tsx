@@ -4,6 +4,7 @@ import { ISkill } from "common/types";
 import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { postAction } from "features/game";
+import { openErrorModal } from "features/modals";
 
 interface IProps {
 	skill: ISkill;
@@ -16,8 +17,13 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const isLoading = status === "loading";
 	const secondaryText = skill.maxUses ? `${skill.remaining}/${skill.maxUses}` : undefined;
 
-	const handleUseSkill = () => {
-		dispatch(postAction({ id: skill.id }));
+	const handleUseSkill = async () => {
+		try {
+			await dispatch(postAction({ id: skill.id })).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	if (!character) {

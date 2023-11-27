@@ -23,7 +23,7 @@ import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_ABBR_MAP, Stat, getSkillType } from "common/utils";
 import { levelUp } from "features/character";
 import { Fragment, useEffect, useState } from "react";
-import { closeLevelUpModal } from "./modalsSlice";
+import { closeLevelUpModal, openErrorModal } from "./modalsSlice";
 
 interface IProps {
 	onSelect: (id: string) => void;
@@ -86,9 +86,14 @@ export const LevelUpModal: React.FC = () => {
 		if (!stat) {
 			return;
 		}
-		const payload = skill ? { stat, skill } : { stat };
-		await dispatch(levelUp(payload));
-		dispatch(closeLevelUpModal());
+		try {
+			const payload = skill ? { stat, skill } : { stat };
+			await dispatch(levelUp(payload)).unwrap();
+			dispatch(closeLevelUpModal());
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	if (!character || !character.levelUpData) {

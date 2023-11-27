@@ -2,7 +2,7 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
-import { CharacterNameModal } from "features/modals";
+import { CharacterNameModal, openErrorModal } from "features/modals";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "common/components";
 
@@ -16,7 +16,16 @@ export const CharacterCreate: React.FC = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		dispatch(fetchClasses());
+		const fetchData = async () => {
+			try {
+				await dispatch(fetchClasses()).unwrap();
+			} catch (err) {
+				const { message } = err as Error;
+				dispatch(openErrorModal({ message }));
+			}
+		};
+
+		fetchData();
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -35,14 +44,21 @@ export const CharacterCreate: React.FC = () => {
 		setSelectedClass(null);
 	};
 
-	const handleCreateCharacter = (name: string) => {
-		if (selectedClass) {
-			dispatch(
+	const handleCreateCharacter = async (name: string) => {
+		if (!selectedClass) {
+			return;
+		}
+
+		try {
+			await dispatch(
 				createCharacter({
 					name,
 					characterClass: selectedClass,
 				}),
-			);
+			).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
 		}
 	};
 

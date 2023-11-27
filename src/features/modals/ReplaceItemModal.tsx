@@ -16,7 +16,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { EQUIPMENT_SLOT_TYPE_MAP, EquipmentSlot } from "common/utils";
 import { buyItem } from "features/character";
-import { closeReplaceItemModal } from "features/modals";
+import { closeReplaceItemModal, openErrorModal } from "features/modals";
 import CloseIcon from "@mui/icons-material/Close";
 
 interface IProps {
@@ -78,8 +78,13 @@ export const ReplaceItemModal: React.FC = () => {
 	};
 
 	const handleSelectItem = async (slot: EquipmentSlot) => {
-		await dispatch(buyItem({ id, slot }));
-		dispatch(closeReplaceItemModal());
+		try {
+			await dispatch(buyItem({ id, slot })).unwrap();
+			dispatch(closeReplaceItemModal());
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	return (

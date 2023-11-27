@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, register } from "features/authentication";
-import { closeRegistrationModal, openLoginModal } from "features/modals";
+import { closeRegistrationModal, openErrorModal, openLoginModal } from "features/modals";
 import { useEffect, useRef } from "react";
 
 export const RegistrationModal: React.FC = () => {
@@ -37,12 +37,17 @@ export const RegistrationModal: React.FC = () => {
 	};
 
 	const handleRegister = async () => {
-		dispatch(
-			register({
-				email: emailRef.current!.value,
-				password: passwordRef.current!.value,
-			}),
-		);
+		try {
+			await dispatch(
+				register({
+					email: emailRef.current!.value,
+					password: passwordRef.current!.value,
+				}),
+			).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	return (

@@ -5,7 +5,7 @@ import { setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
 import { fetchBattle } from "./gameSlice";
 import { Enemy } from "./Enemy";
-import { openGameOverModal, openRewardsModal } from "features/modals";
+import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals";
 import { BattleDetails } from "./BattleDetails";
 
 export const Battle: React.FC = () => {
@@ -18,9 +18,20 @@ export const Battle: React.FC = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		if (!battle) {
-			dispatch(fetchBattle());
+		if (battle) {
+			return;
 		}
+
+		const fetchData = async () => {
+			try {
+				await dispatch(fetchBattle()).unwrap();
+			} catch (err) {
+				const { message } = err as Error;
+				dispatch(openErrorModal({ message }));
+			}
+		};
+
+		fetchData();
 	}, [dispatch, battle]);
 
 	useEffect(() => {

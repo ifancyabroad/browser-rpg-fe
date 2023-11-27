@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
 import { retireCharacter } from "features/character";
-import { ConfirmationModal } from "features/modals";
+import { ConfirmationModal, openErrorModal } from "features/modals";
 import logo from "assets/images/logos/browser_heroes.png";
 
 export const Header: React.FC = () => {
@@ -25,8 +25,13 @@ export const Header: React.FC = () => {
 	};
 
 	const handleRetire = async () => {
-		await dispatch(retireCharacter());
-		setIsConfirmationOpen(false);
+		try {
+			await dispatch(retireCharacter()).unwrap();
+			setIsConfirmationOpen(false);
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	const handleClose = () => {

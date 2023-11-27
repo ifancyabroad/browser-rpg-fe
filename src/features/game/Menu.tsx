@@ -2,7 +2,7 @@ import { Box, Button, Paper, Typography, alpha, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getRestPrice } from "common/utils";
 import { rest } from "features/character";
-import { ConfirmationModal } from "features/modals";
+import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { startBattle } from "./gameSlice";
@@ -19,12 +19,22 @@ export const Menu: React.FC = () => {
 	const isRestDisabled = restPrice > (character?.gold ?? 0);
 
 	const handleRest = async () => {
-		await dispatch(rest());
-		setIsConfirmationOpen(false);
+		try {
+			await dispatch(rest()).unwrap();
+			setIsConfirmationOpen(false);
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
-	const handleStartBattle = () => {
-		dispatch(startBattle());
+	const handleStartBattle = async () => {
+		try {
+			await dispatch(startBattle()).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	const openConfirmationModal = () => {
