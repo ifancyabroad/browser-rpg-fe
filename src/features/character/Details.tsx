@@ -1,10 +1,19 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Tooltip, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
-import { PropertyType, RESISTANCES, RESISTANCES_ABBR_MAP, STATS, STATS_ABBR_MAP } from "common/utils";
+import {
+	PropertyType,
+	RESISTANCES,
+	RESISTANCES_ABBR_MAP,
+	RESISTANCES_NAME_MAP,
+	STATS,
+	STATS_ABBR_MAP,
+	STATS_NAME_MAP,
+} from "common/utils";
 import { getEquipmentBonus } from ".";
 
 interface IStat {
 	name: string;
+	abbreviation: string;
 	value: number | string;
 }
 
@@ -14,14 +23,16 @@ interface IProps {
 
 const StatList: React.FC<IProps> = ({ stats }) => (
 	<Grid container spacing={2}>
-		{stats.map(({ name, value }) => (
-			<Grid key={name} item xs={2}>
-				<Box textAlign="center">
-					<Typography variant="caption" color="textSecondary">
-						{name}
-					</Typography>
-					<Typography variant="body1">{value}</Typography>
-				</Box>
+		{stats.map(({ name, abbreviation, value }) => (
+			<Grid key={abbreviation} item xs={2}>
+				<Tooltip title={name} placement="top" arrow>
+					<Box textAlign="center">
+						<Typography variant="caption" color="textSecondary">
+							{abbreviation}
+						</Typography>
+						<Typography variant="body1">{value}</Typography>
+					</Box>
+				</Tooltip>
 			</Grid>
 		))}
 	</Grid>
@@ -36,13 +47,19 @@ export const Details: React.FC = () => {
 	}
 
 	const { resistances, stats } = character;
-	const mappedStats = STATS.map((type) => ({ name: STATS_ABBR_MAP[type], value: stats[type] }));
+	const mappedStats = STATS.map((type) => ({
+		name: STATS_NAME_MAP[type],
+		abbreviation: STATS_ABBR_MAP[type],
+		value: stats[type],
+	}));
 	const mappedResistances = RESISTANCES.map((type) => ({
-		name: RESISTANCES_ABBR_MAP[type],
+		name: RESISTANCES_NAME_MAP[type],
+		abbreviation: RESISTANCES_ABBR_MAP[type],
 		value: `${resistances[type]}%`,
 	}));
 	const mappedDamage = RESISTANCES.map((type) => ({
-		name: RESISTANCES_ABBR_MAP[type],
+		name: RESISTANCES_NAME_MAP[type],
+		abbreviation: RESISTANCES_ABBR_MAP[type],
 		value: `${equipmentBonus(PropertyType.Damage, type)}%`,
 	}));
 
