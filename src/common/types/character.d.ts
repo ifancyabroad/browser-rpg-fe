@@ -59,6 +59,9 @@ export interface ICharacter {
 	activeStatusEffects: IStatus[];
 	activeAuxiliaryEffects: IActiveEffect[];
 	levelUpData?: ILevelUpData;
+	defence: number;
+	hitBonus: number;
+	critBonus: number;
 }
 
 export interface IBuyItemPayload {

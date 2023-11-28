@@ -9,7 +9,10 @@ import {
 	STATS_ABBR_MAP,
 	STATS_NAME_MAP,
 } from "common/utils";
-import { getEquipmentBonus } from ".";
+import { getEquipmentBonus } from "features/character/characterSlice";
+import defenceIcon from "assets/images/icons/shield.svg";
+import hitIcon from "assets/images/icons/piercing-sword.svg";
+import critIcon from "assets/images/icons/pointy-sword.svg";
 
 interface IStat {
 	name: string;
@@ -82,6 +85,34 @@ export const Details: React.FC = () => {
 					Damage
 				</Typography>
 				<StatList stats={mappedDamage} />
+			</Box>
+			<Box py={2}>
+				<Grid container spacing={2}>
+					<Grid item xs={4}>
+						<Tooltip title="Defence" placement="top" arrow>
+							<Stack spacing={1} textAlign="center" alignItems="center">
+								<Box component="img" src={defenceIcon} width={32} />
+								<Typography variant="body1">{character.defence}%</Typography>
+							</Stack>
+						</Tooltip>
+					</Grid>
+					<Grid item xs={4}>
+						<Tooltip title="Hit Bonus" placement="top" arrow>
+							<Stack spacing={1} textAlign="center" alignItems="center">
+								<Box component="img" src={hitIcon} width={32} />
+								<Typography variant="body1">{character.hitBonus}%</Typography>
+							</Stack>
+						</Tooltip>
+					</Grid>
+					<Grid item xs={4}>
+						<Tooltip title="Crit Bonus" placement="top" arrow>
+							<Stack spacing={1} textAlign="center" alignItems="center">
+								<Box component="img" src={critIcon} width={32} />
+								<Typography variant="body1">{character.critBonus}%</Typography>
+							</Stack>
+						</Tooltip>
+					</Grid>
+				</Grid>
 			</Box>
 		</Stack>
 	);
