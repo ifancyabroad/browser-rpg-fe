@@ -2,7 +2,14 @@ import { HOCGameData, HOCLayout, HOCSession } from "common/components";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Landing } from "features/landing";
 import { Battle, Game, Menu, Shop } from "features/game";
-import { ErrorModal, LoginModal, RegistrationModal } from "features/modals";
+import {
+	CharacterClassModal,
+	EquipmentModal,
+	ErrorModal,
+	LoginModal,
+	RegistrationModal,
+	SkillModal,
+} from "features/modals";
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
@@ -37,6 +44,9 @@ function App() {
 				)}
 			</Router>
 
+			<EquipmentModal />
+			<SkillModal />
+			<CharacterClassModal />
 			<LoginModal />
 			<RegistrationModal />
 			<ErrorModal />

@@ -7,4 +7,7 @@ export * from "./ReplaceItemModal";
 export * from "./RewardsModal";
 export * from "./GameOverModal";
 export * from "./LevelUpModal";
+export * from "./EquipmentModal";
+export * from "./SkillModal";
+export * from "./CharacterClassModal";
 export * from "./modalsSlice";
