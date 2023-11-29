@@ -4,7 +4,7 @@ import { ISkill } from "common/types";
 import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { postAction } from "features/game";
-import { openErrorModal } from "features/modals";
+import { openErrorModal, openSkillModal } from "features/modals";
 
 interface IProps {
 	skill: ISkill;
@@ -26,6 +26,10 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 		}
 	};
 
+	const handleViewSkill = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		dispatch(openSkillModal({ skill }));
+	};
+
 	if (!character) {
 		return null;
 	}
@@ -44,7 +48,9 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 							Use
 						</Button>
 					) : (
-						<Button variant="contained">View</Button>
+						<Button variant="contained" onClick={handleViewSkill}>
+							View
+						</Button>
 					)
 				}
 			/>

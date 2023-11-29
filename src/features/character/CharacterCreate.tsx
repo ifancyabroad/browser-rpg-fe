@@ -2,7 +2,7 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
-import { CharacterNameModal, openErrorModal } from "features/modals";
+import { CharacterNameModal, openCharacterClassModal, openErrorModal } from "features/modals";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "common/components";
 
@@ -38,6 +38,14 @@ export const CharacterCreate: React.FC = () => {
 	const handleSelectClass = (e: React.SyntheticEvent<HTMLButtonElement>) => {
 		const { value } = e.currentTarget.dataset;
 		setSelectedClass(value as string);
+	};
+
+	const handleViewClass = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		const { value } = e.currentTarget.dataset;
+		const characterClass = classes.find(({ id }) => id === value);
+		if (characterClass) {
+			dispatch(openCharacterClassModal({ characterClass }));
+		}
 	};
 
 	const handleResetCharacterClass = () => {
@@ -106,7 +114,13 @@ export const CharacterCreate: React.FC = () => {
 											>
 												Select
 											</Button>
-											<Button size="small" variant="contained" color="secondary" data-value={id}>
+											<Button
+												size="small"
+												variant="contained"
+												color="secondary"
+												onClick={handleViewClass}
+												data-value={id}
+											>
 												Details
 											</Button>
 										</CardActions>

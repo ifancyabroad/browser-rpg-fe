@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IArmour, IWeapon } from "common/types";
+import { IArmour, ICharacterClass, ISkill, IWeapon } from "common/types";
 
 interface ModalsState {
 	loginModalOpen: boolean;
@@ -17,6 +17,18 @@ interface ModalsState {
 	rewardsModalOpen: boolean;
 	gameOverModalOpen: boolean;
 	levelUpModalOpen: boolean;
+	equipmentModal: {
+		open: boolean;
+		item?: IArmour | IWeapon;
+	};
+	skillModal: {
+		open: boolean;
+		skill?: ISkill;
+	};
+	characterClassModal: {
+		open: boolean;
+		characterClass?: ICharacterClass;
+	};
 }
 
 const initialState: ModalsState = {
@@ -32,6 +44,15 @@ const initialState: ModalsState = {
 	rewardsModalOpen: false,
 	gameOverModalOpen: false,
 	levelUpModalOpen: false,
+	equipmentModal: {
+		open: false,
+	},
+	skillModal: {
+		open: false,
+	},
+	characterClassModal: {
+		open: false,
+	},
 };
 
 export const modalsSlice = createSlice({
@@ -95,6 +116,30 @@ export const modalsSlice = createSlice({
 		closeLevelUpModal: (state) => {
 			state.levelUpModalOpen = false;
 		},
+		openEquipmentModal: (state, action: PayloadAction<{ item: IArmour | IWeapon }>) => {
+			state.equipmentModal.open = true;
+			state.equipmentModal.item = action.payload.item;
+		},
+		closeEquipmentModal: (state) => {
+			state.equipmentModal.open = false;
+			state.equipmentModal.item = undefined;
+		},
+		openSkillModal: (state, action: PayloadAction<{ skill: ISkill }>) => {
+			state.skillModal.open = true;
+			state.skillModal.skill = action.payload.skill;
+		},
+		closeSkillModal: (state) => {
+			state.skillModal.open = false;
+			state.skillModal.skill = undefined;
+		},
+		openCharacterClassModal: (state, action: PayloadAction<{ characterClass: ICharacterClass }>) => {
+			state.characterClassModal.open = true;
+			state.characterClassModal.characterClass = action.payload.characterClass;
+		},
+		closeCharacterClassModal: (state) => {
+			state.characterClassModal.open = false;
+			state.characterClassModal.characterClass = undefined;
+		},
 	},
 });
 
@@ -116,6 +161,12 @@ export const {
 	closeGameOverModal,
 	openLevelUpModal,
 	closeLevelUpModal,
+	openEquipmentModal,
+	closeEquipmentModal,
+	openSkillModal,
+	closeSkillModal,
+	openCharacterClassModal,
+	closeCharacterClassModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
