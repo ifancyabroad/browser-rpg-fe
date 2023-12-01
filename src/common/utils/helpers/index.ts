@@ -66,3 +66,16 @@ export const getPropertyConfig = (property: TProperty) => {
 	const { properties } = PROPERTY_CONFIG[property.type];
 	return properties.find((prop) => prop.key === property.name);
 };
+
+export const getPropertyText = (property: TProperty) => {
+	const config = getPropertyConfig(property);
+	const { prefix, suffix } = PROPERTY_CONFIG[property.type];
+
+	if (!config) {
+		return "";
+	}
+
+	const { name } = config;
+
+	return `${property.value >= 0 ? prefix : ""}${property.value}${suffix} ${name}`;
+};

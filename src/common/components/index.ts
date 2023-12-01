@@ -9,3 +9,4 @@ export * from "./EquipmentTypeIcon";
 export * from "./TransparentPaper";
 export * from "./Loader";
 export * from "./PropertyList";
+export * from "./EffectList";

@@ -4,6 +4,7 @@ import {
 	DamageType,
 	EquipmentSlot,
 	EquipmentType,
+	SkillClass,
 	SkillType,
 	Stat,
 	WeaponSize,
@@ -114,9 +115,18 @@ export const AUXILIARY_EFFECTS_NAME_MAP: Record<AuxiliaryEffect, string> = {
 
 export const AUXILIARY_EFFECTS_NAME_MAP_PASSED: Record<AuxiliaryEffect, string> = {
 	[AuxiliaryEffect.Poison]: "Poisoned",
-	[AuxiliaryEffect.Stun]: "Stuned",
+	[AuxiliaryEffect.Stun]: "Stunned",
 	[AuxiliaryEffect.Bleed]: "Bled",
 	[AuxiliaryEffect.Disarm]: "Disarmed",
+};
+
+export const CLASS_NAME_MAP: Record<SkillClass, string> = {
+	[SkillClass.Common]: "Common",
+	[SkillClass.Unique]: "Unique",
+	[SkillClass.Warrior]: "Warrior",
+	[SkillClass.Mage]: "Mage",
+	[SkillClass.Rogue]: "Rogue",
+	[SkillClass.Cleric]: "Cleric",
 };
 
 export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {

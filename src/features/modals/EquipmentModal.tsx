@@ -32,14 +32,7 @@ export const EquipmentModal: React.FC = () => {
 	const isWeapon = "weaponType" in item;
 
 	return (
-		<Dialog
-			open={open}
-			onClose={handleClose}
-			aria-labelledby="form-dialog-title"
-			fullWidth
-			maxWidth="md"
-			scroll="body"
-		>
+		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="md" scroll="body">
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
@@ -55,7 +48,7 @@ export const EquipmentModal: React.FC = () => {
 							{name}
 						</Typography>
 						<Stack spacing={1} mb={3}>
-							<Box display="flex" alignItems="center" gap={1}>
+							<Box display="flex" gap={1}>
 								<Typography variant="body1">Type:</Typography>
 								<DialogContentText>{EQUIPMENT_TYPE_NAME_MAP[type]}</DialogContentText>
 							</Box>
