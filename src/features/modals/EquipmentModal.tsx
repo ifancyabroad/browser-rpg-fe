@@ -1,24 +1,107 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	Grid,
+	Stack,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeEquipmentModal } from "./modalsSlice";
+import { EQUIPMENT_TYPE_NAME_MAP, WEAPON_SIZE_NAME_MAP } from "common/utils";
+import { Fragment } from "react";
+import { PropertyList } from "common/components";
 
 export const EquipmentModal: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { open } = useAppSelector((state) => state.modals.equipmentModal);
+	const { open, item } = useAppSelector((state) => state.modals.equipmentModal);
 
 	const handleClose = () => {
 		dispatch(closeEquipmentModal());
 	};
 
+	if (!item) {
+		return null;
+	}
+
+	const { name, description, icon, type, price, properties } = item;
+	const isArmour = "armourType" in item;
+	const isWeapon = "weaponType" in item;
+
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Title</DialogTitle>
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			aria-labelledby="form-dialog-title"
+			fullWidth
+			maxWidth="md"
+			scroll="body"
+		>
 			<DialogContent>
-				<DialogContentText>Description</DialogContentText>
+				<Grid container spacing={2}>
+					<Grid item xs={12} md={6}>
+						<Box
+							component="img"
+							src={icon || "https://via.placeholder.com/1024"}
+							alt={name}
+							maxWidth="100%"
+						/>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<Typography variant="h4" mb={2}>
+							{name}
+						</Typography>
+						<Stack spacing={1} mb={3}>
+							<Box display="flex" alignItems="center" gap={1}>
+								<Typography variant="body1">Type:</Typography>
+								<DialogContentText>{EQUIPMENT_TYPE_NAME_MAP[type]}</DialogContentText>
+							</Box>
+							{isArmour && (
+								<Box display="flex" gap={1}>
+									<Typography variant="body1">Defence:</Typography>
+									<DialogContentText>{item.defence}%</DialogContentText>
+								</Box>
+							)}
+							{isWeapon && (
+								<Fragment>
+									<Box display="flex" gap={1}>
+										<Typography variant="body1">Size:</Typography>
+										<DialogContentText>{WEAPON_SIZE_NAME_MAP[item.size]}</DialogContentText>
+									</Box>
+									<Box display="flex" gap={1}>
+										<Typography variant="body1">Damage:</Typography>
+										<DialogContentText>
+											{item.min}-{item.max}
+										</DialogContentText>
+									</Box>
+								</Fragment>
+							)}
+							<Box display="flex" gap={1}>
+								<Typography variant="body1">Price:</Typography>
+								<DialogContentText>{price}g</DialogContentText>
+							</Box>
+						</Stack>
+						<Stack spacing={2}>
+							<Box>
+								<Typography variant="h6">Description</Typography>
+								<DialogContentText>{description}</DialogContentText>
+							</Box>
+							{properties && properties.length && (
+								<Box>
+									<Typography variant="h6">Properties</Typography>
+									<PropertyList properties={properties} />
+								</Box>
+							)}
+						</Stack>
+					</Grid>
+				</Grid>
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleClose} color="primary" variant="contained">
-					Confirm
+					Close
 				</Button>
 			</DialogActions>
 		</Dialog>

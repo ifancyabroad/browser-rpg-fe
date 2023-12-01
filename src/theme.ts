@@ -33,6 +33,9 @@ const theme = createTheme({
 		h5: {
 			fontFamily: "'Cinzel', serif",
 		},
+		h6: {
+			fontFamily: "'Cinzel', serif",
+		},
 		allVariants: {
 			fontFamily: "'Merriweather', serif",
 		},

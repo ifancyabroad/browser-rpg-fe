@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
-import { useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { ConfirmationModal } from "features/modals";
+import { ConfirmationModal, openEquipmentModal } from "features/modals";
 import { Fragment, useState } from "react";
 
 interface IProps {
@@ -10,6 +10,7 @@ interface IProps {
 }
 
 export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
+	const dispatch = useAppDispatch();
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
@@ -31,6 +32,10 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 		setIsConfirmationOpen(false);
 	};
 
+	const openEquipmentDetailsModal = () => {
+		dispatch(openEquipmentModal({ item }));
+	};
+
 	return (
 		<Fragment>
 			<Card key={id} sx={{ width: 200 }} variant="outlined">
@@ -47,7 +52,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 					<Button size="small" variant="contained" onClick={openConfirmationModal} disabled={isDisabled}>
 						Buy
 					</Button>
-					<Button size="small" variant="contained" color="secondary">
+					<Button size="small" variant="contained" color="secondary" onClick={openEquipmentDetailsModal}>
 						Details
 					</Button>
 				</CardActions>

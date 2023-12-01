@@ -6,6 +6,7 @@ import {
 	EquipmentType,
 	SkillType,
 	Stat,
+	WeaponSize,
 	WeaponType,
 } from "common/utils";
 
@@ -125,6 +126,11 @@ export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
 	[SkillType.Buff]: "Buff",
 	[SkillType.Debuff]: "Debuff",
 	[SkillType.Other]: "Other",
+};
+
+export const WEAPON_SIZE_NAME_MAP: Record<WeaponSize, string> = {
+	[WeaponSize.OneHanded]: "One Handed",
+	[WeaponSize.TwoHanded]: "Two Handed",
 };
 
 export const EQUIPMENT_TYPE_NAME_MAP: Record<EquipmentType | WeaponType, string> = {

@@ -8,3 +8,4 @@ export * from "./SkillIcon";
 export * from "./EquipmentTypeIcon";
 export * from "./TransparentPaper";
 export * from "./Loader";
+export * from "./PropertyList";
