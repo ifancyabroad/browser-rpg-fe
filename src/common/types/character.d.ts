@@ -1,16 +1,5 @@
 import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
-import {
-	IActiveEffect,
-	IArmour,
-	IAuxiliary,
-	IEquipment,
-	ISkill,
-	IStatus,
-	IWeapon,
-	TDamageTypes,
-	TEquipment,
-	TStats,
-} from "common/types";
+import { IActiveEffect, IArmour, IEquipment, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
 
 export interface ICharacterClass {
 	id: string;
@@ -20,9 +9,9 @@ export interface ICharacterClass {
 	skillClasses: SkillClass[];
 	armourTypes: ArmourType[];
 	weaponTypes: WeaponType[];
-	skills: string[];
+	skills: ISkill[];
 	stats: TStats;
-	equipment?: Partial<TEquipment>;
+	equipment?: Partial<IEquipment>;
 }
 
 export interface ILevelUpData {

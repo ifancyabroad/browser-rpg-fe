@@ -42,6 +42,16 @@ const theme = createTheme({
 	},
 
 	components: {
+		MuiChip: {
+			styleOverrides: {
+				root: {
+					fontFamily: "'Merriweather', serif",
+				},
+				sizeSmall: {
+					fontSize: "12px",
+				},
+			},
+		},
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true,
@@ -58,6 +68,11 @@ const theme = createTheme({
 					borderRadius: 0,
 					boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
 				},
+			},
+		},
+		MuiStack: {
+			defaultProps: {
+				useFlexGap: true,
 			},
 		},
 		MuiCssBaseline: {
@@ -87,11 +102,6 @@ const theme = createTheme({
 						backgroundColor: "#293132",
 					},
 				},
-			},
-		},
-		MuiStack: {
-			defaultProps: {
-				useFlexGap: true,
 			},
 		},
 	},
