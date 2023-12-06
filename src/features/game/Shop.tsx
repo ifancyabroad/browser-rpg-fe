@@ -5,7 +5,7 @@ import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab } from "features/character";
+import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
 import { useEffect } from "react";
 import { openErrorModal, openReplaceItemModal } from "features/modals";
 import background from "assets/images/background/shop_interior.png";
@@ -18,6 +18,7 @@ export const Shop: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
+		dispatch(viewItems());
 	}, [dispatch]);
 
 	const handleBuyItem = async (item: IArmour | IWeapon) => {

@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography, alpha, useTheme } from "@mui/material";
+import { Badge, Box, Button, Paper, Typography, alpha, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getRestPrice } from "common/utils";
 import { rest } from "features/character";
@@ -17,6 +17,7 @@ export const Menu: React.FC = () => {
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const isRestDisabled = restPrice > (character?.gold ?? 0);
+	const hasViewedItems = useAppSelector((state) => state.character.hasViewedItems);
 
 	const handleRest = async () => {
 		try {
@@ -74,21 +75,26 @@ export const Menu: React.FC = () => {
 							p: 4,
 						}}
 					>
-						<Button variant="contained" size="large" onClick={handleStartBattle}>
+						<Button variant="contained" size="large" fullWidth onClick={handleStartBattle}>
 							Battle
 						</Button>
-						<Button
-							variant="contained"
-							size="large"
-							onClick={openConfirmationModal}
-							disabled={isRestDisabled}
-						>
-							Rest
-						</Button>
-						<Button variant="contained" size="large" component={Link} to="/game/shop">
-							Shop
-						</Button>
-						<Button variant="contained" size="large" component={Link} to="/">
+						<Badge color="secondary" badgeContent={`${restPrice}g`}>
+							<Button
+								variant="contained"
+								size="large"
+								fullWidth
+								onClick={openConfirmationModal}
+								disabled={isRestDisabled}
+							>
+								Rest
+							</Button>
+						</Badge>
+						<Badge color="secondary" badgeContent="New!" invisible={hasViewedItems}>
+							<Button variant="contained" size="large" fullWidth component={Link} to="/game/shop">
+								Shop
+							</Button>
+						</Badge>
+						<Button variant="contained" size="large" fullWidth component={Link} to="/">
 							Exit
 						</Button>
 					</Paper>

@@ -10,6 +10,7 @@ interface ICharacerState {
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classes: ICharacterClass[];
 	characterSheetTab: CharacterSheetTab;
+	hasViewedItems: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
@@ -18,6 +19,7 @@ const initialState: ICharacerState = {
 	character: null,
 	characterStatus: "idle",
 	characterSheetTab: CharacterSheetTab.Skills,
+	hasViewedItems: false,
 	classes: [],
 	status: "idle",
 };
@@ -96,6 +98,12 @@ export const characterSlice = createSlice({
 		setCharacterSheetTab: (state, action: PayloadAction<CharacterSheetTab>) => {
 			state.characterSheetTab = action.payload;
 		},
+		viewItems: (state) => {
+			state.hasViewedItems = true;
+		},
+		newItems: (state) => {
+			state.hasViewedItems = false;
+		},
 	},
 	extraReducers: (builder) => {
 		builder.addCase(fetchCharacter.pending, (state) => {
@@ -126,6 +134,7 @@ export const characterSlice = createSlice({
 		builder.addCase(createCharacter.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload;
+			state.hasViewedItems = false;
 		});
 		builder.addCase(createCharacter.rejected, (state, action) => {
 			state.status = "failed";
@@ -159,6 +168,7 @@ export const characterSlice = createSlice({
 		builder.addCase(rest.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload;
+			state.hasViewedItems = false;
 		});
 		builder.addCase(rest.rejected, (state, action) => {
 			state.status = "failed";
@@ -188,6 +198,6 @@ export const characterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCharacterSheetTab } = characterSlice.actions;
+export const { setCharacterSheetTab, viewItems, newItems } = characterSlice.actions;
 
 export default characterSlice.reducer;

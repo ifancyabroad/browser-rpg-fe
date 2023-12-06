@@ -52,6 +52,14 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiBadge: {
+			styleOverrides: {
+				badge: {
+					fontFamily: "'Merriweather', serif",
+					borderRadius: 0,
+				},
+			},
+		},
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true,
