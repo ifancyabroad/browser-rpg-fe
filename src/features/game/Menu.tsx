@@ -88,6 +88,9 @@ export const Menu: React.FC = () => {
 						<Button variant="contained" size="large" component={Link} to="/game/shop">
 							Shop
 						</Button>
+						<Button variant="contained" size="large" component={Link} to="/">
+							Exit
+						</Button>
 					</Paper>
 				</Paper>
 			</Box>
