@@ -88,14 +88,12 @@ const theme = createTheme({
 				body: {
 					scrollbarColor: "#6b6b6b #293132",
 					"&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-						backgroundColor: "#293132",
-						width: 12,
+						width: 8,
 					},
 					"&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
 						borderRadius: 8,
 						backgroundColor: "#6b6b6b",
 						minHeight: 24,
-						border: "3px solid #293132",
 					},
 					"&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
 						backgroundColor: "#959595",
