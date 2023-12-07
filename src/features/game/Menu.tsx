@@ -48,7 +48,7 @@ export const Menu: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box p={2} flex={1} display="flex" flexDirection="column" width="100%">
+			<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
 				<Typography variant="h2">Town</Typography>
 				<Paper
 					sx={{

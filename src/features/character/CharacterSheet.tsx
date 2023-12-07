@@ -1,8 +1,8 @@
-import { Box, IconButton, Paper, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
+import { Box, Drawer, IconButton, Paper, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab } from "common/utils";
-import { setCharacterSheetTab } from "./characterSlice";
+import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
 import { EquipmentList } from "./EquipmentList";
 import { Details } from "./Details";
@@ -25,7 +25,7 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
 	);
 };
 
-export const CharacterSheet: React.FC = () => {
+const CharacterContent: React.FC = () => {
 	const theme = useTheme();
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
@@ -46,15 +46,7 @@ export const CharacterSheet: React.FC = () => {
 	const { name, level, characterClass, hitPoints, maxHitPoints, experience, nextLevelExperience } = character;
 
 	return (
-		<Box
-			sx={{
-				height: "calc(100vh - 53px)",
-				width: "400px",
-				bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
-				boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-				overflow: "auto",
-			}}
-		>
+		<Box>
 			<Paper sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.5), p: 1 }}>
 				<Stack direction="row" justifyContent="space-around" spacing={2} flexGrow={1}>
 					<Typography variant="body2">Day: {character.day}</Typography>
@@ -115,6 +107,67 @@ export const CharacterSheet: React.FC = () => {
 					</TabPanel>
 				</Box>
 			</Box>
+		</Box>
+	);
+};
+
+const DRAWER_WIDTH = 400;
+const DRAWER_TOP = 53;
+
+export const CharacterSheet: React.FC = () => {
+	const dispatch = useAppDispatch();
+	const mobileOpen = useAppSelector((state) => state.character.isCharacterSheetOpen);
+	const theme = useTheme();
+
+	const handleDrawerToggle = () => {
+		dispatch(closeCharacterSheet());
+	};
+
+	return (
+		<Box
+			sx={{
+				width: {
+					md: DRAWER_WIDTH,
+				},
+				flexShrink: {
+					md: 0,
+				},
+			}}
+		>
+			<Drawer
+				sx={{ display: { xs: "block", md: "none" } }}
+				variant="temporary"
+				open={mobileOpen}
+				onClose={handleDrawerToggle}
+				PaperProps={{
+					sx: {
+						width: DRAWER_WIDTH,
+						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
+						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					},
+				}}
+				ModalProps={{
+					keepMounted: true, // Better open performance on mobile.
+				}}
+			>
+				<CharacterContent />
+			</Drawer>
+			<Drawer
+				sx={{ display: { xs: "none", md: "block" } }}
+				variant="permanent"
+				PaperProps={{
+					sx: {
+						height: `calc(100vh - ${DRAWER_TOP}px)`,
+						width: DRAWER_WIDTH,
+						top: DRAWER_TOP,
+						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
+						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					},
+				}}
+				open
+			>
+				<CharacterContent />
+			</Drawer>
 		</Box>
 	);
 };

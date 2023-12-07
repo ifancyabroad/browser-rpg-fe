@@ -12,12 +12,12 @@ export const BattleDetails: React.FC = () => {
 	}
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column", gap: 2, width: "400px" }}>
-			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
+		<Box sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 2 }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 				<Typography variant="h6">{character.name} active effects</Typography>
 				<Paper
 					variant="outlined"
-					sx={{ flex: 1, minHeight: "60px", display: "flex", alignItems: "flex-start", gap: "1px" }}
+					sx={{ minHeight: "42px", display: "flex", alignItems: "flex-start", gap: "1px" }}
 				>
 					{character.activeAuxiliaryEffects.map((effect) => (
 						<AuxiliaryEffect key={effect.effect} {...effect} />
@@ -27,11 +27,11 @@ export const BattleDetails: React.FC = () => {
 					))}
 				</Paper>
 			</Box>
-			<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
+			<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
 				<Typography variant="h6">{battle.enemy.name} active effects</Typography>
 				<Paper
 					variant="outlined"
-					sx={{ flex: 1, minHeight: "60px", display: "flex", alignItems: "flex-start", gap: "1px" }}
+					sx={{ minHeight: "42px", display: "flex", alignItems: "flex-start", gap: "1px" }}
 				>
 					{battle.enemy.activeAuxiliaryEffects.map((effect) => (
 						<AuxiliaryEffect key={effect.effect} {...effect} />

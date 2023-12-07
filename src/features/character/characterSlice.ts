@@ -9,6 +9,7 @@ interface ICharacerState {
 	character: ICharacter | null;
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classes: ICharacterClass[];
+	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
@@ -18,6 +19,7 @@ interface ICharacerState {
 const initialState: ICharacerState = {
 	character: null,
 	characterStatus: "idle",
+	isCharacterSheetOpen: true,
 	characterSheetTab: CharacterSheetTab.Skills,
 	hasViewedItems: false,
 	classes: [],
@@ -95,6 +97,12 @@ export const characterSlice = createSlice({
 	name: "character",
 	initialState,
 	reducers: {
+		openCharacterSheet: (state) => {
+			state.isCharacterSheetOpen = true;
+		},
+		closeCharacterSheet: (state) => {
+			state.isCharacterSheetOpen = false;
+		},
 		setCharacterSheetTab: (state, action: PayloadAction<CharacterSheetTab>) => {
 			state.characterSheetTab = action.payload;
 		},
@@ -198,6 +206,7 @@ export const characterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setCharacterSheetTab, viewItems, newItems } = characterSlice.actions;
+export const { openCharacterSheet, closeCharacterSheet, setCharacterSheetTab, viewItems, newItems } =
+	characterSlice.actions;
 
 export default characterSlice.reducer;

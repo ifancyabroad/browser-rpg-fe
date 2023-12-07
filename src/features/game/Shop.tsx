@@ -41,7 +41,7 @@ export const Shop: React.FC = () => {
 	};
 
 	return (
-		<Box p={2} flex={1} display="flex" flexDirection="column" width="100%">
+		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
 			<Box display="flex" justifyContent="space-between" alignItems="center">
 				<Typography variant="h2">Shop</Typography>
 				<Button component={Link} to="/game" color="inherit">

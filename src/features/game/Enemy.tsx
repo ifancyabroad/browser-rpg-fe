@@ -12,7 +12,7 @@ export const Enemy: React.FC = () => {
 	const { name, image, level, hitPoints, maxHitPoints } = enemy;
 
 	return (
-		<Box sx={{ minWidth: "600px" }}>
+		<Box>
 			<Box mb={2}>
 				<Typography variant="h4">{name}</Typography>
 				<Typography variant="subtitle1" color="textSecondary">
@@ -33,7 +33,6 @@ export const Enemy: React.FC = () => {
 			<Box
 				sx={{
 					width: "100%",
-					maxWidth: 600,
 					aspectRatio: "1/1",
 				}}
 			>

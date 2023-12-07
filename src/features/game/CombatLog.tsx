@@ -125,7 +125,7 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 	const reversedTurns = [...turns].reverse();
 
 	return (
-		<Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+		<Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h6">Combat Log</Typography>
 			<Paper
 				variant="outlined"
@@ -134,8 +134,6 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 					p: 2,
 					display: "flex",
 					flexDirection: "column",
-					maxHeight: "400px",
-					minHeight: "400px",
 				}}
 			>
 				<Box sx={{ flex: 1, display: "flex", flexDirection: "column-reverse", overflowY: "scroll" }}>
