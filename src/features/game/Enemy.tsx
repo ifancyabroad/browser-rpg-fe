@@ -33,6 +33,7 @@ export const Enemy: React.FC = () => {
 			<Box
 				sx={{
 					width: "100%",
+					maxWidth: 600,
 					aspectRatio: "1/1",
 				}}
 			>

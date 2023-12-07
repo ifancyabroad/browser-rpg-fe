@@ -132,19 +132,30 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 				sx={{
 					flex: 1,
 					p: 2,
-					display: "flex",
-					flexDirection: "column",
 				}}
 			>
-				<Box sx={{ flex: 1, display: "flex", flexDirection: "column-reverse", overflowY: "scroll" }}>
-					{reversedTurns.map((turn, index) => (
-						<div key={index}>
-							<Typography variant="body2">Turn {reversedTurns.length - index}</Typography>
-							{turn.map((action, index2) => (
-								<Action key={`action-${index}-${index2}`} {...action} />
-							))}
-						</div>
-					))}
+				<Box position="relative" height={{ xs: 200, lg: "100%" }}>
+					<Box
+						sx={{
+							position: "absolute",
+							bottom: 0,
+							left: 0,
+							height: "100%",
+							width: "100%",
+							display: "flex",
+							flexDirection: "column-reverse",
+							overflowY: "scroll",
+						}}
+					>
+						{reversedTurns.map((turn, index) => (
+							<div key={index}>
+								<Typography variant="body2">Turn {reversedTurns.length - index}</Typography>
+								{turn.map((action, index2) => (
+									<Action key={`action-${index}-${index2}`} {...action} />
+								))}
+							</div>
+						))}
+					</Box>
 				</Box>
 			</Paper>
 		</Box>
