@@ -148,12 +148,21 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 						}}
 					>
 						{reversedTurns.map((turn, index) => (
-							<div key={index}>
+							<Box
+								key={index}
+								sx={{
+									transition: "opacity 0.1s ease-in-out",
+									opacity: 0.25,
+									"&:nth-of-type(1)": { opacity: 1 },
+									"&:nth-of-type(2)": { opacity: 0.5 },
+									"&:hover": { opacity: 1 },
+								}}
+							>
 								<Typography variant="body2">Turn {reversedTurns.length - index}</Typography>
 								{turn.map((action, index2) => (
 									<Action key={`action-${index}-${index2}`} {...action} />
 								))}
-							</div>
+							</Box>
 						))}
 					</Box>
 				</Box>
