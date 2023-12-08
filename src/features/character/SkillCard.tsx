@@ -5,6 +5,7 @@ import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { postAction } from "features/game";
 import { openErrorModal, openSkillModal } from "features/modals";
+import { closeCharacterSheet } from ".";
 
 interface IProps {
 	skill: ISkill;
@@ -20,6 +21,7 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const handleUseSkill = async () => {
 		try {
 			await dispatch(postAction({ id: skill.id })).unwrap();
+			dispatch(closeCharacterSheet());
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));

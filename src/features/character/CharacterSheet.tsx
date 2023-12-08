@@ -8,6 +8,10 @@ import { EquipmentList } from "./EquipmentList";
 import { Details } from "./Details";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { openLevelUpModal } from "features/modals";
+import background from "assets/images/background/bgtile.webp";
+import background2 from "assets/images/background/bgtile2.webp";
+import CloseIcon from "@mui/icons-material/Close";
+import logo from "assets/images/logos/browser_heroes.png";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -111,6 +115,45 @@ const CharacterContent: React.FC = () => {
 	);
 };
 
+const CharacterHeader: React.FC = () => {
+	const dispatch = useAppDispatch();
+
+	const handleDrawerToggle = () => {
+		dispatch(closeCharacterSheet());
+	};
+
+	return (
+		<Box
+			sx={{
+				display: "flex",
+				alignItems: "center",
+				p: 1,
+				bgcolor: "background.paper",
+				boxShadow: "inset 0px 1px 0px 0px rgba(255,255,255,0.07)",
+				borderBottom: "1px solid #000",
+			}}
+		>
+			<Box
+				sx={{
+					flexGrow: 1,
+					display: "flex",
+					alignItems: "center",
+					gap: 2,
+				}}
+			>
+				<Box component="img" src={logo} height={32} width={32} />
+				<Typography variant="h6" fontFamily="'Cinzel', serif" fontWeight="bold">
+					Browser Heroes
+				</Typography>
+			</Box>
+
+			<IconButton aria-label="close" color="inherit" type="button" onClick={handleDrawerToggle}>
+				<CloseIcon />
+			</IconButton>
+		</Box>
+	);
+};
+
 const DRAWER_WIDTH = 400;
 const DRAWER_TOP = 53;
 
@@ -142,15 +185,26 @@ export const CharacterSheet: React.FC = () => {
 				PaperProps={{
 					sx: {
 						width: DRAWER_WIDTH,
-						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
-						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+						maxWidth: "100%",
+						backgroundImage: `url(${background2}), url(${background})`,
+						backgroundPosition: "0px 0px, 0px 0px",
+						backgroundRepeat: "repeat-x, repeat",
+						boxShadow: "inset 0px 0px 0px 1px rgba(255,255,255,0.09)",
 					},
 				}}
 				ModalProps={{
 					keepMounted: true, // Better open performance on mobile.
 				}}
 			>
-				<CharacterContent />
+				<Box
+					sx={{
+						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
+						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					}}
+				>
+					<CharacterHeader />
+					<CharacterContent />
+				</Box>
 			</Drawer>
 			<Drawer
 				sx={{ display: { xs: "none", md: "block" } }}

@@ -5,6 +5,8 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
 import { openLoginModal } from "features/modals";
 import logo from "assets/images/logos/browser_heroes.png";
+import PsychologyIcon from "@mui/icons-material/Psychology";
+import { openCharacterSheet } from "features/character";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -28,6 +30,10 @@ export const Header: React.FC = () => {
 		setAnchorEl(null);
 	};
 
+	const handleDrawerToggle = () => {
+		dispatch(openCharacterSheet());
+	};
+
 	return (
 		<Box
 			sx={{
@@ -39,11 +45,25 @@ export const Header: React.FC = () => {
 				borderBottom: "1px solid #000",
 			}}
 		>
+			<IconButton
+				aria-label="menu"
+				color="inherit"
+				type="button"
+				onClick={handleDrawerToggle}
+				sx={{ display: { md: "none" } }}
+			>
+				<PsychologyIcon fontSize="small" />
+			</IconButton>
+
 			<Box
 				sx={{
 					flexGrow: 1,
 					display: "flex",
 					alignItems: "center",
+					justifyContent: {
+						xs: "center",
+						md: "flex-start",
+					},
 					gap: 2,
 				}}
 			>
