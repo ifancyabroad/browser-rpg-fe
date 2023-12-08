@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import axios from "axios";
-import { ILoginPayload, ISession, IUser } from "common/types";
+import axios, { AxiosError } from "axios";
+import { IApiError, ILoginPayload, ISession, IUser } from "common/types";
 
 interface IAuthenticationState {
 	sessionChecked: boolean;
@@ -18,29 +18,72 @@ const initialState: IAuthenticationState = {
 	status: "idle",
 };
 
-export const fetchSession = createAsyncThunk("authentication/fetchSession", async () => {
-	const response = await axios.get<ISession>("/api/auth/session");
-	return response.data.session;
+export const fetchSession = createAsyncThunk("authentication/fetchSession", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<ISession>("/api/auth/session");
+		return response.data.session;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const fetchUser = createAsyncThunk("authentication/fetchUser", async () => {
-	const response = await axios.get<IUser>("/api/auth/user");
-	return response.data;
+export const fetchUser = createAsyncThunk("authentication/fetchUser", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<IUser>("/api/auth/user");
+		return response.data;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const register = createAsyncThunk("authentication/register", async (payload: ILoginPayload) => {
-	const response = await axios.put<IUser>("/api/auth/register", payload);
-	return response.data;
+export const register = createAsyncThunk(
+	"authentication/register",
+	async (payload: ILoginPayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.put<IUser>("/api/auth/register", payload);
+			return response.data;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	},
+);
+
+export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<IUser>("/api/auth/login", payload);
+		return response.data;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload) => {
-	const response = await axios.post<IUser>("/api/auth/login", payload);
-	return response.data;
-});
-
-export const logout = createAsyncThunk("authentication/logout", async () => {
-	const response = await axios.delete<string>("/api/auth/logout");
-	return response.data;
+export const logout = createAsyncThunk("authentication/logout", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.delete<string>("/api/auth/logout");
+		return response.data;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
 export const authenticationSelector = (state: RootState) => state.authentication;

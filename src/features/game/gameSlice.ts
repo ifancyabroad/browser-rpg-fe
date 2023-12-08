@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import axios from "axios";
-import { IActionPayload, IBattle, ICharacter } from "common/types";
+import axios, { AxiosError } from "axios";
+import { IActionPayload, IApiError, IBattle, ICharacter } from "common/types";
 
 interface IGameState {
 	battle: IBattle | null;
@@ -14,20 +14,50 @@ const initialState: IGameState = {
 	status: "idle",
 };
 
-export const startBattle = createAsyncThunk("battle/startBattle", async () => {
-	const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start");
-	return response.data;
+export const startBattle = createAsyncThunk("battle/startBattle", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start");
+		return response.data;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const fetchBattle = createAsyncThunk("battle/fetchBattle", async () => {
-	const response = await axios.get<{ battle: IBattle; character: ICharacter }>("/api/battle");
-	return response.data;
+export const fetchBattle = createAsyncThunk("battle/fetchBattle", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<{ battle: IBattle; character: ICharacter }>("/api/battle");
+		return response.data;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const postAction = createAsyncThunk("battle/postAction", async (payload: IActionPayload) => {
-	const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/action", payload);
-	return response.data;
-});
+export const postAction = createAsyncThunk(
+	"battle/postAction",
+	async (payload: IActionPayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.post<{ battle: IBattle; character: ICharacter }>(
+				"/api/battle/action",
+				payload,
+			);
+			return response.data;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	},
+);
 
 export const gameSelector = (state: RootState) => state.game;
 

@@ -4,6 +4,7 @@ export type TStats = Record<Stat, number>;
 export type TDamageTypes = Record<DamageType, number>;
 export type TEquipment = Record<EquipmentSlot, string>;
 
+export * from "./error";
 export * from "./user";
 export * from "./character";
 export * from "./effect";

@@ -1,7 +1,14 @@
 import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import axios from "axios";
-import { IBuyItemPayload, ICharacter, ICharacterClass, ICharacterPayload, ILevelUpPayload } from "common/types";
+import axios, { AxiosError } from "axios";
+import {
+	IApiError,
+	IBuyItemPayload,
+	ICharacter,
+	ICharacterClass,
+	ICharacterPayload,
+	ILevelUpPayload,
+} from "common/types";
 import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
 
@@ -26,39 +33,98 @@ const initialState: ICharacerState = {
 	status: "idle",
 };
 
-export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async () => {
-	const response = await axios.get<{ character: ICharacter }>("/api/character");
-	return response.data.character;
+export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<{ character: ICharacter }>("/api/character");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const fetchClasses = createAsyncThunk("character/fetchClasses", async () => {
-	const response = await axios.get<{ classes: ICharacterClass[] }>("/api/character/classes");
-	return response.data.classes;
+export const fetchClasses = createAsyncThunk("character/fetchClasses", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<{ classes: ICharacterClass[] }>("/api/character/classes");
+		return response.data.classes;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const createCharacter = createAsyncThunk("character/createCharacter", async (payload: ICharacterPayload) => {
-	const response = await axios.put<{ character: ICharacter }>("/api/character/create", payload);
-	return response.data.character;
+export const createCharacter = createAsyncThunk(
+	"character/createCharacter",
+	async (payload: ICharacterPayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.put<{ character: ICharacter }>("/api/character/create", payload);
+			return response.data.character;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	},
+);
+
+export const retireCharacter = createAsyncThunk("character/retireCharacter", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/retire");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const retireCharacter = createAsyncThunk("character/retireCharacter", async () => {
-	const response = await axios.post<{ character: ICharacter }>("/api/character/retire");
-	return response.data.character;
+export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyItemPayload, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/buy", payload);
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyItemPayload) => {
-	const response = await axios.post<{ character: ICharacter }>("/api/character/buy", payload);
-	return response.data.character;
+export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
-export const rest = createAsyncThunk("character/rest", async () => {
-	const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
-	return response.data.character;
-});
-
-export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILevelUpPayload) => {
-	const response = await axios.post<{ character: ICharacter }>("/api/character/levelup", payload);
-	return response.data.character;
+export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILevelUpPayload, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/levelup", payload);
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
 });
 
 export const characterSelector = (state: RootState) => state.character;
