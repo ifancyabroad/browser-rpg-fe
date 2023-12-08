@@ -1,6 +1,5 @@
 import { Badge, Box, Button, Paper, Typography, alpha, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { getRestPrice } from "common/utils";
 import { rest } from "features/character";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Fragment, useState } from "react";
@@ -12,12 +11,10 @@ export const Menu: React.FC = () => {
 	const theme = useTheme();
 	const dispatch = useAppDispatch();
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+	const hasViewedItems = useAppSelector((state) => state.character.hasViewedItems);
 	const character = useAppSelector((state) => state.character.character);
-	const restPrice = getRestPrice(character?.day ?? 1);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
-	const isRestDisabled = restPrice > (character?.gold ?? 0);
-	const hasViewedItems = useAppSelector((state) => state.character.hasViewedItems);
 
 	const handleRest = async () => {
 		try {
@@ -45,6 +42,12 @@ export const Menu: React.FC = () => {
 	const closeConfirmationModal = () => {
 		setIsConfirmationOpen(false);
 	};
+
+	if (!character) {
+		return null;
+	}
+
+	const isRestDisabled = character.restPrice > character.gold;
 
 	return (
 		<Fragment>
@@ -78,7 +81,7 @@ export const Menu: React.FC = () => {
 						<Button variant="contained" size="large" fullWidth onClick={handleStartBattle}>
 							Battle
 						</Button>
-						<Badge color="secondary" badgeContent={`${restPrice}g`}>
+						<Badge color="secondary" badgeContent={`${character.restPrice}g`}>
 							<Button
 								variant="contained"
 								size="large"
@@ -103,7 +106,7 @@ export const Menu: React.FC = () => {
 
 			<ConfirmationModal
 				title="Would you like to rest?"
-				content={`Resting will cost ${restPrice}g`}
+				content={`Resting will cost ${character.restPrice}g`}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
 				open={isConfirmationOpen}

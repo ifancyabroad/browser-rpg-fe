@@ -51,6 +51,7 @@ export interface ICharacter {
 	defence: number;
 	hitBonus: number;
 	critBonus: number;
+	restPrice: number;
 }
 
 export interface IBuyItemPayload {
