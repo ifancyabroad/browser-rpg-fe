@@ -7,12 +7,14 @@ import { openLoginModal } from "features/modals";
 import logo from "assets/images/logos/browser_heroes.png";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import { openCharacterSheet } from "features/character";
+import { useMatch } from "react-router-dom";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
+	const isGame = useMatch("/game");
 
 	const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -50,7 +52,8 @@ export const Header: React.FC = () => {
 				color="inherit"
 				type="button"
 				onClick={handleDrawerToggle}
-				sx={{ display: { md: "none" } }}
+				hidden={Boolean(isGame)}
+				sx={{ display: { md: "none" }, visibility: !isGame ? "hidden" : null }}
 			>
 				<PsychologyIcon fontSize="small" />
 			</IconButton>
