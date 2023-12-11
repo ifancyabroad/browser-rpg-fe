@@ -85,7 +85,9 @@ export const EquipmentModal: React.FC = () => {
 							{properties && properties.length && (
 								<Box>
 									<Typography variant="h6">Properties</Typography>
-									<PropertyList properties={properties} />
+									<Stack spacing={1}>
+										<PropertyList properties={properties} />
+									</Stack>
 								</Box>
 							)}
 						</Stack>

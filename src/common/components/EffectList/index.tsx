@@ -15,6 +15,7 @@ import {
 	Target,
 	getPropertyText,
 } from "common/utils";
+import { Fragment } from "react";
 
 const TARGET_NAME_MAP: Record<Target, string> = {
 	[Target.Ally]: "Ally",
@@ -87,15 +88,19 @@ interface IProps {
 export const EffectList: React.FC<IProps> = ({ effects }) => {
 	return (
 		<Stack spacing={1}>
-			{effects.map((effect) => {
-				return {
-					[EffectType.Damage]: <DamageEffect {...(effect as IDamageEffect)} />,
-					[EffectType.WeaponDamage]: <WeaponDamageEffect {...(effect as IWeaponDamageEffect)} />,
-					[EffectType.Heal]: <HealEffect {...(effect as IHealEffect)} />,
-					[EffectType.Status]: <StatusEffect {...(effect as IStatusEffect)} />,
-					[EffectType.Auxiliary]: <AuxiliaryEffect {...(effect as IAuxiliaryEffect)} />,
-				}[effect.type];
-			})}
+			{effects.map((effect, index) => (
+				<Fragment key={index}>
+					{
+						{
+							[EffectType.Damage]: <DamageEffect {...(effect as IDamageEffect)} />,
+							[EffectType.WeaponDamage]: <WeaponDamageEffect {...(effect as IWeaponDamageEffect)} />,
+							[EffectType.Heal]: <HealEffect {...(effect as IHealEffect)} />,
+							[EffectType.Status]: <StatusEffect {...(effect as IStatusEffect)} />,
+							[EffectType.Auxiliary]: <AuxiliaryEffect {...(effect as IAuxiliaryEffect)} />,
+						}[effect.type]
+					}
+				</Fragment>
+			))}
 		</Stack>
 	);
 };
