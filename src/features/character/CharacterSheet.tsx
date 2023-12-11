@@ -198,6 +198,7 @@ export const CharacterSheet: React.FC = () => {
 			>
 				<Box
 					sx={{
+						flex: 1,
 						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
 						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
 					}}

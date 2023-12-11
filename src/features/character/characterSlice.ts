@@ -26,7 +26,7 @@ interface ICharacerState {
 const initialState: ICharacerState = {
 	character: null,
 	characterStatus: "idle",
-	isCharacterSheetOpen: true,
+	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Skills,
 	hasViewedItems: false,
 	classes: [],
