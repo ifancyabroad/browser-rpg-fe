@@ -8,7 +8,7 @@ interface IProps {
 
 export const PropertyList: React.FC<IProps> = ({ properties }) => {
 	return (
-		<Stack spacing={1}>
+		<Stack>
 			{properties.map((property, index) => (
 				<Typography key={index} variant="body2">
 					{getPropertyText(property)}
