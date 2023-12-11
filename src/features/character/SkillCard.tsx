@@ -17,6 +17,8 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const status = useAppSelector((state) => state.game.status);
 	const isLoading = status === "loading";
 	const secondaryText = skill.maxUses ? `${skill.remaining}/${skill.maxUses}` : undefined;
+	const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);
+	const isDisabled = isLoading || isExhausted;
 
 	const handleUseSkill = async () => {
 		try {
@@ -46,7 +48,7 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 				subheader={secondaryText}
 				action={
 					isBattle ? (
-						<Button onClick={handleUseSkill} variant="contained" disabled={isLoading}>
+						<Button onClick={handleUseSkill} variant="contained" disabled={isDisabled}>
 							Use
 						</Button>
 					) : (
