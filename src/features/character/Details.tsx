@@ -92,7 +92,7 @@ export const Details: React.FC = () => {
 						<Tooltip title="Armour Class" placement="top" arrow>
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={armourIcon} width={32} />
-								<Typography variant="body1">{character.armourClass}%</Typography>
+								<Typography variant="body1">{character.armourClass}</Typography>
 							</Stack>
 						</Tooltip>
 					</Grid>
@@ -100,7 +100,7 @@ export const Details: React.FC = () => {
 						<Tooltip title="Hit Bonus" placement="top" arrow>
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={hitIcon} width={32} />
-								<Typography variant="body1">{character.hitBonus}%</Typography>
+								<Typography variant="body1">{character.hitBonus}</Typography>
 							</Stack>
 						</Tooltip>
 					</Grid>
@@ -108,7 +108,7 @@ export const Details: React.FC = () => {
 						<Tooltip title="Crit Bonus" placement="top" arrow>
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={critIcon} width={32} />
-								<Typography variant="body1">{character.critBonus}%</Typography>
+								<Typography variant="body1">{character.critBonus}</Typography>
 							</Stack>
 						</Tooltip>
 					</Grid>

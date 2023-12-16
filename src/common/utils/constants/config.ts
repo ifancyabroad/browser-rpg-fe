@@ -206,11 +206,11 @@ export const PROPERTY_CONFIG: Record<PropertyType, IPropertyTypeConfig> = {
 	},
 	[PropertyType.AuxiliaryStat]: {
 		name: "Auxiliary Stat",
-		min: -100,
-		max: 100,
-		step: 5,
+		min: -20,
+		max: 20,
+		step: 1,
 		prefix: "+",
-		suffix: "%",
+		suffix: "",
 		properties: AUXILIARY_STAT_CONFIG,
 	},
 	[PropertyType.Resistance]: {
