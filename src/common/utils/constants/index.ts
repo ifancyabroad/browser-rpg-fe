@@ -8,6 +8,7 @@ import {
 	SkillClass,
 	SkillType,
 	Stat,
+	Status,
 	WeaponSize,
 	WeaponType,
 } from "common/utils";
@@ -207,6 +208,12 @@ export const EQUIPMENT_SLOT_NAME_MAP: Record<EquipmentSlot, string> = {
 	[EquipmentSlot.Finger2]: "Finger",
 	[EquipmentSlot.Hand1]: "Main Hand",
 	[EquipmentSlot.Hand2]: "Off Hand",
+};
+
+export const CHARACTER_STATUS_MAP: Record<Status, string> = {
+	[Status.Alive]: "Alive",
+	[Status.Dead]: "Dead",
+	[Status.Retired]: "Retired",
 };
 
 export * from "./config";
