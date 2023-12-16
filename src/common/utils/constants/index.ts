@@ -1,4 +1,5 @@
 import {
+	ArmourType,
 	AuxiliaryEffect,
 	AuxiliaryStat,
 	DamageType,
@@ -20,7 +21,7 @@ export const STATS = [
 	Stat.Charisma,
 ] as const;
 
-export const AUXILIARY_STATS = [AuxiliaryStat.Defence, AuxiliaryStat.HitChance, AuxiliaryStat.CritChance] as const;
+export const AUXILIARY_STATS = [AuxiliaryStat.ArmourClass, AuxiliaryStat.HitChance, AuxiliaryStat.CritChance] as const;
 
 export const RESISTANCES = [
 	DamageType.Slashing,
@@ -54,17 +55,15 @@ export const STATS_NAME_MAP: Record<Stat, string> = {
 };
 
 export const AUXILIARY_STATS_ABBR_MAP: Record<AuxiliaryStat, string> = {
-	[AuxiliaryStat.Defence]: "DEF",
+	[AuxiliaryStat.ArmourClass]: "AC",
 	[AuxiliaryStat.HitChance]: "HIT",
 	[AuxiliaryStat.CritChance]: "CRT",
-	[AuxiliaryStat.HitPoints]: "HPS",
 };
 
 export const AUXILIARY_STATS_NAME_MAP: Record<AuxiliaryStat, string> = {
-	[AuxiliaryStat.Defence]: "Defence",
+	[AuxiliaryStat.ArmourClass]: "Armour Class",
 	[AuxiliaryStat.HitChance]: "Hit Chance",
 	[AuxiliaryStat.CritChance]: "Crit Chance",
-	[AuxiliaryStat.HitPoints]: "Hit Points",
 };
 
 export const RESISTANCES_ABBR_MAP: Record<DamageType, string> = {
@@ -141,6 +140,13 @@ export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
 export const WEAPON_SIZE_NAME_MAP: Record<WeaponSize, string> = {
 	[WeaponSize.OneHanded]: "One Handed",
 	[WeaponSize.TwoHanded]: "Two Handed",
+};
+
+export const ARMOUR_TYPE_NAME_MAP: Record<ArmourType, string> = {
+	[ArmourType.Heavy]: "Heavy",
+	[ArmourType.Medium]: "Medium",
+	[ArmourType.Light]: "Light",
+	[ArmourType.Miscellaneous]: "Misc",
 };
 
 export const EQUIPMENT_TYPE_NAME_MAP: Record<EquipmentType | WeaponType, string> = {

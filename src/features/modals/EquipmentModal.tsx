@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeEquipmentModal } from "./modalsSlice";
-import { EQUIPMENT_TYPE_NAME_MAP, WEAPON_SIZE_NAME_MAP } from "common/utils";
+import { ARMOUR_TYPE_NAME_MAP, EQUIPMENT_TYPE_NAME_MAP, WEAPON_SIZE_NAME_MAP } from "common/utils";
 import { Fragment } from "react";
 import { PropertyList } from "common/components";
 
@@ -53,10 +53,18 @@ export const EquipmentModal: React.FC = () => {
 								<DialogContentText>{EQUIPMENT_TYPE_NAME_MAP[type]}</DialogContentText>
 							</Box>
 							{isArmour && (
-								<Box display="flex" gap={1}>
-									<Typography variant="body1">Defence:</Typography>
-									<DialogContentText>{item.defence}%</DialogContentText>
-								</Box>
+								<Fragment>
+									<Box display="flex" gap={1}>
+										<Typography variant="body1">Armour Type:</Typography>
+										<DialogContentText>
+											{item.armourType && ARMOUR_TYPE_NAME_MAP[item.armourType]}
+										</DialogContentText>
+									</Box>
+									<Box display="flex" gap={1}>
+										<Typography variant="body1">Armour Class:</Typography>
+										<DialogContentText>{item.armourClass}</DialogContentText>
+									</Box>
+								</Fragment>
 							)}
 							{isWeapon && (
 								<Fragment>

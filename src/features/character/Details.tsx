@@ -10,7 +10,7 @@ import {
 	STATS_NAME_MAP,
 } from "common/utils";
 import { getEquipmentBonus } from "features/character/characterSlice";
-import defenceIcon from "assets/images/icons/shield.svg";
+import armourIcon from "assets/images/icons/shield.svg";
 import hitIcon from "assets/images/icons/piercing-sword.svg";
 import critIcon from "assets/images/icons/pointy-sword.svg";
 
@@ -89,10 +89,10 @@ export const Details: React.FC = () => {
 			<Box py={2}>
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
-						<Tooltip title="Defence" placement="top" arrow>
+						<Tooltip title="Armour Class" placement="top" arrow>
 							<Stack spacing={1} textAlign="center" alignItems="center">
-								<Box component="img" src={defenceIcon} width={32} />
-								<Typography variant="body1">{character.defence}%</Typography>
+								<Box component="img" src={armourIcon} width={32} />
+								<Typography variant="body1">{character.armourClass}%</Typography>
 							</Stack>
 						</Tooltip>
 					</Grid>

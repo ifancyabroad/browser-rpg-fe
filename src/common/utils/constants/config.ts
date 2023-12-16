@@ -42,9 +42,9 @@ export const ATTRIBUTE_CONFIG: IPropertyConfig[] = [
 
 export const AUXILIARY_STAT_CONFIG: IPropertyConfig[] = [
 	{
-		key: AuxiliaryStat.Defence,
+		key: AuxiliaryStat.ArmourClass,
 		abbr: "DEF",
-		name: "Defence",
+		name: "Armour Class",
 	},
 	{
 		key: AuxiliaryStat.HitChance,
@@ -55,11 +55,6 @@ export const AUXILIARY_STAT_CONFIG: IPropertyConfig[] = [
 		key: AuxiliaryStat.CritChance,
 		abbr: "CRT",
 		name: "Crit Chance",
-	},
-	{
-		key: AuxiliaryStat.HitPoints,
-		abbr: "HPS",
-		name: "Hit Points",
 	},
 ];
 

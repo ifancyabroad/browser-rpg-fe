@@ -48,7 +48,7 @@ export interface ICharacter {
 	activeStatusEffects: IStatus[];
 	activeAuxiliaryEffects: IActiveEffect[];
 	levelUpData?: ILevelUpData;
-	defence: number;
+	armourClass: number;
 	hitBonus: number;
 	critBonus: number;
 	restPrice: number;

@@ -55,10 +55,9 @@ export enum Stat {
 }
 
 export enum AuxiliaryStat {
-	Defence = "defence",
+	ArmourClass = "armourClass",
 	HitChance = "hitChance",
 	CritChance = "critChance",
-	HitPoints = "hitPoints",
 }
 
 export enum DamageType {
@@ -137,6 +136,7 @@ export enum ArmourType {
 	Heavy = "heavy",
 	Medium = "medium",
 	Light = "light",
+	Miscellaneous = "misc",
 }
 
 export enum CharacterSheetTab {

@@ -5,13 +5,13 @@ import { IWeaponEffect } from "./effect";
 export interface IArmour {
 	id: string;
 	type: EquipmentType;
-	armourType: ArmourType;
 	name: string;
 	description: string;
 	icon: string;
 	price: number;
 	level: number;
-	defence: number;
+	armourType?: ArmourType;
+	armourClass?: number;
 	properties?: TProperty[];
 }
 
