@@ -17,7 +17,7 @@ const eyeMove = keyframes`
     100%   { transform: translate(0 , 10px)}
 `;
 
-export const Loader = styled("span")({
+export const Loader = styled("div")({
 	position: "relative",
 	width: "78px",
 	height: "78px",
@@ -26,6 +26,7 @@ export const Loader = styled("span")({
 	border: "8px solid #131a1d",
 	overflow: "hidden",
 	boxSizing: "border-box",
+	margin: "auto",
 	":after": {
 		content: "''",
 		position: "absolute",

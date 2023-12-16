@@ -8,6 +8,8 @@ import logo from "assets/images/logos/browser_heroes.png";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import { openCharacterSheet } from "features/character";
 import { useMatch } from "react-router-dom";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import { openLeaderboard } from "features/leaderboard";
 
 const pulse = keyframes`
 	0% {
@@ -67,6 +69,10 @@ export const Header: React.FC = () => {
 		dispatch(openCharacterSheet());
 	};
 
+	const handleOpenLeaderboard = () => {
+		dispatch(openLeaderboard());
+	};
+
 	return (
 		<Box
 			sx={{
@@ -94,7 +100,7 @@ export const Header: React.FC = () => {
 
 			<Box>
 				<IconButton
-					aria-label="menu"
+					aria-label="character"
 					color="inherit"
 					type="button"
 					onClick={handleDrawerToggle}
@@ -106,6 +112,9 @@ export const Header: React.FC = () => {
 				>
 					<Pulse sx={{ display: showPulse ? "block" : "none" }} />
 					<PsychologyIcon fontSize="small" />
+				</IconButton>
+				<IconButton aria-label="leaderboard" color="inherit" type="button" onClick={handleOpenLeaderboard}>
+					<EqualizerIcon fontSize="small" />
 				</IconButton>
 				<IconButton aria-label="menu" color="inherit" type="button" onClick={handleOpenMenu}>
 					<MenuIcon fontSize="small" />

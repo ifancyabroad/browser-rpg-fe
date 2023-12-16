@@ -13,6 +13,7 @@ import {
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
+import { Leaderboard } from "features/leaderboard";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
@@ -44,6 +45,7 @@ function App() {
 				)}
 			</Router>
 
+			<Leaderboard />
 			<EquipmentModal />
 			<SkillModal />
 			<CharacterClassModal />
