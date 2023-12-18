@@ -1,53 +1,18 @@
 import { useState } from "react";
-import { Box, IconButton, Menu, MenuItem, Typography, keyframes, styled } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Menu as MenuIcon } from "@mui/icons-material";
 import { logout } from "features/authentication";
 import { openLoginModal } from "features/modals";
 import logo from "assets/images/logos/browser_heroes.png";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import { openCharacterSheet } from "features/character";
-import { useMatch } from "react-router-dom";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import { openLeaderboard } from "features/leaderboard";
-
-const pulse = keyframes`
-	0% {
-		transform: scale(0.1);
-		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-	}
-	
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-	}
-	
-	100% {
-		transform: scale(0.1);
-		box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-	}
-`;
-
-const Pulse = styled("div")({
-	position: "absolute",
-	height: "100%",
-	width: "100%",
-	left: 0,
-	top: 0,
-	borderRadius: "50%",
-	boxShadow: "0 0 0 0 rgba(255, 255, 255, 1)",
-	animation: `${pulse} 2s infinite`,
-});
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
-	const isGame = useMatch({ path: "/game", end: false });
-	const isBattle = useMatch({ path: "/game/battle", end: true });
-	const isCharacterSheetOpen = useAppSelector((state) => state.character.isCharacterSheetOpen);
-	const showPulse = isBattle && !isCharacterSheetOpen;
 
 	const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -63,10 +28,6 @@ export const Header: React.FC = () => {
 
 	const handleClose = () => {
 		setAnchorEl(null);
-	};
-
-	const handleDrawerToggle = () => {
-		dispatch(openCharacterSheet());
 	};
 
 	const handleOpenLeaderboard = () => {
@@ -99,20 +60,6 @@ export const Header: React.FC = () => {
 			</Box>
 
 			<Box>
-				<IconButton
-					aria-label="character"
-					color="inherit"
-					type="button"
-					onClick={handleDrawerToggle}
-					sx={{
-						display: { md: "none" },
-						position: "relative",
-						visibility: !isGame ? "hidden" : null,
-					}}
-				>
-					<Pulse sx={{ display: showPulse ? "block" : "none" }} />
-					<PsychologyIcon fontSize="small" />
-				</IconButton>
 				<IconButton aria-label="leaderboard" color="inherit" type="button" onClick={handleOpenLeaderboard}>
 					<EqualizerIcon fontSize="small" />
 				</IconButton>
