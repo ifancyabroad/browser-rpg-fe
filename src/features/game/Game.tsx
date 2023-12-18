@@ -29,18 +29,19 @@ export const Game: React.FC = () => {
 		<Fragment>
 			<Box display="flex">
 				<CharacterSheet />
-				<Container>
-					<Box
-						sx={{
-							height: "calc(100vh - 53px)",
-							display: "flex",
-							flexDirection: "column",
-							overflow: "auto",
-						}}
-					>
-						<Outlet />
-					</Box>
-				</Container>
+				<Box flex={1} overflow="auto">
+					<Container>
+						<Box
+							sx={{
+								height: "calc(100vh - 53px)",
+								display: "flex",
+								flexDirection: "column",
+							}}
+						>
+							<Outlet />
+						</Box>
+					</Container>
+				</Box>
 			</Box>
 
 			<CharacterButton />
