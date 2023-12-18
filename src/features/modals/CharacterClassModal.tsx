@@ -83,7 +83,12 @@ export const CharacterClassModal: React.FC = () => {
 								</DialogContentText>
 								<Stack direction="row" spacing={1} flexWrap="wrap">
 									{skills.map((skill) => (
-										<Chip size="small" label={skill.name} onClick={() => handleViewSkill(skill)} />
+										<Chip
+											key={skill.id}
+											size="small"
+											label={skill.name}
+											onClick={() => handleViewSkill(skill)}
+										/>
 									))}
 								</Stack>
 							</Box>
@@ -94,6 +99,7 @@ export const CharacterClassModal: React.FC = () => {
 								<Stack direction="row" spacing={1} flexWrap="wrap">
 									{mapToArray(equipment ?? {}).map((equipment) => (
 										<Chip
+											key={equipment.id}
 											size="small"
 											label={equipment.name}
 											onClick={() => handleViewEquipment(equipment)}
