@@ -6,6 +6,7 @@ export * from "./Header";
 export * from "./LinearProgressWithLabel";
 export * from "./SkillIcon";
 export * from "./EquipmentTypeIcon";
+export * from "./EquipmentSlotIcon";
 export * from "./TransparentPaper";
 export * from "./Loader";
 export * from "./PropertyList";

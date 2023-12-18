@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
-import { EquipmentList } from "./EquipmentList";
+import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
 import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
 import { openLevelUpModal } from "features/modals";
@@ -109,7 +109,7 @@ const CharacterContent: React.FC = () => {
 						<SkillList skills={character.skills} />
 					</TabPanel>
 					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
-						<EquipmentList equipment={character.equipment} />
+						<EquipmentTable equipment={character.equipment} />
 					</TabPanel>
 					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
 						<Details />
