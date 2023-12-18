@@ -1,7 +1,7 @@
 import { Box, Drawer, IconButton, Paper, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab } from "common/utils";
+import { CharacterSheetTab, State } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
 import { EquipmentList } from "./EquipmentList";
@@ -47,7 +47,7 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const { name, level, characterClass, hitPoints, maxHitPoints, experience, nextLevelExperience } = character;
+	const { name, level, characterClass, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
 
 	return (
 		<Box>
@@ -69,7 +69,12 @@ const CharacterContent: React.FC = () => {
 					</Box>
 
 					{experience >= nextLevelExperience && (
-						<IconButton color="success" aria-label="Level up" onClick={handleLevelUp}>
+						<IconButton
+							color="success"
+							aria-label="Level up"
+							onClick={handleLevelUp}
+							disabled={state === State.Battle}
+						>
 							<ArrowCircleUpIcon />
 						</IconButton>
 					)}
