@@ -12,7 +12,7 @@ export const Enemy: React.FC = () => {
 	const { name, image, level, hitPoints, maxHitPoints } = enemy;
 
 	return (
-		<Box>
+		<Box maxWidth={600}>
 			<Box mb={2}>
 				<Typography variant="h4">{name}</Typography>
 				<Typography variant="subtitle1" color="textSecondary">
@@ -21,9 +21,9 @@ export const Enemy: React.FC = () => {
 			</Box>
 
 			<Box mb={2}>
-				<Typography variant="body2">Health</Typography>
 				<LinearProgressWithLabel
 					color="success"
+					title="Health"
 					value={hitPoints}
 					max={maxHitPoints}
 					label={`${hitPoints}/${maxHitPoints}`}
@@ -33,7 +33,6 @@ export const Enemy: React.FC = () => {
 			<Box
 				sx={{
 					width: "100%",
-					maxWidth: 600,
 					aspectRatio: "1/1",
 				}}
 			>

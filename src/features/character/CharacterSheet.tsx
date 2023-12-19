@@ -80,22 +80,22 @@ const CharacterContent: React.FC = () => {
 					)}
 				</Box>
 
-				<Box mb={2}>
-					<Typography variant="body2">Health</Typography>
+				<Stack spacing={1} mb={2}>
 					<LinearProgressWithLabel
 						color="success"
+						title="Health"
 						value={hitPoints}
 						max={maxHitPoints}
 						label={`${hitPoints}/${maxHitPoints}`}
 					/>
-					<Typography variant="body2">Experience</Typography>
 					<LinearProgressWithLabel
+						title="Experience"
 						value={experience}
 						max={nextLevelExperience}
 						label={`${experience}/${nextLevelExperience}`}
-						customColor="#d065ff"
+						customColor="#6e4281"
 					/>
-				</Box>
+				</Stack>
 
 				<Box>
 					<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
