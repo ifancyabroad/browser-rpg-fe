@@ -63,10 +63,23 @@ const theme = createTheme({
 		MuiButton: {
 			defaultProps: {
 				disableElevation: true,
+				disableRipple: true,
 			},
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
+				},
+				contained: {
+					border: "2px solid transparent",
+					boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					"&:hover": {
+						border: "2px solid transparent",
+						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					},
+					"&:disabled": {
+						border: "2px solid transparent",
+						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					},
 				},
 			},
 		},
