@@ -12,3 +12,4 @@ export * from "./Loader";
 export * from "./PropertyList";
 export * from "./EffectList";
 export * from "./CharacterButton";
+export * from "./StatIcon";

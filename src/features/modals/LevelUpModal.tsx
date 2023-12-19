@@ -12,15 +12,16 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormLabel,
+	Paper,
 	Radio,
 	RadioGroup,
 	Stack,
 	Typography,
 } from "@mui/material";
-import { SkillIcon } from "common/components";
+import { SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
-import { SKILL_TYPE_NAME_MAP, STATS, STATS_ABBR_MAP, Stat, getSkillType } from "common/utils";
+import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
 import { levelUp } from "features/character";
 import { Fragment, useEffect, useState } from "react";
 import { closeLevelUpModal, openErrorModal } from "./modalsSlice";
@@ -49,6 +50,45 @@ const SkillCard: React.FC<IProps> = ({ onSelect, isSelected, skill }) => {
 				</CardContent>
 			</CardActionArea>
 		</Card>
+	);
+};
+
+interface IStatLabelProps {
+	stat: Stat;
+	currentValue: number;
+	isSelected: boolean;
+}
+
+const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected }) => {
+	const value = isSelected ? currentValue + 1 : currentValue;
+
+	return (
+		<Paper
+			sx={{
+				p: 1,
+				textAlign: "center",
+				width: 140,
+				borderStyle: "solid",
+				borderWidth: 3,
+				borderColor: isSelected ? "primary.main" : "transparent",
+				transition: "all 0.2s ease-in-out",
+				"&:hover": {
+					borderColor: "primary.main",
+				},
+			}}
+		>
+			<StatIcon stat={stat} />
+			<Typography variant="h5" fontSize={16}>
+				{STATS_NAME_MAP[stat]}
+			</Typography>
+			<Typography
+				variant="body2"
+				color={isSelected ? "success.light" : "text.secondary"}
+				sx={{ transition: "color 0.2s ease-in-out" }}
+			>
+				({value})
+			</Typography>
+		</Paper>
 	);
 };
 
@@ -125,20 +165,30 @@ export const LevelUpModal: React.FC = () => {
 					</Fragment>
 				) : (
 					<FormControl>
-						<FormLabel id="attribute-label">Choose an attribute to increase</FormLabel>
+						<FormLabel id="attribute-label" sx={{ mb: 2 }}>
+							Choose an attribute to increase by 1:
+						</FormLabel>
 						<RadioGroup
 							row
 							aria-labelledby="attribute-label"
 							name="attribute"
 							value={stat}
 							onChange={handleStatChange}
+							sx={{ justifyContent: "center", gap: 1 }}
 						>
-							{STATS.map((stat) => (
+							{STATS.map((st) => (
 								<FormControlLabel
-									key={stat}
-									value={stat}
-									control={<Radio disabled={character.stats[stat] >= 25} />}
-									label={`${STATS_ABBR_MAP[stat]} (${character.stats[stat]})`}
+									key={st}
+									value={st}
+									sx={{ m: 0 }}
+									control={<Radio sx={{ display: "none" }} />}
+									label={
+										<StatLabel
+											stat={st}
+											currentValue={character.stats[st]}
+											isSelected={st === stat}
+										/>
+									}
 								/>
 							))}
 						</RadioGroup>
