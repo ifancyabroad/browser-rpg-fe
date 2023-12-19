@@ -1,13 +1,8 @@
 import {
 	Button,
-	Card,
-	CardActionArea,
-	CardContent,
-	CardHeader,
 	Dialog,
 	DialogActions,
 	DialogContent,
-	DialogContentText,
 	DialogTitle,
 	FormControl,
 	FormControlLabel,
@@ -15,7 +10,6 @@ import {
 	Paper,
 	Radio,
 	RadioGroup,
-	Stack,
 	Typography,
 } from "@mui/material";
 import { SkillIcon, StatIcon } from "common/components";
@@ -23,33 +17,48 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
 import { levelUp } from "features/character";
-import { Fragment, useEffect, useState } from "react";
-import { closeLevelUpModal, openErrorModal } from "./modalsSlice";
+import { useEffect, useState } from "react";
+import { closeLevelUpModal, openErrorModal, openSkillModal } from "./modalsSlice";
 
-interface IProps {
-	onSelect: (id: string) => void;
-	isSelected: boolean;
+interface ISkillLabelProps {
 	skill: ISkill;
+	isSelected: boolean;
 }
 
-const SkillCard: React.FC<IProps> = ({ onSelect, isSelected, skill }) => {
+const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
+	const dispatch = useAppDispatch();
 	const secondaryText = `Level ${skill.level} ${SKILL_TYPE_NAME_MAP[getSkillType(skill)]}`;
 
-	const handleSelectSkill = () => {
-		onSelect(skill.id);
+	const handleViewSkill = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		dispatch(openSkillModal({ skill }));
 	};
 
 	return (
-		<Card raised={isSelected}>
-			<CardActionArea onClick={handleSelectSkill}>
-				<CardHeader avatar={<SkillIcon skill={skill} />} title={skill.name} subheader={secondaryText} />
-				<CardContent>
-					<Typography variant="body2" color="text.secondary">
-						{skill.description}
-					</Typography>
-				</CardContent>
-			</CardActionArea>
-		</Card>
+		<Paper
+			sx={{
+				p: 2,
+				textAlign: "center",
+				width: 200,
+				borderStyle: "solid",
+				borderWidth: 3,
+				borderColor: isSelected ? "primary.main" : "transparent",
+				transition: "all 0.2s ease-in-out",
+				"&:hover": {
+					borderColor: "primary.main",
+				},
+			}}
+		>
+			<SkillIcon skill={skill} width={90} />
+			<Typography variant="h5" fontSize={16}>
+				{skill.name}
+			</Typography>
+			<Typography variant="body2" mb={2}>
+				{secondaryText}
+			</Typography>
+			<Button variant="contained" color="secondary" onClick={handleViewSkill}>
+				View Details
+			</Button>
+		</Paper>
 	);
 };
 
@@ -114,8 +123,8 @@ export const LevelUpModal: React.FC = () => {
 		setStat((event.target as HTMLInputElement).value as Stat);
 	};
 
-	const handleSkillChange = (id: string) => {
-		setSkill(id);
+	const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSkill(event.target.value);
 	};
 
 	const handleNext = () => {
@@ -146,23 +155,33 @@ export const LevelUpModal: React.FC = () => {
 	const isDisabled = isLoading || !stat;
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title">
+		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="lg">
 			<DialogTitle id="form-dialog-title">You have reached level {level}!</DialogTitle>
 			<DialogContent>
 				{showSkills ? (
-					<Fragment>
-						<DialogContentText mb={2}>Choose a new skill</DialogContentText>
-						<Stack gap={2}>
+					<FormControl>
+						<FormLabel id="attribute-label" sx={{ mb: 2 }}>
+							Choose an new skill:
+						</FormLabel>
+						<RadioGroup
+							row
+							aria-labelledby="attribute-label"
+							name="attribute"
+							value={stat}
+							onChange={handleSkillChange}
+							sx={{ justifyContent: "center", gap: 1 }}
+						>
 							{skills.map((sk) => (
-								<SkillCard
+								<FormControlLabel
 									key={sk.id}
-									onSelect={handleSkillChange}
-									isSelected={sk.id === skill}
-									skill={sk}
+									value={sk.id}
+									sx={{ m: 0 }}
+									control={<Radio sx={{ display: "none" }} />}
+									label={<SkillLabel skill={sk} isSelected={sk.id === skill} />}
 								/>
 							))}
-						</Stack>
-					</Fragment>
+						</RadioGroup>
+					</FormControl>
 				) : (
 					<FormControl>
 						<FormLabel id="attribute-label" sx={{ mb: 2 }}>
