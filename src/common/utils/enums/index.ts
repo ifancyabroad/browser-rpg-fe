@@ -139,6 +139,12 @@ export enum ArmourType {
 	Miscellaneous = "misc",
 }
 
+export enum HitType {
+	Hit = "hit",
+	Crit = "crit",
+	Miss = "miss",
+}
+
 export enum CharacterSheetTab {
 	Skills,
 	Inventory,

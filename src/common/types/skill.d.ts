@@ -1,3 +1,6 @@
+import { SkillClass } from "common/utils";
+import { ISkillEffect } from "./effect";
+
 export interface ISkill {
 	id: string;
 	class: SkillClass;

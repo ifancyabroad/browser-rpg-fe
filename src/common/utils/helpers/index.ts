@@ -1,6 +1,14 @@
 import { IArmour, IEquipment, ISkill, IWeapon, TProperty } from "common/types";
-import { EffectType, EquipmentSlot, EquipmentType, SkillType, Target, WeaponSize } from "common/utils/enums";
-import { EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
+import {
+	DamageType,
+	EffectType,
+	EquipmentSlot,
+	EquipmentType,
+	SkillType,
+	Target,
+	WeaponSize,
+} from "common/utils/enums";
+import { DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -74,4 +82,8 @@ export const getPropertyText = (property: TProperty) => {
 	const { name } = config;
 
 	return `${property.value >= 0 ? prefix : ""}${property.value}${suffix} ${name}`;
+};
+
+export const getDamageTypeConfig = (damageType: DamageType) => {
+	return DAMAGE_CONFIG.find(({ key }) => key === damageType);
 };

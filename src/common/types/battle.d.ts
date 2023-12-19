@@ -1,5 +1,4 @@
-import { BattleState, Target } from "common/utils";
-import { ICharacter } from "./character";
+import { BattleState, HitType, Target } from "common/utils";
 import { ISkill } from "./skill";
 import { IEquipment } from "./equipment";
 import { TDamageTypes, TStats } from "common/types";
