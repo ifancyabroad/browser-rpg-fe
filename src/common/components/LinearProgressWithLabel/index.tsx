@@ -30,7 +30,7 @@ interface IProps extends LinearProgressProps {
 }
 
 export const LinearProgressWithLabel: React.FC<IProps> = ({ value, title, label, min = 0, max = 100, ...props }) => {
-	const normalisedValue = ((value - min) * 100) / (max - min);
+	const normalisedValue = value > max ? 100 : ((value - min) * 100) / (max - min);
 
 	return (
 		<Tooltip title={title} placement="top" arrow>
