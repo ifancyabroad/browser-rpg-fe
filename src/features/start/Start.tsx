@@ -64,7 +64,7 @@ export const Start: React.FC = () => {
 					</Typography>
 					{hasActiveCharacter ? (
 						<Fragment>
-							<Typography>Welcome to Browser Heroes! </Typography>
+							<Typography variant="subtitle1">Welcome to Browser Heroes! </Typography>
 							<Typography>
 								Click one of the below options to continue your existing game or start a new one.
 							</Typography>
@@ -79,7 +79,9 @@ export const Start: React.FC = () => {
 						</Fragment>
 					) : (
 						<Fragment>
-							<Typography>Welcome to Browser Heroes, your new adventure awaits you! </Typography>
+							<Typography variant="subtitle1">
+								Welcome to Browser Heroes, your new adventure awaits you!{" "}
+							</Typography>
 							<Typography>
 								Please click the button below to start a new game and see how long you can survive!
 							</Typography>
