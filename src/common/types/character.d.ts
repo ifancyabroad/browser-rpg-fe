@@ -1,5 +1,16 @@
 import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
-import { IActiveEffect, IArmour, IEquipment, IMap, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
+import {
+	IActiveEffect,
+	IArmour,
+	IEquipment,
+	ILocation,
+	IMap,
+	ISkill,
+	IStatus,
+	IWeapon,
+	TDamageTypes,
+	TStats,
+} from "common/types";
 
 export interface ICharacterClass {
 	id: string;
@@ -63,4 +74,8 @@ export interface IBuyItemPayload {
 export interface ILevelUpPayload {
 	stat: Stat;
 	skill?: string;
+}
+
+export interface IMovePayload {
+	location: ILocation;
 }

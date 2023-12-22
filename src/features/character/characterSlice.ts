@@ -8,6 +8,7 @@ import {
 	ICharacterClass,
 	ICharacterPayload,
 	ILevelUpPayload,
+	ILocation,
 } from "common/types";
 import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
@@ -127,6 +128,19 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
+export const move = createAsyncThunk("character/move", async (payload: ILocation, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload);
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const characterSelector = (state: RootState) => state.character;
 
 export const getIsLoaded = createSelector(
@@ -164,6 +178,14 @@ export const getCurrentLevel = createSelector(characterSelector, ({ character })
 		return [];
 	}
 	return character.map.maps[character.map.location.level];
+});
+
+export const getIsPlayerLocation = createSelector(characterSelector, ({ character }) => (location: ILocation) => {
+	if (!character) {
+		return false;
+	}
+	const { level, x, y } = character.map.location;
+	return level === location.level && x === location.x && y === location.y;
 });
 
 export const characterSlice = createSlice({
@@ -263,6 +285,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(levelUp.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(move.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(move.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(move.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

@@ -1,8 +1,8 @@
 import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { IRoom } from "common/types";
+import { ILocation, IRoom } from "common/types";
 import { RoomType } from "common/utils";
-import { getCurrentLevel } from "features/character";
+import { getCurrentLevel, getIsPlayerLocation, move } from "features/character";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
 import { ReactComponent as TreasureIcon } from "assets/images/icons/open-treasure-chest.svg";
@@ -12,6 +12,7 @@ import { ReactComponent as ExitIcon } from "assets/images/icons/doorway.svg";
 import { Player } from "./Player";
 import { useEffect, useRef } from "react";
 import { setPlayerLocation } from "./gameSlice";
+import { openErrorModal } from "features/modals";
 
 const Grid = styled("div")({
 	position: "relative",
@@ -46,7 +47,7 @@ const BaseRoom = styled(Paper)(({ theme }) => ({
 	svg: {
 		width: "50%",
 	},
-}));
+})) as typeof Paper;
 
 const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 	[RoomType.None]: null,
@@ -63,12 +64,15 @@ const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 interface IRoomProps {
 	gridRef: React.RefObject<HTMLDivElement>;
 	room: IRoom;
-	hasPlayer: boolean;
+	location: ILocation;
 }
 
-const Room: React.FC<IRoomProps> = ({ gridRef, room, hasPlayer }) => {
+const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	const dispatch = useAppDispatch();
 	const roomRef = useRef<HTMLDivElement | null>(null);
+	const hasPlayer = useAppSelector(getIsPlayerLocation)(location);
+	const status = useAppSelector((state) => state.character.status);
+	const isLoading = status === "loading";
 
 	useEffect(() => {
 		if (gridRef && gridRef.current && roomRef && roomRef.current && hasPlayer) {
@@ -86,8 +90,13 @@ const Room: React.FC<IRoomProps> = ({ gridRef, room, hasPlayer }) => {
 		}
 	}, [dispatch, gridRef, hasPlayer]);
 
-	const handleMove = () => {
-		// TODO: Go to room
+	const handleMove = async () => {
+		try {
+			await dispatch(move(location)).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	if (room.type === RoomType.None) {
@@ -96,7 +105,9 @@ const Room: React.FC<IRoomProps> = ({ gridRef, room, hasPlayer }) => {
 
 	return (
 		<Tile ref={roomRef}>
-			<BaseRoom onClick={handleMove}>{ROOM_ICON_MAP[room.type as RoomType]}</BaseRoom>
+			<BaseRoom component="button" onClick={handleMove} disabled={isLoading}>
+				{ROOM_ICON_MAP[room.type as RoomType]}
+			</BaseRoom>
 		</Tile>
 	);
 };
@@ -113,10 +124,11 @@ export const Map: React.FC = () => {
 
 	return (
 		<Grid ref={ref}>
-			{level.map((row, x) =>
-				row.map((room, y) => {
-					const hasPlayer = x === character.map.location.x && y === character.map.location.y;
-					return <Room key={`${x}${y}`} gridRef={ref} room={room} hasPlayer={hasPlayer} />;
+			{level.map((row, y) =>
+				row.map((room, x) => {
+					const level = character.map.location.level;
+					const location = { level, x, y };
+					return <Room key={`${y}${x}`} gridRef={ref} room={room} location={location} />;
 				}),
 			)}
 			{location && <Player left={location.left} top={location.top} />}
