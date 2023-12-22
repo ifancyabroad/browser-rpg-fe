@@ -1,5 +1,5 @@
 import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
-import { IActiveEffect, IArmour, IEquipment, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
+import { IActiveEffect, IArmour, IEquipment, IMap, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
 
 export interface ICharacterClass {
 	id: string;
@@ -52,6 +52,7 @@ export interface ICharacter {
 	hitBonus: number;
 	critBonus: number;
 	restPrice: number;
+	map: IMap;
 }
 
 export interface IBuyItemPayload {

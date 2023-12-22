@@ -5,4 +5,5 @@ export * from "./Enemy";
 export * from "./Battle";
 export * from "./BattleDetails";
 export * from "./CombatLog";
+export * from "./Map";
 export * from "./gameSlice";

@@ -145,6 +145,24 @@ export enum HitType {
 	Miss = "miss",
 }
 
+export enum RoomType {
+	None,
+	Empty,
+	Battle,
+	Boss,
+	Shop,
+	Treasure,
+	Rest,
+	Entrance,
+	Exit,
+}
+
+export enum RoomState {
+	Idle = "idle",
+	Blocking = "blocking",
+	Complete = "complete",
+}
+
 export enum CharacterSheetTab {
 	Skills,
 	Inventory,

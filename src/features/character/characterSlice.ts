@@ -159,6 +159,13 @@ export const getEquipmentBonus = createSelector(
 	},
 );
 
+export const getCurrentLevel = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return [];
+	}
+	return character.map.maps[character.map.location.level];
+});
+
 export const characterSlice = createSlice({
 	name: "character",
 	initialState,

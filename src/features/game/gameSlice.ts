@@ -1,16 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
 import { IActionPayload, IApiError, IBattle, ICharacter } from "common/types";
 
+interface IPlayerLocation {
+	top: number;
+	left: number;
+}
+
 interface IGameState {
 	battle: IBattle | null;
+	playerLocation: IPlayerLocation | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
 const initialState: IGameState = {
 	battle: null,
+	playerLocation: null,
 	status: "idle",
 };
 
@@ -64,7 +71,11 @@ export const gameSelector = (state: RootState) => state.game;
 export const gameSlice = createSlice({
 	name: "game",
 	initialState,
-	reducers: {},
+	reducers: {
+		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
+			state.playerLocation = action.payload;
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(startBattle.pending, (state) => {
 			state.status = "loading";
@@ -103,6 +114,6 @@ export const gameSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-// export const { } = gameSlice.actions;
+export const { setPlayerLocation } = gameSlice.actions;
 
 export default gameSlice.reducer;
