@@ -1,6 +1,6 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { RoomType } from "common/utils";
+import { RoomState, RoomType } from "common/utils";
 import { getCurrentLevel, getCurrentRoom, rest } from "features/character";
 import { Fragment, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal } from "features/modals";
@@ -108,8 +108,13 @@ export const Map: React.FC = () => {
 	};
 
 	const handleLocation = () => {
-		const isActionRoom = room && Object.keys(modalState).includes(room.type.toString());
-		if (isActionRoom) {
+		if (!room) {
+			return;
+		}
+
+		const isActionRoom = Object.keys(modalState).includes(room.type.toString());
+		const isComplete = room.state === RoomState.Complete;
+		if (isActionRoom && !isComplete) {
 			setModalState((state) => ({ ...state, [room.type]: true }));
 		}
 	};

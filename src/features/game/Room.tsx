@@ -37,6 +37,9 @@ const BaseRoom = styled(Paper)(({ theme }) => ({
 	svg: {
 		width: "50%",
 	},
+	"&.complete svg": {
+		opacity: 0.5,
+	},
 })) as typeof Paper;
 
 const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
@@ -95,7 +98,7 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 
 	return (
 		<Tile ref={roomRef}>
-			<BaseRoom component="button" onClick={handleMove} disabled={isLoading}>
+			<BaseRoom component="button" onClick={handleMove} disabled={isLoading} className={room.state}>
 				{ROOM_ICON_MAP[room.type as RoomType]}
 			</BaseRoom>
 		</Tile>
