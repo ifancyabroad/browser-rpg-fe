@@ -29,7 +29,7 @@ interface IBaseRoomProps {
 }
 
 const BaseRoom = styled(Paper, {
-	shouldForwardProp: (prop) => !["inPath", "isAccessible"].includes(prop as string),
+	shouldForwardProp: (prop) => !["isInPath", "isAccessible"].includes(prop as string),
 })<IBaseRoomProps>(({ theme, isInPath, isAccessible }) => ({
 	flex: 1,
 	display: "flex",
