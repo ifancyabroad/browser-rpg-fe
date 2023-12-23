@@ -1,7 +1,7 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IActionPayload, IApiError, IBattle, ICharacter } from "common/types";
+import { IActionPayload, IApiError, IBattle, ICharacter, ILocation } from "common/types";
 
 interface IPlayerLocation {
 	top: number;
@@ -10,6 +10,8 @@ interface IPlayerLocation {
 
 interface IGameState {
 	battle: IBattle | null;
+	displayedPath: number[][];
+	path: number[][];
 	playerLocation: IPlayerLocation | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -17,6 +19,8 @@ interface IGameState {
 
 const initialState: IGameState = {
 	battle: null,
+	displayedPath: [],
+	path: [],
 	playerLocation: null,
 	status: "idle",
 };
@@ -68,10 +72,20 @@ export const postAction = createAsyncThunk(
 
 export const gameSelector = (state: RootState) => state.game;
 
+export const getIsInDisplayedPath = createSelector(gameSelector, ({ displayedPath }) => (location: ILocation) => {
+	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
+});
+
 export const gameSlice = createSlice({
 	name: "game",
 	initialState,
 	reducers: {
+		setDisplayedPath: (state, action: PayloadAction<number[][]>) => {
+			state.displayedPath = action.payload;
+		},
+		setPath: (state, action: PayloadAction<number[][]>) => {
+			state.path = action.payload;
+		},
 		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
 			state.playerLocation = action.payload;
 		},
@@ -114,6 +128,6 @@ export const gameSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setPlayerLocation } = gameSlice.actions;
+export const { setDisplayedPath, setPath, setPlayerLocation } = gameSlice.actions;
 
 export default gameSlice.reducer;

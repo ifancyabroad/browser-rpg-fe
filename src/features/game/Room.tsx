@@ -1,10 +1,10 @@
 import { Paper, styled } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { ILocation, IRoom } from "common/types";
 import { RoomType } from "common/utils";
 import { getIsPlayerLocation, move } from "features/character";
 import { useEffect, useRef } from "react";
-import { setPlayerLocation } from "./gameSlice";
+import { getIsInDisplayedPath, setDisplayedPath, setPath, setPlayerLocation } from "./gameSlice";
 import { openErrorModal } from "features/modals";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
@@ -21,18 +21,25 @@ const Tile = styled("div")({
 	justifyContent: "center",
 });
 
-const BaseRoom = styled(Paper)(({ theme }) => ({
+interface IBaseRoomProps {
+	component: React.ElementType;
+	disabled?: boolean;
+	isInPath: boolean;
+}
+
+const BaseRoom = styled(Paper, {
+	shouldForwardProp: (prop) => prop !== "inPath",
+})<IBaseRoomProps>(({ theme, isInPath }) => ({
 	flex: 1,
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
-	cursor: "pointer",
 	borderStyle: "solid",
 	borderWidth: 3,
-	borderColor: "transparent",
+	borderColor: isInPath ? theme.palette.primary.main : "transparent",
 	transition: "all 0.2s ease-in-out",
-	":hover": {
-		borderColor: theme.palette.primary.main,
+	":hover:not(:disabled)": {
+		cursor: "pointer",
 	},
 	svg: {
 		width: "50%",
@@ -40,7 +47,7 @@ const BaseRoom = styled(Paper)(({ theme }) => ({
 	"&.complete svg": {
 		opacity: 0.5,
 	},
-})) as typeof Paper;
+}));
 
 const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 	[RoomType.None]: null,
@@ -64,8 +71,11 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	const dispatch = useAppDispatch();
 	const roomRef = useRef<HTMLDivElement | null>(null);
 	const hasPlayer = useAppSelector(getIsPlayerLocation)(location);
+	const inInPath = useAppSelector(getIsInDisplayedPath)(location);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
+	const path = useFindPath(location);
+	const isDisabled = isLoading || path.length <= 0;
 
 	useEffect(() => {
 		if (gridRef && gridRef.current && roomRef && roomRef.current && hasPlayer) {
@@ -84,12 +94,23 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	}, [dispatch, gridRef, hasPlayer]);
 
 	const handleMove = async () => {
-		try {
-			await dispatch(move(location)).unwrap();
-		} catch (err) {
-			const { message } = err as Error;
-			dispatch(openErrorModal({ message }));
+		if (path.length > 0) {
+			try {
+				await dispatch(move(location)).unwrap();
+				dispatch(setPath(path));
+			} catch (err) {
+				const { message } = err as Error;
+				dispatch(openErrorModal({ message }));
+			}
 		}
+	};
+
+	const handleShowPath = () => {
+		dispatch(setDisplayedPath(path));
+	};
+
+	const handleClearPath = () => {
+		dispatch(setDisplayedPath([]));
 	};
 
 	if (room.type === RoomType.None) {
@@ -98,7 +119,15 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 
 	return (
 		<Tile ref={roomRef}>
-			<BaseRoom component="button" onClick={handleMove} disabled={isLoading} className={room.state}>
+			<BaseRoom
+				component="button"
+				onClick={handleMove}
+				onMouseOver={handleShowPath}
+				onMouseOut={handleClearPath}
+				disabled={isDisabled}
+				isInPath={inInPath}
+				className={room.state}
+			>
 				{ROOM_ICON_MAP[room.type as RoomType]}
 			</BaseRoom>
 		</Tile>

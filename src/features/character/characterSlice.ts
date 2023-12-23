@@ -189,6 +189,13 @@ export const getCurrentRoom = createSelector(characterSelector, ({ character }) 
 	return currentLevel[y][x];
 });
 
+export const getCurrentLocation = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return null;
+	}
+	return character.map.location;
+});
+
 export const getIsPlayerLocation = createSelector(characterSelector, ({ character }) => (location: ILocation) => {
 	if (!character) {
 		return false;
