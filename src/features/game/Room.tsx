@@ -25,11 +25,12 @@ interface IBaseRoomProps {
 	component: React.ElementType;
 	disabled?: boolean;
 	isInPath: boolean;
+	isAccessible: boolean;
 }
 
 const BaseRoom = styled(Paper, {
-	shouldForwardProp: (prop) => prop !== "inPath",
-})<IBaseRoomProps>(({ theme, isInPath }) => ({
+	shouldForwardProp: (prop) => !["inPath", "isAccessible"].includes(prop as string),
+})<IBaseRoomProps>(({ theme, isInPath, isAccessible }) => ({
 	flex: 1,
 	display: "flex",
 	alignItems: "center",
@@ -37,6 +38,7 @@ const BaseRoom = styled(Paper, {
 	borderStyle: "solid",
 	borderWidth: 3,
 	borderColor: isInPath ? theme.palette.primary.main : "transparent",
+	opacity: isAccessible ? 1 : 0.4,
 	transition: "all 0.2s ease-in-out",
 	":hover:not(:disabled)": {
 		cursor: "pointer",
@@ -75,7 +77,8 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const path = useFindPath(location);
-	const isDisabled = isLoading || path.length <= 0;
+	const isAccessible = path.length > 0;
+	const isDisabled = isLoading || !isAccessible;
 
 	useEffect(() => {
 		if (gridRef && gridRef.current && roomRef && roomRef.current && hasPlayer) {
@@ -94,7 +97,7 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	}, [dispatch, gridRef, hasPlayer]);
 
 	const handleMove = async () => {
-		if (path.length > 0) {
+		if (isAccessible) {
 			try {
 				await dispatch(move(location)).unwrap();
 				dispatch(setPath(path));
@@ -126,6 +129,7 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 				onMouseOut={handleClearPath}
 				disabled={isDisabled}
 				isInPath={inInPath}
+				isAccessible={isAccessible}
 				className={room.state}
 			>
 				{ROOM_ICON_MAP[room.type as RoomType]}
