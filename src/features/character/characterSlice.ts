@@ -180,6 +180,15 @@ export const getCurrentLevel = createSelector(characterSelector, ({ character })
 	return character.map.maps[character.map.location.level];
 });
 
+export const getCurrentRoom = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return null;
+	}
+	const { level, x, y } = character.map.location;
+	const currentLevel = character.map.maps[level];
+	return currentLevel[y][x];
+});
+
 export const getIsPlayerLocation = createSelector(characterSelector, ({ character }) => (location: ILocation) => {
 	if (!character) {
 		return false;
