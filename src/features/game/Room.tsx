@@ -2,9 +2,9 @@ import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { ILocation, IRoom } from "common/types";
 import { RoomType } from "common/utils";
-import { getIsPlayerLocation, move } from "features/character";
-import { useEffect, useRef } from "react";
-import { getIsInDisplayedPath, setDisplayedPath, setPath, setPlayerLocation } from "./gameSlice";
+import { move } from "features/character";
+import { forwardRef } from "react";
+import { getIsInDisplayedPath, setDisplayedPath, setPath } from "./gameSlice";
 import { openErrorModal } from "features/modals";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
@@ -64,37 +64,19 @@ const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 };
 
 interface IRoomProps {
-	gridRef: React.RefObject<HTMLDivElement>;
+	ref: React.Ref<HTMLDivElement>;
 	room: IRoom;
 	location: ILocation;
 }
 
-export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
+export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>(({ room, location }, ref) => {
 	const dispatch = useAppDispatch();
-	const roomRef = useRef<HTMLDivElement | null>(null);
-	const hasPlayer = useAppSelector(getIsPlayerLocation)(location);
 	const inInPath = useAppSelector(getIsInDisplayedPath)(location);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const path = useFindPath(location);
 	const isAccessible = path.length > 0;
 	const isDisabled = isLoading || !isAccessible;
-
-	useEffect(() => {
-		if (gridRef && gridRef.current && roomRef && roomRef.current && hasPlayer) {
-			const grid = gridRef.current.getBoundingClientRect();
-			const room = roomRef.current.getBoundingClientRect();
-			const top = room.top - grid.top;
-			const left = room.left - grid.left;
-
-			dispatch(
-				setPlayerLocation({
-					top: top + room.height / 2,
-					left: left + room.width / 2,
-				}),
-			);
-		}
-	}, [dispatch, gridRef, hasPlayer]);
 
 	const handleMove = async () => {
 		if (isAccessible) {
@@ -121,7 +103,7 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 	}
 
 	return (
-		<Tile ref={roomRef}>
+		<Tile ref={ref}>
 			<BaseRoom
 				component="button"
 				onClick={handleMove}
@@ -136,4 +118,4 @@ export const Room: React.FC<IRoomProps> = ({ gridRef, room, location }) => {
 			</BaseRoom>
 		</Tile>
 	);
-};
+});

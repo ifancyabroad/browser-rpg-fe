@@ -1,7 +1,7 @@
 import { HOCGameData, HOCLayout, HOCSession } from "common/components";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Landing } from "features/landing";
-import { Battle, Game, Map, Shop } from "features/game";
+import { Battle, Game, Dungeon, Shop } from "features/game";
 import {
 	CharacterClassModal,
 	EquipmentModal,
@@ -28,7 +28,7 @@ function App() {
 								<Route path="/" element={<Start />} />
 								<Route path="/create" element={<CharacterCreate />} />
 								<Route path="/game" element={<Game />}>
-									<Route index element={<Map />} />
+									<Route index element={<Dungeon />} />
 									<Route path="shop" element={<Shop />} />
 									<Route path="battle" element={<Battle />} />
 								</Route>
