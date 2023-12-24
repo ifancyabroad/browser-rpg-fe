@@ -19,3 +19,8 @@ export interface IMap {
 	maps: TMap[];
 	location: ILocation;
 }
+
+export interface IPlayerLocation {
+	top: number;
+	left: number;
+}

@@ -46,7 +46,7 @@ export const Shop: React.FC = () => {
 				<Typography variant="h2">Shop</Typography>
 				<Button component={Link} to="/game" color="inherit">
 					<ArrowBackIcon sx={{ mr: 1 }} />
-					Return to town
+					Leave
 				</Button>
 			</Box>
 			<Paper

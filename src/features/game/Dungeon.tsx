@@ -206,19 +206,12 @@ export const Dungeon: React.FC = () => {
 							return <Room key={id} ref={updateNode} room={room} location={location} />;
 						}),
 					)}
-					{location && (
-						<Player
-							left={location.left}
-							top={location.top}
-							onAnimationEnd={handleLocation}
-							sx={{ animation }}
-						/>
-					)}
+					{location && <Player location={location} onAnimationEnd={handleLocation} animation={animation} />}
 				</Grid>
 			</Box>
 
 			<ConfirmationModal
-				title="Would you like to rest?"
+				title="Rest?"
 				content={`Resting will cost ${character.restPrice}g`}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
@@ -234,7 +227,7 @@ export const Dungeon: React.FC = () => {
 				disabled={isGameLoading}
 			/>
 			<ConfirmationModal
-				title="Would you like to visit the merchant?"
+				title="Visit Merchant?"
 				content="You come across a merchant interested in selling some items he has discovered."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}

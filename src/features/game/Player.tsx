@@ -1,4 +1,6 @@
 import { keyframes, styled } from "@mui/material";
+import { IPlayerLocation } from "common/types";
+import playerIcon from "assets/images/icons/character.svg";
 
 const pulseRing = keyframes`
   0% {
@@ -21,14 +23,14 @@ const pulseDot = keyframes`
   }
 `;
 
-interface IProps {
+interface IIndicatorProps {
 	top: number;
 	left: number;
 }
 
-export const Player = styled("div", {
+const Indicator = styled("div", {
 	shouldForwardProp: (prop) => !["top", "left"].includes(prop as string),
-})<IProps>(({ top, left }) => ({
+})<IIndicatorProps>(({ theme, top, left }) => ({
 	position: "absolute",
 	top,
 	left,
@@ -45,7 +47,7 @@ export const Player = styled("div", {
 		marginLeft: "-100%",
 		marginTop: "-100%",
 		borderRadius: "50%",
-		backgroundColor: "#01a4e9",
+		backgroundColor: theme.palette.primary.light,
 		animation: `${pulseRing} 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite`,
 	},
 	":after": {
@@ -56,9 +58,24 @@ export const Player = styled("div", {
 		display: "block",
 		width: "100%",
 		height: "100%",
-		backgroundColor: "white",
+		backgroundColor: theme.palette.primary.main,
+		backgroundImage: `url(${playerIcon})`,
+		backgroundSize: "60%",
+		backgroundPosition: "center",
+		backgroundRepeat: "no-repeat",
+		border: "2px solid transparent",
 		borderRadius: "50%",
-		boxShadow: "0 0 8px rgba(0,0,0,.3)",
+		boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
 		animation: `${pulseDot} 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite`,
 	},
 }));
+
+interface IProps {
+	location: IPlayerLocation;
+	animation: string;
+	onAnimationEnd: () => void;
+}
+
+export const Player: React.FC<IProps> = ({ location, animation, onAnimationEnd }) => (
+	<Indicator left={location.left} top={location.top} onAnimationEnd={onAnimationEnd} sx={{ animation }} />
+);

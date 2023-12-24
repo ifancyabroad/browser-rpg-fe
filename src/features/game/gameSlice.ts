@@ -1,12 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IActionPayload, IApiError, IBattle, ICharacter, ILocation } from "common/types";
-
-interface IPlayerLocation {
-	top: number;
-	left: number;
-}
+import { IActionPayload, IApiError, IBattle, ICharacter, ILocation, IPlayerLocation } from "common/types";
 
 interface IGameState {
 	battle: IBattle | null;
