@@ -141,6 +141,19 @@ export const move = createAsyncThunk("character/move", async (payload: ILocation
 	}
 });
 
+export const nextLevel = createAsyncThunk("character/nextLevel", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const characterSelector = (state: RootState) => state.character;
 
 export const getIsLoaded = createSelector(
@@ -319,6 +332,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(move.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(nextLevel.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(nextLevel.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(nextLevel.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

@@ -89,8 +89,12 @@ export const getDamageTypeConfig = (damageType: DamageType) => {
 	return DAMAGE_CONFIG.find(({ key }) => key === damageType);
 };
 
-export const getRoomCenter = (grid: HTMLDivElement, room: HTMLDivElement) => {
-	const gridRect = grid.getBoundingClientRect();
+export const getRoomCenter = (room: HTMLDivElement) => {
+	if (!room.parentElement) {
+		return;
+	}
+
+	const gridRect = room.parentElement.getBoundingClientRect();
 	const roomRect = room.getBoundingClientRect();
 	const top = roomRect.top - gridRect.top;
 	const left = roomRect.left - gridRect.left;
@@ -100,7 +104,7 @@ export const getRoomCenter = (grid: HTMLDivElement, room: HTMLDivElement) => {
 	};
 };
 
-interface IAnimationStep {
+export interface IAnimationStep {
 	left: number;
 	top: number;
 }

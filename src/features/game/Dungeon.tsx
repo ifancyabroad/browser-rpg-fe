@@ -1,7 +1,7 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import { getCurrentLevel, getCurrentRoom, getIsActiveRoom, rest } from "features/character";
+import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
+import { getCurrentLevel, getCurrentRoom, getIsActiveRoom, nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Player } from "./Player";
@@ -10,14 +10,20 @@ import { setPath, setPlayerLocation, startBattle } from "./gameSlice";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as FootstepsIcon } from "assets/images/icons/footsteps.svg";
 
-const Grid = styled("div")({
+interface IGridProps {
+	columns: number;
+}
+
+const Grid = styled("div", {
+	shouldForwardProp: (prop) => prop !== "columns",
+})<IGridProps>(({ columns }) => ({
 	position: "relative",
 	width: "100%",
 	maxWidth: 700,
 	margin: "auto",
 	display: "grid",
-	gridTemplateColumns: "repeat(8, 1fr)",
-});
+	gridTemplateColumns: `repeat(${columns}, 1fr)`,
+}));
 
 const headShakeAnimation = keyframes`
 	0%,
@@ -94,25 +100,41 @@ export const Dungeon: React.FC = () => {
 	}, []);
 
 	const roomLocation = useMemo(() => {
-		if (character && grid) {
-			const map = getMap();
-			const id = `${character.map.location.y}${character.map.location.x}`;
-			const room = map.get(id);
-			return getRoomCenter(grid, room!); // TODO: Remove exclamation
+		if (!character || !grid) {
+			return;
+		}
+
+		const map = getMap();
+		const id = `${character.map.location.level}${character.map.location.y}${character.map.location.x}`;
+		const room = map.get(id);
+
+		if (room) {
+			return getRoomCenter(room);
 		}
 	}, [character, grid]);
 
+	console.log(location);
+	console.log(roomLocation);
+	console.log(path);
+
 	const pathAnimation = useMemo(() => {
-		if (path.length && grid) {
-			const map = getMap();
-			const animationSteps = path.map(([x, y]) => {
-				const id = `${y}${x}`;
-				const room = map.get(id);
-				return getRoomCenter(grid, room!); // TODO: Remove exclamation
-			});
-			return createAnimationFromPath(animationSteps);
+		if (!character || !grid || !path.length) {
+			return;
 		}
-	}, [path, grid]);
+
+		const level = character.map.location.level;
+		const map = getMap();
+
+		const animationSteps = path
+			.map(([x, y]) => {
+				const id = `${level}${y}${x}`;
+				const room = map.get(id);
+				return room ? getRoomCenter(room) : undefined;
+			})
+			.filter((step) => step) as IAnimationStep[];
+
+		return createAnimationFromPath(animationSteps);
+	}, [character, grid, path]);
 
 	useEffect(() => {
 		if (!roomLocation) {
@@ -158,6 +180,18 @@ export const Dungeon: React.FC = () => {
 		navigate("/game/shop");
 	};
 
+	const handleExit = async () => {
+		try {
+			await dispatch(nextLevel()).unwrap();
+			dispatch(setPath([]));
+			setAnimation("");
+			setModalState((state) => ({ ...state, [RoomType.Exit]: false }));
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
+	};
+
 	const closeConfirmationModal = () => {
 		setModalState(defaultModalState);
 	};
@@ -193,12 +227,11 @@ export const Dungeon: React.FC = () => {
 						<FootstepsIcon height={40} width={40} />
 					</StyledButton>
 				</Box>
-				<Grid ref={gridRef}>
+				<Grid ref={gridRef} columns={level.length}>
 					{level.map((row, y) =>
 						row.map((room, x) => {
 							const level = character.map.location.level;
-							const location = { level, x, y };
-							const id = `${y}${x}`;
+							const id = `${level}${y}${x}`;
 
 							const updateNode = (node: HTMLDivElement | null) => {
 								const map = getMap();
@@ -208,7 +241,7 @@ export const Dungeon: React.FC = () => {
 									map.delete(id);
 								}
 							};
-							return <Room key={id} ref={updateNode} room={room} location={location} />;
+							return <Room key={id} ref={updateNode} room={room} />;
 						}),
 					)}
 					{location && <Player location={location} onAnimationEnd={handleLocation} animation={animation} />}
@@ -232,11 +265,26 @@ export const Dungeon: React.FC = () => {
 				disabled={isGameLoading}
 			/>
 			<ConfirmationModal
+				title="Fight Boss"
+				content="As you make your way to the exit you are stopped in your tracks by a powerful foe."
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleStartBattle}
+				open={modalState[RoomType.Boss]}
+				disabled={isGameLoading}
+			/>
+			<ConfirmationModal
 				title="Visit Merchant?"
 				content="You come across a merchant interested in selling some items he has discovered."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}
 				open={modalState[RoomType.Shop]}
+			/>
+			<ConfirmationModal
+				title="Descend"
+				content="You have found a staircase descending further into the dungeon, are you ready to proceed?"
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleExit}
+				open={modalState[RoomType.Exit]}
 			/>
 		</Fragment>
 	);

@@ -17,6 +17,12 @@ export const useFindPath = (destination: ILocation) => {
 	if (!location) {
 		return [];
 	}
+
+	const isActiveLevel = location.level === destination.level;
+	if (!isActiveLevel) {
+		return [];
+	}
+
 	const matrix = level.map((row, y) =>
 		row.map(({ state }, x) => {
 			if (y === destination.y && x === destination.x) {

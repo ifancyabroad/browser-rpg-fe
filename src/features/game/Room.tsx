@@ -1,6 +1,6 @@
 import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
-import { ILocation, IRoom } from "common/types";
+import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
 import { move } from "features/character";
 import { forwardRef } from "react";
@@ -66,22 +66,21 @@ const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 interface IRoomProps {
 	ref: React.Ref<HTMLDivElement>;
 	room: IRoom;
-	location: ILocation;
 }
 
-export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>(({ room, location }, ref) => {
+export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>(({ room }, ref) => {
 	const dispatch = useAppDispatch();
-	const inInPath = useAppSelector(getIsInDisplayedPath)(location);
+	const inInPath = useAppSelector(getIsInDisplayedPath)(room.location);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
-	const path = useFindPath(location);
+	const path = useFindPath(room.location);
 	const isAccessible = path.length > 0;
 	const isDisabled = isLoading || !isAccessible;
 
 	const handleMove = async () => {
 		if (isAccessible) {
 			try {
-				await dispatch(move(location)).unwrap();
+				await dispatch(move(room.location)).unwrap();
 				dispatch(setPath(path));
 			} catch (err) {
 				const { message } = err as Error;
