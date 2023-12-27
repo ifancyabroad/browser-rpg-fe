@@ -10,7 +10,7 @@ import {
 	ILevelUpPayload,
 	ILocation,
 } from "common/types";
-import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
+import { ACTION_ROOMS, CharacterSheetTab, PropertyType, RoomState, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
 
 interface ICharacerState {
@@ -187,6 +187,13 @@ export const getCurrentRoom = createSelector(characterSelector, ({ character }) 
 	const { level, x, y } = character.map.location;
 	const currentLevel = character.map.maps[level];
 	return currentLevel[y][x];
+});
+
+export const getIsActiveRoom = createSelector(getCurrentRoom, (room) => {
+	if (!room) {
+		return false;
+	}
+	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
 });
 
 export const getCurrentLocation = createSelector(characterSelector, ({ character }) => {

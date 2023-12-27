@@ -5,6 +5,7 @@ import {
 	DamageType,
 	EquipmentSlot,
 	EquipmentType,
+	RoomType,
 	SkillClass,
 	SkillType,
 	Stat,
@@ -215,5 +216,14 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Dead]: "Dead",
 	[Status.Retired]: "Retired",
 };
+
+export const ACTION_ROOMS = [
+	RoomType.Battle,
+	RoomType.Boss,
+	RoomType.Shop,
+	RoomType.Treasure,
+	RoomType.Rest,
+	RoomType.Exit,
+] as const;
 
 export * from "./config";

@@ -1,7 +1,7 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { RoomState, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import { getCurrentLevel, getCurrentRoom, rest } from "features/character";
+import { RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
+import { getCurrentLevel, getCurrentRoom, getIsActiveRoom, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Player } from "./Player";
@@ -77,6 +77,7 @@ export const Dungeon: React.FC = () => {
 	const roomsRef = useRef<Map<string, HTMLDivElement> | null>(null);
 	const [animation, setAnimation] = useState("");
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
+	const isActionRoom = useAppSelector(getIsActiveRoom);
 
 	const getMap = () => {
 		if (!roomsRef.current) {
@@ -166,9 +167,7 @@ export const Dungeon: React.FC = () => {
 			return;
 		}
 
-		const isActionRoom = Object.keys(modalState).includes(room.type.toString());
-		const isComplete = room.state === RoomState.Complete;
-		if (isActionRoom && !isComplete) {
+		if (isActionRoom) {
 			setModalState((state) => ({ ...state, [room.type]: true }));
 		}
 	};
@@ -184,7 +183,13 @@ export const Dungeon: React.FC = () => {
 						</Typography>
 					</Box>
 
-					<StyledButton aria-label="character" color="primary" variant="contained" onClick={handleLocation}>
+					<StyledButton
+						aria-label="character"
+						color="primary"
+						variant="contained"
+						onClick={handleLocation}
+						sx={{ display: isActionRoom ? null : "none" }}
+					>
 						<FootstepsIcon height={40} width={40} />
 					</StyledButton>
 				</Box>
