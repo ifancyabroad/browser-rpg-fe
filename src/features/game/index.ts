@@ -1,5 +1,4 @@
 export * from "./Game";
-export * from "./Menu";
 export * from "./Shop";
 export * from "./Enemy";
 export * from "./Battle";

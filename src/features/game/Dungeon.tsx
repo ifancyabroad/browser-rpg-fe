@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
 import {
 	getCurrentLevel,
+	getCurrentLocation,
 	getCurrentRoom,
 	getIsActiveRoom,
 	nextLevel,
@@ -78,9 +79,10 @@ const defaultModalState = {
 export const Dungeon: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const level = useAppSelector(getCurrentLevel);
-	const location = useAppSelector((state) => state.character.playerLocation);
+	const playerLocation = useAppSelector((state) => state.character.playerLocation);
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
+	const location = useAppSelector(getCurrentLocation);
 	const path = useAppSelector((state) => state.character.path);
 	const [modalState, setModalState] = useState(defaultModalState);
 	const gameStatus = useAppSelector((state) => state.game.status);
@@ -109,24 +111,24 @@ export const Dungeon: React.FC = () => {
 	}, []);
 
 	const roomLocation = useMemo(() => {
-		if (!character || !grid) {
+		if (!location || !grid) {
 			return;
 		}
 
-		const id = `${character.map.location.level}${character.map.location.y}${character.map.location.x}`;
+		const id = `${location.level}${location.y}${location.x}`;
 		const room = rooms[id];
 
 		if (room) {
 			return getRoomCenter(room);
 		}
-	}, [character, grid, rooms]);
+	}, [location, grid, rooms]);
 
 	const pathAnimation = useMemo(() => {
-		if (!character || !grid || !path.length) {
+		if (!location || !grid || !path.length) {
 			return;
 		}
 
-		const level = character.map.location.level;
+		const level = location.level;
 
 		const animationSteps = path
 			.map(([x, y]) => {
@@ -137,7 +139,7 @@ export const Dungeon: React.FC = () => {
 			.filter((step) => step) as IAnimationStep[];
 
 		return createAnimationFromPath(animationSteps);
-	}, [character, grid, rooms, path]);
+	}, [location, grid, rooms, path]);
 
 	useEffect(() => {
 		setAnimation("");
@@ -164,13 +166,13 @@ export const Dungeon: React.FC = () => {
 		};
 	}, [dispatch]);
 
-	if (!character) {
+	if (!character || !location) {
 		return null;
 	}
 
 	const handleRest = async () => {
 		try {
-			await dispatch(rest()).unwrap();
+			await dispatch(rest(location)).unwrap();
 			setModalState((state) => ({ ...state, [RoomType.Rest]: false }));
 		} catch (err) {
 			const { message } = err as Error;
@@ -180,7 +182,7 @@ export const Dungeon: React.FC = () => {
 
 	const handleStartBattle = async () => {
 		try {
-			await dispatch(startBattle()).unwrap();
+			await dispatch(startBattle(location)).unwrap();
 			setModalState((state) => ({ ...state, [RoomType.Battle]: false }));
 		} catch (err) {
 			const { message } = err as Error;
@@ -194,7 +196,7 @@ export const Dungeon: React.FC = () => {
 
 	const handleExit = async () => {
 		try {
-			await dispatch(nextLevel()).unwrap();
+			await dispatch(nextLevel(location)).unwrap();
 			setModalState((state) => ({ ...state, [RoomType.Exit]: false }));
 		} catch (err) {
 			const { message } = err as Error;
@@ -210,6 +212,8 @@ export const Dungeon: React.FC = () => {
 		if (!room) {
 			return;
 		}
+
+		dispatch(setPath([]));
 
 		if (isActionRoom) {
 			setModalState((state) => ({ ...state, [room.type]: true }));
@@ -254,9 +258,9 @@ export const Dungeon: React.FC = () => {
 							return <Room key={id} ref={updateNode} room={room} />;
 						}),
 					)}
-					{location && (
+					{playerLocation && (
 						<Player
-							location={location}
+							location={playerLocation}
 							level={level}
 							onAnimationEnd={handleLocation}
 							animation={animation}

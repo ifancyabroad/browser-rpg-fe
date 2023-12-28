@@ -10,6 +10,7 @@ import {
 	ILevelUpPayload,
 	ILocation,
 	IPlayerLocation,
+	IRoom,
 } from "common/types";
 import { ACTION_ROOMS, CharacterSheetTab, PropertyType, RoomState, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
@@ -24,6 +25,7 @@ interface ICharacerState {
 	path: number[][];
 	displayedPath: number[][];
 	playerLocation: IPlayerLocation | null;
+	currentRoom: IRoom | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
@@ -37,6 +39,7 @@ const initialState: ICharacerState = {
 	path: [],
 	displayedPath: [],
 	playerLocation: null,
+	currentRoom: null,
 	classes: [],
 	status: "idle",
 };
@@ -109,9 +112,9 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 	}
 });
 
-export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
+export const rest = createAsyncThunk("character/rest", async (payload: ILocation, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
+		const response = await axios.post<{ character: ICharacter }>("/api/character/rest", payload);
 		return response.data.character;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -137,7 +140,7 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 
 export const move = createAsyncThunk("character/move", async (payload: ILocation, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter; path: number[][] }>("/api/character/move", payload);
+		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -148,9 +151,9 @@ export const move = createAsyncThunk("character/move", async (payload: ILocation
 	}
 });
 
-export const nextLevel = createAsyncThunk("character/nextLevel", async (_, { rejectWithValue }) => {
+export const nextLevel = createAsyncThunk("character/nextLevel", async (payload: ILocation, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter; path: number[][] }>("/api/character/nextLevel");
+		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel", payload);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -200,7 +203,10 @@ export const getCurrentLevel = createSelector(characterSelector, ({ character })
 	return character.map.maps[character.map.location.level];
 });
 
-export const getCurrentRoom = createSelector(characterSelector, ({ character }) => {
+export const getCurrentRoom = createSelector(characterSelector, ({ character, currentRoom }) => {
+	if (currentRoom) {
+		return currentRoom;
+	}
 	if (!character) {
 		return null;
 	}
@@ -209,26 +215,18 @@ export const getCurrentRoom = createSelector(characterSelector, ({ character }) 
 	return currentLevel[y][x];
 });
 
-export const getIsActiveRoom = createSelector(getCurrentRoom, (room) => {
-	if (!room) {
+export const getIsActiveRoom = createSelector(getCurrentRoom, (currentRoom) => {
+	if (!currentRoom) {
 		return false;
 	}
-	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
+	return currentRoom.state !== RoomState.Complete && ACTION_ROOMS.includes(currentRoom.type);
 });
 
-export const getCurrentLocation = createSelector(characterSelector, ({ character }) => {
-	if (!character) {
+export const getCurrentLocation = createSelector(getCurrentRoom, (currentRoom) => {
+	if (!currentRoom) {
 		return null;
 	}
-	return character.map.location;
-});
-
-export const getIsPlayerLocation = createSelector(characterSelector, ({ character }) => (location: ILocation) => {
-	if (!character) {
-		return false;
-	}
-	const { level, x, y } = character.map.location;
-	return level === location.level && x === location.x && y === location.y;
+	return currentRoom.location;
 });
 
 export const getIsInDisplayedPath = createSelector(characterSelector, ({ displayedPath }) => (location: ILocation) => {
@@ -262,6 +260,9 @@ export const characterSlice = createSlice({
 		},
 		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
 			state.playerLocation = action.payload;
+		},
+		setCurrentRoom: (state, action: PayloadAction<IRoom>) => {
+			state.currentRoom = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -350,7 +351,6 @@ export const characterSlice = createSlice({
 		builder.addCase(move.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload.character;
-			state.path = action.payload.path;
 		});
 		builder.addCase(move.rejected, (state, action) => {
 			state.status = "failed";
@@ -362,7 +362,7 @@ export const characterSlice = createSlice({
 		builder.addCase(nextLevel.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload.character;
-			state.path = action.payload.path;
+			state.currentRoom = null;
 		});
 		builder.addCase(nextLevel.rejected, (state, action) => {
 			state.status = "failed";
@@ -390,6 +390,7 @@ export const {
 	setDisplayedPath,
 	setPath,
 	setPlayerLocation,
+	setCurrentRoom,
 } = characterSlice.actions;
 
 export default characterSlice.reducer;

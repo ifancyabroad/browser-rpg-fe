@@ -69,6 +69,7 @@ export interface ICharacter {
 export interface IBuyItemPayload {
 	id: string;
 	slot: EquipmentSlot;
+	location: ILocation;
 }
 
 export interface ILevelUpPayload {

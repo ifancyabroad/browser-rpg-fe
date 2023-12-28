@@ -2,9 +2,8 @@ import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
-import { getIsInDisplayedPath, move, setDisplayedPath } from "features/character";
+import { getIsInDisplayedPath, setCurrentRoom, setDisplayedPath, setPath } from "features/character";
 import { forwardRef } from "react";
-import { openErrorModal } from "features/modals";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
 import { ReactComponent as TreasureIcon } from "assets/images/icons/open-treasure-chest.svg";
@@ -76,14 +75,10 @@ export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>
 	const isAccessible = path.length > 0;
 	const isDisabled = isLoading || !isAccessible;
 
-	const handleMove = async () => {
+	const handleMove = () => {
 		if (isAccessible) {
-			try {
-				await dispatch(move(room.location)).unwrap();
-			} catch (err) {
-				const { message } = err as Error;
-				dispatch(openErrorModal({ message }));
-			}
+			dispatch(setPath(path));
+			dispatch(setCurrentRoom(room));
 		}
 	};
 

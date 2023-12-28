@@ -5,7 +5,13 @@ import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
+import {
+	buyItem,
+	getCurrentLocation,
+	getIsTwoHandedWeaponEquipped,
+	setCharacterSheetTab,
+	viewItems,
+} from "features/character";
 import { useEffect } from "react";
 import { openErrorModal, openReplaceItemModal } from "features/modals";
 import background from "assets/images/background/shop_interior.png";
@@ -15,21 +21,22 @@ export const Shop: React.FC = () => {
 	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
 	const availableItems = character ? character.availableItems : [];
+	const location = useAppSelector(getCurrentLocation);
 
 	useEffect(() => {
 		dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
 		dispatch(viewItems());
 	}, [dispatch]);
 
-	const handleBuyItem = async (item: IArmour | IWeapon) => {
-		if (!character) {
-			return;
-		}
+	if (!character || !location) {
+		return null;
+	}
 
+	const handleBuyItem = async (item: IArmour | IWeapon) => {
 		try {
 			const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
 			if (slot) {
-				await dispatch(buyItem({ id: item.id, slot })).unwrap();
+				await dispatch(buyItem({ id: item.id, slot, location })).unwrap();
 				return Promise.resolve();
 			}
 
