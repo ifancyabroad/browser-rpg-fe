@@ -9,7 +9,6 @@ import {
 	ICharacterPayload,
 	ILevelUpPayload,
 	ILocation,
-	IMove,
 	IPlayerLocation,
 } from "common/types";
 import { ACTION_ROOMS, CharacterSheetTab, PropertyType, RoomState, Status, WeaponSize, mapToArray } from "common/utils";
@@ -22,8 +21,8 @@ interface ICharacerState {
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
-	displayedPath: number[][];
 	path: number[][];
+	displayedPath: number[][];
 	playerLocation: IPlayerLocation | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -35,8 +34,8 @@ const initialState: ICharacerState = {
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Skills,
 	hasViewedItems: false,
-	displayedPath: [],
 	path: [],
+	displayedPath: [],
 	playerLocation: null,
 	classes: [],
 	status: "idle",
@@ -136,10 +135,10 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
-export const move = createAsyncThunk("character/move", async (payload: IMove, { rejectWithValue }) => {
+export const move = createAsyncThunk("character/move", async (payload: ILocation, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload.location);
-		return { character: response.data.character, path: payload.path };
+		const response = await axios.post<{ character: ICharacter; path: number[][] }>("/api/character/move", payload);
+		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -151,8 +150,8 @@ export const move = createAsyncThunk("character/move", async (payload: IMove, { 
 
 export const nextLevel = createAsyncThunk("character/nextLevel", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel");
-		return response.data.character;
+		const response = await axios.post<{ character: ICharacter; path: number[][] }>("/api/character/nextLevel");
+		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -362,8 +361,8 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(nextLevel.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.character = action.payload;
-			state.path = [];
+			state.character = action.payload.character;
+			state.path = action.payload.path;
 		});
 		builder.addCase(nextLevel.rejected, (state, action) => {
 			state.status = "failed";

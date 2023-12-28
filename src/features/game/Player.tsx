@@ -1,5 +1,5 @@
 import { keyframes, styled } from "@mui/material";
-import { IPlayerLocation } from "common/types";
+import { IPlayerLocation, TMap } from "common/types";
 import playerIcon from "assets/images/icons/character.svg";
 
 const pulseRing = keyframes`
@@ -26,17 +26,18 @@ const pulseDot = keyframes`
 interface IIndicatorProps {
 	top: number;
 	left: number;
+	size: number;
 }
 
 const Indicator = styled("div", {
-	shouldForwardProp: (prop) => !["top", "left"].includes(prop as string),
-})<IIndicatorProps>(({ theme, top, left }) => ({
+	shouldForwardProp: (prop) => !["top", "left", "size"].includes(prop as string),
+})<IIndicatorProps>(({ theme, top, left, size }) => ({
 	position: "absolute",
 	top,
 	left,
 	transform: "translate(-50%, -50%)",
-	height: "30px",
-	width: "30px",
+	height: size,
+	width: size,
 	":before": {
 		content: "''",
 		position: "relative",
@@ -71,10 +72,17 @@ const Indicator = styled("div", {
 
 interface IProps {
 	location: IPlayerLocation;
+	level: TMap;
 	animation: string;
 	onAnimationEnd: () => void;
 }
 
-export const Player: React.FC<IProps> = ({ location, animation, onAnimationEnd }) => (
-	<Indicator left={location.left} top={location.top} onAnimationEnd={onAnimationEnd} sx={{ animation }} />
+export const Player: React.FC<IProps> = ({ location, level, animation, onAnimationEnd }) => (
+	<Indicator
+		left={location.left}
+		top={location.top}
+		size={256 / level.length}
+		onAnimationEnd={onAnimationEnd}
+		sx={{ animation }}
+	/>
 );

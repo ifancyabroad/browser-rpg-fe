@@ -25,8 +25,3 @@ export interface IPlayerLocation {
 	top: number;
 	left: number;
 }
-
-export interface IMove {
-	location: ILocation;
-	path: number[][];
-}

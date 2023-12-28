@@ -220,7 +220,7 @@ export const Dungeon: React.FC = () => {
 		<Fragment>
 			<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
 				<Box display="flex" justifyContent="space-between">
-					<Box display="flex" alignItems="baseline" gap={2}>
+					<Box>
 						<Typography variant="h4">Dungeon</Typography>
 						<Typography variant="h5" color="text.secondary">
 							Level {character.map.location.level + 1}
@@ -254,7 +254,14 @@ export const Dungeon: React.FC = () => {
 							return <Room key={id} ref={updateNode} room={room} />;
 						}),
 					)}
-					{location && <Player location={location} onAnimationEnd={handleLocation} animation={animation} />}
+					{location && (
+						<Player
+							location={location}
+							level={level}
+							onAnimationEnd={handleLocation}
+							animation={animation}
+						/>
+					)}
 				</Grid>
 			</Box>
 
@@ -295,6 +302,7 @@ export const Dungeon: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
 				open={modalState[RoomType.Exit]}
+				disabled={isCharacterLoading}
 			/>
 		</Fragment>
 	);

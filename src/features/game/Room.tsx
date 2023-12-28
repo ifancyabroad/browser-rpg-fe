@@ -79,7 +79,7 @@ export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>
 	const handleMove = async () => {
 		if (isAccessible) {
 			try {
-				await dispatch(move({ location: room.location, path })).unwrap();
+				await dispatch(move(room.location)).unwrap();
 			} catch (err) {
 				const { message } = err as Error;
 				dispatch(openErrorModal({ message }));
