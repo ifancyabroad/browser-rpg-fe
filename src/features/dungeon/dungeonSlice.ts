@@ -2,7 +2,8 @@ import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { ILocation, IPlayerLocation, IRoom } from "common/types";
 import { ACTION_ROOMS, RoomState } from "common/utils";
-import { characterSelector, nextLevel } from "features/character";
+import { startBattle } from "features/battle";
+import { buyItem, characterSelector, nextLevel, rest } from "features/character";
 
 interface IDungeonState {
 	path: number[][];
@@ -78,6 +79,15 @@ export const dungeonSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
+		builder.addCase(rest.fulfilled, (state) => {
+			state.currentRoom = null;
+		});
+		builder.addCase(startBattle.fulfilled, (state) => {
+			state.currentRoom = null;
+		});
+		builder.addCase(buyItem.fulfilled, (state) => {
+			state.currentRoom = null;
+		});
 		builder.addCase(nextLevel.fulfilled, (state) => {
 			state.currentRoom = null;
 		});

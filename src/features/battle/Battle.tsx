@@ -45,7 +45,7 @@ export const Battle: React.FC = () => {
 
 	return (
 		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
-			<Typography variant="h2">Arena</Typography>
+			<Typography variant="h2">Battle</Typography>
 			<Paper
 				sx={{
 					backgroundColor: alpha(theme.palette.background.paper, 0.5),
