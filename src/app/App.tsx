@@ -1,7 +1,7 @@
 import { HOCGameData, HOCLayout, HOCSession } from "common/components";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import { Landing } from "features/landing";
-import { Battle, Game, Dungeon, Shop } from "features/game";
+import { Game } from "features/game";
 import {
 	CharacterClassModal,
 	EquipmentModal,
@@ -14,6 +14,8 @@ import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
 import { Leaderboard } from "features/leaderboard";
+import { Dungeon, Shop } from "features/dungeon";
+import { Battle } from "features/battle";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);

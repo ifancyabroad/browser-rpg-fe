@@ -9,11 +9,9 @@ import {
 	ICharacterPayload,
 	ILevelUpPayload,
 	ILocation,
-	IPlayerLocation,
-	IRoom,
 } from "common/types";
-import { ACTION_ROOMS, CharacterSheetTab, PropertyType, RoomState, Status, WeaponSize, mapToArray } from "common/utils";
-import { fetchBattle, postAction, startBattle } from "features/game";
+import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
+import { fetchBattle, postAction, startBattle } from "features/battle";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -22,10 +20,6 @@ interface ICharacerState {
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
-	path: number[][];
-	displayedPath: number[][];
-	playerLocation: IPlayerLocation | null;
-	currentRoom: IRoom | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
@@ -36,10 +30,6 @@ const initialState: ICharacerState = {
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Skills,
 	hasViewedItems: false,
-	path: [],
-	displayedPath: [],
-	playerLocation: null,
-	currentRoom: null,
 	classes: [],
 	status: "idle",
 };
@@ -196,43 +186,6 @@ export const getEquipmentBonus = createSelector(
 	},
 );
 
-export const getCurrentLevel = createSelector(characterSelector, ({ character }) => {
-	if (!character) {
-		return [];
-	}
-	return character.map.maps[character.map.location.level];
-});
-
-export const getCurrentRoom = createSelector(characterSelector, ({ character, currentRoom }) => {
-	if (currentRoom) {
-		return currentRoom;
-	}
-	if (!character) {
-		return null;
-	}
-	const { level, x, y } = character.map.location;
-	const currentLevel = character.map.maps[level];
-	return currentLevel[y][x];
-});
-
-export const getIsActiveRoom = createSelector(getCurrentRoom, (currentRoom) => {
-	if (!currentRoom) {
-		return false;
-	}
-	return currentRoom.state !== RoomState.Complete && ACTION_ROOMS.includes(currentRoom.type);
-});
-
-export const getCurrentLocation = createSelector(getCurrentRoom, (currentRoom) => {
-	if (!currentRoom) {
-		return null;
-	}
-	return currentRoom.location;
-});
-
-export const getIsInDisplayedPath = createSelector(characterSelector, ({ displayedPath }) => (location: ILocation) => {
-	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
-});
-
 export const characterSlice = createSlice({
 	name: "character",
 	initialState,
@@ -251,18 +204,6 @@ export const characterSlice = createSlice({
 		},
 		newItems: (state) => {
 			state.hasViewedItems = false;
-		},
-		setDisplayedPath: (state, action: PayloadAction<number[][]>) => {
-			state.displayedPath = action.payload;
-		},
-		setPath: (state, action: PayloadAction<number[][]>) => {
-			state.path = action.payload;
-		},
-		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
-			state.playerLocation = action.payload;
-		},
-		setCurrentRoom: (state, action: PayloadAction<IRoom>) => {
-			state.currentRoom = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -362,7 +303,6 @@ export const characterSlice = createSlice({
 		builder.addCase(nextLevel.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload.character;
-			state.currentRoom = null;
 		});
 		builder.addCase(nextLevel.rejected, (state, action) => {
 			state.status = "failed";
@@ -381,16 +321,7 @@ export const characterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {
-	openCharacterSheet,
-	closeCharacterSheet,
-	setCharacterSheetTab,
-	viewItems,
-	newItems,
-	setDisplayedPath,
-	setPath,
-	setPlayerLocation,
-	setCurrentRoom,
-} = characterSlice.actions;
+export const { openCharacterSheet, closeCharacterSheet, setCharacterSheetTab, viewItems, newItems } =
+	characterSlice.actions;
 
 export default characterSlice.reducer;

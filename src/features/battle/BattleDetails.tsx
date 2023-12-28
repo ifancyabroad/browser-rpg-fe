@@ -5,7 +5,7 @@ import { AuxiliaryEffect, StatusEffect } from "./Effect";
 
 export const BattleDetails: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
-	const battle = useAppSelector((state) => state.game.battle);
+	const battle = useAppSelector((state) => state.battle.battle);
 
 	if (!character || !battle) {
 		return null;

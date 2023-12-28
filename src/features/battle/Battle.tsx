@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { BattleState, CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
 import { useEffect } from "react";
-import { fetchBattle } from "./gameSlice";
+import { fetchBattle } from "./battleSlice";
 import { Enemy } from "./Enemy";
 import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals";
 import { BattleDetails } from "./BattleDetails";
@@ -11,7 +11,7 @@ import { BattleDetails } from "./BattleDetails";
 export const Battle: React.FC = () => {
 	const theme = useTheme();
 	const dispatch = useAppDispatch();
-	const battle = useAppSelector((state) => state.game.battle);
+	const battle = useAppSelector((state) => state.battle.battle);
 
 	useEffect(() => {
 		dispatch(setCharacterSheetTab(CharacterSheetTab.Skills));

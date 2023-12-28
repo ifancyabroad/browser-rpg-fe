@@ -7,8 +7,8 @@ export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const open = useAppSelector((state) => state.modals.rewardsModalOpen);
-	const battle = useAppSelector((state) => state.game.battle);
-	const status = useAppSelector((state) => state.game.status);
+	const battle = useAppSelector((state) => state.battle.battle);
+	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
 
 	const handleCompleteBattle = async () => {

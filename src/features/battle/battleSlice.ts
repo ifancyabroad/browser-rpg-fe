@@ -59,10 +59,10 @@ export const postAction = createAsyncThunk(
 	},
 );
 
-export const gameSelector = (state: RootState) => state.game;
+export const battleSelector = (state: RootState) => state.battle;
 
-export const gameSlice = createSlice({
-	name: "game",
+export const battleSlice = createSlice({
+	name: "battle",
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -103,6 +103,6 @@ export const gameSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-// export const { } = gameSlice.actions;
+// export const { } = battleSlice.actions;
 
-export default gameSlice.reducer;
+export default battleSlice.reducer;

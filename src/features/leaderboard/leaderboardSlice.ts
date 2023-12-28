@@ -29,7 +29,7 @@ export const fetchLeaderboard = createAsyncThunk("battle/fetchLeaderboard", asyn
 	}
 });
 
-export const gameSelector = (state: RootState) => state.game;
+export const leaderboardSelector = (state: RootState) => state.leaderboard;
 
 export const leaderboardSlice = createSlice({
 	name: "leaderboard",

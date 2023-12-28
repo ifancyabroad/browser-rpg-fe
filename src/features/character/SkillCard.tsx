@@ -3,7 +3,7 @@ import { State } from "common/utils";
 import { ISkill } from "common/types";
 import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { postAction } from "features/game";
+import { postAction } from "features/battle";
 import { openErrorModal, openSkillModal } from "features/modals";
 import { closeCharacterSheet } from ".";
 
@@ -14,7 +14,7 @@ interface IProps {
 export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
-	const status = useAppSelector((state) => state.game.status);
+	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
 	const secondaryText = skill.maxUses ? `${skill.remaining}/${skill.maxUses}` : undefined;
 	const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);

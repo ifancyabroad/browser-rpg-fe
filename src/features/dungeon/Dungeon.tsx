@@ -1,23 +1,22 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import {
-	getCurrentLevel,
-	getCurrentLocation,
-	getCurrentRoom,
-	getIsActiveRoom,
-	nextLevel,
-	rest,
-	setPath,
-	setPlayerLocation,
-} from "features/character";
+import { nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Player } from "./Player";
 import { Room } from "./Room";
-import { startBattle } from "./gameSlice";
+import { startBattle } from "features/battle";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as FootstepsIcon } from "assets/images/icons/footsteps.svg";
+import {
+	getActualLevel,
+	getCurrentLocation,
+	getCurrentRoom,
+	getIsActiveRoom,
+	setPath,
+	setPlayerLocation,
+} from "./dungeonSlice";
 
 interface IGridProps {
 	columns: number;
@@ -78,15 +77,15 @@ const defaultModalState = {
 
 export const Dungeon: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const level = useAppSelector(getCurrentLevel);
-	const playerLocation = useAppSelector((state) => state.character.playerLocation);
+	const level = useAppSelector(getActualLevel);
+	const playerLocation = useAppSelector((state) => state.dungeon.playerLocation);
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
 	const location = useAppSelector(getCurrentLocation);
-	const path = useAppSelector((state) => state.character.path);
+	const path = useAppSelector((state) => state.dungeon.path);
 	const [modalState, setModalState] = useState(defaultModalState);
-	const gameStatus = useAppSelector((state) => state.game.status);
-	const isGameLoading = gameStatus === "loading";
+	const battleStatus = useAppSelector((state) => state.battle.status);
+	const isBattleLoading = battleStatus === "loading";
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
 	const navigate = useNavigate();
@@ -283,7 +282,7 @@ export const Dungeon: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleStartBattle}
 				open={modalState[RoomType.Battle]}
-				disabled={isGameLoading}
+				disabled={isBattleLoading}
 			/>
 			<ConfirmationModal
 				title="Fight Boss"
@@ -291,7 +290,7 @@ export const Dungeon: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleStartBattle}
 				open={modalState[RoomType.Boss]}
-				disabled={isGameLoading}
+				disabled={isBattleLoading}
 			/>
 			<ConfirmationModal
 				title="Visit Merchant?"

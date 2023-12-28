@@ -2,7 +2,7 @@ import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
-import { getIsInDisplayedPath, setCurrentRoom, setDisplayedPath, setPath } from "features/character";
+import { getIsInDisplayedPath, setCurrentRoom, setDisplayedPath, setPath } from "./dungeonSlice";
 import { forwardRef } from "react";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";

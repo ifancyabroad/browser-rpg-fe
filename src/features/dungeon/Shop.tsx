@@ -5,16 +5,11 @@ import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {
-	buyItem,
-	getCurrentLocation,
-	getIsTwoHandedWeaponEquipped,
-	setCharacterSheetTab,
-	viewItems,
-} from "features/character";
+import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
 import { useEffect } from "react";
 import { openErrorModal, openReplaceItemModal } from "features/modals";
 import background from "assets/images/background/shop_interior.png";
+import { getCurrentLocation } from "./dungeonSlice";
 
 export const Shop: React.FC = () => {
 	const dispatch = useAppDispatch();

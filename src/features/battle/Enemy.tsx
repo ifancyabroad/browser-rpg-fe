@@ -3,7 +3,7 @@ import { LinearProgressWithLabel } from "common/components";
 import { useAppSelector } from "common/hooks";
 
 export const Enemy: React.FC = () => {
-	const enemy = useAppSelector((state) => state.game.battle?.enemy);
+	const enemy = useAppSelector((state) => state.battle.battle?.enemy);
 
 	if (!enemy) {
 		return null;

@@ -15,9 +15,10 @@ import {
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { EQUIPMENT_SLOT_TYPE_MAP, EquipmentSlot } from "common/utils";
-import { buyItem, getCurrentLocation } from "features/character";
+import { buyItem } from "features/character";
 import { closeReplaceItemModal, openErrorModal } from "features/modals";
 import CloseIcon from "@mui/icons-material/Close";
+import { getCurrentLocation } from "features/dungeon";
 
 interface IProps {
 	item: IArmour | IWeapon | null;
