@@ -2,9 +2,8 @@ import { Paper, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
-import { move } from "features/character";
+import { getIsInDisplayedPath, move, setDisplayedPath } from "features/character";
 import { forwardRef } from "react";
-import { getIsInDisplayedPath, setDisplayedPath, setPath } from "./gameSlice";
 import { openErrorModal } from "features/modals";
 import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
@@ -80,8 +79,7 @@ export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>
 	const handleMove = async () => {
 		if (isAccessible) {
 			try {
-				await dispatch(move(room.location)).unwrap();
-				dispatch(setPath(path));
+				await dispatch(move({ location: room.location, path })).unwrap();
 			} catch (err) {
 				const { message } = err as Error;
 				dispatch(openErrorModal({ message }));

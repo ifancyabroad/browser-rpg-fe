@@ -1,12 +1,20 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import { getCurrentLevel, getCurrentRoom, getIsActiveRoom, nextLevel, rest } from "features/character";
+import {
+	getCurrentLevel,
+	getCurrentRoom,
+	getIsActiveRoom,
+	nextLevel,
+	rest,
+	setPath,
+	setPlayerLocation,
+} from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Player } from "./Player";
 import { Room } from "./Room";
-import { setPath, setPlayerLocation, startBattle } from "./gameSlice";
+import { startBattle } from "./gameSlice";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as FootstepsIcon } from "assets/images/icons/footsteps.svg";
 
@@ -70,10 +78,10 @@ const defaultModalState = {
 export const Dungeon: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const level = useAppSelector(getCurrentLevel);
-	const location = useAppSelector((state) => state.game.playerLocation);
+	const location = useAppSelector((state) => state.character.playerLocation);
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
-	const path = useAppSelector((state) => state.game.path);
+	const path = useAppSelector((state) => state.character.path);
 	const [modalState, setModalState] = useState(defaultModalState);
 	const gameStatus = useAppSelector((state) => state.game.status);
 	const isGameLoading = gameStatus === "loading";
@@ -83,6 +91,7 @@ export const Dungeon: React.FC = () => {
 	const roomsRef = useRef<Map<string, HTMLDivElement> | null>(null);
 	const [animation, setAnimation] = useState("");
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
+	const [rooms, setRooms] = useState<Record<string, HTMLDivElement>>({});
 	const isActionRoom = useAppSelector(getIsActiveRoom);
 
 	const getMap = () => {
@@ -104,18 +113,13 @@ export const Dungeon: React.FC = () => {
 			return;
 		}
 
-		const map = getMap();
 		const id = `${character.map.location.level}${character.map.location.y}${character.map.location.x}`;
-		const room = map.get(id);
+		const room = rooms[id];
 
 		if (room) {
 			return getRoomCenter(room);
 		}
-	}, [character, grid]);
-
-	console.log(location);
-	console.log(roomLocation);
-	console.log(path);
+	}, [character, grid, rooms]);
 
 	const pathAnimation = useMemo(() => {
 		if (!character || !grid || !path.length) {
@@ -123,18 +127,24 @@ export const Dungeon: React.FC = () => {
 		}
 
 		const level = character.map.location.level;
-		const map = getMap();
 
 		const animationSteps = path
 			.map(([x, y]) => {
 				const id = `${level}${y}${x}`;
-				const room = map.get(id);
+				const room = rooms[id];
 				return room ? getRoomCenter(room) : undefined;
 			})
 			.filter((step) => step) as IAnimationStep[];
 
 		return createAnimationFromPath(animationSteps);
-	}, [character, grid, path]);
+	}, [character, grid, rooms, path]);
+
+	useEffect(() => {
+		setAnimation("");
+
+		const map = getMap();
+		setRooms(Object.fromEntries(map.entries()));
+	}, [dispatch, level]);
 
 	useEffect(() => {
 		if (!roomLocation) {
@@ -146,11 +156,13 @@ export const Dungeon: React.FC = () => {
 		} else {
 			dispatch(setPlayerLocation(roomLocation));
 		}
+	}, [dispatch, roomLocation, pathAnimation]);
 
+	useEffect(() => {
 		return () => {
 			dispatch(setPath([]));
 		};
-	}, [dispatch, roomLocation, pathAnimation]);
+	}, [dispatch]);
 
 	if (!character) {
 		return null;
@@ -183,8 +195,6 @@ export const Dungeon: React.FC = () => {
 	const handleExit = async () => {
 		try {
 			await dispatch(nextLevel()).unwrap();
-			dispatch(setPath([]));
-			setAnimation("");
 			setModalState((state) => ({ ...state, [RoomType.Exit]: false }));
 		} catch (err) {
 			const { message } = err as Error;

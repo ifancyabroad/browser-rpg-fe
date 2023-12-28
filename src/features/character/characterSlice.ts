@@ -9,6 +9,8 @@ import {
 	ICharacterPayload,
 	ILevelUpPayload,
 	ILocation,
+	IMove,
+	IPlayerLocation,
 } from "common/types";
 import { ACTION_ROOMS, CharacterSheetTab, PropertyType, RoomState, Status, WeaponSize, mapToArray } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/game";
@@ -20,6 +22,9 @@ interface ICharacerState {
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
+	displayedPath: number[][];
+	path: number[][];
+	playerLocation: IPlayerLocation | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
@@ -30,6 +35,9 @@ const initialState: ICharacerState = {
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Skills,
 	hasViewedItems: false,
+	displayedPath: [],
+	path: [],
+	playerLocation: null,
 	classes: [],
 	status: "idle",
 };
@@ -128,10 +136,10 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
-export const move = createAsyncThunk("character/move", async (payload: ILocation, { rejectWithValue }) => {
+export const move = createAsyncThunk("character/move", async (payload: IMove, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload);
-		return response.data.character;
+		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload.location);
+		return { character: response.data.character, path: payload.path };
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -224,6 +232,10 @@ export const getIsPlayerLocation = createSelector(characterSelector, ({ characte
 	return level === location.level && x === location.x && y === location.y;
 });
 
+export const getIsInDisplayedPath = createSelector(characterSelector, ({ displayedPath }) => (location: ILocation) => {
+	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
+});
+
 export const characterSlice = createSlice({
 	name: "character",
 	initialState,
@@ -242,6 +254,15 @@ export const characterSlice = createSlice({
 		},
 		newItems: (state) => {
 			state.hasViewedItems = false;
+		},
+		setDisplayedPath: (state, action: PayloadAction<number[][]>) => {
+			state.displayedPath = action.payload;
+		},
+		setPath: (state, action: PayloadAction<number[][]>) => {
+			state.path = action.payload;
+		},
+		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
+			state.playerLocation = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -329,7 +350,8 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(move.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.character = action.payload;
+			state.character = action.payload.character;
+			state.path = action.payload.path;
 		});
 		builder.addCase(move.rejected, (state, action) => {
 			state.status = "failed";
@@ -341,6 +363,7 @@ export const characterSlice = createSlice({
 		builder.addCase(nextLevel.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload;
+			state.path = [];
 		});
 		builder.addCase(nextLevel.rejected, (state, action) => {
 			state.status = "failed";
@@ -359,7 +382,15 @@ export const characterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { openCharacterSheet, closeCharacterSheet, setCharacterSheetTab, viewItems, newItems } =
-	characterSlice.actions;
+export const {
+	openCharacterSheet,
+	closeCharacterSheet,
+	setCharacterSheetTab,
+	viewItems,
+	newItems,
+	setDisplayedPath,
+	setPath,
+	setPlayerLocation,
+} = characterSlice.actions;
 
 export default characterSlice.reducer;

@@ -37,7 +37,6 @@ const Indicator = styled("div", {
 	transform: "translate(-50%, -50%)",
 	height: "30px",
 	width: "30px",
-	transition: "all 0.4s ease-in-out",
 	":before": {
 		content: "''",
 		position: "relative",
