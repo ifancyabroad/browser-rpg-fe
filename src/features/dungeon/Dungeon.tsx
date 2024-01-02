@@ -270,7 +270,7 @@ export const Dungeon: React.FC = () => {
 
 			<ConfirmationModal
 				title="Rest?"
-				content={`Resting will cost ${character.restPrice}g`}
+				content="You stumble upon an abandoned camp and a chance to rest for the night."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
 				open={modalState[RoomType.Rest]}

@@ -62,7 +62,6 @@ export interface ICharacter {
 	armourClass: number;
 	hitBonus: number;
 	critBonus: number;
-	restPrice: number;
 	map: IMap;
 }
 
