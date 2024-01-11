@@ -1,4 +1,4 @@
-import { Box, Drawer, IconButton, Paper, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
+import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
@@ -30,7 +30,6 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
 };
 
 const CharacterContent: React.FC = () => {
-	const theme = useTheme();
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
 	const characterSheetTab = useAppSelector((state) => state.character.characterSheetTab);
@@ -50,71 +49,61 @@ const CharacterContent: React.FC = () => {
 	const { name, level, characterClass, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
 
 	return (
-		<Box>
-			<Paper sx={{ backgroundColor: alpha(theme.palette.background.paper, 0.5), p: 1 }}>
-				<Stack direction="row" justifyContent="space-around" spacing={2} flexGrow={1}>
-					<Typography variant="body2">Day: {character.day}</Typography>
-					<Typography variant="body2">Gold: {character.gold}</Typography>
-					<Typography variant="body2">Kills: {character.kills}</Typography>
-				</Stack>
-			</Paper>
-
-			<Box p={2}>
-				<Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", mb: 2 }}>
-					<Box>
-						<Typography variant="h4">{name}</Typography>
-						<Typography variant="subtitle1" color="textSecondary">
-							Level {level} {characterClass.name}
-						</Typography>
-					</Box>
-
-					{experience >= nextLevelExperience && (
-						<IconButton
-							color="success"
-							aria-label="Level up"
-							onClick={handleLevelUp}
-							disabled={state === State.Battle}
-						>
-							<ArrowCircleUpIcon />
-						</IconButton>
-					)}
-				</Box>
-
-				<Stack spacing={1} mb={2}>
-					<LinearProgressWithLabel
-						color="success"
-						title="Health"
-						value={hitPoints}
-						max={maxHitPoints}
-						label={`${hitPoints}/${maxHitPoints}`}
-					/>
-					<LinearProgressWithLabel
-						title="Experience"
-						value={experience}
-						max={nextLevelExperience}
-						label={`${experience}/${nextLevelExperience}`}
-						customColor="#6e4281"
-					/>
-				</Stack>
-
+		<Box p={2}>
+			<Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", mb: 2 }}>
 				<Box>
-					<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-						<Tabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
-							<Tab label="Skills" value={CharacterSheetTab.Skills} />
-							<Tab label="Inventory" value={CharacterSheetTab.Inventory} />
-							<Tab label="Details" value={CharacterSheetTab.Details} />
-						</Tabs>
-					</Box>
-					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
-						<SkillList skills={character.skills} />
-					</TabPanel>
-					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
-						<EquipmentTable equipment={character.equipment} />
-					</TabPanel>
-					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
-						<Details />
-					</TabPanel>
+					<Typography variant="h4">{name}</Typography>
+					<Typography variant="subtitle1" color="textSecondary">
+						Level {level} {characterClass.name}
+					</Typography>
 				</Box>
+
+				{experience >= nextLevelExperience && (
+					<IconButton
+						color="success"
+						aria-label="Level up"
+						onClick={handleLevelUp}
+						disabled={state === State.Battle}
+					>
+						<ArrowCircleUpIcon />
+					</IconButton>
+				)}
+			</Box>
+
+			<Stack spacing={1} mb={2}>
+				<LinearProgressWithLabel
+					color="success"
+					title="Health"
+					value={hitPoints}
+					max={maxHitPoints}
+					label={`${hitPoints}/${maxHitPoints}`}
+				/>
+				<LinearProgressWithLabel
+					title="Experience"
+					value={experience}
+					max={nextLevelExperience}
+					label={`${experience}/${nextLevelExperience}`}
+					customColor="#6e4281"
+				/>
+			</Stack>
+
+			<Box>
+				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+					<Tabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
+						<Tab label="Skills" value={CharacterSheetTab.Skills} />
+						<Tab label="Inventory" value={CharacterSheetTab.Inventory} />
+						<Tab label="Details" value={CharacterSheetTab.Details} />
+					</Tabs>
+				</Box>
+				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
+					<SkillList skills={character.skills} />
+				</TabPanel>
+				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
+					<EquipmentTable equipment={character.equipment} />
+				</TabPanel>
+				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
+					<Details />
+				</TabPanel>
 			</Box>
 		</Box>
 	);

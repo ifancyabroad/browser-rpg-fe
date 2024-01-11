@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Typography, alpha, useTheme } from "@mui/material";
+import { Box, Grid, Paper, alpha, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { BattleState, CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
@@ -45,7 +45,6 @@ export const Battle: React.FC = () => {
 
 	return (
 		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
-			<Typography variant="h2">Battle</Typography>
 			<Paper
 				sx={{
 					backgroundColor: alpha(theme.palette.background.paper, 0.5),

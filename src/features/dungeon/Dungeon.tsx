@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
+import { Box, Button, ButtonProps, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
 import { getTreasure, getTreasureByLocation, nextLevel, rest } from "features/character";
@@ -240,14 +240,7 @@ export const Dungeon: React.FC = () => {
 	return (
 		<Fragment>
 			<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
-				<Box display="flex" justifyContent="space-between">
-					<Box>
-						<Typography variant="h4">Dungeon</Typography>
-						<Typography variant="h5" color="text.secondary">
-							Level {character.map.location.level + 1}
-						</Typography>
-					</Box>
-
+				<Box display="flex" justifyContent="flex-end">
 					<StyledButton
 						aria-label="character"
 						color="primary"

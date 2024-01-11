@@ -1,15 +1,15 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { ShopItem } from "./ShopItem";
 import { Link } from "react-router-dom";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
 import { useEffect } from "react";
 import { openErrorModal, openReplaceItemModal } from "features/modals";
 import background from "assets/images/background/shop_interior.png";
 import { getCurrentLocation } from "./dungeonSlice";
+import CloseIcon from "@mui/icons-material/Close";
 
 export const Shop: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -44,15 +44,9 @@ export const Shop: React.FC = () => {
 
 	return (
 		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
-			<Box display="flex" justifyContent="space-between" alignItems="center">
-				<Typography variant="h2">Shop</Typography>
-				<Button component={Link} to="/game" color="inherit">
-					<ArrowBackIcon sx={{ mr: 1 }} />
-					Leave
-				</Button>
-			</Box>
 			<Paper
 				sx={{
+					position: "relative",
 					backgroundImage: `url(${background})`,
 					backgroundSize: "cover",
 					backgroundPosition: "bottom",
@@ -65,6 +59,18 @@ export const Shop: React.FC = () => {
 					p: 2,
 				}}
 			>
+				<IconButton
+					component={Link}
+					to="/game"
+					sx={{
+						position: "absolute",
+						right: 8,
+						top: 8,
+						color: (theme) => theme.palette.grey[500],
+					}}
+				>
+					<CloseIcon />
+				</IconButton>
 				<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap">
 					{availableItems.length ? (
 						availableItems.map((item) => <ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />)
