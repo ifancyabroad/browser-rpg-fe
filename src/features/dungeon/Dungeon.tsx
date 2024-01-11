@@ -239,14 +239,20 @@ export const Dungeon: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
+			<Box position="relative" py={2} flex={1} display="flex" flexDirection="column" width="100%">
 				<Box display="flex" justifyContent="flex-end">
 					<StyledButton
 						aria-label="character"
 						color="primary"
 						variant="contained"
 						onClick={handleLocation}
-						sx={{ display: isActionRoom ? null : "none" }}
+						sx={{
+							display: isActionRoom ? null : "none",
+							position: "absolute",
+							top: 16,
+							right: 24,
+							zIndex: 1,
+						}}
 					>
 						<FootstepsIcon height={40} width={40} />
 					</StyledButton>
