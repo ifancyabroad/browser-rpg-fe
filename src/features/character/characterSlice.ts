@@ -215,8 +215,7 @@ export const getTreasureByLocation = createSelector(characterSelector, ({ charac
 		({ location }) =>
 			location.level === currentLocation?.level &&
 			location.x === currentLocation.x &&
-			location.y &&
-			currentLocation.y,
+			location.y === currentLocation.y,
 	);
 });
 
