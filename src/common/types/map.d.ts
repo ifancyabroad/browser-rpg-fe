@@ -16,9 +16,15 @@ type TMapRow = IRoom[];
 
 type TMap = TMapRow[];
 
+export interface ITreasure {
+	items: (IWeapon | IArmour)[];
+	location: ILocation;
+}
+
 export interface IMap {
 	maps: TMap[];
 	location: ILocation;
+	treasure: ITreasure[];
 }
 
 export interface IPlayerLocation {

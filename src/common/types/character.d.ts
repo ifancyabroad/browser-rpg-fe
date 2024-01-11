@@ -71,6 +71,12 @@ export interface IBuyItemPayload {
 	location: ILocation;
 }
 
+export interface ITreasurePayload {
+	id?: string;
+	slot?: EquipmentSlot;
+	location: ILocation;
+}
+
 export interface ILevelUpPayload {
 	stat: Stat;
 	skill?: string;

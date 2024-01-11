@@ -29,6 +29,10 @@ interface ModalsState {
 		open: boolean;
 		characterClass?: ICharacterClass;
 	};
+	treasureModal: {
+		open: boolean;
+		items: (IArmour | IWeapon)[];
+	};
 }
 
 const initialState: ModalsState = {
@@ -52,6 +56,10 @@ const initialState: ModalsState = {
 	},
 	characterClassModal: {
 		open: false,
+	},
+	treasureModal: {
+		open: false,
+		items: [],
 	},
 };
 
@@ -140,6 +148,14 @@ export const modalsSlice = createSlice({
 			state.characterClassModal.open = false;
 			state.characterClassModal.characterClass = undefined;
 		},
+		openTreasureModal: (state, action: PayloadAction<{ items: (IArmour | IWeapon)[] }>) => {
+			state.treasureModal.open = true;
+			state.treasureModal.items = action.payload.items;
+		},
+		closeTreasureModal: (state) => {
+			state.treasureModal.open = false;
+			state.treasureModal.items = [];
+		},
 	},
 });
 
@@ -167,6 +183,8 @@ export const {
 	closeSkillModal,
 	openCharacterClassModal,
 	closeCharacterClassModal,
+	openTreasureModal,
+	closeTreasureModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

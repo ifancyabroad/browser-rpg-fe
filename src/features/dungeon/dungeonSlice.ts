@@ -3,7 +3,7 @@ import { RootState } from "app/store";
 import { ILocation, IPlayerLocation, IRoom } from "common/types";
 import { ACTION_ROOMS, RoomState } from "common/utils";
 import { startBattle } from "features/battle";
-import { buyItem, characterSelector, nextLevel, rest } from "features/character";
+import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
 
 interface IDungeonState {
 	path: number[][];
@@ -89,6 +89,12 @@ export const dungeonSlice = createSlice({
 			state.currentRoom = null;
 		});
 		builder.addCase(nextLevel.fulfilled, (state) => {
+			state.currentRoom = null;
+		});
+		builder.addCase(getTreasure.fulfilled, (state) => {
+			state.currentRoom = null;
+		});
+		builder.addCase(takeTreasure.fulfilled, (state) => {
 			state.currentRoom = null;
 		});
 	},

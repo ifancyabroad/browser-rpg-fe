@@ -1,9 +1,9 @@
 import { Box, Button, ButtonProps, Typography, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import { nextLevel, rest } from "features/character";
+import { getTreasure, getTreasureByLocation, nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ConfirmationModal, openErrorModal } from "features/modals";
+import { ConfirmationModal, openErrorModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
 import { Room } from "./Room";
 import { startBattle } from "features/battle";
@@ -94,6 +94,7 @@ export const Dungeon: React.FC = () => {
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
 	const [rooms, setRooms] = useState<Record<string, HTMLDivElement>>({});
 	const isActionRoom = useAppSelector(getIsActiveRoom);
+	const treasure = useAppSelector(getTreasureByLocation);
 
 	const getMap = () => {
 		if (!roomsRef.current) {
@@ -191,6 +192,23 @@ export const Dungeon: React.FC = () => {
 
 	const handleOpenShop = () => {
 		navigate("/game/shop");
+	};
+
+	const handleOpenChest = async () => {
+		try {
+			if (!treasure) {
+				await dispatch(getTreasure(location)).unwrap();
+			}
+
+			setModalState((state) => ({ ...state, [RoomType.Treasure]: false }));
+
+			if (treasure) {
+				dispatch(openTreasureModal({ items: treasure.items }));
+			}
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
 	};
 
 	const handleExit = async () => {
@@ -298,6 +316,13 @@ export const Dungeon: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}
 				open={modalState[RoomType.Shop]}
+			/>
+			<ConfirmationModal
+				title="Open Chest?"
+				content="You find a treasure chest waiting to be opened."
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleOpenChest}
+				open={modalState[RoomType.Treasure]}
 			/>
 			<ConfirmationModal
 				title="Descend"

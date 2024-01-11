@@ -3,7 +3,7 @@ import { CharacterButton } from "common/components";
 import { useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { CharacterSheet } from "features/character";
-import { GameOverModal, LevelUpModal, ReplaceItemModal, RewardsModal } from "features/modals";
+import { GameOverModal, LevelUpModal, ReplaceItemModal, RewardsModal, TreasureModal } from "features/modals";
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
@@ -48,6 +48,7 @@ export const Game: React.FC = () => {
 			<RewardsModal />
 			<ReplaceItemModal />
 			<LevelUpModal />
+			<TreasureModal />
 			<GameOverModal />
 		</Fragment>
 	);
