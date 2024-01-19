@@ -1,7 +1,7 @@
 import { Box, Button, ButtonProps, keyframes, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
-import { getTreasure, getTreasureByLocation, nextLevel, rest } from "features/character";
+import { nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
@@ -94,7 +94,6 @@ export const Dungeon: React.FC = () => {
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
 	const [rooms, setRooms] = useState<Record<string, HTMLDivElement>>({});
 	const isActionRoom = useAppSelector(getIsActiveRoom);
-	const treasure = useAppSelector(getTreasureByLocation);
 
 	const getMap = () => {
 		if (!roomsRef.current) {
@@ -195,20 +194,8 @@ export const Dungeon: React.FC = () => {
 	};
 
 	const handleOpenChest = async () => {
-		try {
-			if (!treasure) {
-				await dispatch(getTreasure(location)).unwrap();
-			}
-
-			setModalState((state) => ({ ...state, [RoomType.Treasure]: false }));
-
-			if (treasure) {
-				dispatch(openTreasureModal({ items: treasure.items }));
-			}
-		} catch (err) {
-			const { message } = err as Error;
-			dispatch(openErrorModal({ message }));
-		}
+		dispatch(openTreasureModal());
+		setModalState((state) => ({ ...state, [RoomType.Treasure]: false }));
 	};
 
 	const handleExit = async () => {
