@@ -6,7 +6,6 @@ import { CharacterSheet } from "features/character";
 import { GameOverModal, LevelUpModal, ReplaceItemModal, RewardsModal, TreasureModal } from "features/modals";
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { GameBar } from "./GameBar";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
@@ -28,14 +27,13 @@ export const Game: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box display="flex">
+			<Box bgcolor="#000" display="flex">
 				<CharacterSheet />
 				<Box flex={1} overflow="auto">
-					<GameBar />
 					<Container>
 						<Box
 							sx={{
-								height: "calc(100vh - 102px)",
+								height: "calc(100vh - 53px)",
 								display: "flex",
 								flexDirection: "column",
 							}}

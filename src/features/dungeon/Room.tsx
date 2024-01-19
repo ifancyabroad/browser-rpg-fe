@@ -10,6 +10,8 @@ import { ReactComponent as TreasureIcon } from "assets/images/icons/open-treasur
 import { ReactComponent as ShopIcon } from "assets/images/icons/shop.svg";
 import { ReactComponent as RestIcon } from "assets/images/icons/campfire.svg";
 import { ReactComponent as ExitIcon } from "assets/images/icons/doorway.svg";
+import background from "assets/images/background/bgtile.webp";
+import background2 from "assets/images/background/bgtile2.webp";
 
 const Tile = styled("div")({
 	position: "relative",
@@ -30,6 +32,9 @@ const BaseRoom = styled(Paper, {
 	shouldForwardProp: (prop) => !["isInPath", "isAccessible"].includes(prop as string),
 })<IBaseRoomProps>(({ theme, isInPath, isAccessible }) => ({
 	flex: 1,
+	backgroundImage: `url(${background2}), url(${background})`,
+	backgroundPosition: "0px 0px, 0px 0px",
+	backgroundRepeat: "repeat-x, repeat",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",

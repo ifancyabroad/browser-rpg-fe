@@ -28,6 +28,7 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				<DialogContentText>Please give your character a name.</DialogContentText>
 				<TextField
 					inputRef={nameRef}
+					variant="filled"
 					autoFocus
 					margin="dense"
 					id="name"

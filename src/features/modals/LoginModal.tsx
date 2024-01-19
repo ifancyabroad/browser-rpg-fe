@@ -51,7 +51,7 @@ export const LoginModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
 			<DialogTitle id="form-dialog-title">Login</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
@@ -63,6 +63,7 @@ export const LoginModal: React.FC = () => {
 				</DialogContentText>
 				<TextField
 					inputRef={emailRef}
+					variant="filled"
 					autoFocus
 					margin="dense"
 					id="name"
@@ -73,6 +74,7 @@ export const LoginModal: React.FC = () => {
 				/>
 				<TextField
 					inputRef={passwordRef}
+					variant="filled"
 					margin="dense"
 					id="standard-basic"
 					label="Password"
