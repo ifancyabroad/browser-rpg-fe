@@ -13,3 +13,7 @@ export * from "./PropertyList";
 export * from "./EffectList";
 export * from "./CharacterButton";
 export * from "./StatIcon";
+export * from "./GameDialog";
+export * from "./Parchment";
+export * from "./ImageBorder";
+export * from "./IconWrapper";
