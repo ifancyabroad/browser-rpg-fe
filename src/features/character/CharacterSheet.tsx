@@ -1,15 +1,14 @@
 import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
 import { LinearProgressWithLabel } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab, State } from "common/utils";
+import { CharacterSheetTab } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
 import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
-import ArrowCircleUpIcon from "@mui/icons-material/ArrowCircleUp";
-import { openLevelUpModal } from "features/modals";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
+import { CharacterPortrait } from "./CharacterPortrait";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -36,46 +35,17 @@ const CharacterContent: React.FC = () => {
 		dispatch(setCharacterSheetTab(newValue));
 	};
 
-	const handleLevelUp = () => {
-		dispatch(openLevelUpModal());
-	};
-
 	if (!character) {
 		return null;
 	}
 
-	const { name, level, characterClass, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
+	const { experience, nextLevelExperience } = character;
 
 	return (
 		<Box p={2}>
-			<Box sx={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", mb: 2 }}>
-				<Box>
-					<Typography variant="h4">{name}</Typography>
-					<Typography variant="subtitle1" color="textSecondary">
-						Level {level} {characterClass.name}
-					</Typography>
-				</Box>
-
-				{experience >= nextLevelExperience && (
-					<IconButton
-						color="success"
-						aria-label="Level up"
-						onClick={handleLevelUp}
-						disabled={state === State.Battle}
-					>
-						<ArrowCircleUpIcon />
-					</IconButton>
-				)}
-			</Box>
+			<CharacterPortrait />
 
 			<Stack spacing={1} mb={2}>
-				<LinearProgressWithLabel
-					color="success"
-					title="Health"
-					value={hitPoints}
-					max={maxHitPoints}
-					label={`${hitPoints}/${maxHitPoints}`}
-				/>
 				<LinearProgressWithLabel
 					title="Experience"
 					value={experience}
