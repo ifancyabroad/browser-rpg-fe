@@ -1,6 +1,7 @@
 import { ISkill } from "common/types";
 import { SkillCard } from "./SkillCard";
 import { Stack } from "@mui/material";
+import { Parchment } from "common/components";
 
 interface IProps {
 	skills: ISkill[];
@@ -8,10 +9,12 @@ interface IProps {
 
 export const SkillList: React.FC<IProps> = ({ skills }) => {
 	return (
-		<Stack spacing={2} my={2}>
-			{skills.map((skill) => (
-				<SkillCard key={skill.id} skill={skill} />
-			))}
-		</Stack>
+		<Parchment sx={{ my: 2 }}>
+			<Stack spacing={2}>
+				{skills.map((skill) => (
+					<SkillCard key={skill.id} skill={skill} />
+				))}
+			</Stack>
+		</Parchment>
 	);
 };

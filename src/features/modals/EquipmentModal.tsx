@@ -36,10 +36,13 @@ export const EquipmentModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose} PaperComponent={GameDialogPaper}>
-			<GameModalTitle title={name} icon={equipmentIcon} />
+			<GameModalTitle title="Equipment" icon={equipmentIcon} />
 			<GameDialogContent>
 				<GameDialogCloseButton onClick={handleClose} />
 				<Parchment>
+					<Typography variant="h5" mb={2}>
+						{name}
+					</Typography>
 					<Grid container spacing={2} mb={3}>
 						<Grid item xs={12} md={6} display={{ xs: "none", md: "block" }}>
 							<ImageBorder>

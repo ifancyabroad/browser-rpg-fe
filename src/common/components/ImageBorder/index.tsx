@@ -2,6 +2,7 @@ import { Box, styled } from "@mui/material";
 import { PropsWithChildren } from "react";
 
 const OuterBevel = styled(Box)({
+	width: "fit-content",
 	borderWidth: "2px",
 	borderStyle: "solid",
 	borderColor: "rgb(124, 122, 111) rgb(50, 48, 39) rgb(36, 36, 29) rgb(59, 57, 46)",

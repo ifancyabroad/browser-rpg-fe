@@ -41,6 +41,8 @@ export const GameModalTitle: React.FC<IProps> = ({ title, icon }) => (
 		<IconWrapper>
 			<img src={icon} alt={title} width="45" />
 		</IconWrapper>
-		<Typography variant="h6">{title}</Typography>
+		<Typography variant="h6" noWrap>
+			{title}
+		</Typography>
 	</Wrapper>
 );
