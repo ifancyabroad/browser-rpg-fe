@@ -17,3 +17,4 @@ export * from "./GameDialog";
 export * from "./Parchment";
 export * from "./ImageBorder";
 export * from "./IconWrapper";
+export * from "./Portrait";

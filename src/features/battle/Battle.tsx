@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, alpha, useTheme } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { BattleState, CharacterSheetTab } from "common/utils";
 import { setCharacterSheetTab } from "features/character";
@@ -9,7 +9,6 @@ import { openErrorModal, openGameOverModal, openRewardsModal } from "features/mo
 import { BattleDetails } from "./BattleDetails";
 
 export const Battle: React.FC = () => {
-	const theme = useTheme();
 	const dispatch = useAppDispatch();
 	const battle = useAppSelector((state) => state.battle.battle);
 
@@ -44,29 +43,15 @@ export const Battle: React.FC = () => {
 	}, [dispatch, battle]);
 
 	return (
-		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
-			<Paper
-				sx={{
-					backgroundColor: alpha(theme.palette.background.paper, 0.5),
-					position: "relative",
-					flex: 1,
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					flexDirection: "column",
-					gap: 2,
-					p: 2,
-				}}
-			>
-				<Grid container spacing={2}>
-					<Grid item xs={12} lg={7} order={{ lg: 1 }}>
-						<Enemy />
-					</Grid>
-					<Grid item xs={12} lg={5}>
-						<BattleDetails />
-					</Grid>
+		<Box py={2} display="flex" flexDirection="column" width="100%">
+			<Grid container spacing={2}>
+				<Grid item xs={12} lg={7} order={{ lg: 1 }}>
+					<Enemy />
 				</Grid>
-			</Paper>
+				<Grid item xs={12} lg={5}>
+					<BattleDetails />
+				</Grid>
+			</Grid>
 		</Box>
 	);
 };

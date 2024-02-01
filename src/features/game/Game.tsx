@@ -29,7 +29,7 @@ export const Game: React.FC = () => {
 		<Fragment>
 			<Box bgcolor="#000" display="flex">
 				<CharacterSheet />
-				<Box flex={1} overflow="auto">
+				<Box overflow="auto">
 					<Container>
 						<Box
 							sx={{

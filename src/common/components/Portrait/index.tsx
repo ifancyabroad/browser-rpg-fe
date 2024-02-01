@@ -1,12 +1,20 @@
 import portraitFrame from "assets/images/ui/CharacterPortraitFrame.png";
+import nameFrame from "assets/images/ui/ModalTitleFrame.png";
 import healthBarFrame from "assets/images/ui/CharacterHealthBarFrame.png";
 import buttonFrame from "assets/images/ui/CharacterPortraitButtonFrame.png";
 import levelUpIcon from "assets/images/ui/LevelUpIcon.png";
-import characterIcon from "assets/images/ui/CharacterIcon.svg";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch } from "common/hooks";
 import { Box, ButtonBase, Typography, styled } from "@mui/material";
-import { State } from "common/utils";
 import { openLevelUpModal } from "features/modals";
+
+const Wrapper = styled(Box)({
+	display: "flex",
+	alignItems: "flex-start",
+	"&.character-portrait .portrait-image": {
+		height: "114px",
+		marginTop: "16px",
+	},
+});
 
 const PortraitWrapper = styled(Box)({
 	position: "relative",
@@ -18,8 +26,28 @@ const PortraitWrapper = styled(Box)({
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
-	zIndex: 1,
+	zIndex: 2,
 });
+
+const PortraitImage = styled("img")({
+	height: "80px",
+});
+
+const NameWrapper = styled(Box)(({ theme }) => ({
+	position: "relative",
+	backgroundImage: `url(${nameFrame})`,
+	backgroundRepeat: "no-repeat",
+	backgroundSize: "100% 100%",
+	padding: theme.spacing(2),
+	paddingLeft: "60px",
+	width: "257px",
+	height: "66px",
+	display: "flex",
+	alignItems: "center",
+	marginLeft: "-60px",
+	marginBottom: "-13px",
+	zIndex: 1,
+}));
 
 const HealthBarWrapper = styled(Box)({
 	position: "relative",
@@ -66,39 +94,49 @@ const PortraitButton = styled(ButtonBase)({
 	backgroundSize: "100% 100%",
 });
 
-export const CharacterPortrait: React.FC = () => {
+interface IProps {
+	className?: string;
+	value: number;
+	max: number;
+	label: string;
+	portrait: string;
+	showLevelUp?: boolean;
+}
+
+export const Portrait: React.FC<IProps> = ({ className, value, max, label, portrait, showLevelUp }) => {
 	const dispatch = useAppDispatch();
-	const character = useAppSelector((state) => state.character.character);
 
 	const handleLevelUp = () => {
 		dispatch(openLevelUpModal());
 	};
 
-	if (!character) {
-		return null;
-	}
-
-	const { hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
-	const normalisedValue = hitPoints > maxHitPoints ? 100 : ((hitPoints - 0) * 100) / (maxHitPoints - 0);
+	const normalisedValue = value > max ? 100 : ((value - 0) * 100) / (max - 0);
 
 	return (
-		<Box display="flex" alignItems="center">
+		<Wrapper className={className}>
 			<PortraitWrapper>
-				<Box component="img" src={characterIcon} alt="Character" width="100px" mt="12px" />
+				<PortraitImage className="portrait-image" src={portrait} alt={label} />
 
-				{experience >= nextLevelExperience && (
-					<PortraitButton aria-label="Level up" onClick={handleLevelUp} disabled={state === State.Battle}>
+				{showLevelUp && (
+					<PortraitButton aria-label="Level up" onClick={handleLevelUp}>
 						<img src={levelUpIcon} alt="Level Up" width="34" />
 					</PortraitButton>
 				)}
 			</PortraitWrapper>
-			<HealthBarWrapper>
-				<HealthBar sx={{ width: `${normalisedValue}%` }}>
-					<Typography variant="body2" color="white" fontSize={12} fontWeight="bold">
-						{hitPoints}/{maxHitPoints}
+			<Box>
+				<NameWrapper>
+					<Typography variant="h6" fontSize={18} noWrap>
+						{label}
 					</Typography>
-				</HealthBar>
-			</HealthBarWrapper>
-		</Box>
+				</NameWrapper>
+				<HealthBarWrapper>
+					<HealthBar sx={{ width: `${normalisedValue}%` }}>
+						<Typography variant="body2" color="white" fontSize={12} fontWeight="bold">
+							{value}/{max}
+						</Typography>
+					</HealthBar>
+				</HealthBarWrapper>
+			</Box>
+		</Wrapper>
 	);
 };

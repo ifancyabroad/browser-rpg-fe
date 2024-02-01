@@ -1,14 +1,14 @@
 import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
-import { LinearProgressWithLabel } from "common/components";
+import { LinearProgressWithLabel, Portrait } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab } from "common/utils";
+import { CharacterSheetTab, State } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillList } from "./SkillList";
 import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
-import { CharacterPortrait } from "./CharacterPortrait";
+import characterIcon from "assets/images/ui/CharacterIcon.svg";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -39,11 +39,19 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const { experience, nextLevelExperience } = character;
+	const { name, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
+	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
 		<Box p={2}>
-			<CharacterPortrait />
+			<Portrait
+				className="character-portrait"
+				label={name}
+				portrait={characterIcon}
+				value={hitPoints}
+				max={maxHitPoints}
+				showLevelUp={showLevelUp}
+			/>
 
 			<Stack spacing={1} mb={2}>
 				<LinearProgressWithLabel

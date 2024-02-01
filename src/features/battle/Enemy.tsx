@@ -1,6 +1,7 @@
-import { Box, Typography } from "@mui/material";
-import { LinearProgressWithLabel } from "common/components";
+import { Box } from "@mui/material";
+import { ImageBorder, Portrait } from "common/components";
 import { useAppSelector } from "common/hooks";
+import skullIcon from "assets/images/ui/SkullIcon.png";
 
 export const Enemy: React.FC = () => {
 	const enemy = useAppSelector((state) => state.battle.battle?.enemy);
@@ -9,25 +10,12 @@ export const Enemy: React.FC = () => {
 		return null;
 	}
 
-	const { name, image, level, hitPoints, maxHitPoints } = enemy;
+	const { name, image, hitPoints, maxHitPoints } = enemy;
 
 	return (
 		<Box maxWidth={600}>
 			<Box mb={2}>
-				<Typography variant="h4">{name}</Typography>
-				<Typography variant="subtitle1" color="textSecondary">
-					Level {level}
-				</Typography>
-			</Box>
-
-			<Box mb={2}>
-				<LinearProgressWithLabel
-					color="success"
-					title="Health"
-					value={hitPoints}
-					max={maxHitPoints}
-					label={`${hitPoints}/${maxHitPoints}`}
-				/>
+				<Portrait label={name} portrait={skullIcon} value={hitPoints} max={maxHitPoints} />
 			</Box>
 
 			<Box
@@ -36,15 +24,17 @@ export const Enemy: React.FC = () => {
 					aspectRatio: "1/1",
 				}}
 			>
-				<Box
-					component="img"
-					sx={{
-						maxWidth: "100%",
-						verticalAlign: "middle",
-					}}
-					src={image}
-					alt={name}
-				/>
+				<ImageBorder>
+					<Box
+						component="img"
+						sx={{
+							maxWidth: "100%",
+							verticalAlign: "middle",
+						}}
+						src={image}
+						alt={name}
+					/>
+				</ImageBorder>
 			</Box>
 		</Box>
 	);
