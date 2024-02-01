@@ -96,6 +96,15 @@ const theme = createTheme({
 				useFlexGap: true,
 			},
 		},
+		MuiTooltip: {
+			styleOverrides: {
+				tooltip: {
+					borderRadius: "4px",
+					boxShadow: "inset 0 0 30px rgba(0,0,0,0.3)",
+					backgroundImage: "linear-gradient(90deg, #1b1a18 0%, #262625 100%, #262625 100%)",
+				},
+			},
+		},
 		MuiCssBaseline: {
 			styleOverrides: {
 				body: {

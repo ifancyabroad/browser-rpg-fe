@@ -7,6 +7,7 @@ import { fetchBattle } from "./battleSlice";
 import { Enemy } from "./Enemy";
 import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals";
 import { BattleDetails } from "./BattleDetails";
+import { ActionBar } from "./ActionBar";
 
 export const Battle: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -43,7 +44,7 @@ export const Battle: React.FC = () => {
 	}, [dispatch, battle]);
 
 	return (
-		<Box py={2} display="flex" flexDirection="column" width="100%">
+		<Box py={2} flex={1} display="flex" flexDirection="column" width="100%">
 			<Grid container spacing={2}>
 				<Grid item xs={12} lg={7} order={{ lg: 1 }}>
 					<Enemy />
@@ -52,6 +53,8 @@ export const Battle: React.FC = () => {
 					<BattleDetails />
 				</Grid>
 			</Grid>
+
+			<ActionBar />
 		</Box>
 	);
 };
