@@ -1,6 +1,6 @@
 import { Box, ButtonBase, Stack, Tooltip, Typography, styled } from "@mui/material";
 import actionBarFrame from "assets/images/ui/ActionBarFrame.png";
-import { EffectList, ImageBorder, SkillIcon } from "common/components";
+import { EffectList, GameTooltip, SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import React from "react";
@@ -8,18 +8,23 @@ import { postAction } from "./battleSlice";
 import { openErrorModal } from "features/modals";
 
 const Wrapper = styled(Box)(({ theme }) => ({
+	flex: 1,
 	position: "sticky",
-	bottom: 0,
+	bottom: theme.spacing(2),
+	margin: "auto",
+	marginTop: theme.spacing(4),
+	display: "flex",
+	alignItems: "flex-end",
+	justifyContent: "center",
+}));
+
+const ActionBarWrapper = styled(Box)(({ theme }) => ({
 	backgroundImage: `url(${actionBarFrame})`,
 	backgroundRepeat: "no-repeat",
 	backgroundSize: "100% 100%",
 	width: "343px",
 	height: "79px",
 	padding: theme.spacing(1),
-	margin: "auto",
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
 }));
 
 const EmptySlot = styled(Box)({
@@ -32,8 +37,8 @@ const SkillTooltip: React.FC<ISkill> = ({ name, effects, remaining, maxUses }) =
 	const secondaryText = maxUses ? `${remaining}/${maxUses} Remaining` : undefined;
 
 	return (
-		<ImageBorder>
-			<Stack spacing={1} p={2}>
+		<GameTooltip>
+			<Stack spacing={1}>
 				<Typography variant="h6" fontSize={16}>
 					{name}
 				</Typography>
@@ -44,7 +49,7 @@ const SkillTooltip: React.FC<ISkill> = ({ name, effects, remaining, maxUses }) =
 				)}
 				<EffectList effects={effects} />
 			</Stack>
-		</ImageBorder>
+		</GameTooltip>
 	);
 };
 
@@ -84,15 +89,17 @@ export const ActionBar: React.FC = () => {
 
 	return (
 		<Wrapper>
-			<Stack flex={1} direction="row" justifyContent="space-between">
-				{character.skills.map((skill) => (
-					<SkillButton key={skill.id} {...skill} />
-				))}
+			<ActionBarWrapper>
+				<Stack direction="row" justifyContent="space-between">
+					{character.skills.map((skill) => (
+						<SkillButton key={skill.id} {...skill} />
+					))}
 
-				{emptySlots.map((_, index) => (
-					<EmptySlot key={index} />
-				))}
-			</Stack>
+					{emptySlots.map((_, index) => (
+						<EmptySlot key={index} />
+					))}
+				</Stack>
+			</ActionBarWrapper>
 		</Wrapper>
 	);
 };

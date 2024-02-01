@@ -18,3 +18,5 @@ export * from "./Parchment";
 export * from "./ImageBorder";
 export * from "./IconWrapper";
 export * from "./Portrait";
+export * from "./Effect";
+export * from "./GameTooltip";

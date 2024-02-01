@@ -39,7 +39,16 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const { name, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
+	const {
+		name,
+		hitPoints,
+		maxHitPoints,
+		experience,
+		nextLevelExperience,
+		state,
+		activeAuxiliaryEffects,
+		activeStatusEffects,
+	} = character;
 	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
@@ -50,6 +59,8 @@ const CharacterContent: React.FC = () => {
 				portrait={characterIcon}
 				value={hitPoints}
 				max={maxHitPoints}
+				auxiliaryEffects={activeAuxiliaryEffects}
+				statusEffects={activeStatusEffects}
 				showLevelUp={showLevelUp}
 			/>
 

@@ -4,8 +4,10 @@ import healthBarFrame from "assets/images/ui/CharacterHealthBarFrame.png";
 import buttonFrame from "assets/images/ui/CharacterPortraitButtonFrame.png";
 import levelUpIcon from "assets/images/ui/LevelUpIcon.png";
 import { useAppDispatch } from "common/hooks";
-import { Box, ButtonBase, Typography, styled } from "@mui/material";
+import { Box, ButtonBase, Stack, Typography, styled } from "@mui/material";
 import { openLevelUpModal } from "features/modals";
+import { IActiveEffect, IStatus } from "common/types";
+import { AuxiliaryEffect, StatusEffect } from "common/components";
 
 const Wrapper = styled(Box)({
 	display: "flex",
@@ -94,16 +96,37 @@ const PortraitButton = styled(ButtonBase)({
 	backgroundSize: "100% 100%",
 });
 
+const EffectsWrapper = styled(Stack)({
+	flexDirection: "row",
+	gap: "4px",
+	position: "absolute",
+	left: 0,
+	top: "100%",
+	zIndex: 2,
+	paddingLeft: "6px",
+});
+
 interface IProps {
 	className?: string;
 	value: number;
 	max: number;
 	label: string;
 	portrait: string;
+	auxiliaryEffects: IActiveEffect[];
+	statusEffects: IStatus[];
 	showLevelUp?: boolean;
 }
 
-export const Portrait: React.FC<IProps> = ({ className, value, max, label, portrait, showLevelUp }) => {
+export const Portrait: React.FC<IProps> = ({
+	className,
+	value,
+	max,
+	label,
+	portrait,
+	auxiliaryEffects,
+	statusEffects,
+	showLevelUp,
+}) => {
 	const dispatch = useAppDispatch();
 
 	const handleLevelUp = () => {
@@ -135,6 +158,15 @@ export const Portrait: React.FC<IProps> = ({ className, value, max, label, portr
 							{value}/{max}
 						</Typography>
 					</HealthBar>
+
+					<EffectsWrapper direction="row" spacing={1}>
+						{auxiliaryEffects.map((effect) => (
+							<AuxiliaryEffect key={effect.effect} {...effect} />
+						))}
+						{statusEffects.map((effect) => (
+							<StatusEffect key={effect.skill.id} {...effect} />
+						))}
+					</EffectsWrapper>
 				</HealthBarWrapper>
 			</Box>
 		</Wrapper>

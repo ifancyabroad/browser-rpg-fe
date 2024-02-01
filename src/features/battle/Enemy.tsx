@@ -10,12 +10,19 @@ export const Enemy: React.FC = () => {
 		return null;
 	}
 
-	const { name, image, hitPoints, maxHitPoints } = enemy;
+	const { name, image, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects } = enemy;
 
 	return (
 		<Box maxWidth={600}>
 			<Box mb={2}>
-				<Portrait label={name} portrait={skullIcon} value={hitPoints} max={maxHitPoints} />
+				<Portrait
+					label={name}
+					portrait={skullIcon}
+					value={hitPoints}
+					max={maxHitPoints}
+					auxiliaryEffects={activeAuxiliaryEffects}
+					statusEffects={activeStatusEffects}
+				/>
 			</Box>
 
 			<Box
