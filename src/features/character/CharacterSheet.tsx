@@ -1,5 +1,5 @@
 import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
-import { LinearProgressWithLabel, Portrait } from "common/components";
+import { Portrait } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
@@ -9,6 +9,7 @@ import { Details } from "./Details";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
 import characterIcon from "assets/images/ui/CharacterIcon.svg";
+import { ExperienceBar } from "./ExperienceBar";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -53,25 +54,19 @@ const CharacterContent: React.FC = () => {
 
 	return (
 		<Box p={2}>
-			<Portrait
-				className="character-portrait"
-				label={name}
-				portrait={characterIcon}
-				value={hitPoints}
-				max={maxHitPoints}
-				auxiliaryEffects={activeAuxiliaryEffects}
-				statusEffects={activeStatusEffects}
-				showLevelUp={showLevelUp}
-			/>
-
-			<Stack spacing={1} mb={2}>
-				<LinearProgressWithLabel
-					title="Experience"
-					value={experience}
-					max={nextLevelExperience}
-					label={`${experience}/${nextLevelExperience}`}
-					customColor="#6e4281"
+			<Stack spacing={4} mb={4}>
+				<Portrait
+					className="character-portrait"
+					label={name}
+					portrait={characterIcon}
+					value={hitPoints}
+					max={maxHitPoints}
+					auxiliaryEffects={activeAuxiliaryEffects}
+					statusEffects={activeStatusEffects}
+					showLevelUp={showLevelUp}
 				/>
+
+				<ExperienceBar />
 			</Stack>
 
 			<Box>

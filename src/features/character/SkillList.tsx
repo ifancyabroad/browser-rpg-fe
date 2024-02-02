@@ -9,7 +9,7 @@ interface IProps {
 
 export const SkillList: React.FC<IProps> = ({ skills }) => {
 	return (
-		<Parchment sx={{ my: 2 }}>
+		<Parchment sx={{ minHeight: 460, my: 2 }}>
 			<Stack spacing={2}>
 				{skills.map((skill) => (
 					<SkillCard key={skill.id} skill={skill} />

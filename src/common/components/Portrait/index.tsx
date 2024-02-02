@@ -48,7 +48,6 @@ const NameWrapper = styled(Box)(({ theme }) => ({
 	alignItems: "center",
 	marginLeft: "-60px",
 	marginBottom: "-13px",
-	zIndex: 1,
 }));
 
 const HealthBarWrapper = styled(Box)({
@@ -67,7 +66,8 @@ const HealthBarWrapper = styled(Box)({
 const HealthBar = styled(Box)({
 	position: "relative",
 	height: "100%",
-	backgroundImage: "linear-gradient(90deg, #397a41 0%, #49794f 100%)",
+	backgroundImage: "linear-gradient(90deg, #b83000 0%, #ff4200 100%)",
+	boxShadow: "inset 0px 0px 4px 0px rgba(255,255,255,0.3)",
 	display: "flex",
 	alignItems: "center",
 	paddingLeft: "10px",
@@ -80,7 +80,7 @@ const HealthBar = styled(Box)({
 		transform: "translateY(-50%)",
 		width: "32px",
 		height: "32px",
-		backgroundImage: "linear-gradient(90deg, rgba(241,62,0,0) 0%, rgba(241,62,0,0) 0%, #49794f 100%)",
+		backgroundImage: "linear-gradient(90deg, rgba(241,62,0,0) 0%, rgba(241,62,0,0) 0%, #ff4200 100%)",
 	},
 });
 

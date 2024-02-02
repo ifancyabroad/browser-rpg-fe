@@ -163,8 +163,8 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 		<Box sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h6">Combat Log</Typography>
 			<Paper
-				variant="outlined"
 				sx={{
+					background: "none",
 					flex: 1,
 					p: 2,
 				}}
