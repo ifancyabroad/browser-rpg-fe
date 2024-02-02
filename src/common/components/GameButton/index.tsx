@@ -42,13 +42,18 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
 	height: "100%",
 	width: "100%",
 	fontFamily: theme.typography.fontFamily,
+	fontSize: ".8rem",
 
 	"&:hover": {
 		backgroundColor: theme.palette.primary.dark,
 	},
 }));
 
-export const GameButton: React.FC<ButtonBaseProps> = (props) => (
+interface GameButtonProps extends ButtonBaseProps {
+	to?: string;
+}
+
+export const GameButton: React.FC<GameButtonProps> = (props) => (
 	<Wrapper>
 		<LeftPointer src={leftPointer} alt="" role="presentation" width="13" />
 		<StyledButton {...props} />

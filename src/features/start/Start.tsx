@@ -1,10 +1,11 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "assets/images/logos/browser_heroes.png";
 import { ConfirmationModal, openErrorModal } from "features/modals";
+import { GameButton } from "common/components";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -68,13 +69,11 @@ export const Start: React.FC = () => {
 							<Typography>
 								Click one of the below options to continue your existing game or start a new one.
 							</Typography>
-							<Stack direction="row" spacing={2}>
-								<Button variant="contained" color="secondary" component={Link} to="/game">
+							<Stack spacing={2}>
+								<GameButton component={Link} to="/game">
 									CONTINUE
-								</Button>
-								<Button variant="contained" onClick={openConfirmationModal}>
-									NEW GAME
-								</Button>
+								</GameButton>
+								<GameButton onClick={openConfirmationModal}>NEW GAME</GameButton>
 							</Stack>
 						</Fragment>
 					) : (
@@ -85,9 +84,9 @@ export const Start: React.FC = () => {
 							<Typography>
 								Please click the button below to start a new game and see how long you can survive!
 							</Typography>
-							<Button variant="contained" component={Link} to="/create">
+							<GameButton component={Link} to="/create">
 								START
-							</Button>
+							</GameButton>
 						</Fragment>
 					)}
 				</Paper>

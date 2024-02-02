@@ -96,6 +96,31 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiDialogTitle: {
+			defaultProps: {
+				variant: "h5",
+			},
+			styleOverrides: {
+				root: {
+					textAlign: "center",
+				},
+			},
+		},
+		MuiDialogContentText: {
+			styleOverrides: {
+				root: {
+					textAlign: "center",
+				},
+			},
+		},
+		MuiDialogActions: {
+			styleOverrides: {
+				root: {
+					justifyContent: "center",
+					padding: "16px",
+				},
+			},
+		},
 		MuiCssBaseline: {
 			styleOverrides: {
 				body: {

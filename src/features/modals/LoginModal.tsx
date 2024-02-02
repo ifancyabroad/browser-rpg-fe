@@ -1,13 +1,5 @@
-import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Link,
-	TextField,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, TextField } from "@mui/material";
+import { GameButton } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, login } from "features/authentication";
 import { closeLoginModal, openErrorModal, openRegistrationModal } from "features/modals";
@@ -84,12 +76,10 @@ export const LoginModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="secondary" variant="contained">
-					Cancel
-				</Button>
-				<Button onClick={handleLogin} color="primary" variant="contained" disabled={isLoading}>
+				<GameButton onClick={handleClose}>Cancel</GameButton>
+				<GameButton onClick={handleLogin} disabled={isLoading}>
 					Login
-				</Button>
+				</GameButton>
 			</DialogActions>
 		</Dialog>
 	);
