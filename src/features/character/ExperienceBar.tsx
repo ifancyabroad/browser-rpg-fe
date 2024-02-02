@@ -63,7 +63,7 @@ export const ExperienceBar: React.FC = () => {
 	return (
 		<Box display="flex" flexDirection="column" alignItems="center">
 			<CounterWrapper>
-				<Typography variant="h6" fontSize="8px" textAlign="center">
+				<Typography variant="h6" fontSize="10px" textAlign="center">
 					{experience} / {nextLevelExperience}
 				</Typography>
 			</CounterWrapper>

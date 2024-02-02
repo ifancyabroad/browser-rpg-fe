@@ -20,3 +20,4 @@ export * from "./IconWrapper";
 export * from "./Portrait";
 export * from "./Effect";
 export * from "./GameTooltip";
+export * from "./GameButton";

@@ -27,7 +27,7 @@ export const Game: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box bgcolor="#000" display="flex">
+			<Box display="flex">
 				<CharacterSheet />
 				<Box flex={1} overflow="auto">
 					<Container sx={{ ml: 0 }}>

@@ -3,7 +3,7 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#67628a",
+			main: "#762222",
 		},
 		secondary: {
 			main: "#8b9a3b",
@@ -12,7 +12,7 @@ const theme = createTheme({
 			main: "#397a41",
 		},
 		background: {
-			default: "#33333a",
+			default: "#000000",
 			paper: "#182029",
 		},
 		mode: "dark",
@@ -39,6 +39,7 @@ const theme = createTheme({
 		allVariants: {
 			fontFamily: "'Merriweather', serif",
 		},
+		fontFamily: "'Merriweather', serif",
 	},
 
 	components: {
@@ -69,25 +70,15 @@ const theme = createTheme({
 				root: {
 					borderRadius: 0,
 				},
-				contained: {
-					border: "2px solid transparent",
-					boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-					"&:hover": {
-						border: "2px solid transparent",
-						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-					},
-					"&:disabled": {
-						border: "2px solid transparent",
-						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-					},
-				},
 			},
 		},
 		MuiPaper: {
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
-					boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					boxShadow: "inset 0 0 14px #000000, 0px 0px 0px 1px rgba(255,255,255,0.06)",
+					backgroundImage: "radial-gradient(circle at center, #384251 0%, #182029 100%)",
+					border: "2px solid transparent",
 				},
 			},
 		},

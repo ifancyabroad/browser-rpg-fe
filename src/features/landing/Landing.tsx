@@ -1,7 +1,8 @@
-import { Box, Button, Link, Paper, Typography } from "@mui/material";
+import { Box, Link, Paper, Typography } from "@mui/material";
 import { useAppDispatch } from "common/hooks";
 import { openLoginModal, openRegistrationModal } from "features/modals";
 import logo from "assets/images/logos/browser_heroes.png";
+import { GameButton } from "common/components";
 
 export const Landing: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -50,12 +51,8 @@ export const Landing: React.FC = () => {
 				</Typography>
 				<Typography>Click one of the buttons below to login or register!</Typography>
 				<Box display="flex" justifyContent="center" gap={2}>
-					<Button color="secondary" variant="contained" onClick={handleLogin}>
-						LOGIN
-					</Button>
-					<Button variant="contained" onClick={handleRegister}>
-						REGISTER
-					</Button>
+					<GameButton onClick={handleLogin}>LOGIN</GameButton>
+					<GameButton onClick={handleRegister}>REGISTER</GameButton>
 				</Box>
 				<Typography variant="body2">
 					For any questions or comments please email me at{" "}

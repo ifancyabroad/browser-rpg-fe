@@ -1,4 +1,4 @@
-import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, alpha, darken, useTheme } from "@mui/material";
+import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { Portrait } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
@@ -136,7 +136,6 @@ const DRAWER_TOP = 53;
 export const CharacterSheet: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const mobileOpen = useAppSelector((state) => state.character.isCharacterSheetOpen);
-	const theme = useTheme();
 
 	const handleDrawerToggle = () => {
 		dispatch(closeCharacterSheet());
@@ -171,8 +170,7 @@ export const CharacterSheet: React.FC = () => {
 				<Box
 					sx={{
 						flex: 1,
-						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
-						boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
+						border: 0,
 					}}
 				>
 					<CharacterHeader />
@@ -187,7 +185,7 @@ export const CharacterSheet: React.FC = () => {
 						height: `calc(100vh - ${DRAWER_TOP}px)`,
 						width: DRAWER_WIDTH,
 						top: DRAWER_TOP,
-						bgcolor: alpha(darken(theme.palette.background.paper, 0.25), 0.5),
+						border: 0,
 					},
 				}}
 				open
