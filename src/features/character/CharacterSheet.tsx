@@ -109,7 +109,7 @@ const CharacterContent: React.FC = () => {
 				/>
 			</Box>
 
-			<Box>
+			<Box boxShadow="0px 20px 30px rgba(0,0,0,0.25)">
 				<StyledTabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
 					<StyledTab label="Skills" value={CharacterSheetTab.Skills} />
 					<StyledTab label="Inventory" value={CharacterSheetTab.Inventory} />
@@ -128,7 +128,7 @@ const CharacterContent: React.FC = () => {
 				</TabContent>
 			</Box>
 
-			<Box flex={1} display="flex" alignItems="flex-end">
+			<Box flex={1} display="flex" alignItems="flex-end" justifyContent="center">
 				<ExperienceBar />
 			</Box>
 		</Stack>

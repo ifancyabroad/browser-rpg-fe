@@ -61,7 +61,7 @@ export const ExperienceBar: React.FC = () => {
 		experience > nextLevelExperience ? 100 : ((experience - 0) * 100) / (nextLevelExperience - 0);
 
 	return (
-		<Box display="flex" flexDirection="column" alignItems="center">
+		<Box display="flex" flexDirection="column" alignItems="center" boxShadow="0px 20px 30px rgba(0,0,0,0.25)">
 			<CounterWrapper>
 				<Typography variant="h6" fontSize="10px" textAlign="center">
 					{experience} / {nextLevelExperience}
@@ -69,7 +69,9 @@ export const ExperienceBar: React.FC = () => {
 			</CounterWrapper>
 
 			<BarWrapper>
-				<Bar sx={{ width: `${normalisedValue}%` }} />
+				<Box sx={{ width: "100%", height: "100%", overflowX: "clip", overflowY: "visible" }}>
+					<Bar sx={{ width: `${normalisedValue}%` }} />
+				</Box>
 			</BarWrapper>
 		</Box>
 	);

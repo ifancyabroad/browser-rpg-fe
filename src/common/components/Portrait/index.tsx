@@ -12,6 +12,7 @@ import { AuxiliaryEffect, StatusEffect } from "common/components";
 const Wrapper = styled(Box)({
 	display: "flex",
 	alignItems: "flex-start",
+	filter: "drop-shadow(0px 20px 30px rgba(0,0,0,0.25))",
 	"&.character-portrait .portrait-image": {
 		height: "114px",
 		marginTop: "16px",
@@ -70,7 +71,6 @@ const HealthBar = styled(Box)({
 	boxShadow: "inset 0px 0px 4px 0px rgba(255,255,255,0.3)",
 	display: "flex",
 	alignItems: "center",
-	paddingLeft: "10px",
 	transition: "width 0.5s ease-in-out",
 	":after": {
 		content: "''",
@@ -153,11 +153,20 @@ export const Portrait: React.FC<IProps> = ({
 					</Typography>
 				</NameWrapper>
 				<HealthBarWrapper>
-					<HealthBar sx={{ width: `${normalisedValue}%` }}>
-						<Typography variant="body2" color="white" fontSize={12} fontWeight="bold">
-							{value}/{max}
-						</Typography>
-					</HealthBar>
+					<Box sx={{ width: "100%", height: "100%", overflowX: "clip", overflowY: "visible" }}>
+						<HealthBar sx={{ width: `${normalisedValue}%` }}>
+							<Typography
+								variant="body2"
+								color="white"
+								fontSize={12}
+								fontWeight="bold"
+								paddingLeft="10px"
+								zIndex={1}
+							>
+								{value}/{max}
+							</Typography>
+						</HealthBar>
+					</Box>
 
 					<EffectsWrapper direction="row" spacing={1}>
 						{auxiliaryEffects.map((effect) => (
