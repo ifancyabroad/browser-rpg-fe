@@ -47,6 +47,11 @@ const StyledButton = styled(ButtonBase)(({ theme }) => ({
 	"&:hover": {
 		backgroundColor: theme.palette.primary.dark,
 	},
+
+	"&:disabled": {
+		backgroundColor: theme.palette.grey[800],
+		borderColor: theme.palette.grey[900],
+	},
 }));
 
 interface GameButtonProps extends ButtonBaseProps {

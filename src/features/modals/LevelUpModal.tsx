@@ -12,7 +12,7 @@ import {
 	RadioGroup,
 	Typography,
 } from "@mui/material";
-import { SkillIcon, StatIcon } from "common/components";
+import { GameButton, SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
@@ -184,16 +184,15 @@ export const LevelUpModal: React.FC = () => {
 					</FormControl>
 				) : (
 					<FormControl>
-						<FormLabel id="attribute-label" sx={{ mb: 2 }}>
-							Choose an attribute to increase by 1:
+						<FormLabel id="attribute-label" sx={{ textAlign: "center", mb: 2 }}>
+							Choose an attribute to increase by 1
 						</FormLabel>
 						<RadioGroup
-							row
 							aria-labelledby="attribute-label"
 							name="attribute"
 							value={stat}
 							onChange={handleStatChange}
-							sx={{ justifyContent: "center", gap: 1 }}
+							sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}
 						>
 							{STATS.map((st) => (
 								<FormControlLabel
@@ -216,13 +215,13 @@ export const LevelUpModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				{showNextButton ? (
-					<Button variant="contained" onClick={handleNext} color="secondary" disabled={!stat}>
+					<GameButton onClick={handleNext} disabled={!stat}>
 						Next
-					</Button>
+					</GameButton>
 				) : (
-					<Button variant="contained" onClick={handleConfirm} color="primary" disabled={isDisabled}>
+					<GameButton onClick={handleConfirm} disabled={isDisabled}>
 						Confirm
-					</Button>
+					</GameButton>
 				)}
 			</DialogActions>
 		</Dialog>
