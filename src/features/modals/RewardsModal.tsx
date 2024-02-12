@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeRewardsModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
+import { GameButton } from "common/components";
 
 export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -25,16 +26,18 @@ export const RewardsModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
-			<DialogTitle id="form-dialog-title">Victory!</DialogTitle>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				Victory!
+			</DialogTitle>
 			<DialogContent>
-				<DialogContentText mb={2}>
+				<DialogContentText textAlign="center">
 					You have defeated the {name}. You gain {experience} experience and {gold} gold.
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleCompleteBattle} color="primary" variant="contained" disabled={isLoading}>
-					Close
-				</Button>
+				<GameButton onClick={handleCompleteBattle} disabled={isLoading}>
+					Confirm
+				</GameButton>
 			</DialogActions>
 		</Dialog>
 	);

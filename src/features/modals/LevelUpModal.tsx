@@ -156,12 +156,14 @@ export const LevelUpModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="lg">
-			<DialogTitle id="form-dialog-title">You have reached level {level}!</DialogTitle>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				You have reached level {level}!
+			</DialogTitle>
 			<DialogContent>
 				{showSkills ? (
 					<FormControl>
-						<FormLabel id="attribute-label" sx={{ mb: 2 }}>
-							Choose an new skill:
+						<FormLabel id="attribute-label" sx={{ textAlign: "center", mb: 2 }}>
+							Choose a new skill
 						</FormLabel>
 						<RadioGroup
 							row

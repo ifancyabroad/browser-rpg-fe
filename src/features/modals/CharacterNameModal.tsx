@@ -1,4 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
+import { GameButton } from "common/components";
 import { useAppSelector } from "common/hooks";
 import { useRef } from "react";
 
@@ -22,7 +23,7 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 	};
 
 	return (
-		<Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+		<Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
 			<DialogTitle id="form-dialog-title">Name</DialogTitle>
 			<DialogContent>
 				<DialogContentText>Please give your character a name.</DialogContentText>
@@ -39,12 +40,10 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="secondary" variant="contained">
-					Cancel
-				</Button>
-				<Button onClick={handleConfirm} color="primary" variant="contained" disabled={isLoading}>
+				<GameButton onClick={handleClose}>Cancel</GameButton>
+				<GameButton onClick={handleConfirm} disabled={isLoading}>
 					Confirm
-				</Button>
+				</GameButton>
 			</DialogActions>
 		</Dialog>
 	);

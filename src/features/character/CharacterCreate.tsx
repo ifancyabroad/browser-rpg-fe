@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
 import { CharacterNameModal, openCharacterClassModal, openErrorModal } from "features/modals";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "common/components";
+import { GameButton, Loader } from "common/components";
 
 export const CharacterCreate: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -85,7 +85,7 @@ export const CharacterCreate: React.FC = () => {
 					}}
 				>
 					<Typography variant="h5" textAlign="center">
-						Please select a class:
+						Please select a class
 					</Typography>
 					{isLoading ? (
 						<Box height={520} display="flex" justifyContent="center" alignItems="center">
@@ -97,7 +97,7 @@ export const CharacterCreate: React.FC = () => {
 								<Grid key={id} item xs={12} md={4}>
 									<Card sx={{ maxWidth: 345, margin: "auto" }}>
 										<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
-										<CardContent>
+										<CardContent sx={{ textAlign: "center" }}>
 											<Typography gutterBottom variant="h5" component="div">
 												{name}
 											</Typography>
@@ -106,23 +106,12 @@ export const CharacterCreate: React.FC = () => {
 											</Typography>
 										</CardContent>
 										<CardActions>
-											<Button
-												size="small"
-												variant="contained"
-												onClick={handleSelectClass}
-												data-value={id}
-											>
+											<GameButton onClick={handleSelectClass} data-value={id}>
 												Select
-											</Button>
-											<Button
-												size="small"
-												variant="contained"
-												color="secondary"
-												onClick={handleViewClass}
-												data-value={id}
-											>
+											</GameButton>
+											<GameButton onClick={handleViewClass} data-value={id}>
 												Details
-											</Button>
+											</GameButton>
 										</CardActions>
 									</Card>
 								</Grid>

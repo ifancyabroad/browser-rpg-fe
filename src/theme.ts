@@ -100,18 +100,6 @@ const theme = createTheme({
 			defaultProps: {
 				variant: "h5",
 			},
-			styleOverrides: {
-				root: {
-					textAlign: "center",
-				},
-			},
-		},
-		MuiDialogContentText: {
-			styleOverrides: {
-				root: {
-					textAlign: "center",
-				},
-			},
 		},
 		MuiDialogActions: {
 			styleOverrides: {

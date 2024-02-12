@@ -2,6 +2,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeGameOverModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
+import { GameButton } from "common/components";
 
 export const GameOverModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -24,14 +25,16 @@ export const GameOverModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
-			<DialogTitle id="form-dialog-title">You Died</DialogTitle>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				You Died
+			</DialogTitle>
 			<DialogContent>
-				<DialogContentText mb={2}>You have been slain by {name}.</DialogContentText>
+				<DialogContentText textAlign="center">You have been slain by {name}.</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleGameOver} color="primary" variant="contained" disabled={isLoading}>
+				<GameButton onClick={handleGameOver} disabled={isLoading}>
 					Try again
-				</Button>
+				</GameButton>
 			</DialogActions>
 		</Dialog>
 	);

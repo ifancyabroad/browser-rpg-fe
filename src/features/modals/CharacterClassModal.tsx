@@ -1,21 +1,10 @@
-import {
-	Box,
-	Button,
-	Chip,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	Divider,
-	Grid,
-	Stack,
-	Typography,
-} from "@mui/material";
+import { Box, Chip, Dialog, DialogContent, DialogContentText, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeCharacterClassModal, openEquipmentModal, openSkillModal } from "./modalsSlice";
 import { IArmour, ISkill, IWeapon } from "common/types";
 import { STATS, STATS_ABBR_MAP, mapToArray } from "common/utils";
 import { Fragment } from "react";
+import { GameDialogCloseButton } from "common/components";
 
 export const CharacterClassModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -40,8 +29,16 @@ export const CharacterClassModal: React.FC = () => {
 	const { name, description, skills, equipment, portrait, stats } = characterClass;
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="md" scroll="body">
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			fullWidth
+			maxWidth="md"
+			scroll="body"
+			PaperProps={{ sx: { overflowY: "visible" } }}
+		>
 			<DialogContent>
+				<GameDialogCloseButton onClick={handleClose} />
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
 						<Box
@@ -111,11 +108,6 @@ export const CharacterClassModal: React.FC = () => {
 					</Grid>
 				</Grid>
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose} color="primary" variant="contained">
-					Close
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };
