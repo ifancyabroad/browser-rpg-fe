@@ -3,6 +3,7 @@ import { ISkill } from "common/types";
 import { ImageBorder, SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { openSkillModal } from "features/modals";
+import { SKILL_TYPE_NAME_MAP, getSkillType } from "common/utils";
 
 interface IProps {
 	skill: ISkill;
@@ -11,21 +12,6 @@ interface IProps {
 export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
-	// const status = useAppSelector((state) => state.battle.status);
-	// const isLoading = status === "loading";
-	// const secondaryText = skill.maxUses ? `${skill.remaining}/${skill.maxUses}` : undefined;
-	// const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);
-	// const isDisabled = isLoading || isExhausted;
-
-	// const handleUseSkill = async () => {
-	// 	try {
-	// 		await dispatch(postAction({ id: skill.id })).unwrap();
-	// 		dispatch(closeCharacterSheet());
-	// 	} catch (err) {
-	// 		const { message } = err as Error;
-	// 		dispatch(openErrorModal({ message }));
-	// 	}
-	// };
 
 	const handleViewSkill = (e: React.SyntheticEvent<HTMLButtonElement>) => {
 		dispatch(openSkillModal({ skill }));
@@ -34,6 +20,8 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	if (!character) {
 		return null;
 	}
+
+	const type = getSkillType(skill);
 
 	return (
 		<ButtonBase
@@ -48,7 +36,9 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 				<Typography variant="h6" fontSize={16}>
 					{skill.name}
 				</Typography>
-				<Typography variant="body2">{skill.description}</Typography>
+				<Typography variant="body2">
+					Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
+				</Typography>
 			</Box>
 		</ButtonBase>
 	);

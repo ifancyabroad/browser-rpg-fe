@@ -67,7 +67,7 @@ export const Details: React.FC = () => {
 	}));
 
 	return (
-		<Stack spacing={2} my={2}>
+		<Stack spacing={2}>
 			<Box>
 				<Typography variant="body2" mb={1}>
 					Attributes

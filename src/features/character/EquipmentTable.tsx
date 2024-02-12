@@ -10,7 +10,7 @@ interface IProps {
 
 export const EquipmentTable: React.FC<IProps> = ({ equipment }) => {
 	return (
-		<TableContainer component={TransparentPaper} sx={{ my: 2 }}>
+		<TableContainer component={TransparentPaper}>
 			<Table size="small">
 				<TableBody>
 					{EQUIPMENT_SLOTS.map((slot, index) => (

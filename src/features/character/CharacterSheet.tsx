@@ -1,4 +1,4 @@
-import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Drawer, IconButton, Stack, Tab, TabProps, Tabs, TabsProps, Typography, styled } from "@mui/material";
 import { Portrait } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
@@ -10,6 +10,48 @@ import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
 import characterIcon from "assets/images/ui/CharacterIcon.svg";
 import { ExperienceBar } from "./ExperienceBar";
+import tabFrame from "assets/images/ui/TabFrame.png";
+import tabContentFrame from "assets/images/ui/TabContentFrame.png";
+
+const StyledTabs = styled((props: TabsProps) => <Tabs {...props} />)(({ theme }) => ({
+	gap: theme.spacing(1),
+	"& .MuiTabs-indicator": {
+		display: "none",
+	},
+}));
+
+const StyledTab = styled((props: TabProps) => <Tab disableRipple {...props} />)(({ theme }) => ({
+	backgroundImage: `url(${tabFrame})`,
+	backgroundRepeat: "no-repeat",
+	backgroundSize: "100% 100%",
+	width: "124px",
+	height: "48px",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	padding: theme.spacing(1.25),
+	textTransform: "none",
+	fontWeight: theme.typography.fontWeightRegular,
+	fontSize: "12px",
+	"&:hover": {
+		color: "#FFFFFF",
+		opacity: 1,
+	},
+	"&.Mui-selected": {
+		color: "#FFFFFF",
+		fontWeight: theme.typography.fontWeightMedium,
+	},
+}));
+
+const TabContent = styled(Box)(({ theme }) => ({
+	position: "relative",
+	backgroundImage: `url(${tabContentFrame})`,
+	backgroundRepeat: "no-repeat",
+	backgroundSize: "100% 100%",
+	padding: theme.spacing(2),
+	marginTop: "-10px",
+	zIndex: 1,
+}));
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -53,8 +95,8 @@ const CharacterContent: React.FC = () => {
 	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
-		<Box p={2}>
-			<Stack spacing={4} mb={4}>
+		<Stack flex={1} p={2} spacing={3}>
+			<Box mb={2}>
 				<Portrait
 					className="character-portrait"
 					label={name}
@@ -65,29 +107,31 @@ const CharacterContent: React.FC = () => {
 					statusEffects={activeStatusEffects}
 					showLevelUp={showLevelUp}
 				/>
-
-				<ExperienceBar />
-			</Stack>
+			</Box>
 
 			<Box>
-				<Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-					<Tabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
-						<Tab label="Skills" value={CharacterSheetTab.Skills} />
-						<Tab label="Inventory" value={CharacterSheetTab.Inventory} />
-						<Tab label="Details" value={CharacterSheetTab.Details} />
-					</Tabs>
-				</Box>
-				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
-					<SkillList skills={character.skills} />
-				</TabPanel>
-				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
-					<EquipmentTable equipment={character.equipment} />
-				</TabPanel>
-				<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
-					<Details />
-				</TabPanel>
+				<StyledTabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
+					<StyledTab label="Skills" value={CharacterSheetTab.Skills} />
+					<StyledTab label="Inventory" value={CharacterSheetTab.Inventory} />
+					<StyledTab label="Details" value={CharacterSheetTab.Details} />
+				</StyledTabs>
+				<TabContent>
+					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
+						<SkillList skills={character.skills} />
+					</TabPanel>
+					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
+						<EquipmentTable equipment={character.equipment} />
+					</TabPanel>
+					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
+						<Details />
+					</TabPanel>
+				</TabContent>
 			</Box>
-		</Box>
+
+			<Box flex={1} display="flex" alignItems="flex-end">
+				<ExperienceBar />
+			</Box>
+		</Stack>
 	);
 };
 
