@@ -3,11 +3,10 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
 import { nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ConfirmationModal, openErrorModal, openTreasureModal } from "features/modals";
+import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
 import { Room } from "./Room";
 import { startBattle } from "features/battle";
-import { useNavigate } from "react-router-dom";
 import { ReactComponent as FootstepsIcon } from "assets/images/icons/footsteps.svg";
 import {
 	getActualLevel,
@@ -88,7 +87,6 @@ export const Dungeon: React.FC = () => {
 	const isBattleLoading = battleStatus === "loading";
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
-	const navigate = useNavigate();
 	const roomsRef = useRef<Map<string, HTMLDivElement> | null>(null);
 	const [animation, setAnimation] = useState("");
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
@@ -190,7 +188,8 @@ export const Dungeon: React.FC = () => {
 	};
 
 	const handleOpenShop = () => {
-		navigate("/game/shop");
+		dispatch(openShopModal());
+		setModalState((state) => ({ ...state, [RoomType.Shop]: false }));
 	};
 
 	const handleOpenChest = async () => {

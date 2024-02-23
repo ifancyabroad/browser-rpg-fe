@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, darken } from "@mui/material/styles";
 
 const theme = createTheme({
 	palette: {
@@ -69,6 +69,39 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
+				},
+			},
+		},
+		MuiIconButton: {
+			defaultProps: {
+				disableRipple: true,
+			},
+			styleOverrides: {
+				colorPrimary: {
+					border: "2px solid",
+					borderColor: "#762222",
+					backgroundColor: darken("#762222", 0.2),
+					color: "#ffffff",
+					"&:hover": {
+						backgroundColor: "#762222",
+					},
+					"&:disabled": {
+						backgroundColor: "#424242",
+						borderColor: "#616161",
+					},
+				},
+				colorSecondary: {
+					border: "2px solid",
+					borderColor: "#8b9a3b",
+					backgroundColor: darken("#8b9a3b", 0.2),
+					color: "#ffffff",
+					"&:hover": {
+						backgroundColor: "#8b9a3b",
+					},
+					"&:disabled": {
+						backgroundColor: "#424242",
+						borderColor: "#616161",
+					},
 				},
 			},
 		},

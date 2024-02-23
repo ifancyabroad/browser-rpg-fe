@@ -30,6 +30,7 @@ interface ModalsState {
 		characterClass?: ICharacterClass;
 	};
 	treasureModalOpen: boolean;
+	shopModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -55,6 +56,7 @@ const initialState: ModalsState = {
 		open: false,
 	},
 	treasureModalOpen: false,
+	shopModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -148,6 +150,12 @@ export const modalsSlice = createSlice({
 		closeTreasureModal: (state) => {
 			state.treasureModalOpen = false;
 		},
+		openShopModal: (state) => {
+			state.shopModalOpen = true;
+		},
+		closeShopModal: (state) => {
+			state.shopModalOpen = false;
+		},
 	},
 });
 
@@ -177,6 +185,8 @@ export const {
 	closeCharacterClassModal,
 	openTreasureModal,
 	closeTreasureModal,
+	openShopModal,
+	closeShopModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
