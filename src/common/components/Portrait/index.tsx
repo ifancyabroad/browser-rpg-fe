@@ -133,7 +133,7 @@ export const Portrait: React.FC<IProps> = ({
 		dispatch(openLevelUpModal());
 	};
 
-	const normalisedValue = value > max ? 100 : ((value - 0) * 100) / (max - 0);
+	const normalisedValue = value < 0 ? 0 : value > max ? 100 : ((value - 0) * 100) / (max - 0);
 
 	return (
 		<Wrapper className={className}>
