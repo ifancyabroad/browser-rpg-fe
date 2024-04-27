@@ -1,15 +1,9 @@
-import { Box, Link, Paper, Typography } from "@mui/material";
+import { Box, Button, Link, Paper, Typography } from "@mui/material";
 import { useAppDispatch } from "common/hooks";
-import { openLoginModal, openRegistrationModal } from "features/modals";
-import logo from "assets/images/logos/browser_heroes.png";
-import { GameButton } from "common/components";
+import { openRegistrationModal } from "features/modals";
 
 export const Landing: React.FC = () => {
 	const dispatch = useAppDispatch();
-
-	const handleLogin = () => {
-		dispatch(openLoginModal());
-	};
 
 	const handleRegister = () => {
 		dispatch(openRegistrationModal());
@@ -18,7 +12,7 @@ export const Landing: React.FC = () => {
 	return (
 		<Box
 			sx={{
-				minHeight: "calc(100vh - 53px)",
+				minHeight: "100vh",
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
@@ -35,24 +29,22 @@ export const Landing: React.FC = () => {
 					alignItems: "center",
 					flexDirection: "column",
 					textAlign: "center",
-					gap: 2,
+					gap: 3,
 					p: 4,
 				}}
 			>
-				<Box component="img" src={logo} height={64} width={64} />
-				<Typography variant="h5" fontFamily="'Cinzel', serif" fontWeight="bold">
+				<Typography variant="h4" fontWeight="bold">
 					BROWSER HEROES
 				</Typography>
-				<Typography variant="subtitle1">Welcome to Browser Heroes! </Typography>
 				<Typography>
 					Browser Heroes is a free to play role playing game that can be played in your browser. Choose from a
 					selection of different classes and make your way through a procedurally generated dungeon battling
 					all variery of different monsters and enemies.
 				</Typography>
-				<Typography>Click one of the buttons below to login or register!</Typography>
 				<Box display="flex" justifyContent="center" gap={2}>
-					<GameButton onClick={handleLogin}>LOGIN</GameButton>
-					<GameButton onClick={handleRegister}>REGISTER</GameButton>
+					<Button variant="outlined" onClick={handleRegister} size="large">
+						GET STARTED
+					</Button>
 				</Box>
 				<Typography variant="body2">
 					For any questions or comments please email me at{" "}

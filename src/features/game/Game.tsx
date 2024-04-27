@@ -33,7 +33,7 @@ export const Game: React.FC = () => {
 					<Container sx={{ ml: 0 }}>
 						<Box
 							sx={{
-								height: "calc(100vh - 53px)",
+								height: "100vh",
 								display: "flex",
 								flexDirection: "column",
 							}}

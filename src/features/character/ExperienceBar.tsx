@@ -1,78 +1,71 @@
-import { Box, Typography, styled } from "@mui/material";
-import { useAppSelector } from "common/hooks";
-import counterFrame from "assets/images/ui/ExperienceBarCounterFrame.png";
-import experienceBarFrame from "assets/images/ui/ExperienceBarFrame.png";
-
-const CounterWrapper = styled(Box)(({ theme }) => ({
-	position: "relative",
-	backgroundImage: `url(${counterFrame})`,
-	backgroundRepeat: "no-repeat",
-	backgroundSize: "100% 100%",
-	width: "100px",
-	height: "27px",
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
-	padding: theme.spacing(1),
-	marginBottom: "-8px",
-}));
+import { Box, IconButton, Stack, Typography, styled } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { openLevelUpModal } from "features/modals";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import { State } from "common/utils";
 
 const BarWrapper = styled(Box)(({ theme }) => ({
 	position: "relative",
-	backgroundImage: `url(${experienceBarFrame})`,
-	backgroundRepeat: "no-repeat",
-	backgroundSize: "100% 100%",
-	width: "343px",
-	height: "27px",
-	display: "flex",
-	alignItems: "center",
-	padding: theme.spacing(1),
+	width: "256px",
+	height: "24px",
+	backgroundColor: theme.palette.grey[900],
 }));
 
 const Bar = styled(Box)(({ theme }) => ({
 	position: "relative",
 	height: "100%",
-	backgroundImage: "linear-gradient(90deg, #1baa88 0%, #25eebe 100%)",
-	boxShadow: "inset 0px 0px 4px 0px rgba(255,255,255,0.3)",
-	display: "flex",
-	alignItems: "center",
+	backgroundColor: theme.palette.info.main,
 	transition: "width 0.5s ease-in-out",
-	":after": {
-		content: "''",
-		position: "absolute",
-		right: 0,
-		top: "50%",
-		transform: "translateY(-50%)",
-		width: "31px",
-		height: "18px",
-		backgroundImage: "linear-gradient(90deg, rgba(241,62,0,0) 0%, rgba(241,62,0,0) 0%, rgb(37,238,190) 100%)",
-	},
 }));
 
+const LevelUpWrapper = styled(Stack)({
+	flexDirection: "row",
+	gap: "4px",
+	position: "absolute",
+	left: 0,
+	top: "100%",
+	zIndex: 2,
+});
+
 export const ExperienceBar: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
 
 	if (!character) {
 		return null;
 	}
 
-	const { experience, nextLevelExperience } = character;
+	const handleLevelUp = () => {
+		dispatch(openLevelUpModal());
+	};
+
+	const { experience, nextLevelExperience, state } = character;
+	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 	const normalisedValue =
 		experience > nextLevelExperience ? 100 : ((experience - 0) * 100) / (nextLevelExperience - 0);
 
 	return (
-		<Box display="flex" flexDirection="column" alignItems="center" boxShadow="0px 20px 30px rgba(0,0,0,0.25)">
-			<CounterWrapper>
-				<Typography variant="h6" fontSize="10px" textAlign="center">
+		<Stack spacing={1}>
+			<Box display="flex" gap={2} alignItems="center">
+				<BarWrapper>
+					<Bar sx={{ width: `${normalisedValue}%` }} />
+				</BarWrapper>
+
+				<Typography variant="body2" fontSize="12px">
+					<Box component="span" color="secondary.main">
+						XP
+					</Box>{" "}
 					{experience} / {nextLevelExperience}
 				</Typography>
-			</CounterWrapper>
+			</Box>
 
-			<BarWrapper>
-				<Box sx={{ width: "100%", height: "100%", overflowX: "clip", overflowY: "visible" }}>
-					<Bar sx={{ width: `${normalisedValue}%` }} />
-				</Box>
-			</BarWrapper>
-		</Box>
+			{showLevelUp && (
+				<LevelUpWrapper direction="row" spacing={1}>
+					<IconButton onClick={handleLevelUp}>
+						<KeyboardDoubleArrowUpIcon />
+					</IconButton>
+				</LevelUpWrapper>
+			)}
+		</Stack>
 	);
 };

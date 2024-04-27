@@ -1,21 +1,18 @@
-import { Box, Dialog, Stack, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Stack,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeSkillModal } from "./modalsSlice";
 import { CLASS_NAME_MAP, SKILL_TYPE_NAME_MAP, SkillClass, getSkillType } from "common/utils";
-import {
-	EffectList,
-	GameDialogActions,
-	GameDialogButton,
-	GameDialogCloseButton,
-	GameDialogContent,
-	GameDialogPaper,
-	GameModalTitle,
-	IconWrapper,
-	ImageBorder,
-	Parchment,
-} from "common/components";
-import skillIcon from "assets/images/ui/SkillIcon.png";
-import { ReactComponent as CrossIcon } from "assets/images/ui/CrossIcon.svg";
+import { EffectList } from "common/components";
 
 export const SkillModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -33,71 +30,46 @@ export const SkillModal: React.FC = () => {
 	const type = getSkillType(skill);
 
 	return (
-		<Dialog open={open} onClose={handleClose} PaperComponent={GameDialogPaper}>
-			<GameModalTitle title="Skill" icon={skillIcon} />
-			<GameDialogContent>
-				<GameDialogCloseButton onClick={handleClose} />
-				<Parchment>
-					<Box display="flex" alignItems="center" gap={2} mb={2}>
-						<ImageBorder>
-							<Box
-								component="img"
-								src={icon || "https://via.placeholder.com/1024"}
-								alt={name}
-								width="48px"
-							/>
-						</ImageBorder>
-
-						<Typography variant="h5">{name}</Typography>
+		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" scroll="body">
+			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+				<Box component="img" src={icon || "https://via.placeholder.com/1024"} alt={name} width="48px" />
+				{name}
+			</DialogTitle>
+			<DialogContent>
+				<Stack spacing={1} mb={3}>
+					<Box display="flex" gap={1}>
+						<Typography color="secondary.main">Level:</Typography>
+						<DialogContentText>{level}</DialogContentText>
 					</Box>
-					<Stack spacing={1} mb={3}>
-						<Box display="flex" gap={1}>
-							<Typography variant="body2" fontWeight="bold">
-								Level:
-							</Typography>
-							<Typography variant="body2">{level}</Typography>
-						</Box>
-						<Box display="flex" gap={1}>
-							<Typography variant="body2" fontWeight="bold">
-								Class:
-							</Typography>
-							<Typography variant="body2">{CLASS_NAME_MAP[characterClass as SkillClass]}</Typography>
-						</Box>
-						<Box display="flex" gap={1}>
-							<Typography variant="body2" fontWeight="bold">
-								Type:
-							</Typography>
-							<Typography variant="body2">{SKILL_TYPE_NAME_MAP[type]}</Typography>
-						</Box>
-						<Box display="flex" gap={1}>
-							<Typography variant="body2" fontWeight="bold">
-								Max Uses:
-							</Typography>
-							<Typography variant="body2">{maxUses}</Typography>
-						</Box>
-					</Stack>
-					<Stack spacing={2}>
+					<Box display="flex" gap={1}>
+						<Typography color="secondary.main">Class:</Typography>
+						<DialogContentText>{CLASS_NAME_MAP[characterClass as SkillClass]}</DialogContentText>
+					</Box>
+					<Box display="flex" gap={1}>
+						<Typography color="secondary.main">Type:</Typography>
+						<DialogContentText>{SKILL_TYPE_NAME_MAP[type]}</DialogContentText>
+					</Box>
+					<Box display="flex" gap={1}>
+						<Typography color="secondary.main">Max Uses:</Typography>
+						<DialogContentText>{maxUses}</DialogContentText>
+					</Box>
+				</Stack>
+				<Stack spacing={2}>
+					<Box>
+						<Typography color="info.main">Description</Typography>
+						<DialogContentText>{description}</DialogContentText>
+					</Box>
+					{effects && effects.length && (
 						<Box>
-							<Typography variant="h6">Description</Typography>
-							<Typography variant="body2">{description}</Typography>
+							<Typography color="info.main">Effects</Typography>
+							<EffectList effects={effects} />
 						</Box>
-						{effects && effects.length && (
-							<Box>
-								<Typography variant="h6">Effects</Typography>
-								<EffectList effects={effects} />
-							</Box>
-						)}
-					</Stack>
-				</Parchment>
-			</GameDialogContent>
-			<GameDialogActions>
-				<GameDialogButton onClick={handleClose}>
-					Close
-					<IconWrapper>
-						<CrossIcon width={20} height={20} />
-					</IconWrapper>
-				</GameDialogButton>
-			</GameDialogActions>
+					)}
+				</Stack>
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleClose}>Close</Button>
+			</DialogActions>
 		</Dialog>
 	);
 };

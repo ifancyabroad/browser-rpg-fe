@@ -1,5 +1,4 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
-import { GameButton } from "common/components";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { useRef } from "react";
 
@@ -40,10 +39,10 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				/>
 			</DialogContent>
 			<DialogActions>
-				<GameButton onClick={handleClose}>Cancel</GameButton>
-				<GameButton onClick={handleConfirm} disabled={isLoading}>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleConfirm} disabled={isLoading}>
 					Confirm
-				</GameButton>
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

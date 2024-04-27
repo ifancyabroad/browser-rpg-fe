@@ -4,7 +4,6 @@ import { closeCharacterClassModal, openEquipmentModal, openSkillModal } from "./
 import { IArmour, ISkill, IWeapon } from "common/types";
 import { STATS, STATS_ABBR_MAP, mapToArray } from "common/utils";
 import { Fragment } from "react";
-import { GameDialogCloseButton } from "common/components";
 
 export const CharacterClassModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -38,7 +37,6 @@ export const CharacterClassModal: React.FC = () => {
 			PaperProps={{ sx: { overflowY: "visible" } }}
 		>
 			<DialogContent>
-				<GameDialogCloseButton onClick={handleClose} />
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
 						<Box

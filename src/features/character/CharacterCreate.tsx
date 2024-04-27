@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
 import { CharacterNameModal, openCharacterClassModal, openErrorModal } from "features/modals";
 import { useNavigate } from "react-router-dom";
-import { GameButton, Loader } from "common/components";
+import { Loader } from "common/components";
 
 export const CharacterCreate: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -75,7 +75,7 @@ export const CharacterCreate: React.FC = () => {
 			<Container>
 				<Box
 					sx={{
-						minHeight: "calc(100vh - 53px)",
+						minHeight: "100vh",
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
@@ -106,12 +106,12 @@ export const CharacterCreate: React.FC = () => {
 											</Typography>
 										</CardContent>
 										<CardActions>
-											<GameButton onClick={handleSelectClass} data-value={id}>
+											<Button onClick={handleSelectClass} data-value={id}>
 												Select
-											</GameButton>
-											<GameButton onClick={handleViewClass} data-value={id}>
+											</Button>
+											<Button onClick={handleViewClass} data-value={id}>
 												Details
-											</GameButton>
+											</Button>
 										</CardActions>
 									</Card>
 								</Grid>

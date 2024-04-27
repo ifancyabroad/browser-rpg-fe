@@ -12,7 +12,7 @@ import {
 	RadioGroup,
 	Typography,
 } from "@mui/material";
-import { GameButton, SkillIcon, StatIcon } from "common/components";
+import { SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
@@ -55,7 +55,7 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 			<Typography variant="body2" mb={2}>
 				{secondaryText}
 			</Typography>
-			<Button variant="contained" color="secondary" onClick={handleViewSkill}>
+			<Button color="secondary" onClick={handleViewSkill}>
 				View Details
 			</Button>
 		</Paper>
@@ -217,13 +217,13 @@ export const LevelUpModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				{showNextButton ? (
-					<GameButton onClick={handleNext} disabled={!stat}>
+					<Button onClick={handleNext} disabled={!stat}>
 						Next
-					</GameButton>
+					</Button>
 				) : (
-					<GameButton onClick={handleConfirm} disabled={isDisabled}>
+					<Button onClick={handleConfirm} disabled={isDisabled}>
 						Confirm
-					</GameButton>
+					</Button>
 				)}
 			</DialogActions>
 		</Dialog>

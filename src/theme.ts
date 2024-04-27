@@ -3,50 +3,63 @@ import { createTheme, darken } from "@mui/material/styles";
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: "#762222",
+			main: "#fce94f",
 		},
 		secondary: {
-			main: "#8b9a3b",
+			main: "#8f5902",
 		},
 		success: {
-			main: "#397a41",
+			main: "#8ae234",
+		},
+		info: {
+			main: "#204a87",
+		},
+		text: {
+			primary: "#babdb6",
+			secondary: "#ffffff",
 		},
 		background: {
 			default: "#000000",
-			paper: "#182029",
+			paper: "#040204",
 		},
 		mode: "dark",
 	},
 	typography: {
 		h1: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		h2: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		h3: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		h4: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		h5: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		h6: {
-			fontFamily: "'Cinzel', serif",
+			fontFamily: "monospace",
+			color: "#fff",
 		},
 		allVariants: {
-			fontFamily: "'Merriweather', serif",
+			fontFamily: "monospace",
 		},
-		fontFamily: "'Merriweather', serif",
+		fontFamily: "monospace",
 	},
 
 	components: {
 		MuiChip: {
 			styleOverrides: {
 				root: {
-					fontFamily: "'Merriweather', serif",
+					fontFamily: "monospace",
 				},
 				sizeSmall: {
 					fontSize: "12px",
@@ -56,7 +69,7 @@ const theme = createTheme({
 		MuiBadge: {
 			styleOverrides: {
 				badge: {
-					fontFamily: "'Merriweather', serif",
+					fontFamily: "monospace",
 					borderRadius: 0,
 				},
 			},
@@ -65,10 +78,22 @@ const theme = createTheme({
 			defaultProps: {
 				disableElevation: true,
 				disableRipple: true,
+				variant: "outlined",
 			},
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
+				},
+				text: {
+					textTransform: "none",
+					textDecoration: "underline",
+					padding: "0",
+					minWidth: "auto",
+					textAlign: "left",
+					"&:hover": {
+						textDecoration: "underline",
+						backgroundColor: "transparent",
+					},
 				},
 			},
 		},
@@ -109,9 +134,8 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
-					boxShadow: "inset 0 0 14px #000000, 0px 0px 0px 1px rgba(255,255,255,0.06)",
-					backgroundImage: "radial-gradient(circle at center, #384251 0%, #182029 100%)",
-					border: "2px solid transparent",
+					border: "1px solid #000",
+					outline: "2px solid #7d623c",
 				},
 			},
 		},
@@ -123,9 +147,16 @@ const theme = createTheme({
 		MuiTooltip: {
 			styleOverrides: {
 				tooltip: {
-					borderRadius: "4px",
-					boxShadow: "inset 0 0 30px rgba(0,0,0,0.3)",
-					backgroundImage: "linear-gradient(90deg, #1b1a18 0%, #262625 100%, #262625 100%)",
+					borderRadius: "0",
+					border: "1px solid #000",
+					outline: "2px solid #7d623c",
+				},
+			},
+		},
+		MuiDialog: {
+			styleOverrides: {
+				paper: {
+					backgroundImage: "none",
 				},
 			},
 		},
@@ -133,12 +164,38 @@ const theme = createTheme({
 			defaultProps: {
 				variant: "h5",
 			},
+			styleOverrides: {
+				root: {
+					padding: "16px",
+				},
+			},
+		},
+		MuiDialogContent: {
+			styleOverrides: {
+				root: {
+					padding: "16px",
+				},
+			},
+		},
+		MuiDialogContentText: {
+			styleOverrides: {
+				root: {
+					color: "#babdb6",
+				},
+			},
 		},
 		MuiDialogActions: {
 			styleOverrides: {
 				root: {
 					justifyContent: "center",
 					padding: "16px",
+				},
+			},
+		},
+		MuiTableCell: {
+			styleOverrides: {
+				root: {
+					border: "1px solid #babdb6",
 				},
 			},
 		},

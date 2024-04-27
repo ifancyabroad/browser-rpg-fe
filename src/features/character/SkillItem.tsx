@@ -1,6 +1,6 @@
-import { Box, ButtonBase, Typography } from "@mui/material";
+import { Button, TableCell, TableRow, Typography } from "@mui/material";
 import { ISkill } from "common/types";
-import { ImageBorder, SkillIcon } from "common/components";
+import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { openSkillModal } from "features/modals";
 import { SKILL_TYPE_NAME_MAP, getSkillType } from "common/utils";
@@ -9,7 +9,7 @@ interface IProps {
 	skill: ISkill;
 }
 
-export const SkillCard: React.FC<IProps> = ({ skill }) => {
+export const SkillItem: React.FC<IProps> = ({ skill }) => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
 
@@ -24,22 +24,20 @@ export const SkillCard: React.FC<IProps> = ({ skill }) => {
 	const type = getSkillType(skill);
 
 	return (
-		<ButtonBase
-			onClick={handleViewSkill}
-			sx={{ justifyContent: "flex-start", alignItems: "flex-start", textAlign: "left", gap: 2 }}
-		>
-			<ImageBorder>
+		<TableRow>
+			<TableCell component="th" scope="row" width={30}>
 				<SkillIcon skill={skill} />
-			</ImageBorder>
-
-			<Box>
-				<Typography variant="h6" fontSize={16}>
+			</TableCell>
+			<TableCell>
+				<Button variant="text" onClick={handleViewSkill}>
 					{skill.name}
-				</Typography>
+				</Button>
+			</TableCell>
+			<TableCell>
 				<Typography variant="body2">
 					Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
 				</Typography>
-			</Box>
-		</ButtonBase>
+			</TableCell>
+		</TableRow>
 	);
 };

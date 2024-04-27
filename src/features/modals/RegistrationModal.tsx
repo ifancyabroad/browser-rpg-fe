@@ -1,5 +1,13 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, TextField } from "@mui/material";
-import { GameButton } from "common/components";
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Link,
+	TextField,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, register } from "features/authentication";
 import { closeRegistrationModal, openErrorModal, openLoginModal } from "features/modals";
@@ -46,7 +54,7 @@ export const RegistrationModal: React.FC = () => {
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
 			<DialogTitle id="form-dialog-title">Register</DialogTitle>
 			<DialogContent>
-				<DialogContentText>
+				<DialogContentText mb={2}>
 					Please enter your email and password to register or click{" "}
 					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
 						here
@@ -76,10 +84,10 @@ export const RegistrationModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<GameButton onClick={handleClose}>Cancel</GameButton>
-				<GameButton onClick={handleRegister} disabled={isLoading}>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleRegister} disabled={isLoading}>
 					Register
-				</GameButton>
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

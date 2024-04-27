@@ -52,7 +52,7 @@ const Item: React.FC<IProps> = ({ item, slot, onSelectItem }) => {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small" variant="contained" onClick={handleSelectItem} disabled={isLoading}>
+				<Button size="small" onClick={handleSelectItem} disabled={isLoading}>
 					Replace
 				</Button>
 			</CardActions>

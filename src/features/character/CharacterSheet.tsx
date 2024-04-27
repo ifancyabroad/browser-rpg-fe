@@ -1,56 +1,39 @@
 import { Box, Drawer, IconButton, Stack, Tab, TabProps, Tabs, TabsProps, Typography, styled } from "@mui/material";
-import { Portrait } from "common/components";
+import { HealthBar } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab, State } from "common/utils";
+import { CharacterSheetTab } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
-import { SkillList } from "./SkillList";
+import { SkillTable } from "./SkillTable";
 import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
-import characterIcon from "assets/images/ui/CharacterIcon.svg";
 import { ExperienceBar } from "./ExperienceBar";
-import tabFrame from "assets/images/ui/TabFrame.png";
-import tabContentFrame from "assets/images/ui/TabContentFrame.png";
 
 const StyledTabs = styled((props: TabsProps) => <Tabs {...props} />)(({ theme }) => ({
 	gap: theme.spacing(1),
+	marginBottom: theme.spacing(1),
 	"& .MuiTabs-indicator": {
 		display: "none",
 	},
 }));
 
 const StyledTab = styled((props: TabProps) => <Tab disableRipple {...props} />)(({ theme }) => ({
-	backgroundImage: `url(${tabFrame})`,
-	backgroundRepeat: "no-repeat",
-	backgroundSize: "100% 100%",
-	width: "124px",
-	height: "48px",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
 	padding: theme.spacing(1.25),
-	textTransform: "none",
-	fontWeight: theme.typography.fontWeightRegular,
-	fontSize: "12px",
 	"&:hover": {
-		color: "#FFFFFF",
-		opacity: 1,
+		color: theme.palette.primary.main,
 	},
 	"&.Mui-selected": {
-		color: "#FFFFFF",
-		fontWeight: theme.typography.fontWeightMedium,
+		color: theme.palette.primary.main,
+		textDecoration: "underline",
 	},
 }));
 
 const TabContent = styled(Box)(({ theme }) => ({
 	position: "relative",
-	backgroundImage: `url(${tabContentFrame})`,
-	backgroundRepeat: "no-repeat",
-	backgroundSize: "100% 100%",
-	padding: theme.spacing(2),
-	marginTop: "-10px",
-	zIndex: 1,
 }));
 
 interface TabPanelProps {
@@ -82,34 +65,24 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const {
-		name,
-		hitPoints,
-		maxHitPoints,
-		experience,
-		nextLevelExperience,
-		state,
-		activeAuxiliaryEffects,
-		activeStatusEffects,
-	} = character;
-	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
+	const { name, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects } = character;
 
 	return (
 		<Stack flex={1} p={2} spacing={3}>
-			<Box mb={2}>
-				<Portrait
-					className="character-portrait"
-					label={name}
-					portrait={characterIcon}
+			<Stack gap={1} mb={2}>
+				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
+					{name} the {character.characterClass.name}
+				</Typography>
+				<HealthBar
 					value={hitPoints}
 					max={maxHitPoints}
 					auxiliaryEffects={activeAuxiliaryEffects}
 					statusEffects={activeStatusEffects}
-					showLevelUp={showLevelUp}
 				/>
-			</Box>
+				<ExperienceBar />
+			</Stack>
 
-			<Box boxShadow="0px 20px 30px rgba(0,0,0,0.25)">
+			<Box>
 				<StyledTabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
 					<StyledTab label="Skills" value={CharacterSheetTab.Skills} />
 					<StyledTab label="Inventory" value={CharacterSheetTab.Inventory} />
@@ -117,7 +90,7 @@ const CharacterContent: React.FC = () => {
 				</StyledTabs>
 				<TabContent>
 					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
-						<SkillList skills={character.skills} />
+						<SkillTable skills={character.skills} />
 					</TabPanel>
 					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
 						<EquipmentTable equipment={character.equipment} />
@@ -126,10 +99,6 @@ const CharacterContent: React.FC = () => {
 						<Details />
 					</TabPanel>
 				</TabContent>
-			</Box>
-
-			<Box flex={1} display="flex" alignItems="flex-end" justifyContent="center">
-				<ExperienceBar />
 			</Box>
 		</Stack>
 	);
@@ -149,7 +118,6 @@ const CharacterHeader: React.FC = () => {
 				alignItems: "center",
 				p: 1,
 				bgcolor: "background.paper",
-				boxShadow: "inset 0px 1px 0px 0px rgba(255,255,255,0.07)",
 				borderBottom: "1px solid #000",
 			}}
 		>
@@ -175,7 +143,7 @@ const CharacterHeader: React.FC = () => {
 };
 
 const DRAWER_WIDTH = 400;
-const DRAWER_TOP = 53;
+const DRAWER_TOP = 0;
 
 export const CharacterSheet: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -226,10 +194,11 @@ export const CharacterSheet: React.FC = () => {
 				variant="permanent"
 				PaperProps={{
 					sx: {
-						height: `calc(100vh - ${DRAWER_TOP}px)`,
+						height: "100vh",
 						width: DRAWER_WIDTH,
 						top: DRAWER_TOP,
-						border: 0,
+						border: "1px solid #000",
+						outline: "2px solid #7d623c",
 					},
 				}}
 				open

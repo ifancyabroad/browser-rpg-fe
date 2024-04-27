@@ -49,25 +49,25 @@ export const GameBar: React.FC = () => {
 						gap: 3,
 					}}
 				>
-					<Tooltip title="Level" placement="top" arrow>
+					<Tooltip title="Level" placement="top">
 						<Box display="flex" alignItems="center" gap={1}>
 							<LevelIcon height={16} width={16} />
 							<Typography variant="body2">{character.map.location.level + 1}</Typography>
 						</Box>
 					</Tooltip>
-					<Tooltip title="Day" placement="top" arrow>
+					<Tooltip title="Day" placement="top">
 						<Box display="flex" alignItems="center" gap={1}>
 							<DayIcon height={16} width={16} />
 							<Typography variant="body2">{character.day}</Typography>
 						</Box>
 					</Tooltip>
-					<Tooltip title="Gold" placement="top" arrow>
+					<Tooltip title="Gold" placement="top">
 						<Box display="flex" alignItems="center" gap={1}>
 							<GoldIcon height={16} width={16} />
 							<Typography variant="body2">{character.gold}</Typography>
 						</Box>
 					</Tooltip>
-					<Tooltip title="Kills" placement="top" arrow>
+					<Tooltip title="Kills" placement="top">
 						<Box display="flex" alignItems="center" gap={1}>
 							<KillsIcon height={16} width={16} />
 							<Typography variant="body2">{character.kills}</Typography>

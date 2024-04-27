@@ -2,7 +2,6 @@ import { IEquipment } from "common/types";
 import { Table, TableBody, TableContainer } from "@mui/material";
 import { EquipmentItem } from "./EquipmentItem";
 import { EQUIPMENT_SLOTS } from "common/utils";
-import { TransparentPaper } from "common/components";
 
 interface IProps {
 	equipment: IEquipment;
@@ -10,7 +9,7 @@ interface IProps {
 
 export const EquipmentTable: React.FC<IProps> = ({ equipment }) => {
 	return (
-		<TableContainer component={TransparentPaper}>
+		<TableContainer>
 			<Table size="small">
 				<TableBody>
 					{EQUIPMENT_SLOTS.map((slot, index) => (

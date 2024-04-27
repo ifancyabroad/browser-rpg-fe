@@ -17,9 +17,7 @@ export const ErrorModal: React.FC = () => {
 				<DialogContentText>{message || "Something went wrong!"}</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary" variant="contained">
-					Confirm
-				</Button>
+				<Button onClick={handleClose}>Confirm</Button>
 			</DialogActions>
 		</Dialog>
 	);

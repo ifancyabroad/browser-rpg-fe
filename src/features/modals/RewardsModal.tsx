@@ -2,7 +2,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeRewardsModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
-import { GameButton } from "common/components";
 
 export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -35,9 +34,9 @@ export const RewardsModal: React.FC = () => {
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<GameButton onClick={handleCompleteBattle} disabled={isLoading}>
+				<Button onClick={handleCompleteBattle} disabled={isLoading}>
 					Confirm
-				</GameButton>
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

@@ -1,5 +1,4 @@
 import { Box, ButtonBase, Stack, Tooltip, Typography, styled } from "@mui/material";
-import actionBarFrame from "assets/images/ui/ActionBarFrame.png";
 import { EffectList, GameTooltip, SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
@@ -19,9 +18,6 @@ const Wrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ActionBarWrapper = styled(Box)(({ theme }) => ({
-	backgroundImage: `url(${actionBarFrame})`,
-	backgroundRepeat: "no-repeat",
-	backgroundSize: "100% 100%",
 	width: "343px",
 	height: "79px",
 	padding: theme.spacing(1),

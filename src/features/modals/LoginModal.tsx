@@ -1,5 +1,13 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, TextField } from "@mui/material";
-import { GameButton } from "common/components";
+import {
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Link,
+	TextField,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, login } from "features/authentication";
 import { closeLoginModal, openErrorModal, openRegistrationModal } from "features/modals";
@@ -46,7 +54,7 @@ export const LoginModal: React.FC = () => {
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
 			<DialogTitle id="form-dialog-title">Login</DialogTitle>
 			<DialogContent>
-				<DialogContentText>
+				<DialogContentText mb={2}>
 					Please enter your email and password to login or click{" "}
 					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
 						here
@@ -76,10 +84,10 @@ export const LoginModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<GameButton onClick={handleClose}>Cancel</GameButton>
-				<GameButton onClick={handleLogin} disabled={isLoading}>
+				<Button onClick={handleClose}>Cancel</Button>
+				<Button onClick={handleLogin} disabled={isLoading}>
 					Login
-				</GameButton>
+				</Button>
 			</DialogActions>
 		</Dialog>
 	);

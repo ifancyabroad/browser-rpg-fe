@@ -28,7 +28,7 @@ const StatList: React.FC<IProps> = ({ stats }) => (
 	<Grid container spacing={2}>
 		{stats.map(({ name, abbreviation, value }) => (
 			<Grid key={abbreviation} item xs={2}>
-				<Tooltip title={name} placement="top" arrow>
+				<Tooltip title={name} placement="top">
 					<Box textAlign="center">
 						<Typography variant="caption" color="textSecondary">
 							{abbreviation}
@@ -69,19 +69,19 @@ export const Details: React.FC = () => {
 	return (
 		<Stack spacing={2}>
 			<Box>
-				<Typography variant="body2" mb={1}>
+				<Typography color="info.main" mb={1}>
 					Attributes
 				</Typography>
 				<StatList stats={mappedStats} />
 			</Box>
 			<Box>
-				<Typography variant="body2" mb={1}>
+				<Typography color="info.main" mb={1}>
 					Resistances
 				</Typography>
 				<StatList stats={mappedResistances} />
 			</Box>
 			<Box>
-				<Typography variant="body2" mb={1}>
+				<Typography color="info.main" mb={1}>
 					Damage
 				</Typography>
 				<StatList stats={mappedDamage} />
@@ -89,7 +89,7 @@ export const Details: React.FC = () => {
 			<Box py={2}>
 				<Grid container spacing={2}>
 					<Grid item xs={4}>
-						<Tooltip title="Armour Class" placement="top" arrow>
+						<Tooltip title="Armour Class" placement="top">
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={armourIcon} width={32} />
 								<Typography variant="body1">{character.armourClass}</Typography>
@@ -97,7 +97,7 @@ export const Details: React.FC = () => {
 						</Tooltip>
 					</Grid>
 					<Grid item xs={4}>
-						<Tooltip title="Hit Bonus" placement="top" arrow>
+						<Tooltip title="Hit Bonus" placement="top">
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={hitIcon} width={32} />
 								<Typography variant="body1">{character.hitBonus}</Typography>
@@ -105,7 +105,7 @@ export const Details: React.FC = () => {
 						</Tooltip>
 					</Grid>
 					<Grid item xs={4}>
-						<Tooltip title="Crit Bonus" placement="top" arrow>
+						<Tooltip title="Crit Bonus" placement="top">
 							<Stack spacing={1} textAlign="center" alignItems="center">
 								<Box component="img" src={critIcon} width={32} />
 								<Typography variant="body1">{character.critBonus}</Typography>

@@ -1,5 +1,4 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { GameButton } from "common/components";
 
 interface IProps {
 	open: boolean;
@@ -19,10 +18,10 @@ export const ConfirmationModal: React.FC<IProps> = ({ open, title, content, hand
 			<DialogContentText textAlign="center">{content}</DialogContentText>
 		</DialogContent>
 		<DialogActions>
-			<GameButton onClick={handleClose}>Cancel</GameButton>
-			<GameButton onClick={handleConfirm} disabled={disabled}>
+			<Button onClick={handleClose}>Cancel</Button>
+			<Button onClick={handleConfirm} disabled={disabled}>
 				Confirm
-			</GameButton>
+			</Button>
 		</DialogActions>
 	</Dialog>
 );

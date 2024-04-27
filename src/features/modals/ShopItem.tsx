@@ -5,7 +5,6 @@ import { ConfirmationModal, openEquipmentModal } from "features/modals";
 import { Fragment, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import goldIcon from "assets/images/ui/GoldIcon.png";
 
 const Wrapper = styled(Box)(({ theme }) => ({
 	display: "flex",
@@ -72,14 +71,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 							{name}
 						</Typography>
 						<Typography variant="body2" color="text.secondary">
-							{price}{" "}
-							<Box
-								component="img"
-								src={goldIcon}
-								alt="gold"
-								width="20px"
-								sx={{ verticalAlign: "middle" }}
-							/>
+							Price: {price}
 						</Typography>
 					</Stack>
 					<Box display="flex" alignItems="center" gap={1}>

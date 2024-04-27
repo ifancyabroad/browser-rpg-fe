@@ -1,11 +1,9 @@
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "assets/images/logos/browser_heroes.png";
 import { ConfirmationModal, openErrorModal } from "features/modals";
-import { GameButton } from "common/components";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -38,7 +36,7 @@ export const Start: React.FC = () => {
 		<Fragment>
 			<Box
 				sx={{
-					minHeight: "calc(100vh - 53px)",
+					minHeight: "100vh",
 					display: "flex",
 					justifyContent: "center",
 					alignItems: "center",
@@ -49,31 +47,31 @@ export const Start: React.FC = () => {
 			>
 				<Paper
 					sx={{
-						maxWidth: "400px",
+						maxWidth: "600px",
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
 						flexDirection: "column",
 						textAlign: "center",
-						gap: 2,
+						gap: 3,
 						p: 4,
 					}}
 				>
-					<Box component="img" src={logo} height={64} width={64} />
-					<Typography variant="h5" fontFamily="'Cinzel', serif" fontWeight="bold">
+					<Typography variant="h4" fontWeight="bold">
 						BROWSER HEROES
 					</Typography>
 					{hasActiveCharacter ? (
 						<Fragment>
-							<Typography variant="subtitle1">Welcome to Browser Heroes! </Typography>
 							<Typography>
 								Click one of the below options to continue your existing game or start a new one.
 							</Typography>
-							<Stack spacing={2}>
-								<GameButton component={Link} to="/game">
+							<Stack spacing={2} direction="row">
+								<Button size="large" component={Link} to="/game">
 									CONTINUE
-								</GameButton>
-								<GameButton onClick={openConfirmationModal}>NEW GAME</GameButton>
+								</Button>
+								<Button size="large" onClick={openConfirmationModal}>
+									NEW GAME
+								</Button>
 							</Stack>
 						</Fragment>
 					) : (
@@ -84,9 +82,9 @@ export const Start: React.FC = () => {
 							<Typography>
 								Please click the button below to start a new game and see how long you can survive!
 							</Typography>
-							<GameButton component={Link} to="/create">
+							<Button size="large" component={Link} to="/create">
 								START
-							</GameButton>
+							</Button>
 						</Fragment>
 					)}
 				</Paper>

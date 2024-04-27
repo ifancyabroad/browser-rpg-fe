@@ -1,7 +1,6 @@
-import { Box } from "@mui/material";
-import { ImageBorder, Portrait } from "common/components";
+import { Box, Typography } from "@mui/material";
+import { HealthBar } from "common/components";
 import { useAppSelector } from "common/hooks";
-import skullIcon from "assets/images/ui/SkullIcon.png";
 
 export const Enemy: React.FC = () => {
 	const enemy = useAppSelector((state) => state.battle.battle?.enemy);
@@ -15,9 +14,10 @@ export const Enemy: React.FC = () => {
 	return (
 		<Box maxWidth={600}>
 			<Box mb={2}>
-				<Portrait
-					label={name}
-					portrait={skullIcon}
+				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
+					{name}
+				</Typography>
+				<HealthBar
 					value={hitPoints}
 					max={maxHitPoints}
 					auxiliaryEffects={activeAuxiliaryEffects}
@@ -31,17 +31,15 @@ export const Enemy: React.FC = () => {
 					aspectRatio: "1/1",
 				}}
 			>
-				<ImageBorder>
-					<Box
-						component="img"
-						sx={{
-							maxWidth: "100%",
-							verticalAlign: "middle",
-						}}
-						src={image}
-						alt={name}
-					/>
-				</ImageBorder>
+				<Box
+					component="img"
+					sx={{
+						maxWidth: "100%",
+						verticalAlign: "middle",
+					}}
+					src={image}
+					alt={name}
+				/>
 			</Box>
 		</Box>
 	);
