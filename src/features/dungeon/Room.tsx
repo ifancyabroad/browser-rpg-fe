@@ -63,11 +63,10 @@ const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
 };
 
 interface IRoomProps {
-	ref: React.Ref<HTMLDivElement>;
 	room: IRoom;
 }
 
-export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>(({ room }, ref) => {
+export const Room = forwardRef<HTMLDivElement, IRoomProps>(({ room }, ref) => {
 	const dispatch = useAppDispatch();
 	const inInPath = useAppSelector(getIsInDisplayedPath)(room.location);
 	const status = useAppSelector((state) => state.character.status);

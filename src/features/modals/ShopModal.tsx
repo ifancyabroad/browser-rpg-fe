@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
