@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeSkillModal } from "./modalsSlice";
 import { CLASS_NAME_MAP, SKILL_TYPE_NAME_MAP, SkillClass, getSkillType } from "common/utils";
 import { EffectList } from "common/components";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 export const SkillModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -51,7 +52,9 @@ export const SkillModal: React.FC = () => {
 					</Box>
 					<Box display="flex" gap={1}>
 						<Typography color="secondary.main">Max Uses:</Typography>
-						<DialogContentText>{maxUses}</DialogContentText>
+						<DialogContentText>
+							{maxUses > 0 ? maxUses : <AllInclusiveIcon fontSize="small" />}
+						</DialogContentText>
 					</Box>
 				</Stack>
 				<Stack spacing={2}>

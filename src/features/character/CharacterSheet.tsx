@@ -1,7 +1,7 @@
 import { Box, Drawer, IconButton, Stack, Tab, TabProps, Tabs, TabsProps, Typography, styled } from "@mui/material";
 import { HealthBar } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab } from "common/utils";
+import { CharacterSheetTab, State } from "common/utils";
 import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
 import { SkillTable } from "./SkillTable";
 import { EquipmentTable } from "./EquipmentTable";
@@ -9,6 +9,8 @@ import { Details } from "./Details";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "assets/images/logos/browser_heroes.png";
 import { ExperienceBar } from "./ExperienceBar";
+import { openLevelUpModal } from "features/modals";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 const StyledTabs = styled((props: TabsProps) => <Tabs {...props} />)(({ theme }) => ({
 	gap: theme.spacing(1),
@@ -61,18 +63,39 @@ const CharacterContent: React.FC = () => {
 		dispatch(setCharacterSheetTab(newValue));
 	};
 
+	const handleLevelUp = () => {
+		dispatch(openLevelUpModal());
+	};
+
 	if (!character) {
 		return null;
 	}
 
-	const { name, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects } = character;
+	const {
+		name,
+		hitPoints,
+		maxHitPoints,
+		activeAuxiliaryEffects,
+		activeStatusEffects,
+		experience,
+		nextLevelExperience,
+		state,
+	} = character;
+	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
 		<Stack flex={1} p={2} spacing={3}>
 			<Stack gap={1} mb={2}>
-				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
-					{name} the {character.characterClass.name}
-				</Typography>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
+						{name} the {character.characterClass.name}
+					</Typography>
+					{showLevelUp && (
+						<IconButton onClick={handleLevelUp}>
+							<KeyboardDoubleArrowUpIcon />
+						</IconButton>
+					)}
+				</Box>
 				<HealthBar
 					value={hitPoints}
 					max={maxHitPoints}

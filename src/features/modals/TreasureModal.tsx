@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeTreasureModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { getAvailableItemSlot } from "common/utils";
@@ -70,10 +70,10 @@ export const TreasureModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="md">
-			<DialogTitle id="form-dialog-title">You have found treasure!</DialogTitle>
+			<DialogTitle id="form-dialog-title">Choose one treasure!</DialogTitle>
 			<DialogContent>
 				{treasure ? (
-					<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap">
+					<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap" pt="2px">
 						{treasure.items.map((item) => (
 							<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
 						))}
@@ -83,11 +83,6 @@ export const TreasureModal: React.FC = () => {
 					<Loader />
 				)}
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={handleClose} color="primary" variant="contained">
-					Close
-				</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };

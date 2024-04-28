@@ -1,9 +1,10 @@
-import { Button, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { ISkill } from "common/types";
 import { SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { openSkillModal } from "features/modals";
 import { SKILL_TYPE_NAME_MAP, getSkillType } from "common/utils";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 interface IProps {
 	skill: ISkill;
@@ -28,15 +29,26 @@ export const SkillItem: React.FC<IProps> = ({ skill }) => {
 			<TableCell component="th" scope="row" width={30}>
 				<SkillIcon skill={skill} />
 			</TableCell>
-			<TableCell>
-				<Button variant="text" onClick={handleViewSkill}>
-					{skill.name}
-				</Button>
+			<TableCell align="left">
+				<Stack>
+					<Button variant="text" onClick={handleViewSkill}>
+						{skill.name}
+					</Button>
+					<Typography variant="body2">
+						Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
+					</Typography>
+				</Stack>
 			</TableCell>
-			<TableCell>
-				<Typography variant="body2">
-					Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
-				</Typography>
+			<TableCell align="right">
+				{skill.maxUses > 0 ? (
+					<Typography color="text.secondary" variant="body2">
+						{skill.remaining}/{skill.maxUses}
+					</Typography>
+				) : (
+					<Typography variant="body2">
+						<AllInclusiveIcon fontSize="small" />
+					</Typography>
+				)}
 			</TableCell>
 		</TableRow>
 	);

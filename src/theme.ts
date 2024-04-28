@@ -1,4 +1,4 @@
-import { createTheme, darken } from "@mui/material/styles";
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
 	palette: {
@@ -85,11 +85,12 @@ const theme = createTheme({
 					borderRadius: 0,
 				},
 				text: {
+					display: "inline-block",
 					textTransform: "none",
 					textDecoration: "underline",
 					padding: "0",
 					minWidth: "auto",
-					textAlign: "left",
+					textAlign: "inherit",
 					"&:hover": {
 						textDecoration: "underline",
 						backgroundColor: "transparent",
@@ -101,36 +102,11 @@ const theme = createTheme({
 			defaultProps: {
 				disableRipple: true,
 			},
-			styleOverrides: {
-				colorPrimary: {
-					border: "2px solid",
-					borderColor: "#762222",
-					backgroundColor: darken("#762222", 0.2),
-					color: "#ffffff",
-					"&:hover": {
-						backgroundColor: "#762222",
-					},
-					"&:disabled": {
-						backgroundColor: "#424242",
-						borderColor: "#616161",
-					},
-				},
-				colorSecondary: {
-					border: "2px solid",
-					borderColor: "#8b9a3b",
-					backgroundColor: darken("#8b9a3b", 0.2),
-					color: "#ffffff",
-					"&:hover": {
-						backgroundColor: "#8b9a3b",
-					},
-					"&:disabled": {
-						backgroundColor: "#424242",
-						borderColor: "#616161",
-					},
-				},
-			},
 		},
 		MuiPaper: {
+			defaultProps: {
+				elevation: 0,
+			},
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
@@ -198,6 +174,25 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					border: "1px solid #babdb6",
+				},
+			},
+		},
+		MuiCardActions: {
+			styleOverrides: {
+				root: {
+					padding: "8px 16px",
+				},
+			},
+		},
+		MuiTextField: {
+			defaultProps: {
+				variant: "outlined",
+			},
+		},
+		MuiOutlinedInput: {
+			styleOverrides: {
+				root: {
+					borderRadius: 0,
 				},
 			},
 		},

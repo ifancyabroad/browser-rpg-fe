@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, keyframes, styled } from "@mui/material";
+import { Box, Button, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
 import { nextLevel, rest } from "features/character";
@@ -7,7 +7,6 @@ import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } f
 import { Player } from "./Player";
 import { Room } from "./Room";
 import { startBattle } from "features/battle";
-import { ReactComponent as FootstepsIcon } from "assets/images/icons/footsteps.svg";
 import {
 	getActualLevel,
 	getCurrentLocation,
@@ -32,39 +31,6 @@ const Grid = styled("div", {
 	gridTemplateColumns: `repeat(${columns}, 1fr)`,
 	gridGap: "1px",
 }));
-
-const headShakeAnimation = keyframes`
-	0%,
-    50%,
-    100% {
-        transform: translate(0px, 0px);
-    }
-
-    6.5% {
-        transform: translate(-6px, 0px) rotateY(-9deg);
-    }
-
-    18.5% {
-        transform: translate(5px, 0px) rotateY(7deg);
-    }
-
-    31.5% {
-        transform: translate(-3px, 0px) rotateY(-5deg);
-    }
-
-    43.5% {
-        transform: translate(2px, 0px) rotateY(3deg);
-    }
-`;
-
-const StyledButton = styled(Button)<ButtonProps>({
-	borderRadius: "50%",
-	transformOrigin: "50% 50%",
-	height: 64,
-	width: 64,
-	padding: 0,
-	animation: `${headShakeAnimation} 1s ease-in-out 0s infinite normal both running`,
-});
 
 const defaultModalState = {
 	[RoomType.Battle]: false,
@@ -138,6 +104,29 @@ export const Dungeon: React.FC = () => {
 
 		return createAnimationFromPath(animationSteps);
 	}, [location, grid, rooms, path]);
+
+	const roomText = useMemo(() => {
+		if (!room) {
+			return;
+		}
+
+		switch (room.type) {
+			case RoomType.Battle:
+				return "Start Battle";
+			case RoomType.Boss:
+				return "Fight Boss";
+			case RoomType.Shop:
+				return "Visit Merchant";
+			case RoomType.Treasure:
+				return "Open Chest";
+			case RoomType.Rest:
+				return "Rest";
+			case RoomType.Exit:
+				return "Descend";
+			default:
+				return "";
+		}
+	}, [room]);
 
 	useEffect(() => {
 		setAnimation("");
@@ -228,10 +217,8 @@ export const Dungeon: React.FC = () => {
 		<Fragment>
 			<Box position="relative" py={2} flex={1} display="flex" flexDirection="column" width="100%">
 				<Box display="flex" justifyContent="flex-end">
-					<StyledButton
+					<Button
 						aria-label="character"
-						color="primary"
-						variant="contained"
 						onClick={handleLocation}
 						sx={{
 							display: isActionRoom ? null : "none",
@@ -241,8 +228,8 @@ export const Dungeon: React.FC = () => {
 							zIndex: 1,
 						}}
 					>
-						<FootstepsIcon height={40} width={40} />
-					</StyledButton>
+						{roomText}
+					</Button>
 				</Box>
 				<Grid ref={gridRef} columns={level.length}>
 					{level.map((row, y) =>

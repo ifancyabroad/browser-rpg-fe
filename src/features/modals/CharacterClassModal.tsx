@@ -1,4 +1,16 @@
-import { Box, Chip, Dialog, DialogContent, DialogContentText, Divider, Grid, Stack, Typography } from "@mui/material";
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Divider,
+	Grid,
+	Stack,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeCharacterClassModal, openEquipmentModal, openSkillModal } from "./modalsSlice";
 import { IArmour, ISkill, IWeapon } from "common/types";
@@ -36,6 +48,7 @@ export const CharacterClassModal: React.FC = () => {
 			scroll="body"
 			PaperProps={{ sx: { overflowY: "visible" } }}
 		>
+			<DialogTitle>{name}</DialogTitle>
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
@@ -47,9 +60,7 @@ export const CharacterClassModal: React.FC = () => {
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<Typography variant="h4" mb={1}>
-							{name}
-						</Typography>
+						<Typography color="info.main">Description</Typography>
 						<DialogContentText mb={2}>{description}</DialogContentText>
 						<Stack spacing={2}>
 							<Stack direction="row" spacing={1} flexWrap="wrap">
@@ -57,7 +68,9 @@ export const CharacterClassModal: React.FC = () => {
 									<Fragment key={stat}>
 										<Box sx={{ textAlign: "center", flex: 1 }}>
 											<Typography variant="body2">{STATS_ABBR_MAP[stat]}</Typography>
-											<Typography fontSize={20}>{stats[stat]}</Typography>
+											<Typography color="text.secondary" fontSize={20}>
+												{stats[stat]}
+											</Typography>
 										</Box>
 
 										<Divider
@@ -73,32 +86,26 @@ export const CharacterClassModal: React.FC = () => {
 								))}
 							</Stack>
 							<Box>
-								<DialogContentText variant="h6" color="text.primary">
-									Starting Skills
-								</DialogContentText>
+								<Typography color="info.main">Starting Skills</Typography>
 								<Stack direction="row" spacing={1} flexWrap="wrap">
 									{skills.map((skill) => (
-										<Chip
-											key={skill.id}
-											size="small"
-											label={skill.name}
-											onClick={() => handleViewSkill(skill)}
-										/>
+										<Button key={skill.id} variant="text" onClick={() => handleViewSkill(skill)}>
+											{skill.name}
+										</Button>
 									))}
 								</Stack>
 							</Box>
 							<Box>
-								<DialogContentText variant="h6" color="text.primary">
-									Starting Equipment
-								</DialogContentText>
-								<Stack direction="row" spacing={1} flexWrap="wrap">
+								<Typography color="info.main">Starting Equipment</Typography>
+								<Stack direction="row" spacing={2} flexWrap="wrap">
 									{mapToArray(equipment ?? {}).map((equipment) => (
-										<Chip
+										<Button
 											key={equipment.id}
-											size="small"
-											label={equipment.name}
+											variant="text"
 											onClick={() => handleViewEquipment(equipment)}
-										/>
+										>
+											{equipment.name}
+										</Button>
 									))}
 								</Stack>
 							</Box>
@@ -106,6 +113,9 @@ export const CharacterClassModal: React.FC = () => {
 					</Grid>
 				</Grid>
 			</DialogContent>
+			<DialogActions>
+				<Button onClick={handleClose}>Close</Button>
+			</DialogActions>
 		</Dialog>
 	);
 };

@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
@@ -46,7 +46,12 @@ export const ShopModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle>Shop</DialogTitle>
+			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
+				Shop
+				<Typography component="span" fontSize={16}>
+					Gold: {character.gold}
+				</Typography>
+			</DialogTitle>
 			<DialogContent>
 				<Stack sx={{ height: "100%", overflowY: "auto" }}>
 					{availableItems.map((item) => (
@@ -54,19 +59,7 @@ export const ShopModal: React.FC = () => {
 					))}
 				</Stack>
 			</DialogContent>
-			<DialogActions sx={{ justifyContent: "space-between" }}>
-				<Box
-					sx={{
-						flex: 1,
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						gap: 1,
-						height: "100%",
-					}}
-				>
-					Gold: {character.gold}
-				</Box>
+			<DialogActions>
 				<Button onClick={handleClose}>Close</Button>
 			</DialogActions>
 		</Dialog>

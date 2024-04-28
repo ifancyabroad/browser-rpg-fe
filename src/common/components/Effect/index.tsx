@@ -5,10 +5,12 @@ import { AUXILIARY_EFFECTS_NAME_MAP, AuxiliaryEffect as AuxEffect } from "common
 import { PropertyList } from "common/components";
 
 const StatusDetails: React.FC<IStatus> = (effect) => (
-	<Stack spacing={1}>
-		<Typography sx={{ fontWeight: "medium" }}>{effect.skill.name}</Typography>
+	<Stack>
+		<Typography variant="h6" fontSize={16}>
+			{effect.skill.name}
+		</Typography>
 		{"properties" in effect && <PropertyList properties={effect.properties} />}
-		<Typography variant="body2" fontStyle="italic">
+		<Typography variant="body2" fontStyle="italic" color="text.secondary">
 			{effect.remaining} turns remaining
 		</Typography>
 	</Stack>
@@ -26,8 +28,10 @@ export const StatusEffect: React.FC<IStatus> = (status) => {
 
 const AuxiliaryDetails: React.FC<IActiveEffect> = (effect) => (
 	<Stack spacing={1}>
-		<Typography sx={{ fontWeight: "medium" }}>{AUXILIARY_EFFECTS_NAME_MAP[effect.effect as AuxEffect]}</Typography>
-		<Typography variant="body2" fontStyle="italic">
+		<Typography variant="h6" fontSize={16}>
+			{AUXILIARY_EFFECTS_NAME_MAP[effect.effect as AuxEffect]}
+		</Typography>
+		<Typography variant="body2" fontStyle="italic" color="text.secondary">
 			{effect.remaining} turns remaining
 		</Typography>
 	</Stack>

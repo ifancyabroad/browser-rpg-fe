@@ -42,7 +42,6 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 				borderStyle: "solid",
 				borderWidth: 3,
 				borderColor: isSelected ? "primary.main" : "transparent",
-				transition: "all 0.2s ease-in-out",
 				"&:hover": {
 					borderColor: "primary.main",
 				},
@@ -55,7 +54,7 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 			<Typography variant="body2" mb={2}>
 				{secondaryText}
 			</Typography>
-			<Button color="secondary" onClick={handleViewSkill}>
+			<Button variant="text" onClick={handleViewSkill}>
 				View Details
 			</Button>
 		</Paper>
@@ -80,21 +79,14 @@ const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected }
 				borderStyle: "solid",
 				borderWidth: 3,
 				borderColor: isSelected ? "primary.main" : "transparent",
-				transition: "all 0.2s ease-in-out",
 				"&:hover": {
 					borderColor: "primary.main",
 				},
 			}}
 		>
 			<StatIcon stat={stat} />
-			<Typography variant="h5" fontSize={16}>
-				{STATS_NAME_MAP[stat]}
-			</Typography>
-			<Typography
-				variant="body2"
-				color={isSelected ? "success.light" : "text.secondary"}
-				sx={{ transition: "color 0.2s ease-in-out" }}
-			>
+			<Typography>{STATS_NAME_MAP[stat]}</Typography>
+			<Typography variant="body2" color={isSelected ? "success.light" : "text.secondary"}>
 				({value})
 			</Typography>
 		</Paper>
@@ -162,7 +154,7 @@ export const LevelUpModal: React.FC = () => {
 			<DialogContent>
 				{showSkills ? (
 					<FormControl>
-						<FormLabel id="attribute-label" sx={{ textAlign: "center", mb: 2 }}>
+						<FormLabel id="attribute-label" sx={{ color: "text.primary", textAlign: "center", mb: 2 }}>
 							Choose a new skill
 						</FormLabel>
 						<RadioGroup
@@ -186,7 +178,7 @@ export const LevelUpModal: React.FC = () => {
 					</FormControl>
 				) : (
 					<FormControl>
-						<FormLabel id="attribute-label" sx={{ textAlign: "center", mb: 2 }}>
+						<FormLabel id="attribute-label" sx={{ color: "text.primary", textAlign: "center", mb: 2 }}>
 							Choose an attribute to increase by 1
 						</FormLabel>
 						<RadioGroup

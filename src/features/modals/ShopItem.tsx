@@ -67,12 +67,10 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 					overflow="hidden"
 				>
 					<Stack flex={1} minWidth={0}>
-						<Typography variant="h6" fontFamily="'Cinzel', serif" noWrap>
+						<Typography color="text.secondary" noWrap>
 							{name}
 						</Typography>
-						<Typography variant="body2" color="text.secondary">
-							Price: {price}
-						</Typography>
+						<Typography variant="body2">Price: {price}g</Typography>
 					</Stack>
 					<Box display="flex" alignItems="center" gap={1}>
 						<IconButton onClick={openEquipmentDetailsModal} color="secondary">

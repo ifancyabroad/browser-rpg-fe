@@ -16,18 +16,16 @@ export const Gold: React.FC<IGoldProps> = ({ onTake }) => {
 	};
 
 	return (
-		<Card sx={{ width: 250 }} variant="outlined">
+		<Card sx={{ width: 250, display: "flex", flexDirection: "column" }} variant="outlined">
 			<CardMedia sx={{ height: 160 }} image="https://via.placeholder.com/1024" title="Gold" />
 			<CardContent>
-				<Typography variant="h6" fontFamily="'Cinzel', serif" noWrap>
+				<Typography variant="h6" noWrap>
 					Gold
 				</Typography>
-				<Typography variant="body2" color="text.secondary">
-					25g
-				</Typography>
+				<Typography variant="body2">25g</Typography>
 			</CardContent>
-			<CardActions>
-				<Button size="small" variant="contained" onClick={handleTakeItem} disabled={isLoading}>
+			<CardActions sx={{ mt: "auto" }}>
+				<Button variant="text" onClick={handleTakeItem} disabled={isLoading}>
 					Take
 				</Button>
 			</CardActions>
@@ -55,21 +53,19 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 	};
 
 	return (
-		<Card sx={{ width: 250 }} variant="outlined">
+		<Card sx={{ width: 250, display: "flex", flexDirection: "column" }} variant="outlined">
 			<CardMedia sx={{ height: 160 }} image={icon || "https://via.placeholder.com/1024"} title={name} />
 			<CardContent>
-				<Typography variant="h6" fontFamily="'Cinzel', serif" noWrap>
+				<Typography variant="h6" noWrap>
 					{name}
 				</Typography>
-				<Typography variant="body2" color="text.secondary">
-					{description}
-				</Typography>
+				<Typography variant="body2">{description}</Typography>
 			</CardContent>
-			<CardActions>
-				<Button size="small" variant="contained" onClick={handleTakeItem} disabled={isLoading}>
+			<CardActions sx={{ mt: "auto" }}>
+				<Button variant="text" onClick={handleTakeItem} disabled={isLoading}>
 					Take
 				</Button>
-				<Button size="small" variant="contained" color="secondary" onClick={openEquipmentDetailsModal}>
+				<Button variant="text" color="secondary" onClick={openEquipmentDetailsModal}>
 					Details
 				</Button>
 			</CardActions>

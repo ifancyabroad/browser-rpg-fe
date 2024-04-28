@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { HealthBar } from "common/components";
 import { useAppSelector } from "common/hooks";
 
@@ -13,7 +13,7 @@ export const Enemy: React.FC = () => {
 
 	return (
 		<Box maxWidth={600}>
-			<Box mb={2}>
+			<Stack spacing={1} mb={2}>
 				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
 					{name}
 				</Typography>
@@ -23,7 +23,7 @@ export const Enemy: React.FC = () => {
 					auxiliaryEffects={activeAuxiliaryEffects}
 					statusEffects={activeStatusEffects}
 				/>
-			</Box>
+			</Stack>
 
 			<Box
 				sx={{

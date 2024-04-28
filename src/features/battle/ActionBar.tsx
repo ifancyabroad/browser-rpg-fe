@@ -54,9 +54,11 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 
 	return (
 		<Tooltip title={<SkillTooltip {...skill} />} placement="top">
-			<ButtonBase onClick={handleUseSkill} disabled={isDisabled}>
-				<SkillIcon skill={skill} width={64} />
-			</ButtonBase>
+			<div>
+				<ButtonBase onClick={handleUseSkill} disabled={isDisabled}>
+					<SkillIcon skill={skill} width={64} />
+				</ButtonBase>
+			</div>
 		</Tooltip>
 	);
 };

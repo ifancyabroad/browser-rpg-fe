@@ -63,7 +63,6 @@ export const RegistrationModal: React.FC = () => {
 				</DialogContentText>
 				<TextField
 					inputRef={emailRef}
-					variant="filled"
 					autoFocus
 					margin="dense"
 					id="name"
@@ -74,7 +73,6 @@ export const RegistrationModal: React.FC = () => {
 				/>
 				<TextField
 					inputRef={passwordRef}
-					variant="filled"
 					margin="dense"
 					id="standard-basic"
 					label="Password"

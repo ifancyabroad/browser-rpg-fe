@@ -152,6 +152,7 @@ interface IProps {
 export const CombatLog: React.FC<IProps> = ({ turns }) => {
 	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
+	const isLoading = useAppSelector((state) => state.battle.status === "loading");
 
 	if (!character || !battle) {
 		return null;
@@ -183,6 +184,8 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 							overflowY: "scroll",
 						}}
 					>
+						{isLoading && <Typography variant="body2">Loading...</Typography>}
+
 						{reversedTurns.map((turn, index) => (
 							<Box
 								key={index}

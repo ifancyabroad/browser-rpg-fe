@@ -10,9 +10,6 @@ import {
 	STATS_NAME_MAP,
 } from "common/utils";
 import { getEquipmentBonus } from "features/character/characterSlice";
-import armourIcon from "assets/images/icons/shield.svg";
-import hitIcon from "assets/images/icons/piercing-sword.svg";
-import critIcon from "assets/images/icons/pointy-sword.svg";
 
 interface IStat {
 	name: string;
@@ -68,52 +65,40 @@ export const Details: React.FC = () => {
 
 	return (
 		<Stack spacing={2}>
-			<Box>
-				<Typography color="info.main" mb={1}>
-					Attributes
-				</Typography>
-				<StatList stats={mappedStats} />
+			<Box display="flex" justifyContent="space-between" gap={1}>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Armour Class</Typography>
+					<Typography>{character.armourClass}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Hit Bonus</Typography>
+					<Typography>{character.hitBonus}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Crit Bonus</Typography>
+					<Typography>{character.critBonus}</Typography>
+				</Box>
 			</Box>
-			<Box>
-				<Typography color="info.main" mb={1}>
-					Resistances
-				</Typography>
-				<StatList stats={mappedResistances} />
-			</Box>
-			<Box>
-				<Typography color="info.main" mb={1}>
-					Damage
-				</Typography>
-				<StatList stats={mappedDamage} />
-			</Box>
-			<Box py={2}>
-				<Grid container spacing={2}>
-					<Grid item xs={4}>
-						<Tooltip title="Armour Class" placement="top">
-							<Stack spacing={1} textAlign="center" alignItems="center">
-								<Box component="img" src={armourIcon} width={32} />
-								<Typography variant="body1">{character.armourClass}</Typography>
-							</Stack>
-						</Tooltip>
-					</Grid>
-					<Grid item xs={4}>
-						<Tooltip title="Hit Bonus" placement="top">
-							<Stack spacing={1} textAlign="center" alignItems="center">
-								<Box component="img" src={hitIcon} width={32} />
-								<Typography variant="body1">{character.hitBonus}</Typography>
-							</Stack>
-						</Tooltip>
-					</Grid>
-					<Grid item xs={4}>
-						<Tooltip title="Crit Bonus" placement="top">
-							<Stack spacing={1} textAlign="center" alignItems="center">
-								<Box component="img" src={critIcon} width={32} />
-								<Typography variant="body1">{character.critBonus}</Typography>
-							</Stack>
-						</Tooltip>
-					</Grid>
-				</Grid>
-			</Box>
+			<Stack spacing={1}>
+				<Box>
+					<Typography color="info.main" mb={1}>
+						Attributes
+					</Typography>
+					<StatList stats={mappedStats} />
+				</Box>
+				<Box>
+					<Typography color="info.main" mb={1}>
+						Resistances
+					</Typography>
+					<StatList stats={mappedResistances} />
+				</Box>
+				<Box>
+					<Typography color="info.main" mb={1}>
+						Damage
+					</Typography>
+					<StatList stats={mappedDamage} />
+				</Box>
+			</Stack>
 		</Stack>
 	);
 };

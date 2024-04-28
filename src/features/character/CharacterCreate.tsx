@@ -97,19 +97,22 @@ export const CharacterCreate: React.FC = () => {
 								<Grid key={id} item xs={12} md={4}>
 									<Card sx={{ maxWidth: 345, margin: "auto" }}>
 										<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
-										<CardContent sx={{ textAlign: "center" }}>
+										<CardContent>
 											<Typography gutterBottom variant="h5" component="div">
 												{name}
 											</Typography>
-											<Typography variant="body2" color="text.secondary">
-												{description}
-											</Typography>
+											<Typography variant="body2">{description}</Typography>
 										</CardContent>
 										<CardActions>
-											<Button onClick={handleSelectClass} data-value={id}>
+											<Button variant="text" onClick={handleSelectClass} data-value={id}>
 												Select
 											</Button>
-											<Button onClick={handleViewClass} data-value={id}>
+											<Button
+												variant="text"
+												color="secondary"
+												onClick={handleViewClass}
+												data-value={id}
+											>
 												Details
 											</Button>
 										</CardActions>
