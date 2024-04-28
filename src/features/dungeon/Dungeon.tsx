@@ -254,6 +254,7 @@ export const Dungeon: React.FC = () => {
 							level={level}
 							onAnimationEnd={handleLocation}
 							animation={animation}
+							image={character.characterClass.portrait}
 						/>
 					)}
 				</Grid>

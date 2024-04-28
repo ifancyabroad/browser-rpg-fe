@@ -4,7 +4,7 @@ import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
 import { getIsInDisplayedPath, setCurrentRoom, setDisplayedPath, setPath } from "./dungeonSlice";
 import { forwardRef } from "react";
-import { ReactComponent as MonsterIcon } from "assets/images/icons/daemon-skull.svg";
+import { ReactComponent as MonsterIcon } from "assets/images/icons/crossed-swords.svg";
 import { ReactComponent as BossIcon } from "assets/images/icons/crowned-skull.svg";
 import { ReactComponent as TreasureIcon } from "assets/images/icons/open-treasure-chest.svg";
 import { ReactComponent as ShopIcon } from "assets/images/icons/shop.svg";
