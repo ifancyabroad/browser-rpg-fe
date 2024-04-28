@@ -148,6 +148,8 @@ const theme = createTheme({
 			styleOverrides: {
 				tooltip: {
 					borderRadius: "0",
+					backgroundColor: "#040204",
+					color: "currentcolor",
 					border: "1px solid #000",
 					outline: "2px solid #7d623c",
 				},
@@ -204,21 +206,20 @@ const theme = createTheme({
 				body: {
 					// scrollbarColor: "#6b6b6b #293132",
 					"&::-webkit-scrollbar, & *::-webkit-scrollbar": {
-						width: 8,
+						width: 2,
 					},
 					"&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {
-						borderRadius: 8,
-						backgroundColor: "#6b6b6b",
+						backgroundColor: "#7d623c",
 						minHeight: 24,
 					},
 					"&::-webkit-scrollbar-thumb:focus, & *::-webkit-scrollbar-thumb:focus": {
-						backgroundColor: "#959595",
+						backgroundColor: "#8f5902",
 					},
 					"&::-webkit-scrollbar-thumb:active, & *::-webkit-scrollbar-thumb:active": {
-						backgroundColor: "#959595",
+						backgroundColor: "#8f5902",
 					},
 					"&::-webkit-scrollbar-thumb:hover, & *::-webkit-scrollbar-thumb:hover": {
-						backgroundColor: "#959595",
+						backgroundColor: "#8f5902",
 					},
 					"&::-webkit-scrollbar-corner, & *::-webkit-scrollbar-corner": {
 						backgroundColor: "#293132",

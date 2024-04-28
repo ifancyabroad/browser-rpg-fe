@@ -2,11 +2,12 @@ import { Box, Stack, Typography, styled } from "@mui/material";
 import { IActiveEffect, IStatus } from "common/types";
 import { AuxiliaryEffect, StatusEffect } from "common/components";
 
-const BarWrapper = styled(Box)({
+const BarWrapper = styled(Box)(({ theme }) => ({
 	position: "relative",
 	width: "256px",
 	height: "24px",
-});
+	backgroundColor: theme.palette.grey[900],
+}));
 
 const Bar = styled(Box)(({ theme }) => ({
 	position: "relative",
@@ -35,7 +36,7 @@ export const HealthBar: React.FC<IProps> = ({ value, max, auxiliaryEffects, stat
 	const normalisedValue = value < 0 ? 0 : value > max ? 100 : ((value - 0) * 100) / (max - 0);
 
 	return (
-		<Stack spacing={1}>
+		<Stack position="relative" spacing={1}>
 			<Box display="flex" gap={2} alignItems="center">
 				<BarWrapper>
 					<Bar sx={{ width: `${normalisedValue}%` }} />

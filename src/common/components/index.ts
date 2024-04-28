@@ -13,4 +13,3 @@ export * from "./CharacterButton";
 export * from "./StatIcon";
 export * from "./HealthBar";
 export * from "./Effect";
-export * from "./GameTooltip";

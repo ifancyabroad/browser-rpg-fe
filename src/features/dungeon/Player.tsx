@@ -1,27 +1,6 @@
-import { keyframes, styled } from "@mui/material";
+import { styled } from "@mui/material";
 import { IPlayerLocation, TMap } from "common/types";
 import playerIcon from "assets/images/icons/character.svg";
-
-const pulseRing = keyframes`
-  0% {
-    transform: scale(.33);
-  }
-  80%, 100% {
-    opacity: 0;
-  }
-`;
-
-const pulseDot = keyframes`
-  0% {
-    transform: scale(.8);
-  }
-  50% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(.8);
-  }
-`;
 
 interface IIndicatorProps {
 	top: number;
@@ -38,18 +17,6 @@ const Indicator = styled("div", {
 	transform: "translate(-50%, -50%)",
 	height: size,
 	width: size,
-	":before": {
-		content: "''",
-		position: "relative",
-		display: "block",
-		width: "300%",
-		height: "300%",
-		marginLeft: "-100%",
-		marginTop: "-100%",
-		borderRadius: "50%",
-		backgroundColor: theme.palette.primary.light,
-		animation: `${pulseRing} 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite`,
-	},
 	":after": {
 		content: "''",
 		position: "absolute",
@@ -66,7 +33,6 @@ const Indicator = styled("div", {
 		border: "2px solid transparent",
 		borderRadius: "50%",
 		boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-		animation: `${pulseDot} 1.25s cubic-bezier(0.455, 0.03, 0.515, 0.955) -.4s infinite`,
 	},
 }));
 

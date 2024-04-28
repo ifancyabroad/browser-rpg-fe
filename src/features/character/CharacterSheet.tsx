@@ -82,6 +82,25 @@ const CharacterContent: React.FC = () => {
 				<ExperienceBar />
 			</Stack>
 
+			<Box display="flex" justifyContent="space-between" gap={1}>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Level</Typography>
+					<Typography>{character.level}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Floor</Typography>
+					<Typography>{character.map.location.level + 1}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Gold</Typography>
+					<Typography>{character.gold}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Kills</Typography>
+					<Typography>{character.kills}</Typography>
+				</Box>
+			</Box>
+
 			<Box>
 				<StyledTabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
 					<StyledTab label="Skills" value={CharacterSheetTab.Skills} />

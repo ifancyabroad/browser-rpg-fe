@@ -1,4 +1,4 @@
-import { Paper, styled } from "@mui/material";
+import { ButtonBase, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { RoomType } from "common/utils";
@@ -10,8 +10,6 @@ import { ReactComponent as TreasureIcon } from "assets/images/icons/open-treasur
 import { ReactComponent as ShopIcon } from "assets/images/icons/shop.svg";
 import { ReactComponent as RestIcon } from "assets/images/icons/campfire.svg";
 import { ReactComponent as ExitIcon } from "assets/images/icons/doorway.svg";
-import background from "assets/images/background/bgtile.webp";
-import background2 from "assets/images/background/bgtile2.webp";
 
 const Tile = styled("div")({
 	position: "relative",
@@ -22,25 +20,23 @@ const Tile = styled("div")({
 });
 
 interface IBaseRoomProps {
-	component: React.ElementType;
+	component?: React.ElementType;
 	disabled?: boolean;
 	isInPath: boolean;
 	isAccessible: boolean;
 }
 
-const BaseRoom = styled(Paper, {
+const BaseRoom = styled(ButtonBase, {
 	shouldForwardProp: (prop) => !["isInPath", "isAccessible"].includes(prop as string),
 })<IBaseRoomProps>(({ theme, isInPath, isAccessible }) => ({
 	flex: 1,
-	backgroundImage: `url(${background2}), url(${background})`,
-	backgroundPosition: "0px 0px, 0px 0px",
-	backgroundRepeat: "repeat-x, repeat",
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
 	borderStyle: "solid",
 	borderWidth: 3,
-	borderColor: isInPath ? theme.palette.primary.main : "transparent",
+	borderColor: isInPath ? theme.palette.primary.main : theme.palette.grey[800],
+	backgroundColor: theme.palette.grey[900],
 	opacity: isAccessible ? 1 : 0.4,
 	transition: "all 0.2s ease-in-out",
 	":hover:not(:disabled)": {
@@ -102,7 +98,6 @@ export const Room: React.FC<IRoomProps> = forwardRef<HTMLDivElement, IRoomProps>
 	return (
 		<Tile ref={ref}>
 			<BaseRoom
-				component="button"
 				onClick={handleMove}
 				onMouseOver={handleShowPath}
 				onMouseOut={handleClearPath}

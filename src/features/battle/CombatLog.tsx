@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography, useTheme } from "@mui/material";
+import { Box, Divider, Typography, useTheme } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { IAction } from "common/types";
 import {
@@ -162,9 +162,10 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 	return (
 		<Box sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 1 }}>
 			<Typography variant="h6">Combat Log</Typography>
-			<Paper
+			<Box
 				sx={{
-					background: "none",
+					border: 2,
+					borderColor: "grey.600",
 					flex: 1,
 					p: 2,
 				}}
@@ -193,7 +194,9 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 									"&:hover": { opacity: 1 },
 								}}
 							>
-								<Typography variant="body2">Turn {reversedTurns.length - index}</Typography>
+								<Typography variant="body2" color="info.main">
+									Turn {reversedTurns.length - index}
+								</Typography>
 								<Divider />
 								{turn.map((action, index2) => (
 									<Action key={`action-${index}-${index2}`} {...action} />
@@ -202,7 +205,7 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 						))}
 					</Box>
 				</Box>
-			</Paper>
+			</Box>
 		</Box>
 	);
 };
