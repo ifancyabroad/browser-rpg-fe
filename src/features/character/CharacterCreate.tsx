@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
@@ -72,57 +72,55 @@ export const CharacterCreate: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Container>
-				<Box
-					sx={{
-						minHeight: "100vh",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						flexDirection: "column",
-						gap: 2,
-						p: 2,
-					}}
-				>
-					<Typography variant="h5" textAlign="center">
-						Please select a class
-					</Typography>
-					{isLoading ? (
-						<Box height={520} display="flex" justifyContent="center" alignItems="center">
-							<Loader />
-						</Box>
-					) : (
-						<Grid container spacing={2}>
-							{classes.map(({ id, portrait, name, description }) => (
-								<Grid key={id} item xs={12} md={4}>
-									<Card sx={{ maxWidth: 345, margin: "auto" }}>
-										<CardMedia sx={{ height: 340 }} image={portrait} title={name} />
-										<CardContent>
-											<Typography gutterBottom variant="h5" component="div">
-												{name}
-											</Typography>
-											<Typography variant="body2">{description}</Typography>
-										</CardContent>
-										<CardActions>
-											<Button variant="text" onClick={handleSelectClass} data-value={id}>
-												Select
-											</Button>
-											<Button
-												variant="text"
-												color="secondary"
-												onClick={handleViewClass}
-												data-value={id}
-											>
-												Details
-											</Button>
-										</CardActions>
-									</Card>
-								</Grid>
-							))}
-						</Grid>
-					)}
+			<Box
+				sx={{
+					minHeight: "100vh",
+					display: "flex",
+					flexDirection: "column",
+				}}
+			>
+				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
+					<Container maxWidth="lg">
+						<Typography color="text.secondary" textAlign="center" mb={4}>
+							Please select a class
+						</Typography>
+						{isLoading ? (
+							<Box height={480} display="flex" justifyContent="center" alignItems="center">
+								<Loader />
+							</Box>
+						) : (
+							<Grid container spacing={2}>
+								{classes.map(({ id, portrait, name, description }) => (
+									<Grid key={id} item xs={12} sm={4}>
+										<Card>
+											<CardMedia sx={{ height: 300 }} image={portrait} title={name} />
+											<CardContent>
+												<Typography color="text.secondary" gutterBottom>
+													{name}
+												</Typography>
+												<Typography variant="body2">{description}</Typography>
+											</CardContent>
+											<CardActions>
+												<Link component="button" onClick={handleSelectClass} data-value={id}>
+													Select
+												</Link>
+												<Link
+													component="button"
+													color="secondary"
+													onClick={handleViewClass}
+													data-value={id}
+												>
+													Details
+												</Link>
+											</CardActions>
+										</Card>
+									</Grid>
+								))}
+							</Grid>
+						)}
+					</Container>
 				</Box>
-			</Container>
+			</Box>
 
 			<CharacterNameModal
 				isOpen={Boolean(selectedClass)}

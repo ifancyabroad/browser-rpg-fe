@@ -1,13 +1,4 @@
-import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Link,
-	TextField,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link, TextField } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, login } from "features/authentication";
 import { closeLoginModal, openErrorModal, openRegistrationModal } from "features/modals";
@@ -82,10 +73,12 @@ export const LoginModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Cancel</Button>
-				<Button onClick={handleLogin} disabled={isLoading}>
+				<Link component="button" onClick={handleClose}>
+					Cancel
+				</Link>
+				<Link component="button" onClick={handleLogin} disabled={isLoading}>
 					Login
-				</Button>
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

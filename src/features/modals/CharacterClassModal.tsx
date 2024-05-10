@@ -1,6 +1,5 @@
 import {
 	Box,
-	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -8,8 +7,11 @@ import {
 	DialogTitle,
 	Divider,
 	Grid,
+	Link,
 	Stack,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeCharacterClassModal, openEquipmentModal, openSkillModal } from "./modalsSlice";
@@ -20,6 +22,8 @@ import { Fragment } from "react";
 export const CharacterClassModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { open, characterClass } = useAppSelector((state) => state.modals.characterClassModal);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
 	const handleClose = () => {
 		dispatch(closeCharacterClassModal());
@@ -40,15 +44,8 @@ export const CharacterClassModal: React.FC = () => {
 	const { name, description, skills, equipment, portrait, stats } = characterClass;
 
 	return (
-		<Dialog
-			open={open}
-			onClose={handleClose}
-			fullWidth
-			maxWidth="md"
-			scroll="body"
-			PaperProps={{ sx: { overflowY: "visible" } }}
-		>
-			<DialogTitle>{name}</DialogTitle>
+		<Dialog open={open} onClose={handleClose} maxWidth="md" scroll="body">
+			{isMobile && <DialogTitle>{name}</DialogTitle>}
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
@@ -60,6 +57,11 @@ export const CharacterClassModal: React.FC = () => {
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
+						{!isMobile && (
+							<Typography variant="h5" color="text.secondary" mb={2}>
+								{name}
+							</Typography>
+						)}
 						<Typography color="info.main">Description</Typography>
 						<DialogContentText mb={2}>{description}</DialogContentText>
 						<Stack spacing={2}>
@@ -87,11 +89,11 @@ export const CharacterClassModal: React.FC = () => {
 							</Stack>
 							<Box>
 								<Typography color="info.main">Starting Skills</Typography>
-								<Stack direction="row" spacing={1} flexWrap="wrap">
+								<Stack direction="row" spacing={2} flexWrap="wrap">
 									{skills.map((skill) => (
-										<Button key={skill.id} variant="text" onClick={() => handleViewSkill(skill)}>
+										<Link component="button" key={skill.id} onClick={() => handleViewSkill(skill)}>
 											{skill.name}
-										</Button>
+										</Link>
 									))}
 								</Stack>
 							</Box>
@@ -99,13 +101,13 @@ export const CharacterClassModal: React.FC = () => {
 								<Typography color="info.main">Starting Equipment</Typography>
 								<Stack direction="row" spacing={2} flexWrap="wrap">
 									{mapToArray(equipment ?? {}).map((equipment) => (
-										<Button
+										<Link
+											component="button"
 											key={equipment.id}
-											variant="text"
 											onClick={() => handleViewEquipment(equipment)}
 										>
 											{equipment.name}
-										</Button>
+										</Link>
 									))}
 								</Stack>
 							</Box>
@@ -114,7 +116,9 @@ export const CharacterClassModal: React.FC = () => {
 				</Grid>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Close</Button>
+				<Link component="button" onClick={handleClose}>
+					Close
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

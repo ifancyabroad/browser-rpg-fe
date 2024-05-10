@@ -1,14 +1,16 @@
 import {
 	Box,
-	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
 	Grid,
+	Link,
 	Stack,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeEquipmentModal } from "./modalsSlice";
@@ -19,6 +21,8 @@ import { PropertyList } from "common/components";
 export const EquipmentModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { open, item } = useAppSelector((state) => state.modals.equipmentModal);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
 	const handleClose = () => {
 		dispatch(closeEquipmentModal());
@@ -33,8 +37,8 @@ export const EquipmentModal: React.FC = () => {
 	const isWeapon = "weaponType" in item;
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm" scroll="body">
-			<DialogTitle>{name}</DialogTitle>
+		<Dialog open={open} onClose={handleClose} maxWidth="sm" scroll="body">
+			{isMobile && <DialogTitle>{name}</DialogTitle>}
 			<DialogContent>
 				<Grid container spacing={2}>
 					<Grid item xs={12} md={6}>
@@ -47,6 +51,11 @@ export const EquipmentModal: React.FC = () => {
 						/>
 					</Grid>
 					<Grid item xs={12} md={6}>
+						{!isMobile && (
+							<Typography variant="h5" color="text.secondary" mb={2}>
+								{name}
+							</Typography>
+						)}
 						<Stack spacing={1} mb={3}>
 							<Box display="flex" gap={1}>
 								<Typography color="secondary.main">Type:</Typography>
@@ -103,7 +112,9 @@ export const EquipmentModal: React.FC = () => {
 				</Grid>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Close</Button>
+				<Link component="button" onClick={handleClose}>
+					Close
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

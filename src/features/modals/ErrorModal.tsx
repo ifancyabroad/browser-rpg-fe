@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeErrorModal } from "features/modals";
 
@@ -12,12 +12,16 @@ export const ErrorModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">{title || "Error"}</DialogTitle>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				{title || "Error"}
+			</DialogTitle>
 			<DialogContent>
-				<DialogContentText>{message || "Something went wrong!"}</DialogContentText>
+				<DialogContentText textAlign="center">{message || "Something went wrong!"}</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Confirm</Button>
+				<Link component="button" onClick={handleClose}>
+					Confirm
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

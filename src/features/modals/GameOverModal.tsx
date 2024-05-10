@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeGameOverModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
@@ -31,9 +31,9 @@ export const GameOverModal: React.FC = () => {
 				<DialogContentText textAlign="center">You have been slain by {name}.</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleGameOver} disabled={isLoading}>
+				<Link component="button" onClick={handleGameOver} disabled={isLoading}>
 					Try again
-				</Button>
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

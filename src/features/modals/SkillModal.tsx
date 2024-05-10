@@ -1,11 +1,11 @@
 import {
 	Box,
-	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
+	Link,
 	Stack,
 	Typography,
 } from "@mui/material";
@@ -31,7 +31,7 @@ export const SkillModal: React.FC = () => {
 	const type = getSkillType(skill);
 
 	return (
-		<Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs" scroll="body">
+		<Dialog open={open} onClose={handleClose} scroll="body">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 				<Box component="img" src={icon || "https://via.placeholder.com/1024"} alt={name} width="48px" />
 				{name}
@@ -71,7 +71,9 @@ export const SkillModal: React.FC = () => {
 				</Stack>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Close</Button>
+				<Link component="button" onClick={handleClose}>
+					Close
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

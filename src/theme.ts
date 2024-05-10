@@ -156,10 +156,15 @@ const theme = createTheme({
 			},
 		},
 		MuiDialogActions: {
+			defaultProps: {
+				disableSpacing: true,
+			},
 			styleOverrides: {
 				root: {
 					justifyContent: "center",
 					padding: "16px",
+					paddingTop: "0",
+					gap: "16px",
 				},
 			},
 		},
@@ -174,6 +179,8 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					padding: "8px 16px",
+					justifyContent: "center",
+					gap: "16px",
 				},
 			},
 		},

@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 
 interface IProps {
 	open: boolean;
@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export const ConfirmationModal: React.FC<IProps> = ({ open, title, content, handleClose, handleConfirm, disabled }) => (
-	<Dialog open={open} onClose={handleClose} maxWidth="xs" aria-labelledby="form-dialog-title">
+	<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
 		<DialogTitle id="form-dialog-title" textAlign="center">
 			{title}
 		</DialogTitle>
@@ -18,10 +18,12 @@ export const ConfirmationModal: React.FC<IProps> = ({ open, title, content, hand
 			<DialogContentText textAlign="center">{content}</DialogContentText>
 		</DialogContent>
 		<DialogActions>
-			<Button onClick={handleClose}>Cancel</Button>
-			<Button onClick={handleConfirm} disabled={disabled}>
+			<Link component="button" onClick={handleClose}>
+				Cancel
+			</Link>
+			<Link component="button" onClick={handleConfirm} disabled={disabled}>
 				Confirm
-			</Button>
+			</Link>
 		</DialogActions>
 	</Dialog>
 );
