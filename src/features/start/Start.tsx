@@ -1,15 +1,17 @@
-import { Box, Button, Paper, Stack, Typography } from "@mui/material";
+import { Box, Container, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ConfirmationModal, openErrorModal } from "features/modals";
+import { Footer, Header } from "common/components";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const hasActiveCharacter = useAppSelector(getHasActiveCharacter);
+	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 
@@ -38,56 +40,65 @@ export const Start: React.FC = () => {
 				sx={{
 					minHeight: "100vh",
 					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
 					flexDirection: "column",
-					gap: 2,
-					p: 2,
 				}}
 			>
-				<Paper
-					sx={{
-						maxWidth: "600px",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						flexDirection: "column",
-						textAlign: "center",
-						gap: 3,
-						p: 4,
-					}}
-				>
-					<Typography variant="h4" fontWeight="bold">
-						BROWSER HEROES
-					</Typography>
-					{hasActiveCharacter ? (
-						<Fragment>
-							<Typography>
-								Click one of the below options to continue your existing game or start a new one.
-							</Typography>
-							<Stack spacing={2} direction="row">
-								<Button size="large" component={Link} to="/game">
-									CONTINUE
-								</Button>
-								<Button size="large" onClick={openConfirmationModal}>
-									NEW GAME
-								</Button>
+				<Header />
+
+				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
+					<Container>
+						{hasActiveCharacter ? (
+							<Stack spacing={3} alignItems="center">
+								<Typography textAlign="center">
+									<MuiLink component="button" onClick={openConfirmationModal}>
+										Click here
+									</MuiLink>{" "}
+									to start a new game or continue the below journey.
+								</Typography>
+								<Paper
+									sx={{
+										py: 1,
+										px: 2,
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center",
+										gap: 3,
+									}}
+								>
+									<Typography color="text.secondary">{character?.name}</Typography>
+									<Typography>Level {character?.level}</Typography>
+									<Typography>{character?.characterClass.name}</Typography>
+									<Typography color="text.secondary">
+										HP {character?.hitPoints}/{character?.maxHitPoints}
+									</Typography>
+									<Typography>
+										<MuiLink component={Link} to="/game">
+											CONTINUE
+										</MuiLink>
+									</Typography>
+								</Paper>
 							</Stack>
-						</Fragment>
-					) : (
-						<Fragment>
-							<Typography variant="subtitle1">
-								Welcome to Browser Heroes, your new adventure awaits you!{" "}
-							</Typography>
-							<Typography>
-								Please click the button below to start a new game and see how long you can survive!
-							</Typography>
-							<Button size="large" component={Link} to="/create">
-								START
-							</Button>
-						</Fragment>
-					)}
-				</Paper>
+						) : (
+							<Fragment>
+								<Typography textAlign="center">
+									Welcome to{" "}
+									<Box component="span" color="text.secondary">
+										Browser Heroes
+									</Box>
+									, your new adventure awaits you!
+								</Typography>
+								<Typography textAlign="center">
+									<MuiLink component={Link} to="/create">
+										Click here
+									</MuiLink>{" "}
+									to start a new adventure and see how long you can survive!
+								</Typography>
+							</Fragment>
+						)}
+					</Container>
+				</Box>
+
+				<Footer />
 			</Box>
 
 			<ConfirmationModal

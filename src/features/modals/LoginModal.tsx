@@ -51,7 +51,7 @@ export const LoginModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
+		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
 			<DialogTitle id="form-dialog-title">Login</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>

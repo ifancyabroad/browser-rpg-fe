@@ -84,18 +84,6 @@ const theme = createTheme({
 				root: {
 					borderRadius: 0,
 				},
-				text: {
-					display: "inline-block",
-					textTransform: "none",
-					textDecoration: "underline",
-					padding: "0",
-					minWidth: "auto",
-					textAlign: "inherit",
-					"&:hover": {
-						textDecoration: "underline",
-						backgroundColor: "transparent",
-					},
-				},
 			},
 		},
 		MuiIconButton: {
@@ -132,6 +120,11 @@ const theme = createTheme({
 			},
 		},
 		MuiDialog: {
+			defaultProps: {
+				fullWidth: true,
+				maxWidth: "xs",
+				transitionDuration: 0,
+			},
 			styleOverrides: {
 				paper: {
 					backgroundImage: "none",
@@ -140,7 +133,7 @@ const theme = createTheme({
 		},
 		MuiDialogTitle: {
 			defaultProps: {
-				variant: "h5",
+				variant: "h6",
 			},
 			styleOverrides: {
 				root: {
