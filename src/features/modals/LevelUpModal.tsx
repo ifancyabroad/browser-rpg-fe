@@ -140,7 +140,7 @@ export const LevelUpModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				{showSkills ? (
-					<FormControl>
+					<FormControl sx={{ width: "100%", alignItems: "center" }}>
 						<FormLabel id="attribute-label" sx={{ color: "primary.main", textAlign: "center", mb: 2 }}>
 							Choose a new skill
 						</FormLabel>
