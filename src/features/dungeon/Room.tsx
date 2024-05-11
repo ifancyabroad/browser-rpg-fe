@@ -33,14 +33,14 @@ const BaseRoom = styled(ButtonBase, {
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "center",
-	borderStyle: "solid",
+	borderStyle: "dashed",
 	borderWidth: 3,
-	borderColor: isInPath ? theme.palette.primary.main : theme.palette.grey[800],
+	borderColor: "transparent",
 	backgroundColor: theme.palette.grey[900],
 	opacity: isAccessible ? 1 : 0.4,
-	transition: "all 0.2s ease-in-out",
 	":hover:not(:disabled)": {
 		cursor: "pointer",
+		borderColor: theme.palette.primary.main,
 	},
 	svg: {
 		width: "50%",

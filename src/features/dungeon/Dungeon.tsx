@@ -29,7 +29,6 @@ const Grid = styled("div", {
 	margin: "auto",
 	display: "grid",
 	gridTemplateColumns: `repeat(${columns}, 1fr)`,
-	gridGap: "1px",
 }));
 
 const defaultModalState = {
