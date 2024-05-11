@@ -18,7 +18,7 @@ import maceIcon from "assets/images/icons/flanged-mace.svg";
 import spearIcon from "assets/images/icons/barbed-spear.svg";
 import staffIcon from "assets/images/icons/wizard-staff.svg";
 import swordIcon from "assets/images/icons/broadsword.svg";
-import { Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import { IArmour, IWeapon } from "common/types";
 
 const EQUIPMENT_TYPE_ICON_MAP: Record<EquipmentType | WeaponType, string> = {
@@ -53,7 +53,9 @@ export const EquipmentTypeIcon: React.FC<IProps> = ({ equipment, width = 40 }) =
 
 	return (
 		<Tooltip title={EQUIPMENT_TYPE_NAME_MAP[type]} placement="top">
-			<img src={EQUIPMENT_TYPE_ICON_MAP[type]} alt={EQUIPMENT_TYPE_NAME_MAP[type]} width={width} />
+			<Box sx={{ height: width, width, img: { verticalAlign: "middle" } }}>
+				<img src={EQUIPMENT_TYPE_ICON_MAP[type]} alt={EQUIPMENT_TYPE_NAME_MAP[type]} width={width} />
+			</Box>
 		</Tooltip>
 	);
 };

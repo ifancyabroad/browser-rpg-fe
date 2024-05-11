@@ -42,9 +42,9 @@ export const HealthBar: React.FC<IProps> = ({ value, max, auxiliaryEffects, stat
 					<Bar sx={{ width: `${normalisedValue}%` }} />
 				</BarWrapper>
 
-				<Typography variant="body2" fontSize={12}>
+				<Typography>
 					<Box component="span" color="secondary.main">
-						Health
+						HP
 					</Box>{" "}
 					{value}/{max}
 				</Typography>

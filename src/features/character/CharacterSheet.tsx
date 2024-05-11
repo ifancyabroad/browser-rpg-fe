@@ -1,4 +1,4 @@
-import { Box, Drawer, IconButton, Stack, Tab, TabProps, Tabs, TabsProps, Typography, styled } from "@mui/material";
+import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, styled } from "@mui/material";
 import { HealthBar } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { CharacterSheetTab, State } from "common/utils";
@@ -11,28 +11,6 @@ import logo from "assets/images/logos/browser_heroes.png";
 import { ExperienceBar } from "./ExperienceBar";
 import { openLevelUpModal } from "features/modals";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
-
-const StyledTabs = styled((props: TabsProps) => <Tabs {...props} />)(({ theme }) => ({
-	gap: theme.spacing(1),
-	marginBottom: theme.spacing(1),
-	"& .MuiTabs-indicator": {
-		display: "none",
-	},
-}));
-
-const StyledTab = styled((props: TabProps) => <Tab disableRipple {...props} />)(({ theme }) => ({
-	display: "flex",
-	alignItems: "center",
-	justifyContent: "center",
-	padding: theme.spacing(1.25),
-	"&:hover": {
-		color: theme.palette.primary.main,
-	},
-	"&.Mui-selected": {
-		color: theme.palette.primary.main,
-		textDecoration: "underline",
-	},
-}));
 
 const TabContent = styled(Box)(({ theme }) => ({
 	position: "relative",
@@ -84,8 +62,8 @@ const CharacterContent: React.FC = () => {
 	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
-		<Stack flex={1} p={2} spacing={3}>
-			<Stack gap={1} mb={2}>
+		<Stack flex={1} p={2} spacing={5}>
+			<Stack gap={1}>
 				<Box display="flex" alignItems="center" gap={1}>
 					<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
 						{name} the {character.characterClass.name}
@@ -103,42 +81,42 @@ const CharacterContent: React.FC = () => {
 					statusEffects={activeStatusEffects}
 				/>
 				<ExperienceBar />
+
+				<Box display="flex" justifyContent="space-between" gap={1}>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography color="secondary.main">Level</Typography>
+						<Typography>{character.level}</Typography>
+					</Box>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography color="secondary.main">Floor</Typography>
+						<Typography>{character.map.location.level + 1}</Typography>
+					</Box>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography color="secondary.main">Gold</Typography>
+						<Typography>{character.gold}</Typography>
+					</Box>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography color="secondary.main">Kills</Typography>
+						<Typography>{character.kills}</Typography>
+					</Box>
+				</Box>
 			</Stack>
 
-			<Box display="flex" justifyContent="space-between" gap={1}>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Level</Typography>
-					<Typography>{character.level}</Typography>
-				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Floor</Typography>
-					<Typography>{character.map.location.level + 1}</Typography>
-				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Gold</Typography>
-					<Typography>{character.gold}</Typography>
-				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Kills</Typography>
-					<Typography>{character.kills}</Typography>
-				</Box>
-			</Box>
-
 			<Box>
-				<StyledTabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth">
-					<StyledTab label="Skills" value={CharacterSheetTab.Skills} />
-					<StyledTab label="Inventory" value={CharacterSheetTab.Inventory} />
-					<StyledTab label="Details" value={CharacterSheetTab.Details} />
-				</StyledTabs>
+				<Tabs value={characterSheetTab} onChange={handleChangeTab} variant="fullWidth" sx={{ mb: 2 }}>
+					<Tab label="Details" value={CharacterSheetTab.Details} />
+					<Tab label="Inventory" value={CharacterSheetTab.Inventory} />
+					<Tab label="Skills" value={CharacterSheetTab.Skills} />
+				</Tabs>
 				<TabContent>
-					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
-						<SkillTable skills={character.skills} />
+					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
+						<Details />
 					</TabPanel>
 					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Inventory}>
 						<EquipmentTable equipment={character.equipment} />
 					</TabPanel>
-					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Details}>
-						<Details />
+					<TabPanel value={characterSheetTab} index={CharacterSheetTab.Skills}>
+						<SkillTable skills={character.skills} />
 					</TabPanel>
 				</TabContent>
 			</Box>

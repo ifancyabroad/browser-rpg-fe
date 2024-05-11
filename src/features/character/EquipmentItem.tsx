@@ -1,7 +1,7 @@
-import { Button, TableCell, TableRow, Typography } from "@mui/material";
+import { TableCell, TableRow, Typography } from "@mui/material";
 import { EQUIPMENT_SLOT_NAME_MAP, EquipmentSlot } from "common/utils";
 import { IArmour, IWeapon } from "common/types";
-import { EquipmentSlotIcon, EquipmentTypeIcon } from "common/components";
+import { EquipmentSlotIcon, EquipmentTypeIcon, TableRowButton } from "common/components";
 import { useAppDispatch } from "common/hooks";
 import { openEquipmentModal } from "features/modals";
 
@@ -13,7 +13,7 @@ interface IProps {
 export const EquipmentItem: React.FC<IProps> = ({ equipment, slot }) => {
 	const dispatch = useAppDispatch();
 
-	const handleViewEquipment = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+	const handleViewEquipment = (e: React.SyntheticEvent<HTMLTableRowElement>) => {
 		if (equipment) {
 			dispatch(openEquipmentModal({ item: equipment }));
 		}
@@ -26,32 +26,25 @@ export const EquipmentItem: React.FC<IProps> = ({ equipment, slot }) => {
 					<EquipmentSlotIcon slot={slot} width={24} />
 				</TableCell>
 				<TableCell>
-					<Typography variant="body2" color="secondary.main">
-						{EQUIPMENT_SLOT_NAME_MAP[slot]}
-					</Typography>
+					<Typography color="secondary.main">{EQUIPMENT_SLOT_NAME_MAP[slot]}</Typography>
 				</TableCell>
-				<TableCell align="right">
-					<Typography variant="body2">None</Typography>
+				<TableCell align="center" colSpan={2} sx={{ fontStyle: "italic", color: "text.disabled" }}>
+					Nothing equipped
 				</TableCell>
 			</TableRow>
 		);
 	}
 
 	return (
-		<TableRow>
+		<TableRowButton onClick={handleViewEquipment}>
 			<TableCell component="th" scope="row" width={30}>
 				<EquipmentTypeIcon equipment={equipment} width={24} />
 			</TableCell>
-			<TableCell>
-				<Typography variant="body2" color="secondary.main">
-					{EQUIPMENT_SLOT_NAME_MAP[slot]}
-				</Typography>
+			<TableCell sx={{ color: "secondary.main" }}>{EQUIPMENT_SLOT_NAME_MAP[slot]}</TableCell>
+			<TableCell>Level {equipment.level}</TableCell>
+			<TableCell align="right" sx={{ color: "text.secondary" }}>
+				{equipment?.name}
 			</TableCell>
-			<TableCell align="right">
-				<Button variant="text" onClick={handleViewEquipment}>
-					{equipment?.name}
-				</Button>
-			</TableCell>
-		</TableRow>
+		</TableRowButton>
 	);
 };

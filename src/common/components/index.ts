@@ -14,3 +14,5 @@ export * from "./StatIcon";
 export * from "./HealthBar";
 export * from "./Effect";
 export * from "./Footer";
+export * from "./TableRowButton";
+export * from "./HoverButton";

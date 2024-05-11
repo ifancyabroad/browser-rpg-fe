@@ -29,7 +29,7 @@ const initialState: ICharacerState = {
 	character: null,
 	characterStatus: "idle",
 	isCharacterSheetOpen: false,
-	characterSheetTab: CharacterSheetTab.Skills,
+	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
 	classes: [],
 	status: "idle",

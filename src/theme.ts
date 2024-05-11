@@ -171,7 +171,11 @@ const theme = createTheme({
 		MuiTableCell: {
 			styleOverrides: {
 				root: {
-					border: "1px solid #babdb6",
+					border: "none",
+					fontSize: "16px",
+				},
+				sizeSmall: {
+					padding: "6px",
 				},
 			},
 		},
@@ -193,6 +197,43 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					borderRadius: 0,
+				},
+			},
+		},
+		MuiTabs: {
+			styleOverrides: {
+				root: {
+					minHeight: 32,
+				},
+				indicator: {
+					display: "none",
+				},
+				flexContainer: {
+					gap: "4px",
+				},
+			},
+		},
+		MuiTab: {
+			defaultProps: {
+				disableRipple: true,
+			},
+			styleOverrides: {
+				root: {
+					borderRadius: 0,
+					border: "1px solid #757575",
+					backgroundColor: "#000",
+					color: "#babdb6",
+					padding: "8px 16px",
+					minHeight: 32,
+					textTransform: "none",
+					"&:hover": {
+						borderColor: "#FFF",
+						color: "#FFF",
+					},
+					"&.Mui-selected": {
+						borderColor: "#8ae234",
+						color: "#FFF",
+					},
 				},
 			},
 		},

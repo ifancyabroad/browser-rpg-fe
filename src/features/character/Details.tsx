@@ -1,4 +1,14 @@
-import { Box, Grid, Stack, Tooltip, Typography } from "@mui/material";
+import {
+	Grid,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Tooltip,
+	Typography,
+} from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import {
 	PropertyType,
@@ -18,24 +28,34 @@ interface IStat {
 }
 
 interface IProps {
+	title: string;
 	stats: IStat[];
 }
 
-const StatList: React.FC<IProps> = ({ stats }) => (
-	<Grid container spacing={2}>
-		{stats.map(({ name, abbreviation, value }) => (
-			<Grid key={abbreviation} item xs={2}>
-				<Tooltip title={name} placement="top">
-					<Box textAlign="center">
-						<Typography variant="caption" color="textSecondary">
-							{abbreviation}
-						</Typography>
-						<Typography variant="body1">{value}</Typography>
-					</Box>
-				</Tooltip>
-			</Grid>
-		))}
-	</Grid>
+const StatList: React.FC<IProps> = ({ title, stats }) => (
+	<TableContainer>
+		<Table size="small">
+			<TableHead>
+				<TableRow>
+					<TableCell colSpan={2} sx={{ color: "info.light" }}>
+						{title}
+					</TableCell>
+				</TableRow>
+			</TableHead>
+			<TableBody>
+				{stats.map(({ name, abbreviation, value }) => (
+					<TableRow key={abbreviation}>
+						<TableCell>
+							<Tooltip title={name} placement="top">
+								<Typography>{abbreviation}</Typography>
+							</Tooltip>
+						</TableCell>
+						<TableCell>{value}</TableCell>
+					</TableRow>
+				))}
+			</TableBody>
+		</Table>
+	</TableContainer>
 );
 
 export const Details: React.FC = () => {
@@ -62,43 +82,36 @@ export const Details: React.FC = () => {
 		abbreviation: RESISTANCES_ABBR_MAP[type],
 		value: `${equipmentBonus(PropertyType.Damage, type)}%`,
 	}));
+	const bonusStats = [
+		{
+			name: "Armour Class",
+			abbreviation: "AC",
+			value: character.armourClass,
+		},
+		{
+			name: "Hit Bonus",
+			abbreviation: "HB",
+			value: character.hitBonus,
+		},
+		{
+			name: "Crit Bonus",
+			abbreviation: "CB",
+			value: character.critBonus,
+		},
+	];
 
 	return (
-		<Stack spacing={2}>
-			<Box display="flex" justifyContent="space-between" gap={1}>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Armour Class</Typography>
-					<Typography>{character.armourClass}</Typography>
-				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Hit Bonus</Typography>
-					<Typography>{character.hitBonus}</Typography>
-				</Box>
-				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Crit Bonus</Typography>
-					<Typography>{character.critBonus}</Typography>
-				</Box>
-			</Box>
-			<Stack spacing={1}>
-				<Box>
-					<Typography color="info.main" mb={1}>
-						Attributes
-					</Typography>
-					<StatList stats={mappedStats} />
-				</Box>
-				<Box>
-					<Typography color="info.main" mb={1}>
-						Resistances
-					</Typography>
-					<StatList stats={mappedResistances} />
-				</Box>
-				<Box>
-					<Typography color="info.main" mb={1}>
-						Damage
-					</Typography>
-					<StatList stats={mappedDamage} />
-				</Box>
-			</Stack>
-		</Stack>
+		<Grid container spacing={1}>
+			<Grid item xs={12} md={4}>
+				<StatList title="Attributes" stats={mappedStats} />
+				<StatList title="Bonuses" stats={bonusStats} />
+			</Grid>
+			<Grid item xs={12} md={4}>
+				<StatList title="Resistances" stats={mappedResistances} />
+			</Grid>
+			<Grid item xs={12} md={4}>
+				<StatList title="Damage" stats={mappedDamage} />
+			</Grid>
+		</Grid>
 	);
 };

@@ -7,7 +7,7 @@ import handsIcon from "assets/images/icons/gloves.svg";
 import feetIcon from "assets/images/icons/boots.svg";
 import fingerIcon from "assets/images/icons/diamond-ring.svg";
 import handIcon from "assets/images/icons/hand.svg";
-import { Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 const EQUIPMENT_SLOT_ICON_MAP: Record<EquipmentSlot, string> = {
 	[EquipmentSlot.Head]: headIcon,
@@ -29,6 +29,8 @@ interface IProps {
 
 export const EquipmentSlotIcon: React.FC<IProps> = ({ slot, width = 40 }) => (
 	<Tooltip title={EQUIPMENT_SLOT_NAME_MAP[slot]} placement="top">
-		<img src={EQUIPMENT_SLOT_ICON_MAP[slot]} alt={EQUIPMENT_SLOT_NAME_MAP[slot]} width={width} />
+		<Box sx={{ height: width, width, img: { verticalAlign: "middle" } }}>
+			<img src={EQUIPMENT_SLOT_ICON_MAP[slot]} alt={EQUIPMENT_SLOT_NAME_MAP[slot]} width={width} />
+		</Box>
 	</Tooltip>
 );

@@ -32,7 +32,7 @@ export const ExperienceBar: React.FC = () => {
 				<Bar sx={{ width: `${normalisedValue}%` }} />
 			</BarWrapper>
 
-			<Typography variant="body2" fontSize="12px">
+			<Typography>
 				<Box component="span" color="secondary.main">
 					XP
 				</Box>{" "}

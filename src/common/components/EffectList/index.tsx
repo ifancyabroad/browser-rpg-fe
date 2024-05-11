@@ -24,19 +24,19 @@ const TARGET_NAME_MAP: Record<Target, string> = {
 };
 
 const DamageEffect: React.FC<IDamageEffect> = ({ damageType, min, max, target }) => (
-	<Typography variant="body2">
+	<Typography>
 		{TARGET_NAME_MAP[target as Target]} takes {min}-{max} {RESISTANCES_NAME_MAP[damageType]} damage
 	</Typography>
 );
 
 const WeaponDamageEffect: React.FC<IWeaponDamageEffect> = ({ multiplier, target }) => (
-	<Typography variant="body2">
+	<Typography>
 		{TARGET_NAME_MAP[target as Target]} takes {multiplier}x weapon damage
 	</Typography>
 );
 
 const HealEffect: React.FC<IHealEffect> = ({ min, max, target }) => (
-	<Typography variant="body2">
+	<Typography>
 		Heals {TARGET_NAME_MAP[target as Target]} for {min}-{max} hit points
 	</Typography>
 );
@@ -50,7 +50,7 @@ const StatusEffect: React.FC<IStatusEffect> = ({ duration, difficulty, modifier,
 
 	if (difficulty && modifier) {
 		return (
-			<Typography variant="body2">
+			<Typography>
 				{TARGET_NAME_MAP[target as Target]} must make a difficulty {difficulty} {STATS_NAME_MAP[modifier]}{" "}
 				saving throw or receive {propertyList} for {duration} turns
 			</Typography>
@@ -58,7 +58,7 @@ const StatusEffect: React.FC<IStatusEffect> = ({ duration, difficulty, modifier,
 	}
 
 	return (
-		<Typography variant="body2">
+		<Typography>
 			{TARGET_NAME_MAP[target as Target]} receives {propertyList} for {duration} turns
 		</Typography>
 	);
@@ -67,7 +67,7 @@ const StatusEffect: React.FC<IStatusEffect> = ({ duration, difficulty, modifier,
 const AuxiliaryEffect: React.FC<IAuxiliaryEffect> = ({ duration, difficulty, modifier, effect, target }) => {
 	if (difficulty && modifier) {
 		return (
-			<Typography variant="body2">
+			<Typography>
 				{TARGET_NAME_MAP[target as Target]} must make a difficulty {difficulty} {STATS_NAME_MAP[modifier]}{" "}
 				saving throw or become {AUXILIARY_EFFECTS_NAME_MAP_PASSED[effect]} for {duration} turns
 			</Typography>
@@ -75,7 +75,7 @@ const AuxiliaryEffect: React.FC<IAuxiliaryEffect> = ({ duration, difficulty, mod
 	}
 
 	return (
-		<Typography variant="body2">
+		<Typography>
 			{TARGET_NAME_MAP[target as Target]} becomes {AUXILIARY_EFFECTS_NAME_MAP_PASSED[effect]}
 		</Typography>
 	);
