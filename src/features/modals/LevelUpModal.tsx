@@ -1,5 +1,5 @@
 import {
-	Button,
+	Box,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -7,12 +7,13 @@ import {
 	FormControl,
 	FormControlLabel,
 	FormLabel,
-	Paper,
+	Link,
 	Radio,
 	RadioGroup,
+	Stack,
 	Typography,
 } from "@mui/material";
-import { SkillIcon, StatIcon } from "common/components";
+import { HoverButton, SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
 import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
@@ -34,30 +35,22 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 	};
 
 	return (
-		<Paper
-			sx={{
-				p: 2,
-				textAlign: "center",
-				width: 200,
-				borderStyle: "solid",
-				borderWidth: 3,
-				borderColor: isSelected ? "primary.main" : "transparent",
-				"&:hover": {
-					borderColor: "primary.main",
-				},
-			}}
+		<HoverButton
+			component={Box}
+			isActive={isSelected}
+			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
-			<SkillIcon skill={skill} width={90} />
-			<Typography variant="h5" fontSize={16}>
-				{skill.name}
-			</Typography>
-			<Typography variant="body2" mb={2}>
-				{secondaryText}
-			</Typography>
-			<Button variant="text" onClick={handleViewSkill}>
+			<Box display="flex" alignItems="center" gap={2}>
+				<SkillIcon skill={skill} />
+				<Stack>
+					<Typography color="text.secondary">{skill.name}</Typography>
+					<Typography variant="body2">{secondaryText}</Typography>
+				</Stack>
+			</Box>
+			<Link component="button" onClick={handleViewSkill}>
 				View Details
-			</Button>
-		</Paper>
+			</Link>
+		</HoverButton>
 	);
 };
 
@@ -71,25 +64,19 @@ const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected }
 	const value = isSelected ? currentValue + 1 : currentValue;
 
 	return (
-		<Paper
-			sx={{
-				p: 1,
-				textAlign: "center",
-				width: 140,
-				borderStyle: "solid",
-				borderWidth: 3,
-				borderColor: isSelected ? "primary.main" : "transparent",
-				"&:hover": {
-					borderColor: "primary.main",
-				},
-			}}
+		<HoverButton
+			component={Box}
+			isActive={isSelected}
+			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
-			<StatIcon stat={stat} />
-			<Typography>{STATS_NAME_MAP[stat]}</Typography>
+			<Box display="flex" alignItems="center" gap={2}>
+				<StatIcon stat={stat} width={24} />
+				<Typography>{STATS_NAME_MAP[stat]} +1</Typography>
+			</Box>
 			<Typography variant="body2" color={isSelected ? "success.light" : "text.secondary"}>
 				({value})
 			</Typography>
-		</Paper>
+		</HoverButton>
 	);
 };
 
@@ -147,23 +134,22 @@ export const LevelUpModal: React.FC = () => {
 	const isDisabled = isLoading || !stat;
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="lg">
+		<Dialog open={open} aria-labelledby="form-dialog-title">
 			<DialogTitle id="form-dialog-title" textAlign="center">
 				You have reached level {level}!
 			</DialogTitle>
 			<DialogContent>
 				{showSkills ? (
 					<FormControl>
-						<FormLabel id="attribute-label" sx={{ color: "text.primary", textAlign: "center", mb: 2 }}>
+						<FormLabel id="attribute-label" sx={{ color: "primary.main", textAlign: "center", mb: 2 }}>
 							Choose a new skill
 						</FormLabel>
 						<RadioGroup
-							row
 							aria-labelledby="attribute-label"
 							name="attribute"
 							value={stat}
 							onChange={handleSkillChange}
-							sx={{ justifyContent: "center", gap: 1 }}
+							sx={{ gap: 1 }}
 						>
 							{skills.map((sk) => (
 								<FormControlLabel
@@ -171,22 +157,23 @@ export const LevelUpModal: React.FC = () => {
 									value={sk.id}
 									sx={{ m: 0 }}
 									control={<Radio sx={{ display: "none" }} />}
+									disableTypography
 									label={<SkillLabel skill={sk} isSelected={sk.id === skill} />}
 								/>
 							))}
 						</RadioGroup>
 					</FormControl>
 				) : (
-					<FormControl>
-						<FormLabel id="attribute-label" sx={{ color: "text.primary", textAlign: "center", mb: 2 }}>
-							Choose an attribute to increase by 1
+					<FormControl sx={{ width: "100%", alignItems: "center" }}>
+						<FormLabel id="attribute-label" sx={{ color: "primary.main", textAlign: "center", mb: 2 }}>
+							Choose an attribute to increase
 						</FormLabel>
 						<RadioGroup
 							aria-labelledby="attribute-label"
 							name="attribute"
 							value={stat}
 							onChange={handleStatChange}
-							sx={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1 }}
+							sx={{ gap: 1 }}
 						>
 							{STATS.map((st) => (
 								<FormControlLabel
@@ -194,6 +181,7 @@ export const LevelUpModal: React.FC = () => {
 									value={st}
 									sx={{ m: 0 }}
 									control={<Radio sx={{ display: "none" }} />}
+									disableTypography
 									label={
 										<StatLabel
 											stat={st}
@@ -209,13 +197,13 @@ export const LevelUpModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				{showNextButton ? (
-					<Button onClick={handleNext} disabled={!stat}>
+					<Link component="button" onClick={handleNext} disabled={!stat}>
 						Next
-					</Button>
+					</Link>
 				) : (
-					<Button onClick={handleConfirm} disabled={isDisabled}>
+					<Link component="button" onClick={handleConfirm} disabled={isDisabled}>
 						Confirm
-					</Button>
+					</Link>
 				)}
 			</DialogActions>
 		</Dialog>

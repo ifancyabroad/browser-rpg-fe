@@ -5,7 +5,7 @@ import dexterityIcon from "assets/images/icons/acrobatic.svg";
 import intelligenceIcon from "assets/images/icons/brain.svg";
 import strengthIcon from "assets/images/icons/biceps.svg";
 import wisdomIcon from "assets/images/icons/ankh.svg";
-import { Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 const STATS_ICON_MAP: Record<Stat, string> = {
 	[Stat.Charisma]: charismaIcon,
@@ -23,6 +23,8 @@ interface IProps {
 
 export const StatIcon: React.FC<IProps> = ({ stat, width = 40 }) => (
 	<Tooltip title={STATS_NAME_MAP[stat]} placement="top">
-		<img src={STATS_ICON_MAP[stat]} alt={STATS_NAME_MAP[stat]} width={width} />
+		<Box sx={{ height: width, width, img: { verticalAlign: "middle" } }}>
+			<img src={STATS_ICON_MAP[stat]} alt={STATS_NAME_MAP[stat]} width={width} />
+		</Box>
 	</Tooltip>
 );
