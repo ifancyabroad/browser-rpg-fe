@@ -26,8 +26,3 @@ export interface IMap {
 	location: ILocation;
 	treasure: ITreasure[];
 }
-
-export interface IPlayerLocation {
-	top: number;
-	left: number;
-}

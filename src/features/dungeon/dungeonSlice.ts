@@ -1,14 +1,13 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import { ILocation, IPlayerLocation, IRoom } from "common/types";
-import { ACTION_ROOMS, RoomState } from "common/utils";
+import { ILocation, IRoom } from "common/types";
+import { ACTION_ROOMS, RoomState, TILE_SIZE } from "common/utils";
 import { startBattle } from "features/battle";
 import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
 
 interface IDungeonState {
 	path: number[][];
 	displayedPath: number[][];
-	playerLocation: IPlayerLocation | null;
 	currentRoom: IRoom | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -17,7 +16,6 @@ interface IDungeonState {
 const initialState: IDungeonState = {
 	path: [],
 	displayedPath: [],
-	playerLocation: null,
 	currentRoom: null,
 	status: "idle",
 };
@@ -57,6 +55,17 @@ export const getCurrentLocation = createSelector(getCurrentRoom, (currentRoom) =
 	return currentRoom.location;
 });
 
+export const getGridOffset = createSelector(getActualLevel, getCurrentLocation, (level, location) => {
+	if (!location) {
+		return null;
+	}
+
+	return {
+		top: (level.length / 2 - location.y) * (TILE_SIZE + 1) - TILE_SIZE / 2, // +1 for gap between tiles,
+		left: (level.length / 2 - location.x) * (TILE_SIZE + 1) - TILE_SIZE / 2, // +1 for gap between tiles,
+	};
+});
+
 export const getIsInDisplayedPath = createSelector(dungeonSelector, ({ displayedPath }) => (location: ILocation) => {
 	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
 });
@@ -70,9 +79,6 @@ export const dungeonSlice = createSlice({
 		},
 		setPath: (state, action: PayloadAction<number[][]>) => {
 			state.path = action.payload;
-		},
-		setPlayerLocation: (state, action: PayloadAction<IPlayerLocation>) => {
-			state.playerLocation = action.payload;
 		},
 		setCurrentRoom: (state, action: PayloadAction<IRoom>) => {
 			state.currentRoom = action.payload;
@@ -101,6 +107,6 @@ export const dungeonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setDisplayedPath, setPath, setPlayerLocation, setCurrentRoom } = dungeonSlice.actions;
+export const { setDisplayedPath, setPath, setCurrentRoom } = dungeonSlice.actions;
 
 export default dungeonSlice.reducer;

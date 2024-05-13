@@ -1,31 +1,20 @@
 import { styled } from "@mui/material";
-import { IPlayerLocation } from "common/types";
+import { TILE_SIZE } from "common/utils";
 
-interface IIndicatorProps {
-	top: number;
-	left: number;
-	size: number;
-}
-
-const Indicator = styled("div", {
-	shouldForwardProp: (prop) => !["top", "left", "size"].includes(prop as string),
-})<IIndicatorProps>(({ theme, top, left, size }) => ({
+const Indicator = styled("div")({
 	position: "absolute",
-	top,
-	left,
+	top: "50%",
+	left: "50%",
 	transform: "translate(-50%, -50%)",
-	height: size,
-	width: size,
+	height: TILE_SIZE,
+	width: TILE_SIZE,
 	backgroundSize: "contain",
 	backgroundPosition: "center",
 	backgroundRepeat: "no-repeat",
-}));
+});
 
 interface IProps {
-	location: IPlayerLocation;
 	image: string;
 }
 
-export const Player: React.FC<IProps> = ({ location, image }) => (
-	<Indicator left={location.left} top={location.top} size={64} sx={{ backgroundImage: `url(${image})` }} />
-);
+export const Player: React.FC<IProps> = ({ image }) => <Indicator sx={{ backgroundImage: `url(${image})` }} />;

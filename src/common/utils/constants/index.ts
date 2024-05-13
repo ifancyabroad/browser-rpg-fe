@@ -226,4 +226,6 @@ export const ACTION_ROOMS = [
 	RoomType.Exit,
 ] as const;
 
+export const TILE_SIZE = 64;
+
 export * from "./config";

@@ -9,7 +9,6 @@ import {
 	WeaponSize,
 } from "common/utils/enums";
 import { DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
-import { keyframes } from "@mui/material";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -87,41 +86,4 @@ export const getPropertyText = (property: TProperty) => {
 
 export const getDamageTypeConfig = (damageType: DamageType) => {
 	return DAMAGE_CONFIG.find(({ key }) => key === damageType);
-};
-
-export const getRoomCenter = (room: HTMLDivElement) => {
-	if (!room.parentElement) {
-		return;
-	}
-
-	const gridRect = room.parentElement.getBoundingClientRect();
-	const roomRect = room.getBoundingClientRect();
-	const top = roomRect.top - gridRect.top;
-	const left = roomRect.left - gridRect.left;
-	return {
-		top: top + roomRect.height / 2,
-		left: left + roomRect.width / 2,
-	};
-};
-
-export interface IAnimationStep {
-	left: number;
-	top: number;
-}
-
-export const createAnimationFromPath = (steps: IAnimationStep[]) => {
-	const duration = 100 / (steps.length - 1);
-	const animationSteps = steps.map((step, index) => {
-		const time = Math.round(duration * index);
-
-		return `
-			${time}% {
-				left: ${step.left}px;
-				top: ${step.top}px;
-			}
-		`;
-	});
-
-	const animation = keyframes(animationSteps);
-	return `${animation} ${steps.length / 4}s ease 0s 1 normal forwards running`;
 };

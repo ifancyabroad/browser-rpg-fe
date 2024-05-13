@@ -1,8 +1,8 @@
-import { Box, Button, styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { RoomType, getRoomCenter } from "common/utils";
+import { RoomType, TILE_SIZE } from "common/utils";
 import { nextLevel, rest } from "features/character";
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
 import { Room } from "./Room";
@@ -11,22 +11,43 @@ import {
 	getActualLevel,
 	getCurrentLocation,
 	getCurrentRoom,
+	getGridOffset,
 	getIsActiveRoom,
 	setPath,
-	setPlayerLocation,
 } from "./dungeonSlice";
+
+const Canvas = styled("div")({
+	position: "relative",
+	flex: 1,
+	display: "flex",
+	flexDirection: "column",
+	width: "100%",
+	height: "100%",
+	overflow: "hidden",
+});
 
 interface IGridProps {
 	columns: number;
+	top: number;
+	left: number;
 }
+
+const GridWrapper = styled("div")({
+	position: "absolute",
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+});
 
 const Grid = styled("div", {
 	shouldForwardProp: (prop) => prop !== "columns",
-})<IGridProps>(({ columns }) => ({
+})<IGridProps>(({ columns, top, left }) => ({
 	position: "relative",
-	margin: "auto",
+	top: `${top}px`,
+	left: `${left}px`,
 	display: "grid",
-	gridTemplateColumns: `repeat(${columns}, 64px)`,
+	gridTemplateColumns: `repeat(${columns}, ${TILE_SIZE}px)`,
+	gap: "1px",
 }));
 
 const defaultModalState = {
@@ -41,46 +62,16 @@ const defaultModalState = {
 export const Dungeon: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const level = useAppSelector(getActualLevel);
-	const playerLocation = useAppSelector((state) => state.dungeon.playerLocation);
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
 	const location = useAppSelector(getCurrentLocation);
+	const gridOffset = useAppSelector(getGridOffset);
 	const [modalState, setModalState] = useState(defaultModalState);
 	const battleStatus = useAppSelector((state) => state.battle.status);
 	const isBattleLoading = battleStatus === "loading";
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
-	const roomsRef = useRef<Map<string, HTMLDivElement> | null>(null);
-	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
-	const [rooms, setRooms] = useState<Record<string, HTMLDivElement>>({});
 	const isActionRoom = useAppSelector(getIsActiveRoom);
-
-	const getMap = () => {
-		if (!roomsRef.current) {
-			// Initialize the Map on first usage.
-			roomsRef.current = new Map();
-		}
-		return roomsRef.current;
-	};
-
-	const gridRef = useCallback((node: HTMLDivElement) => {
-		if (node !== null) {
-			setGrid(node);
-		}
-	}, []);
-
-	const roomLocation = useMemo(() => {
-		if (!location || !grid) {
-			return;
-		}
-
-		const id = `${location.level}${location.y}${location.x}`;
-		const room = rooms[id];
-
-		if (room) {
-			return getRoomCenter(room);
-		}
-	}, [location, grid, rooms]);
 
 	const roomText = useMemo(() => {
 		if (!room) {
@@ -105,19 +96,6 @@ export const Dungeon: React.FC = () => {
 		}
 	}, [room]);
 
-	useEffect(() => {
-		const map = getMap();
-		setRooms(Object.fromEntries(map.entries()));
-	}, [dispatch, level]);
-
-	useEffect(() => {
-		if (!roomLocation) {
-			return;
-		}
-
-		dispatch(setPlayerLocation(roomLocation));
-	}, [dispatch, roomLocation]);
-
 	const handleLocation = useCallback(() => {
 		if (!room) {
 			return;
@@ -132,7 +110,7 @@ export const Dungeon: React.FC = () => {
 
 	useEffect(() => {
 		handleLocation();
-	}, [handleLocation, playerLocation]);
+	}, [handleLocation, room]);
 
 	useEffect(() => {
 		return () => {
@@ -190,42 +168,35 @@ export const Dungeon: React.FC = () => {
 
 	return (
 		<Fragment>
-			<Box position="relative" py={2} flex={1} display="flex" flexDirection="column" width="100%">
-				<Box display="flex" justifyContent="flex-end">
-					<Button
-						aria-label="character"
-						onClick={handleLocation}
-						sx={{
-							display: isActionRoom ? null : "none",
-							position: "absolute",
-							top: 16,
-							right: 24,
-							zIndex: 1,
-						}}
-					>
-						{roomText}
-					</Button>
-				</Box>
-				<Grid ref={gridRef} columns={level.length}>
-					{level.map((row, y) =>
-						row.map((room, x) => {
-							const level = character.map.location.level;
-							const id = `${level}${y}${x}`;
-
-							const updateNode = (node: HTMLDivElement | null) => {
-								const map = getMap();
-								if (node) {
-									map.set(id, node);
-								} else {
-									map.delete(id);
-								}
-							};
-							return <Room key={id} ref={updateNode} room={room} />;
-						}),
-					)}
-					{playerLocation && <Player location={playerLocation} image={character.characterClass.icon} />}
-				</Grid>
-			</Box>
+			<Canvas>
+				<Button
+					aria-label="character"
+					onClick={handleLocation}
+					sx={{
+						display: isActionRoom ? null : "none",
+						position: "absolute",
+						top: 16,
+						right: 24,
+						zIndex: 1,
+					}}
+				>
+					{roomText}
+				</Button>
+				{gridOffset && (
+					<GridWrapper>
+						<Grid columns={level.length} top={gridOffset.top} left={gridOffset.left}>
+							{level.map((row, y) =>
+								row.map((room, x) => {
+									const level = character.map.location.level;
+									const id = `${level}${y}${x}`;
+									return <Room key={id} room={room} />;
+								}),
+							)}
+						</Grid>
+					</GridWrapper>
+				)}
+				<Player image={character.characterClass.icon} />
+			</Canvas>
 
 			<ConfirmationModal
 				title="Rest?"
