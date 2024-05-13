@@ -1,6 +1,6 @@
 import { Box, Button, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { IAnimationStep, RoomType, createAnimationFromPath, getRoomCenter } from "common/utils";
+import { RoomType, getRoomCenter } from "common/utils";
 import { nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } from "features/modals";
@@ -24,11 +24,9 @@ const Grid = styled("div", {
 	shouldForwardProp: (prop) => prop !== "columns",
 })<IGridProps>(({ columns }) => ({
 	position: "relative",
-	width: "100%",
-	maxWidth: 700,
 	margin: "auto",
 	display: "grid",
-	gridTemplateColumns: `repeat(${columns}, 1fr)`,
+	gridTemplateColumns: `repeat(${columns}, 64px)`,
 }));
 
 const defaultModalState = {
@@ -47,14 +45,12 @@ export const Dungeon: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
 	const location = useAppSelector(getCurrentLocation);
-	const path = useAppSelector((state) => state.dungeon.path);
 	const [modalState, setModalState] = useState(defaultModalState);
 	const battleStatus = useAppSelector((state) => state.battle.status);
 	const isBattleLoading = battleStatus === "loading";
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
 	const roomsRef = useRef<Map<string, HTMLDivElement> | null>(null);
-	const [animation, setAnimation] = useState("");
 	const [grid, setGrid] = useState<HTMLDivElement | null>(null);
 	const [rooms, setRooms] = useState<Record<string, HTMLDivElement>>({});
 	const isActionRoom = useAppSelector(getIsActiveRoom);
@@ -86,24 +82,6 @@ export const Dungeon: React.FC = () => {
 		}
 	}, [location, grid, rooms]);
 
-	const pathAnimation = useMemo(() => {
-		if (!location || !grid || !path.length) {
-			return;
-		}
-
-		const level = location.level;
-
-		const animationSteps = path
-			.map(([x, y]) => {
-				const id = `${level}${y}${x}`;
-				const room = rooms[id];
-				return room ? getRoomCenter(room) : undefined;
-			})
-			.filter((step) => step) as IAnimationStep[];
-
-		return createAnimationFromPath(animationSteps);
-	}, [location, grid, rooms, path]);
-
 	const roomText = useMemo(() => {
 		if (!room) {
 			return;
@@ -128,8 +106,6 @@ export const Dungeon: React.FC = () => {
 	}, [room]);
 
 	useEffect(() => {
-		setAnimation("");
-
 		const map = getMap();
 		setRooms(Object.fromEntries(map.entries()));
 	}, [dispatch, level]);
@@ -139,12 +115,24 @@ export const Dungeon: React.FC = () => {
 			return;
 		}
 
-		if (pathAnimation) {
-			setAnimation(pathAnimation);
-		} else {
-			dispatch(setPlayerLocation(roomLocation));
+		dispatch(setPlayerLocation(roomLocation));
+	}, [dispatch, roomLocation]);
+
+	const handleLocation = useCallback(() => {
+		if (!room) {
+			return;
 		}
-	}, [dispatch, roomLocation, pathAnimation]);
+
+		dispatch(setPath([]));
+
+		if (isActionRoom) {
+			setModalState((state) => ({ ...state, [room.type]: true }));
+		}
+	}, [dispatch, isActionRoom, room]);
+
+	useEffect(() => {
+		handleLocation();
+	}, [handleLocation, playerLocation]);
 
 	useEffect(() => {
 		return () => {
@@ -200,18 +188,6 @@ export const Dungeon: React.FC = () => {
 		setModalState(defaultModalState);
 	};
 
-	const handleLocation = () => {
-		if (!room) {
-			return;
-		}
-
-		dispatch(setPath([]));
-
-		if (isActionRoom) {
-			setModalState((state) => ({ ...state, [room.type]: true }));
-		}
-	};
-
 	return (
 		<Fragment>
 			<Box position="relative" py={2} flex={1} display="flex" flexDirection="column" width="100%">
@@ -247,15 +223,7 @@ export const Dungeon: React.FC = () => {
 							return <Room key={id} ref={updateNode} room={room} />;
 						}),
 					)}
-					{playerLocation && (
-						<Player
-							location={playerLocation}
-							level={level}
-							onAnimationEnd={handleLocation}
-							animation={animation}
-							image={character.characterClass.portrait}
-						/>
-					)}
+					{playerLocation && <Player location={playerLocation} image={character.characterClass.icon} />}
 				</Grid>
 			</Box>
 
