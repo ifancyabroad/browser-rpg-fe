@@ -5,7 +5,7 @@ import { nextLevel, rest } from "features/character";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
-import { Room } from "./Room";
+import { Tile } from "./Tile";
 import { startBattle } from "features/battle";
 import {
 	getActualLevel,
@@ -189,7 +189,7 @@ export const Dungeon: React.FC = () => {
 								row.map((room, x) => {
 									const level = character.map.location.level;
 									const id = `${level}${y}${x}`;
-									return <Room key={id} room={room} />;
+									return <Tile key={id} room={room} />;
 								}),
 							)}
 						</Grid>
