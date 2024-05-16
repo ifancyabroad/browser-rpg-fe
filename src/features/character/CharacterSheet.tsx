@@ -217,8 +217,8 @@ export const CharacterSheet: React.FC = () => {
 						height: "100vh",
 						width: DRAWER_WIDTH,
 						top: DRAWER_TOP,
-						border: "1px solid #000",
-						outline: "2px solid #7d623c",
+						backgroundColor: "transparent",
+						border: "none",
 					},
 				}}
 				open

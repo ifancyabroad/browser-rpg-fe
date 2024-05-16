@@ -47,7 +47,7 @@ const StatList: React.FC<IProps> = ({ title, stats }) => (
 					<TableRow key={abbreviation}>
 						<TableCell>
 							<Tooltip title={name} placement="top">
-								<Typography>{abbreviation}</Typography>
+								<Typography color="secondary">{abbreviation}</Typography>
 							</Tooltip>
 						</TableCell>
 						<TableCell>{value}</TableCell>

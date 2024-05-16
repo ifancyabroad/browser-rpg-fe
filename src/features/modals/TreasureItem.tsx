@@ -1,6 +1,8 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
+import { HoverButton } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
+import { EQUIPMENT_TYPE_NAME_MAP } from "common/utils";
 import { openEquipmentModal } from "features/modals";
 
 interface IGoldProps {
@@ -16,20 +18,18 @@ export const Gold: React.FC<IGoldProps> = ({ onTake }) => {
 	};
 
 	return (
-		<Card sx={{ width: 250, display: "flex", flexDirection: "column" }} variant="outlined">
-			<CardMedia sx={{ height: 160 }} image="https://via.placeholder.com/1024" title="Gold" />
-			<CardContent>
-				<Typography variant="h6" noWrap>
-					Gold
-				</Typography>
-				<Typography variant="body2">25g</Typography>
-			</CardContent>
-			<CardActions sx={{ mt: "auto" }}>
-				<Button variant="text" onClick={handleTakeItem} disabled={isLoading}>
-					Take
-				</Button>
-			</CardActions>
-		</Card>
+		<HoverButton
+			component={Box}
+			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+		>
+			<Box display="flex" alignItems="center" gap={2}>
+				<Box component="img" src="https://via.placeholder.com/40" width={40} height={40} alt="25g" />
+				<Typography color="text.secondary">25 Gold</Typography>
+			</Box>
+			<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
+				Take
+			</Link>
+		</HoverButton>
 	);
 };
 
@@ -42,7 +42,7 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 	const dispatch = useAppDispatch();
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
-	const { icon, name, description } = item;
+	const { icon, name, level, type } = item;
 
 	const handleTakeItem = () => {
 		onTakeItem(item);
@@ -53,22 +53,28 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 	};
 
 	return (
-		<Card sx={{ width: 250, display: "flex", flexDirection: "column" }} variant="outlined">
-			<CardMedia sx={{ height: 160 }} image={icon || "https://via.placeholder.com/1024"} title={name} />
-			<CardContent>
-				<Typography variant="h6" noWrap>
-					{name}
-				</Typography>
-				<Typography variant="body2">{description}</Typography>
-			</CardContent>
-			<CardActions sx={{ mt: "auto" }}>
-				<Button variant="text" onClick={handleTakeItem} disabled={isLoading}>
-					Take
-				</Button>
-				<Button variant="text" color="secondary" onClick={openEquipmentDetailsModal}>
+		<HoverButton
+			component={Box}
+			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+		>
+			<Box display="flex" alignItems="center" gap={2}>
+				<Box component="img" src={icon || "https://via.placeholder.com/40"} width={40} height={40} />
+				<Stack>
+					<Typography color="text.secondary">{name}</Typography>
+					<Typography>
+						Level {level} {EQUIPMENT_TYPE_NAME_MAP[type]}
+					</Typography>
+				</Stack>
+			</Box>
+
+			<Box display="flex" alignItems="center" gap={2}>
+				<Link component="button" color="secondary" onClick={openEquipmentDetailsModal}>
 					Details
-				</Button>
-			</CardActions>
-		</Card>
+				</Link>
+				<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
+					Take
+				</Link>
+			</Box>
+		</HoverButton>
 	);
 };

@@ -11,9 +11,7 @@ export const PropertyList: React.FC<IProps> = ({ properties }) => {
 	return (
 		<Fragment>
 			{properties.map((property, index) => (
-				<Typography key={index} variant="body2">
-					{getPropertyText(property)}
-				</Typography>
+				<Typography key={index}>{getPropertyText(property)}</Typography>
 			))}
 		</Fragment>
 	);

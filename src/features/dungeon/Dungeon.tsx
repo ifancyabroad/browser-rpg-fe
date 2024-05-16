@@ -64,6 +64,7 @@ export const Dungeon: React.FC = () => {
 	const level = useAppSelector(getActualLevel);
 	const character = useAppSelector((state) => state.character.character);
 	const room = useAppSelector(getCurrentRoom);
+	const roomType = room ? room.type : RoomType.Empty;
 	const location = useAppSelector(getCurrentLocation);
 	const gridOffset = useAppSelector(getGridOffset);
 	const [modalState, setModalState] = useState(defaultModalState);
@@ -74,11 +75,7 @@ export const Dungeon: React.FC = () => {
 	const isActionRoom = useAppSelector(getIsActiveRoom);
 
 	const roomText = useMemo(() => {
-		if (!room) {
-			return;
-		}
-
-		switch (room.type) {
+		switch (roomType) {
 			case RoomType.Battle:
 				return "Start Battle";
 			case RoomType.Boss:
@@ -94,23 +91,19 @@ export const Dungeon: React.FC = () => {
 			default:
 				return "";
 		}
-	}, [room]);
+	}, [roomType]);
 
 	const handleLocation = useCallback(() => {
-		if (!room) {
-			return;
-		}
-
 		dispatch(setPath([]));
 
 		if (isActionRoom) {
-			setModalState((state) => ({ ...state, [room.type]: true }));
+			setModalState((state) => ({ ...state, [roomType]: true }));
 		}
-	}, [dispatch, isActionRoom, room]);
+	}, [dispatch, isActionRoom, roomType]);
 
 	useEffect(() => {
 		handleLocation();
-	}, [handleLocation, room]);
+	}, [handleLocation]);
 
 	useEffect(() => {
 		return () => {

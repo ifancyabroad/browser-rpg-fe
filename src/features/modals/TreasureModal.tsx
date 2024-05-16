@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Box, Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeTreasureModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { getAvailableItemSlot } from "common/utils";
@@ -69,18 +69,22 @@ export const TreasureModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="md">
-			<DialogTitle id="form-dialog-title">Choose one treasure!</DialogTitle>
+		<Dialog open={open} onClose={handleClose}>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				Choose one treasure!
+			</DialogTitle>
 			<DialogContent>
 				{treasure ? (
-					<Stack direction="row" justifyContent="center" spacing={2} flexWrap="wrap" pt="2px">
+					<Stack alignItems="center" justifyContent="center" spacing={1}>
 						{treasure.items.map((item) => (
 							<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
 						))}
 						<Gold onTake={handleTakeGold} />
 					</Stack>
 				) : (
-					<Loader />
+					<Box textAlign="center">
+						<Loader />
+					</Box>
 				)}
 			</DialogContent>
 		</Dialog>

@@ -17,9 +17,11 @@ export const ShopModal: React.FC = () => {
 	const location = useAppSelector(getCurrentLocation);
 
 	useEffect(() => {
-		dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
-		dispatch(viewItems());
-	}, [dispatch]);
+		if (open) {
+			dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
+			dispatch(viewItems());
+		}
+	}, [dispatch, open]);
 
 	if (!character || !location) {
 		return null;
