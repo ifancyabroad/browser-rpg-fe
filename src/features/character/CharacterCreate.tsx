@@ -11,7 +11,7 @@ export const CharacterCreate: React.FC = () => {
 	const classes = useAppSelector((state) => state.character.classes);
 	const isCharacterCreated = useAppSelector(getHasActiveCharacter);
 	const [selectedClass, setSelectedClass] = useState<string | null>(null);
-	const status = useAppSelector((state) => state.character.status);
+	const status = useAppSelector((state) => state.character.classesStatus);
 	const isLoading = status === "loading";
 	const navigate = useNavigate();
 

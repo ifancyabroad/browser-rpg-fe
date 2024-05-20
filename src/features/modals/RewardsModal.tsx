@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeRewardsModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
@@ -30,13 +30,25 @@ export const RewardsModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center">
-					You have defeated the {name}. You gain {experience} experience and {gold} gold.
+					You have defeated the{" "}
+					<Box component="span" color="text.secondary">
+						{name}
+					</Box>
+					. You gain{" "}
+					<Box component="span" color="text.secondary">
+						{experience} experience
+					</Box>{" "}
+					and{" "}
+					<Box component="span" color="text.secondary">
+						{gold} gold
+					</Box>
+					.
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleCompleteBattle} disabled={isLoading}>
+				<Link component="button" onClick={handleCompleteBattle} disabled={isLoading}>
 					Confirm
-				</Button>
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

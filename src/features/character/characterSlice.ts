@@ -16,23 +16,25 @@ import { fetchBattle, postAction, startBattle } from "features/battle";
 
 interface ICharacerState {
 	character: ICharacter | null;
-	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classes: ICharacterClass[];
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
+	characterStatus: "idle" | "loading" | "succeeded" | "failed";
+	classesStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
 const initialState: ICharacerState = {
 	character: null,
-	characterStatus: "idle",
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
 	classes: [],
 	status: "idle",
+	characterStatus: "idle",
+	classesStatus: "idle",
 };
 
 export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async (_, { rejectWithValue }) => {
@@ -262,14 +264,14 @@ export const characterSlice = createSlice({
 			state.error = action.error.message;
 		});
 		builder.addCase(fetchClasses.pending, (state) => {
-			state.status = "loading";
+			state.classesStatus = "loading";
 		});
 		builder.addCase(fetchClasses.fulfilled, (state, action) => {
-			state.status = "succeeded";
+			state.classesStatus = "succeeded";
 			state.classes = action.payload;
 		});
 		builder.addCase(fetchClasses.rejected, (state, action) => {
-			state.status = "failed";
+			state.classesStatus = "failed";
 			state.error = action.error.message;
 		});
 		builder.addCase(createCharacter.pending, (state) => {

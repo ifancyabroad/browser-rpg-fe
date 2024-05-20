@@ -1,7 +1,9 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeGameOverModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
+import { getDeterminer } from "common/utils";
+import { openLeaderboard } from "features/leaderboard";
 
 export const GameOverModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -10,6 +12,11 @@ export const GameOverModal: React.FC = () => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
+
+	const handleViewLeaderboard = () => {
+		dispatch(closeGameOverModal());
+		dispatch(openLeaderboard());
+	};
 
 	const handleGameOver = async () => {
 		dispatch(closeGameOverModal());
@@ -21,6 +28,7 @@ export const GameOverModal: React.FC = () => {
 	}
 
 	const { name } = battle.enemy;
+	const determiner = getDeterminer(name);
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
@@ -28,11 +36,20 @@ export const GameOverModal: React.FC = () => {
 				You Died
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText textAlign="center">You have been slain by {name}.</DialogContentText>
+				<DialogContentText textAlign="center">
+					You have been slain by {determiner}{" "}
+					<Box component="span" color="text.secondary">
+						{name}
+					</Box>
+					.
+				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
+				<Link component="button" color="text.secondary" onClick={handleViewLeaderboard}>
+					View Leaderboard
+				</Link>
 				<Link component="button" onClick={handleGameOver} disabled={isLoading}>
-					Try again
+					Back to Menu
 				</Link>
 			</DialogActions>
 		</Dialog>

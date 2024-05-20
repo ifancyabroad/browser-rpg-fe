@@ -44,15 +44,14 @@ function App() {
 						</Routes>
 					</HOCLayout>
 				)}
+				<Leaderboard />
+				<EquipmentModal />
+				<SkillModal />
+				<CharacterClassModal />
+				<LoginModal />
+				<RegistrationModal />
+				<ErrorModal />
 			</Router>
-
-			<Leaderboard />
-			<EquipmentModal />
-			<SkillModal />
-			<CharacterClassModal />
-			<LoginModal />
-			<RegistrationModal />
-			<ErrorModal />
 		</HOCSession>
 	);
 }

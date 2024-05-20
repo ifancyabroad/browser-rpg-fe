@@ -87,3 +87,5 @@ export const getPropertyText = (property: TProperty) => {
 export const getDamageTypeConfig = (damageType: DamageType) => {
 	return DAMAGE_CONFIG.find(({ key }) => key === damageType);
 };
+
+export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" : "a");

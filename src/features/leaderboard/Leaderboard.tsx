@@ -1,11 +1,10 @@
 import {
 	Box,
-	Button,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	Paper,
+	Link,
 	Table,
 	TableBody,
 	TableCell,
@@ -13,9 +12,6 @@ import {
 	TableHead,
 	TableRow,
 	Typography,
-	alpha,
-	darken,
-	useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
@@ -23,14 +19,15 @@ import { Loader } from "common/components";
 import { useEffect } from "react";
 import { openErrorModal } from "features/modals";
 import { CHARACTER_STATUS_MAP, Status } from "common/utils";
+import { useNavigate } from "react-router-dom";
 
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const open = useAppSelector((state) => state.leaderboard.isOpen);
 	const rankings = useAppSelector((state) => state.leaderboard.leaderboard);
 	const status = useAppSelector((state) => state.leaderboard.status);
 	const isLoading = status === "loading";
-	const theme = useTheme();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -49,60 +46,36 @@ export const Leaderboard: React.FC = () => {
 
 	const handleClose = () => {
 		dispatch(closeLeaderboard());
+		navigate("/");
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth maxWidth="lg">
-			<DialogTitle id="form-dialog-title">Hall of Legends</DialogTitle>
+		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="sm">
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				Hall of Legends
+			</DialogTitle>
 			<DialogContent>
 				<Box>
-					<TableContainer
-						component={Paper}
-						sx={{
-							bgcolor: alpha(theme.palette.background.paper, 0.5),
-							boxShadow: "inset 0px 0px 15px 0px rgba(0,0,0,0.8), 0px 0px 0px 1px rgba(255,255,255,0.06)",
-						}}
-					>
-						<Table>
+					<TableContainer>
+						<Table size="small" sx={{ bgcolor: "#000" }}>
 							<TableHead>
 								<TableRow>
 									<TableCell
 										sx={{
 											width: 30,
-											backgroundColor: alpha(darken(theme.palette.background.paper, 0.5), 0.5),
+											color: "info.light",
 										}}
 									>
 										Rank
 									</TableCell>
-									<TableCell
-										sx={{
-											backgroundColor: alpha(darken(theme.palette.background.paper, 0.5), 0.5),
-										}}
-									>
-										Name
-									</TableCell>
-									<TableCell
-										align="right"
-										sx={{
-											backgroundColor: alpha(darken(theme.palette.background.paper, 0.5), 0.5),
-										}}
-									>
+									<TableCell sx={{ color: "info.light" }}>Name</TableCell>
+									<TableCell align="right" sx={{ color: "info.light" }}>
 										Status
 									</TableCell>
-									<TableCell
-										align="right"
-										sx={{
-											backgroundColor: alpha(darken(theme.palette.background.paper, 0.5), 0.5),
-										}}
-									>
-										Day
+									<TableCell align="right" sx={{ color: "info.light" }}>
+										Floor
 									</TableCell>
-									<TableCell
-										align="right"
-										sx={{
-											backgroundColor: alpha(darken(theme.palette.background.paper, 0.5), 0.5),
-										}}
-									>
+									<TableCell align="right" sx={{ color: "info.light" }}>
 										Kills
 									</TableCell>
 								</TableRow>
@@ -110,7 +83,7 @@ export const Leaderboard: React.FC = () => {
 							<TableBody>
 								{isLoading ? (
 									<TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-										<TableCell component="th" scope="row" colSpan={6}>
+										<TableCell component="th" scope="row" colSpan={6} align="center">
 											<Loader />
 										</TableCell>
 									</TableRow>
@@ -125,7 +98,7 @@ export const Leaderboard: React.FC = () => {
 											</TableCell>
 											<TableCell>
 												<Typography>{character.name}</Typography>
-												<Typography variant="body2" color="text.secondary">
+												<Typography color="text.secondary">
 													Level {character.level} {character.characterClass.name}
 												</Typography>
 											</TableCell>
@@ -134,7 +107,7 @@ export const Leaderboard: React.FC = () => {
 													? `Slain By ${character.slainBy}`
 													: CHARACTER_STATUS_MAP[character.status]}
 											</TableCell>
-											<TableCell align="right">{character.day}</TableCell>
+											<TableCell align="right">{character.map.location.level + 1}</TableCell>
 											<TableCell align="right">{character.kills}</TableCell>
 										</TableRow>
 									))
@@ -145,9 +118,9 @@ export const Leaderboard: React.FC = () => {
 				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose} color="primary" variant="contained" disabled={isLoading}>
+				<Link component="button" onClick={handleClose} disabled={isLoading}>
 					Close
-				</Button>
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

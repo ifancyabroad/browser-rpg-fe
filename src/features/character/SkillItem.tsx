@@ -33,9 +33,11 @@ export const SkillItem: React.FC<IProps> = ({ skill }) => {
 				<SkillIcon skill={skill} />
 				<Stack>
 					<Typography color="text.secondary">{skill.name}</Typography>
-					<Typography variant="body2">
-						Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
-					</Typography>
+					{skill.level > 0 && (
+						<Typography variant="body2">
+							Level {skill.level} {SKILL_TYPE_NAME_MAP[type]}
+						</Typography>
+					)}
 				</Stack>
 			</Box>
 

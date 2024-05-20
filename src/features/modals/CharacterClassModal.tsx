@@ -41,22 +41,22 @@ export const CharacterClassModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, skills, equipment, portrait, stats } = characterClass;
+	const { name, description, skills, equipment, icon, stats } = characterClass;
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="md" scroll="body">
+		<Dialog open={open} onClose={handleClose} maxWidth="sm" scroll="body">
 			{isMobile && <DialogTitle>{name}</DialogTitle>}
 			<DialogContent>
 				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
+					<Grid item xs={12} md={5} textAlign="center">
 						<Box
 							component="img"
-							src={portrait || "https://via.placeholder.com/1024"}
+							src={icon || "https://via.placeholder.com/1024"}
 							alt={name}
-							maxWidth="100%"
+							maxHeight="380px"
 						/>
 					</Grid>
-					<Grid item xs={12} md={6}>
+					<Grid item xs={12} md={7}>
 						{!isMobile && (
 							<Typography variant="h5" color="text.secondary" mb={2}>
 								{name}

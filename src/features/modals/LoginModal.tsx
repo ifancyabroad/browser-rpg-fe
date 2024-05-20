@@ -73,7 +73,7 @@ export const LoginModal: React.FC = () => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Link component="button" onClick={handleClose}>
+				<Link component="button" color="text.secondary" onClick={handleClose}>
 					Cancel
 				</Link>
 				<Link component="button" onClick={handleLogin} disabled={isLoading}>

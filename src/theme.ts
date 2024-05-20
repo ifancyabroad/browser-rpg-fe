@@ -191,6 +191,7 @@ const theme = createTheme({
 		MuiTextField: {
 			defaultProps: {
 				variant: "outlined",
+				autoComplete: "off",
 			},
 		},
 		MuiOutlinedInput: {
@@ -233,6 +234,16 @@ const theme = createTheme({
 					"&.Mui-selected": {
 						borderColor: "#8ae234",
 						color: "#FFF",
+					},
+				},
+			},
+		},
+		MuiLink: {
+			styleOverrides: {
+				root: {
+					"&:disabled": {
+						color: "#757575",
+						cursor: "default",
 					},
 				},
 			},

@@ -69,7 +69,7 @@ const CharacterContent: React.FC = () => {
 						{name} the {character.characterClass.name}
 					</Typography>
 					{showLevelUp && (
-						<IconButton onClick={handleLevelUp}>
+						<IconButton onClick={handleLevelUp} sx={{ "&:hover": { color: "primary.main" } }}>
 							<KeyboardDoubleArrowUpIcon />
 						</IconButton>
 					)}

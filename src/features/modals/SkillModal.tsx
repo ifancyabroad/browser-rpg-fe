@@ -12,7 +12,7 @@ import {
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeSkillModal } from "./modalsSlice";
 import { CLASS_NAME_MAP, SKILL_TYPE_NAME_MAP, SkillClass, getSkillType } from "common/utils";
-import { EffectList } from "common/components";
+import { EffectList, SkillIcon } from "common/components";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 export const SkillModal: React.FC = () => {
@@ -27,13 +27,13 @@ export const SkillModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, icon, level, effects, class: characterClass, maxUses } = skill;
+	const { name, description, level, effects, class: characterClass, maxUses } = skill;
 	const type = getSkillType(skill);
 
 	return (
 		<Dialog open={open} onClose={handleClose} scroll="body">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-				<Box component="img" src={icon || "https://via.placeholder.com/1024"} alt={name} width="48px" />
+				<SkillIcon skill={skill} width={48} />
 				{name}
 			</DialogTitle>
 			<DialogContent>
