@@ -1,20 +1,9 @@
-import { Box, IconButton, Stack, Typography, styled } from "@mui/material";
+import { Box, Link, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { ConfirmationModal, openEquipmentModal } from "features/modals";
 import { Fragment, useState } from "react";
-import SearchIcon from "@mui/icons-material/Search";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
-const Wrapper = styled(Box)(({ theme }) => ({
-	display: "flex",
-	alignItems: "stretch",
-
-	"&:nth-child(odd)": {
-		boxShadow: "inset 0 0 5px rgba(0, 0, 0, 0.349)",
-		backgroundColor: "rgba(29, 28, 25, 0.349)",
-	},
-}));
+import { HoverButton } from "common/components";
 
 interface IProps {
 	item: IArmour | IWeapon;
@@ -50,38 +39,34 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 
 	return (
 		<Fragment>
-			<Wrapper display="flex" alignItems="stretch">
-				<Box
-					component="img"
-					sx={{ height: 85, width: 85, objectFit: "contain" }}
-					src={icon || "https://via.placeholder.com/1024"}
-					alt={name}
-				/>
-				<Box
-					flex={1}
-					display="flex"
-					alignItems="center"
-					justifyContent="space-between"
-					gap={1}
-					p={2}
-					overflow="hidden"
-				>
-					<Stack flex={1} minWidth={0}>
+			<HoverButton
+				component={Box}
+				sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+			>
+				<Box display="flex" alignItems="center" gap={2} overflow="hidden">
+					<Box
+						component="img"
+						src={icon || "https://via.placeholder.com/40"}
+						alt={name}
+						width={40}
+						height={40}
+					/>
+					<Stack overflow="hidden">
 						<Typography color="text.secondary" noWrap>
 							{name}
 						</Typography>
-						<Typography variant="body2">Price: {price}g</Typography>
+						<Typography>Price {price}g</Typography>
 					</Stack>
-					<Box display="flex" alignItems="center" gap={1}>
-						<IconButton onClick={openEquipmentDetailsModal} color="secondary">
-							<SearchIcon />
-						</IconButton>
-						<IconButton onClick={openConfirmationModal} color="primary" disabled={isDisabled}>
-							<ShoppingCartIcon />
-						</IconButton>
-					</Box>
 				</Box>
-			</Wrapper>
+				<Box display="flex" alignItems="center" gap={2}>
+					<Link component="button" color="secondary" onClick={openEquipmentDetailsModal}>
+						Details
+					</Link>
+					<Link component="button" onClick={openConfirmationModal} disabled={isDisabled}>
+						Buy
+					</Link>
+				</Box>
+			</HoverButton>
 
 			<ConfirmationModal
 				title="Are you sure?"

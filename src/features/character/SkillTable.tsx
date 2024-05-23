@@ -1,13 +1,14 @@
 import { ISkill } from "common/types";
 import { SkillItem } from "./SkillItem";
 import { Box, Stack, Typography } from "@mui/material";
+import { MAX_SKILLS } from "common/utils";
 
 interface IProps {
 	skills: ISkill[];
 }
 
 export const SkillTable: React.FC<IProps> = ({ skills }) => {
-	const emptySlots = Array.from({ length: 5 - skills.length }).fill(null);
+	const emptySlots = Array.from({ length: MAX_SKILLS - skills.length }).fill(null);
 
 	return (
 		<Stack spacing={1}>

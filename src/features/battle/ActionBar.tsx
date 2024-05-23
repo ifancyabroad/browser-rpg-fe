@@ -5,6 +5,7 @@ import { ISkill } from "common/types";
 import React from "react";
 import { postAction } from "./battleSlice";
 import { openErrorModal } from "features/modals";
+import { MAX_SKILLS } from "common/utils";
 
 const Wrapper = styled(Box)(({ theme }) => ({
 	flex: 1,
@@ -22,15 +23,25 @@ const EmptySlot = styled(Box)(({ theme }) => ({
 	width: "64px",
 }));
 
+const StyledButton = styled(ButtonBase)({
+	"&:disabled": {
+		opacity: 0.5,
+	},
+	"&.exhausted": {
+		filter: "grayscale(1)",
+	},
+});
+
 const SkillTooltip: React.FC<ISkill> = ({ name, effects, remaining, maxUses }) => {
 	const secondaryText = maxUses ? `${remaining}/${maxUses} Remaining` : undefined;
+	const secondaryTextColor = remaining ? "success.main" : "error.main";
 
 	return (
 		<Stack spacing={1}>
 			<Typography variant="h6" fontSize={16}>
 				{name}
 			</Typography>
-			{secondaryText && <Typography variant="body2">{secondaryText}</Typography>}
+			{secondaryText && <Typography color={secondaryTextColor}>{secondaryText}</Typography>}
 			<EffectList effects={effects} />
 		</Stack>
 	);
@@ -42,6 +53,7 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	const isLoading = status === "loading";
 	const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);
 	const isDisabled = isLoading || isExhausted;
+	const className = isExhausted ? "exhausted" : "";
 
 	const handleUseSkill = async () => {
 		try {
@@ -55,9 +67,9 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	return (
 		<Tooltip title={<SkillTooltip {...skill} />} placement="top">
 			<div>
-				<ButtonBase onClick={handleUseSkill} disabled={isDisabled}>
+				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
 					<SkillIcon skill={skill} width={64} />
-				</ButtonBase>
+				</StyledButton>
 			</div>
 		</Tooltip>
 	);
@@ -70,7 +82,7 @@ export const ActionBar: React.FC = () => {
 		return null;
 	}
 
-	const emptySlots = Array.from({ length: 5 - character.skills.length }).fill(null);
+	const emptySlots = Array.from({ length: MAX_SKILLS - character.skills.length }).fill(null);
 
 	return (
 		<Wrapper>

@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, Typography } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Link, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
@@ -47,22 +47,32 @@ export const ShopModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={open} onClose={handleClose} maxWidth="md">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
 				Shop
 				<Typography component="span" fontSize={16}>
-					Gold: {character.gold}
+					<Typography component="span" color="secondary">
+						Gold:{" "}
+					</Typography>
+					{character.gold}
 				</Typography>
 			</DialogTitle>
 			<DialogContent>
-				<Stack sx={{ height: "100%", overflowY: "auto" }}>
+				<Box
+					display="grid"
+					justifyContent="center"
+					gridTemplateColumns={{ xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+					gap={1}
+				>
 					{availableItems.map((item) => (
 						<ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />
 					))}
-				</Stack>
+				</Box>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={handleClose}>Close</Button>
+				<Link component="button" onClick={handleClose}>
+					Close
+				</Link>
 			</DialogActions>
 		</Dialog>
 	);

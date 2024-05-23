@@ -228,4 +228,6 @@ export const ACTION_ROOMS = [
 
 export const TILE_SIZE = 64;
 
+export const MAX_SKILLS = 6;
+
 export * from "./config";

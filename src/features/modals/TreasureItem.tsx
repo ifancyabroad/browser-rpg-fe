@@ -58,7 +58,7 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
 			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
-				<Box component="img" src={icon || "https://via.placeholder.com/40"} width={40} height={40} />
+				<Box component="img" src={icon || "https://via.placeholder.com/40"} alt={name} width={40} height={40} />
 				<Stack overflow="hidden">
 					<Typography color="text.secondary" noWrap>
 						{name}
