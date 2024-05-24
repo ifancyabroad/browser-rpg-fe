@@ -1,2 +1,2 @@
 export * from "./battleSlice";
-export * from "./Battle";
+export * from "./BattleModal";

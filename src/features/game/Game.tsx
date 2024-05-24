@@ -1,21 +1,30 @@
 import { Box, Container } from "@mui/material";
 import { CharacterButton } from "common/components";
-import { useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
+import { BattleModal } from "features/battle";
 import { CharacterSheet } from "features/character";
-import { GameOverModal, LevelUpModal, ReplaceItemModal, RewardsModal, ShopModal, TreasureModal } from "features/modals";
+import {
+	GameOverModal,
+	LevelUpModal,
+	ReplaceItemModal,
+	RewardsModal,
+	ShopModal,
+	TreasureModal,
+	openBattleModal,
+} from "features/modals";
 import { Fragment, useEffect } from "react";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
-	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		if (character?.state === State.Battle) {
-			navigate("/game/battle");
+			dispatch(openBattleModal());
 		}
-	}, [navigate, character]);
+	}, [dispatch, character]);
 
 	if (!character) {
 		return <Navigate to="/" />;
@@ -51,6 +60,7 @@ export const Game: React.FC = () => {
 			<TreasureModal />
 			<GameOverModal />
 			<ShopModal />
+			<BattleModal />
 		</Fragment>
 	);
 };

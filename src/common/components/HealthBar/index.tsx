@@ -1,6 +1,4 @@
-import { Box, Stack, Typography, styled } from "@mui/material";
-import { IActiveEffect, IStatus } from "common/types";
-import { AuxiliaryEffect, StatusEffect } from "common/components";
+import { Box, Typography, styled } from "@mui/material";
 
 const BarWrapper = styled(Box)(({ theme }) => ({
 	position: "relative",
@@ -16,48 +14,26 @@ const Bar = styled(Box)(({ theme }) => ({
 	transition: "width 0.5s ease-in-out",
 }));
 
-const EffectsWrapper = styled(Stack)({
-	flexDirection: "row",
-	gap: "4px",
-	position: "absolute",
-	left: 0,
-	top: "100%",
-	zIndex: 2,
-});
-
 interface IProps {
 	value: number;
 	max: number;
-	auxiliaryEffects: IActiveEffect[];
-	statusEffects: IStatus[];
 }
 
-export const HealthBar: React.FC<IProps> = ({ value, max, auxiliaryEffects, statusEffects }) => {
+export const HealthBar: React.FC<IProps> = ({ value, max }) => {
 	const normalisedValue = value < 0 ? 0 : value > max ? 100 : ((value - 0) * 100) / (max - 0);
 
 	return (
-		<Stack position="relative" spacing={1}>
-			<Box display="flex" gap={2} alignItems="center">
-				<BarWrapper>
-					<Bar sx={{ width: `${normalisedValue}%` }} />
-				</BarWrapper>
+		<Box display="flex" gap={2} alignItems="center">
+			<BarWrapper>
+				<Bar sx={{ width: `${normalisedValue}%` }} />
+			</BarWrapper>
 
-				<Typography>
-					<Box component="span" color="secondary.main">
-						HP
-					</Box>{" "}
-					{value}/{max}
-				</Typography>
-			</Box>
-
-			<EffectsWrapper direction="row" spacing={1}>
-				{auxiliaryEffects.map((effect) => (
-					<AuxiliaryEffect key={effect.effect} {...effect} />
-				))}
-				{statusEffects.map((effect) => (
-					<StatusEffect key={effect.skill.id} {...effect} />
-				))}
-			</EffectsWrapper>
-		</Stack>
+			<Typography width="40%">
+				<Box component="span" color="secondary.main">
+					HP
+				</Box>{" "}
+				{value}/{max}
+			</Typography>
+		</Box>
 	);
 };

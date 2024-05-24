@@ -15,7 +15,6 @@ import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
 import { Leaderboard } from "features/leaderboard";
 import { Dungeon } from "features/dungeon";
-import { Battle } from "features/battle";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
@@ -31,7 +30,6 @@ function App() {
 								<Route path="/create" element={<CharacterCreate />} />
 								<Route path="/game" element={<Game />}>
 									<Route index element={<Dungeon />} />
-									<Route path="battle" element={<Battle />} />
 								</Route>
 							</Routes>
 						</HOCLayout>

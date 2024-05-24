@@ -31,6 +31,7 @@ interface ModalsState {
 	};
 	treasureModalOpen: boolean;
 	shopModalOpen: boolean;
+	battleModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -57,6 +58,7 @@ const initialState: ModalsState = {
 	},
 	treasureModalOpen: false,
 	shopModalOpen: false,
+	battleModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -156,6 +158,12 @@ export const modalsSlice = createSlice({
 		closeShopModal: (state) => {
 			state.shopModalOpen = false;
 		},
+		openBattleModal: (state) => {
+			state.battleModalOpen = true;
+		},
+		closeBattleModal: (state) => {
+			state.battleModalOpen = false;
+		},
 	},
 });
 
@@ -187,6 +195,8 @@ export const {
 	closeTreasureModal,
 	openShopModal,
 	closeShopModal,
+	openBattleModal,
+	closeBattleModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

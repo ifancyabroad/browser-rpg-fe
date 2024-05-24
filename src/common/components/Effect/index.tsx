@@ -17,11 +17,11 @@ const StatusDetails: React.FC<IStatus> = (effect) => (
 );
 
 export const StatusEffect: React.FC<IStatus> = (status) => {
-	const icon = status.skill.icon || "https://via.placeholder.com/24";
+	const icon = status.skill.icon || "https://via.placeholder.com/40";
 
 	return (
 		<Tooltip title={<StatusDetails {...status} />} placement="top">
-			<img src={icon} alt={status.skill.name} width="24" />
+			<img src={icon} alt={status.skill.name} width="40" />
 		</Tooltip>
 	);
 };
@@ -38,11 +38,11 @@ const AuxiliaryDetails: React.FC<IActiveEffect> = (effect) => (
 );
 
 export const AuxiliaryEffect: React.FC<IActiveEffect> = (effect) => {
-	const icon = "https://via.placeholder.com/24";
+	const icon = "https://via.placeholder.com/40";
 
 	return (
 		<Tooltip title={<AuxiliaryDetails {...effect} />} placement="top">
-			<img src={icon} alt={effect.effect.name} width="24" />
+			<img src={icon} alt={effect.effect.name} width="40" />
 		</Tooltip>
 	);
 };

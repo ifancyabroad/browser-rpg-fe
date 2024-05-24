@@ -49,16 +49,7 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const {
-		name,
-		hitPoints,
-		maxHitPoints,
-		activeAuxiliaryEffects,
-		activeStatusEffects,
-		experience,
-		nextLevelExperience,
-		state,
-	} = character;
+	const { name, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
 	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
 
 	return (
@@ -74,12 +65,7 @@ const CharacterContent: React.FC = () => {
 						</IconButton>
 					)}
 				</Box>
-				<HealthBar
-					value={hitPoints}
-					max={maxHitPoints}
-					auxiliaryEffects={activeAuxiliaryEffects}
-					statusEffects={activeStatusEffects}
-				/>
+				<HealthBar value={hitPoints} max={maxHitPoints} />
 				<ExperienceBar />
 
 				<Box display="flex" justifyContent="space-between" gap={1}>

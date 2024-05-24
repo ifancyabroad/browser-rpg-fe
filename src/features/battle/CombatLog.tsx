@@ -161,52 +161,49 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 	const reversedTurns = [...turns].reverse();
 
 	return (
-		<Box sx={{ height: "100%", display: "flex", flexDirection: "column", gap: 1 }}>
-			<Typography variant="h6">Combat Log</Typography>
-			<Box
-				sx={{
-					border: 2,
-					borderColor: "grey.600",
-					flex: 1,
-					p: 2,
-				}}
-			>
-				<Box position="relative" height={{ xs: 200, lg: "100%" }}>
-					<Box
-						sx={{
-							position: "absolute",
-							bottom: 0,
-							left: 0,
-							height: "100%",
-							width: "100%",
-							display: "flex",
-							flexDirection: "column-reverse",
-							overflowY: "scroll",
-						}}
-					>
-						{isLoading && <Typography variant="body2">Loading...</Typography>}
+		<Box
+			sx={{
+				border: 1,
+				borderColor: "grey.600",
+				flex: 1,
+				p: 2,
+			}}
+		>
+			<Box position="relative" height={{ xs: 200, lg: "100%" }}>
+				<Box
+					sx={{
+						position: "absolute",
+						bottom: 0,
+						left: 0,
+						height: "100%",
+						width: "100%",
+						display: "flex",
+						flexDirection: "column-reverse",
+						overflowY: "scroll",
+					}}
+				>
+					{isLoading && <Typography variant="body2">Loading...</Typography>}
 
-						{reversedTurns.map((turn, index) => (
-							<Box
-								key={index}
-								sx={{
-									transition: "opacity 0.1s ease-in-out",
-									opacity: 0.25,
-									"&:nth-of-type(1)": { opacity: 1 },
-									"&:nth-of-type(2)": { opacity: 0.5 },
-									"&:hover": { opacity: 1 },
-								}}
-							>
-								<Typography variant="body2" color="info.main">
-									Turn {reversedTurns.length - index}
-								</Typography>
-								<Divider />
-								{turn.map((action, index2) => (
-									<Action key={`action-${index}-${index2}`} {...action} />
-								))}
-							</Box>
-						))}
-					</Box>
+					{reversedTurns.map((turn, index) => (
+						<Box
+							key={index}
+							sx={{
+								transition: "opacity 0.1s ease-in-out",
+								opacity: 0.25,
+								"&:nth-of-type(1)": { opacity: 1 },
+								"&:nth-of-type(2)": { opacity: 0.5 },
+								"&:hover": { opacity: 1 },
+							}}
+						>
+							<Typography variant="body2" color="info.main">
+								Turn {reversedTurns.length - index}
+							</Typography>
+							<Divider />
+							{turn.map((action, index2) => (
+								<Action key={`action-${index}-${index2}`} {...action} />
+							))}
+						</Box>
+					))}
 				</Box>
 			</Box>
 		</Box>
