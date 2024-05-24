@@ -22,9 +22,11 @@ export const ExperienceBar: React.FC = () => {
 		return null;
 	}
 
-	const { experience, nextLevelExperience } = character;
+	const { experience, currentLevelExperience, nextLevelExperience } = character;
 	const normalisedValue =
-		experience > nextLevelExperience ? 100 : ((experience - 0) * 100) / (nextLevelExperience - 0);
+		experience > nextLevelExperience
+			? 100
+			: ((experience - currentLevelExperience) * 100) / (nextLevelExperience - currentLevelExperience);
 
 	return (
 		<Box display="flex" gap={2} alignItems="center">

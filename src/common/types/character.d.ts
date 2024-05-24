@@ -44,6 +44,7 @@ export interface ICharacter {
 	status: Status;
 	state: State;
 	experience: number;
+	currentLevelExperience: number;
 	nextLevelExperience: number;
 	level: number;
 	gold: number;
