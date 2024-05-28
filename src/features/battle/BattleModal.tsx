@@ -1,21 +1,18 @@
-import { Dialog, DialogActions, DialogContent, Grid } from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, Grid } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeBattleModal, openErrorModal, openGameOverModal, openRewardsModal } from "features/modals/modalsSlice";
+import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals/modalsSlice";
 import { BattleState } from "common/utils";
 import { useEffect } from "react";
 import { fetchBattle } from "./battleSlice";
 import { ActionBar } from "./ActionBar";
 import { Enemy } from "./Enemy";
 import { BattleDetails } from "./BattleDetails";
+import { Loader } from "common/components";
 
 export const BattleModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.modals.battleModalOpen);
 	const battle = useAppSelector((state) => state.battle.battle);
-
-	const handleClose = () => {
-		dispatch(closeBattleModal());
-	};
 
 	useEffect(() => {
 		if (battle || !open) {
@@ -44,16 +41,22 @@ export const BattleModal: React.FC = () => {
 	}, [dispatch, battle]);
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="md" scroll="body">
+		<Dialog open={open} maxWidth="md" scroll="body">
 			<DialogContent>
-				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
-						<BattleDetails />
+				{battle ? (
+					<Grid container spacing={2}>
+						<Grid item xs={12} md={6}>
+							<BattleDetails />
+						</Grid>
+						<Grid item xs={12} md={6}>
+							<Enemy />
+						</Grid>
 					</Grid>
-					<Grid item xs={12} md={6}>
-						<Enemy />
-					</Grid>
-				</Grid>
+				) : (
+					<Box display="flex" justifyContent="center" alignItems="center" minHeight="550px">
+						<Loader />
+					</Box>
+				)}
 			</DialogContent>
 			<DialogActions>
 				<ActionBar />

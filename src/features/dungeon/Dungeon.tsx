@@ -2,7 +2,7 @@ import { Button, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { RoomType, TILE_SIZE } from "common/utils";
 import { nextLevel, rest } from "features/character";
-import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { ConfirmationModal, openErrorModal, openShopModal, openTreasureModal } from "features/modals";
 import { Player } from "./Player";
 import { Tile } from "./Tile";
@@ -15,6 +15,7 @@ import {
 	getIsActiveRoom,
 	setPath,
 } from "./dungeonSlice";
+import { DungeonContext, dungeonReducer, initialState } from "common/context";
 
 const Canvas = styled("div")({
 	position: "relative",
@@ -50,15 +51,6 @@ const Grid = styled("div", {
 	gap: "1px",
 }));
 
-const defaultModalState = {
-	[RoomType.Battle]: false,
-	[RoomType.Boss]: false,
-	[RoomType.Shop]: false,
-	[RoomType.Treasure]: false,
-	[RoomType.Rest]: false,
-	[RoomType.Exit]: false,
-};
-
 export const Dungeon: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const level = useAppSelector(getActualLevel);
@@ -67,12 +59,16 @@ export const Dungeon: React.FC = () => {
 	const roomType = room ? room.type : RoomType.Empty;
 	const location = useAppSelector(getCurrentLocation);
 	const gridOffset = useAppSelector(getGridOffset);
-	const [modalState, setModalState] = useState(defaultModalState);
 	const battleStatus = useAppSelector((state) => state.battle.status);
 	const isBattleLoading = battleStatus === "loading";
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
 	const isActionRoom = useAppSelector(getIsActiveRoom);
+	const [state, localDispatch] = useReducer(dungeonReducer, initialState);
+	const providerState = {
+		state,
+		dispatch: localDispatch,
+	};
 
 	const roomText = useMemo(() => {
 		switch (roomType) {
@@ -97,13 +93,9 @@ export const Dungeon: React.FC = () => {
 		dispatch(setPath([]));
 
 		if (isActionRoom) {
-			setModalState((state) => ({ ...state, [roomType]: true }));
+			localDispatch({ type: "OPEN", payload: roomType });
 		}
 	}, [dispatch, isActionRoom, roomType]);
-
-	useEffect(() => {
-		handleLocation();
-	}, [handleLocation]);
 
 	useEffect(() => {
 		return () => {
@@ -118,7 +110,7 @@ export const Dungeon: React.FC = () => {
 	const handleRest = async () => {
 		try {
 			await dispatch(rest(location)).unwrap();
-			setModalState((state) => ({ ...state, [RoomType.Rest]: false }));
+			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
@@ -128,7 +120,7 @@ export const Dungeon: React.FC = () => {
 	const handleStartBattle = async () => {
 		try {
 			await dispatch(startBattle(location)).unwrap();
-			setModalState((state) => ({ ...state, [RoomType.Battle]: false }));
+			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
@@ -137,18 +129,18 @@ export const Dungeon: React.FC = () => {
 
 	const handleOpenShop = () => {
 		dispatch(openShopModal());
-		setModalState((state) => ({ ...state, [RoomType.Shop]: false }));
+		localDispatch({ type: "CLOSE" });
 	};
 
 	const handleOpenChest = async () => {
 		dispatch(openTreasureModal());
-		setModalState((state) => ({ ...state, [RoomType.Treasure]: false }));
+		localDispatch({ type: "CLOSE" });
 	};
 
 	const handleExit = async () => {
 		try {
 			await dispatch(nextLevel(location)).unwrap();
-			setModalState((state) => ({ ...state, [RoomType.Exit]: false }));
+			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
@@ -156,11 +148,11 @@ export const Dungeon: React.FC = () => {
 	};
 
 	const closeConfirmationModal = () => {
-		setModalState(defaultModalState);
+		localDispatch({ type: "CLOSE" });
 	};
 
 	return (
-		<Fragment>
+		<DungeonContext.Provider value={providerState}>
 			<Canvas>
 				<Button
 					aria-label="character"
@@ -196,7 +188,7 @@ export const Dungeon: React.FC = () => {
 				content="You stumble upon an abandoned camp and a chance to rest for the night."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
-				open={modalState[RoomType.Rest]}
+				open={state[RoomType.Rest]}
 				disabled={isCharacterLoading}
 			/>
 			<ConfirmationModal
@@ -204,7 +196,7 @@ export const Dungeon: React.FC = () => {
 				content="You have been ambushed by an enemy and must defend yourself!"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleStartBattle}
-				open={modalState[RoomType.Battle]}
+				open={state[RoomType.Battle]}
 				disabled={isBattleLoading}
 			/>
 			<ConfirmationModal
@@ -212,7 +204,7 @@ export const Dungeon: React.FC = () => {
 				content="As you make your way to the exit you are stopped in your tracks by a powerful foe."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleStartBattle}
-				open={modalState[RoomType.Boss]}
+				open={state[RoomType.Boss]}
 				disabled={isBattleLoading}
 			/>
 			<ConfirmationModal
@@ -220,23 +212,23 @@ export const Dungeon: React.FC = () => {
 				content="You come across a merchant interested in selling some items he has discovered."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}
-				open={modalState[RoomType.Shop]}
+				open={state[RoomType.Shop]}
 			/>
 			<ConfirmationModal
 				title="Open Chest?"
 				content="You find a treasure chest waiting to be opened."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenChest}
-				open={modalState[RoomType.Treasure]}
+				open={state[RoomType.Treasure]}
 			/>
 			<ConfirmationModal
 				title="Descend"
 				content="You have found a staircase descending further into the dungeon, are you ready to proceed?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
-				open={modalState[RoomType.Exit]}
+				open={state[RoomType.Exit]}
 				disabled={isCharacterLoading}
 			/>
-		</Fragment>
+		</DungeonContext.Provider>
 	);
 };

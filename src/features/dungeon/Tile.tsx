@@ -1,7 +1,7 @@
 import { Box, ButtonBase, darken, styled, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
-import { RoomType } from "common/utils";
+import { ACTION_ROOMS, RoomState, RoomType } from "common/utils";
 import { setCurrentRoom, setPath } from "./dungeonSlice";
 import monsterIcon from "assets/images/icons/Quest_24_scull.png";
 import bossIcon from "assets/images/icons/Quest_48_pirate.png";
@@ -9,6 +9,7 @@ import treasureIcon from "assets/images/icons/Quest_10_treasure.png";
 import merchantIcon from "assets/images/icons/Villager_man.png";
 import restIcon from "assets/images/icons/Campfire_Withfire.png";
 import exitIcon from "assets/images/icons/StoneStairs.png";
+import { useDungeonContext } from "common/context";
 
 const BaseTile = styled(Box)({
 	position: "relative",
@@ -77,11 +78,21 @@ const Room: React.FC<ITileProps> = ({ room }) => {
 	const path = useFindPath(room.location);
 	const isAccessible = path.length > 0;
 	const isDisabled = isLoading || !isAccessible;
+	const isActionRoom = room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
+	const dungeonContext = useDungeonContext();
 
 	const handleMove = () => {
-		if (isAccessible) {
-			dispatch(setPath(path));
-			dispatch(setCurrentRoom(room));
+		if (!isAccessible) {
+			return;
+		}
+		dispatch(setPath(path));
+		dispatch(setCurrentRoom(room));
+
+		if (isActionRoom) {
+			dungeonContext.dispatch({
+				type: "OPEN",
+				payload: room.type,
+			});
 		}
 	};
 

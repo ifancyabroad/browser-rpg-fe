@@ -38,10 +38,6 @@ export const TreasureModal: React.FC = () => {
 		return null;
 	}
 
-	const handleClose = () => {
-		dispatch(closeTreasureModal());
-	};
-
 	const handleTakeItem = async (item: IArmour | IWeapon) => {
 		try {
 			const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
@@ -69,7 +65,7 @@ export const TreasureModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={open}>
 			<DialogTitle id="form-dialog-title" textAlign="center">
 				Choose one treasure!
 			</DialogTitle>
@@ -82,7 +78,7 @@ export const TreasureModal: React.FC = () => {
 						<Gold onTake={handleTakeGold} />
 					</Stack>
 				) : (
-					<Box textAlign="center">
+					<Box display="flex" justifyContent="center" alignItems="center" minHeight="220px">
 						<Loader />
 					</Box>
 				)}

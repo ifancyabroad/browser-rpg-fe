@@ -42,6 +42,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 			<HoverButton
 				component={Box}
 				sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+				onClick={openEquipmentDetailsModal}
 			>
 				<Box display="flex" alignItems="center" gap={2} overflow="hidden">
 					<Box
@@ -58,14 +59,9 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 						<Typography>Price {price}g</Typography>
 					</Stack>
 				</Box>
-				<Box display="flex" alignItems="center" gap={2}>
-					<Link component="button" color="secondary" onClick={openEquipmentDetailsModal}>
-						Details
-					</Link>
-					<Link component="button" onClick={openConfirmationModal} disabled={isDisabled}>
-						Buy
-					</Link>
-				</Box>
+				<Link component="button" onClick={openConfirmationModal} disabled={isDisabled}>
+					Buy
+				</Link>
 			</HoverButton>
 
 			<ConfirmationModal

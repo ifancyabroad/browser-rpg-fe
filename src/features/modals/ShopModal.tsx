@@ -47,7 +47,7 @@ export const ShopModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="md">
+		<Dialog open={open} onClose={handleClose} maxWidth="sm">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
 				Shop
 				<Typography component="span" fontSize={16}>
@@ -61,7 +61,7 @@ export const ShopModal: React.FC = () => {
 				<Box
 					display="grid"
 					justifyContent="center"
-					gridTemplateColumns={{ xs: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+					gridTemplateColumns={{ xs: "repeat(1, 1fr)", md: "repeat(2, minmax(0, 1fr))" }}
 					gap={1}
 				>
 					{availableItems.map((item) => (

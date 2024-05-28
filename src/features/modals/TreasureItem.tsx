@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { EQUIPMENT_TYPE_NAME_MAP } from "common/utils";
 import { openEquipmentModal } from "features/modals";
+import goldIcon from "assets/images/icons/GoldCoinTen.png";
 
 interface IGoldProps {
 	onTake: () => Promise<void>;
@@ -23,7 +24,7 @@ export const Gold: React.FC<IGoldProps> = ({ onTake }) => {
 			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
 			<Box display="flex" alignItems="center" gap={2}>
-				<Box component="img" src="https://via.placeholder.com/40" width={40} height={40} alt="25g" />
+				<Box component="img" src={goldIcon} width={40} height={40} alt="25g" />
 				<Typography color="text.secondary">25 Gold</Typography>
 			</Box>
 			<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
@@ -56,6 +57,7 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 		<HoverButton
 			component={Box}
 			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+			onClick={openEquipmentDetailsModal}
 		>
 			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
 				<Box component="img" src={icon || "https://via.placeholder.com/40"} alt={name} width={40} height={40} />
@@ -69,14 +71,9 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 				</Stack>
 			</Box>
 
-			<Box display="flex" alignItems="center" gap={2}>
-				<Link component="button" color="secondary" onClick={openEquipmentDetailsModal}>
-					Details
-				</Link>
-				<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
-					Take
-				</Link>
-			</Box>
+			<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
+				Take
+			</Link>
 		</HoverButton>
 	);
 };

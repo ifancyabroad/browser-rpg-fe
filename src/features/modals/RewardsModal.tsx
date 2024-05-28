@@ -29,7 +29,7 @@ export const RewardsModal: React.FC = () => {
 			<DialogContent>
 				<DialogContentText textAlign="center">
 					You have defeated the{" "}
-					<Box component="span" color="text.secondary">
+					<Box component="span" color="primary.main">
 						{name}
 					</Box>
 					. You gain{" "}
