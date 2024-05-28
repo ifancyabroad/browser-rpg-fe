@@ -211,16 +211,6 @@ export const getEquipmentAsArray = createSelector(characterSelector, ({ characte
 	return mapToArray(character.equipment);
 });
 
-export const getTreasureByLocation = createSelector(characterSelector, ({ character }) => {
-	const currentLocation = character?.map.location;
-	return character?.map.treasure.find(
-		({ location }) =>
-			location.level === currentLocation?.level &&
-			location.x === currentLocation.x &&
-			location.y === currentLocation.y,
-	);
-});
-
 export const getEquipmentBonus = createSelector(
 	getEquipmentAsArray,
 	(equipment) => (type: PropertyType, name: string) => {

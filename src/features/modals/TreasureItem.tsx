@@ -45,7 +45,9 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 	const isLoading = status === "loading";
 	const { icon, name, level, type } = item;
 
-	const handleTakeItem = () => {
+	const handleTakeItem = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		e.preventDefault();
 		onTakeItem(item);
 	};
 

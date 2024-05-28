@@ -25,7 +25,9 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 		setIsConfirmationOpen(false);
 	};
 
-	const openConfirmationModal = () => {
+	const openConfirmationModal = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		e.preventDefault();
 		setIsConfirmationOpen(true);
 	};
 

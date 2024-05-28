@@ -4,8 +4,8 @@ import { closeTreasureModal, openErrorModal, openReplaceItemModal } from "./moda
 import { getAvailableItemSlot } from "common/utils";
 import { Gold, TreasureItem } from "./TreasureItem";
 import { IArmour, IWeapon } from "common/types";
-import { getIsTwoHandedWeaponEquipped, getTreasure, getTreasureByLocation, takeTreasure } from "features/character";
-import { getCurrentLocation } from "features/dungeon";
+import { getIsTwoHandedWeaponEquipped, getTreasure, takeTreasure } from "features/character";
+import { getCurrentLocation, getTreasureByLocation } from "features/dungeon";
 import { useEffect } from "react";
 import { Loader } from "common/components";
 

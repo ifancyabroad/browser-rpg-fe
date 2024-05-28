@@ -55,6 +55,19 @@ export const getCurrentLocation = createSelector(getCurrentRoom, (currentRoom) =
 	return currentRoom.location;
 });
 
+export const getTreasureByLocation = createSelector(
+	characterSelector,
+	getCurrentLocation,
+	({ character }, currentLocation) => {
+		return character?.map.treasure.find(
+			({ location }) =>
+				location.level === currentLocation?.level &&
+				location.x === currentLocation.x &&
+				location.y === currentLocation.y,
+		);
+	},
+);
+
 export const getGridOffset = createSelector(getActualLevel, getCurrentLocation, (level, location) => {
 	if (!location) {
 		return null;
