@@ -3,13 +3,8 @@ import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { ACTION_ROOMS, RoomState, RoomType } from "common/utils";
 import { setCurrentRoom, setPath } from "./dungeonSlice";
-import monsterIcon from "assets/images/icons/Quest_24_scull.png";
-import bossIcon from "assets/images/icons/Quest_48_pirate.png";
-import treasureIcon from "assets/images/icons/Quest_10_treasure.png";
-import merchantIcon from "assets/images/icons/Villager_man.png";
-import restIcon from "assets/images/icons/Campfire_Withfire.png";
-import exitIcon from "assets/images/icons/StoneStairs.png";
 import { useDungeonContext } from "common/context";
+import { RoomTypeIcon } from "common/components";
 
 const BaseTile = styled(Box)({
 	position: "relative",
@@ -54,19 +49,6 @@ const BaseRoom = styled(ButtonBase, {
 	},
 }));
 
-const ROOM_ICON_MAP: Record<RoomType, JSX.Element | null> = {
-	[RoomType.None]: null,
-	[RoomType.Wall]: null,
-	[RoomType.Empty]: null,
-	[RoomType.Battle]: <img src={monsterIcon} alt="Battle" className="battle" />,
-	[RoomType.Boss]: <img src={bossIcon} alt="Boss" className="boss" />,
-	[RoomType.Treasure]: <img src={treasureIcon} alt="Treasure" className="treasure" />,
-	[RoomType.Shop]: <img src={merchantIcon} alt="Merchant" className="merchant" />,
-	[RoomType.Rest]: <img src={restIcon} alt="Rest" className="rest" />,
-	[RoomType.Entrance]: null,
-	[RoomType.Exit]: <img src={exitIcon} alt="Exit" className="exit" />,
-};
-
 interface ITileProps {
 	room: IRoom;
 }
@@ -105,7 +87,7 @@ const Room: React.FC<ITileProps> = ({ room }) => {
 				isAccessible={isAccessible}
 				className={room.state}
 			>
-				{ROOM_ICON_MAP[room.type as RoomType]}
+				<RoomTypeIcon type={room.type} />
 			</BaseRoom>
 		</BaseTile>
 	);

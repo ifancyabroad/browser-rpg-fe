@@ -226,6 +226,32 @@ export const ACTION_ROOMS = [
 	RoomType.Exit,
 ] as const;
 
+export const ROOM_ACTION_NAME_MAP: Record<RoomType, string> = {
+	[RoomType.None]: "",
+	[RoomType.Empty]: "",
+	[RoomType.Wall]: "",
+	[RoomType.Battle]: "Start Battle",
+	[RoomType.Boss]: "Fight Boss",
+	[RoomType.Shop]: "Visit Merchant",
+	[RoomType.Treasure]: "Open Chest",
+	[RoomType.Rest]: "Rest",
+	[RoomType.Entrance]: "",
+	[RoomType.Exit]: "Descend",
+};
+
+export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
+	[RoomType.None]: "",
+	[RoomType.Empty]: "empty",
+	[RoomType.Wall]: "wall",
+	[RoomType.Battle]: "battle",
+	[RoomType.Boss]: "boss",
+	[RoomType.Shop]: "merchant",
+	[RoomType.Treasure]: "treasure",
+	[RoomType.Rest]: "rest",
+	[RoomType.Entrance]: "entrance",
+	[RoomType.Exit]: "exit",
+};
+
 export const TILE_SIZE = 64;
 
 export const MAX_SKILLS = 7;
