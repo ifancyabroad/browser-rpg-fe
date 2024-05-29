@@ -1,62 +1,69 @@
 import {
-	Button,
-	Card,
-	CardActions,
-	CardContent,
-	CardMedia,
+	Box,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogContentText,
 	DialogTitle,
-	IconButton,
+	FormControl,
+	FormControlLabel,
+	FormLabel,
+	Link,
+	Radio,
+	RadioGroup,
 	Stack,
 	Typography,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EQUIPMENT_SLOT_TYPE_MAP, EquipmentSlot } from "common/utils";
-import { buyItem } from "features/character";
-import { closeReplaceItemModal, openErrorModal } from "features/modals";
-import CloseIcon from "@mui/icons-material/Close";
-import { getCurrentLocation } from "features/dungeon";
+import { EQUIPMENT_SLOT_TYPE_MAP, EQUIPMENT_TYPE_NAME_MAP, EquipmentSlot, RoomType } from "common/utils";
+import { buyItem, takeTreasure } from "features/character";
+import { closeReplaceItemModal, closeTreasureModal, openEquipmentModal, openErrorModal } from "features/modals";
+import { getCurrentLocation, getCurrentRoom } from "features/dungeon";
+import { useEffect, useState } from "react";
+import { HoverButton } from "common/components";
 
 interface IProps {
 	item: IArmour | IWeapon | null;
-	slot: EquipmentSlot;
-	onSelectItem: (slot: EquipmentSlot) => void;
+	isSelected: boolean;
 }
 
-const Item: React.FC<IProps> = ({ item, slot, onSelectItem }) => {
-	const status = useAppSelector((state) => state.character.status);
-	const isLoading = status === "loading";
+const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
+	const dispatch = useAppDispatch();
 
 	if (!item) {
 		return null;
 	}
 
-	const { description, icon, name } = item;
-
-	const handleSelectItem = () => {
-		onSelectItem(slot);
+	const handleViewItem = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		dispatch(openEquipmentModal({ item }));
 	};
 
 	return (
-		<Card sx={{ width: 200 }} variant="outlined">
-			<CardMedia sx={{ height: 160 }} image={icon || "https://via.placeholder.com/1024"} title={name} />
-			<CardContent>
-				<Typography gutterBottom variant="h5" component="div">
-					{name}
-				</Typography>
-				<Typography variant="body2" color="text.secondary">
-					{description}
-				</Typography>
-			</CardContent>
-			<CardActions>
-				<Button size="small" onClick={handleSelectItem} disabled={isLoading}>
-					Replace
-				</Button>
-			</CardActions>
-		</Card>
+		<HoverButton
+			component={Box}
+			isActive={isSelected}
+			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+		>
+			<Box display="flex" alignItems="center" gap={2}>
+				<Box
+					component="img"
+					src={item.icon || "https://via.placeholder.com/40"}
+					width={40}
+					height={40}
+					alt={item.name}
+				/>
+				<Stack>
+					<Typography color="text.secondary">{item.name}</Typography>
+					<Typography>
+						Level {item.level} {EQUIPMENT_TYPE_NAME_MAP[item.type]}
+					</Typography>
+				</Stack>
+			</Box>
+			<Link component="button" onClick={handleViewItem}>
+				View Details
+			</Link>
+		</HoverButton>
 	);
 };
 
@@ -65,6 +72,15 @@ export const ReplaceItemModal: React.FC = () => {
 	const { open, item } = useAppSelector((state) => state.modals.replaceItemModal);
 	const character = useAppSelector((state) => state.character.character);
 	const location = useAppSelector(getCurrentLocation);
+	const room = useAppSelector(getCurrentRoom);
+	const status = useAppSelector((state) => state.character.status);
+	const isLoading = status === "loading";
+	const [slot, setSlot] = useState<EquipmentSlot | null>(null);
+
+	useEffect(() => {
+		const sl = item ? EQUIPMENT_SLOT_TYPE_MAP[item.type][0] : null;
+		setSlot(sl);
+	}, [item]);
 
 	if (!character || !item || !location) {
 		return null;
@@ -73,15 +89,28 @@ export const ReplaceItemModal: React.FC = () => {
 	const { id, type } = item;
 	const slots = EQUIPMENT_SLOT_TYPE_MAP[type];
 	const replaceItem = character.equipment[slots[0]]?.name;
-	const message = slots.length > 1 ? "Choose an item to replace" : `Confirm you wish to replace ${replaceItem}`;
 
 	const handleClose = () => {
 		dispatch(closeReplaceItemModal());
 	};
 
-	const handleSelectItem = async (slot: EquipmentSlot) => {
+	const handleSlotChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSlot(event.target.value as EquipmentSlot);
+	};
+
+	const handleSelectItem = async () => {
 		try {
-			await dispatch(buyItem({ id, slot, location })).unwrap();
+			if (!slot) {
+				throw new Error("No item selected");
+			}
+			if (room?.type === RoomType.Shop) {
+				await dispatch(buyItem({ id, slot, location })).unwrap();
+			} else if (room?.type === RoomType.Treasure) {
+				await dispatch(takeTreasure({ id, slot, location })).unwrap();
+				dispatch(closeTreasureModal());
+			} else {
+				throw new Error("Invalid room type");
+			}
 			dispatch(closeReplaceItemModal());
 		} catch (err) {
 			const { message } = err as Error;
@@ -91,27 +120,51 @@ export const ReplaceItemModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Replace item?</DialogTitle>
-			<IconButton
-				aria-label="close"
-				onClick={handleClose}
-				sx={{
-					position: "absolute",
-					right: 8,
-					top: 8,
-					color: (theme) => theme.palette.grey[500],
-				}}
-			>
-				<CloseIcon />
-			</IconButton>
+			<DialogTitle id="form-dialog-title" textAlign="center">
+				Replace item?
+			</DialogTitle>
 			<DialogContent>
-				<DialogContentText mb={2}>{message}</DialogContentText>
-				<Stack direction="row" spacing={2}>
-					{slots.map((slot) => (
-						<Item key={slot} item={character.equipment[slot]} slot={slot} onSelectItem={handleSelectItem} />
-					))}
-				</Stack>
+				{slots.length > 1 ? (
+					<FormControl sx={{ width: "100%", alignItems: "center" }}>
+						<FormLabel id="replace-item-label" sx={{ textAlign: "center", mb: 2 }}>
+							Choose an item to replace
+						</FormLabel>
+						<RadioGroup
+							aria-labelledby="replace-item-label"
+							name="attribute"
+							value={slot}
+							onChange={handleSlotChange}
+							sx={{ gap: 1 }}
+						>
+							{slots.map((sl) => (
+								<FormControlLabel
+									key={sl}
+									value={sl}
+									sx={{ m: 0 }}
+									control={<Radio sx={{ display: "none" }} />}
+									disableTypography
+									label={<ItemLabel item={character.equipment[sl]} isSelected={sl === slot} />}
+								/>
+							))}
+						</RadioGroup>
+					</FormControl>
+				) : (
+					<DialogContentText textAlign="center">
+						Confirm you wish to replace{" "}
+						<Box component="span" color="text.secondary">
+							{replaceItem}
+						</Box>
+					</DialogContentText>
+				)}
 			</DialogContent>
+			<DialogActions>
+				<Link component="button" color="text.secondary" onClick={handleClose}>
+					Cancel
+				</Link>
+				<Link component="button" onClick={handleSelectItem} disabled={isLoading || !slot}>
+					Confirm
+				</Link>
+			</DialogActions>
 		</Dialog>
 	);
 };
