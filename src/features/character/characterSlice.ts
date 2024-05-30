@@ -3,6 +3,7 @@ import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
 import {
 	IApiError,
+	IArmour,
 	IBuyItemPayload,
 	ICharacter,
 	ICharacterClass,
@@ -10,8 +11,9 @@ import {
 	ILevelUpPayload,
 	ILocation,
 	ITreasurePayload,
+	IWeapon,
 } from "common/types";
-import { CharacterSheetTab, PropertyType, Status, WeaponSize, mapToArray } from "common/utils";
+import { CharacterSheetTab, PropertyType, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/battle";
 
 interface ICharacerState {
@@ -205,19 +207,25 @@ export const getIsTwoHandedWeaponEquipped = createSelector(characterSelector, ({
 });
 
 export const getEquipmentAsArray = createSelector(characterSelector, ({ character }) => {
-	if (!character) {
-		return [];
-	}
-	return mapToArray(character.equipment);
+	return character?.equipmentAsArray ?? [];
 });
+
+export const getBaseArmourClass = createSelector(characterSelector, ({ character }) => {
+	return character?.equipment.body?.armourClass ?? 0;
+});
+
+const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType, name: string) => {
+	const properties = item.properties ?? [];
+	const value = properties
+		.filter((property) => property.type === type && property.name === name)
+		.reduce((n, { value }) => n + value, 0);
+	return { name: item.name, value };
+};
 
 export const getEquipmentBonus = createSelector(
 	getEquipmentAsArray,
 	(equipment) => (type: PropertyType, name: string) => {
-		return equipment
-			.flatMap((item) => (item.properties ? item.properties : []))
-			.filter((property) => property.type === type && property.name === name)
-			.reduce((n, { value }) => n + value, 0);
+		return equipment.map((item) => getItemPropertyBonus(item, type, name)).filter(({ value }) => value !== 0);
 	},
 );
 
