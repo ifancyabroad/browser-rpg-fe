@@ -1,6 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeBattleModal, closeRewardsModal } from "./modalsSlice";
+import { closeBattleModal, closeRewardsModal, openLevelUpModal } from "./modalsSlice";
+import { getLevelUpAvailable } from "features/character";
 
 export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -8,10 +9,15 @@ export const RewardsModal: React.FC = () => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
+	const showLevelUp = useAppSelector(getLevelUpAvailable);
 
 	const handleCompleteBattle = async () => {
 		dispatch(closeBattleModal());
 		dispatch(closeRewardsModal());
+
+		if (showLevelUp) {
+			dispatch(openLevelUpModal());
+		}
 	};
 
 	if (!battle || !battle.reward) {

@@ -1,8 +1,8 @@
 import { Box, Drawer, IconButton, Stack, Tab, Tabs, Typography, styled } from "@mui/material";
 import { HealthBar } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { CharacterSheetTab, State } from "common/utils";
-import { closeCharacterSheet, setCharacterSheetTab } from "./characterSlice";
+import { CharacterSheetTab } from "common/utils";
+import { closeCharacterSheet, getLevelUpAvailable, setCharacterSheetTab } from "./characterSlice";
 import { SkillTable } from "./SkillTable";
 import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
@@ -36,6 +36,7 @@ const CharacterContent: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
 	const characterSheetTab = useAppSelector((state) => state.character.characterSheetTab);
+	const showLevelUp = useAppSelector(getLevelUpAvailable);
 
 	const handleChangeTab = (event: React.SyntheticEvent, newValue: CharacterSheetTab) => {
 		dispatch(setCharacterSheetTab(newValue));
@@ -49,8 +50,7 @@ const CharacterContent: React.FC = () => {
 		return null;
 	}
 
-	const { name, hitPoints, maxHitPoints, experience, nextLevelExperience, state } = character;
-	const showLevelUp = experience >= nextLevelExperience && state === State.Idle;
+	const { name, hitPoints, maxHitPoints } = character;
 
 	return (
 		<Stack flex={1} p={2} spacing={5}>

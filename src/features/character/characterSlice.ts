@@ -13,7 +13,7 @@ import {
 	ITreasurePayload,
 	IWeapon,
 } from "common/types";
-import { CharacterSheetTab, PropertyType, Status, WeaponSize } from "common/utils";
+import { CharacterSheetTab, PropertyType, State, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/battle";
 
 interface ICharacerState {
@@ -212,6 +212,14 @@ export const getEquipmentAsArray = createSelector(characterSelector, ({ characte
 
 export const getBaseArmourClass = createSelector(characterSelector, ({ character }) => {
 	return character?.equipment.body?.armourClass ?? 0;
+});
+
+export const getLevelUpAvailable = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return false;
+	}
+	const { experience, nextLevelExperience, state } = character;
+	return experience >= nextLevelExperience && state === State.Idle;
 });
 
 const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType, name: string) => {
