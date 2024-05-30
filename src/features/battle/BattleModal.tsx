@@ -32,13 +32,16 @@ export const BattleModal: React.FC = () => {
 	}, [dispatch, battle, open]);
 
 	useEffect(() => {
-		if (battle?.state === BattleState.Won) {
+		if (!battle || !open) {
+			return;
+		}
+		if (battle.state === BattleState.Won) {
 			dispatch(openRewardsModal());
 		}
-		if (battle?.state === BattleState.Lost) {
+		if (battle.state === BattleState.Lost) {
 			dispatch(openGameOverModal());
 		}
-	}, [dispatch, battle]);
+	}, [dispatch, battle, open]);
 
 	return (
 		<Dialog open={open} maxWidth="md" scroll="body">

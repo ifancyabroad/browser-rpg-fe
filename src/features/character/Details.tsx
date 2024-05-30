@@ -50,7 +50,7 @@ const getValueColor = (value: number, baseValue: number = 0) => {
 const StatBonuses: React.FC<{ bonuses: IBonus[] }> = ({ bonuses }) => (
 	<Stack>
 		{bonuses.map(({ name, value }) => (
-			<Typography color={getValueColor(value)} variant="body2">
+			<Typography key={name} color={getValueColor(value)} variant="body2">
 				{value > 0 ? `+${value}` : value} {name}
 			</Typography>
 		))}

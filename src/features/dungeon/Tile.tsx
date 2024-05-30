@@ -34,7 +34,7 @@ const BaseRoom = styled(ButtonBase, {
 	opacity: isAccessible ? 1 : 0.7,
 	":hover:not(:disabled)": {
 		cursor: "pointer",
-		borderColor: theme.palette.primary.main,
+		borderColor: "#FFF",
 	},
 	img: {
 		width: "50%",

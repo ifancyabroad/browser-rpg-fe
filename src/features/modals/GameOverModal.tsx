@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeGameOverModal } from "./modalsSlice";
+import { closeBattleModal, closeGameOverModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
 import { getDeterminer } from "common/utils";
 import { openLeaderboard } from "features/leaderboard";
@@ -19,6 +19,7 @@ export const GameOverModal: React.FC = () => {
 	};
 
 	const handleGameOver = async () => {
+		dispatch(closeBattleModal());
 		dispatch(closeGameOverModal());
 		navigate("/");
 	};

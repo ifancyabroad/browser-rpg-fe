@@ -79,7 +79,7 @@ export const CharacterCreate: React.FC = () => {
 					flexDirection: "column",
 				}}
 			>
-				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
+				<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
 					<Container maxWidth="lg">
 						<Typography color="text.secondary" textAlign="center" mb={4}>
 							Please select a class

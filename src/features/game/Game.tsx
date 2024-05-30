@@ -39,7 +39,7 @@ export const Game: React.FC = () => {
 			<Box display="flex">
 				<CharacterSheet />
 				<Box flex={1} overflow="auto">
-					<Container sx={{ ml: 0 }}>
+					<Container disableGutters sx={{ ml: 0 }}>
 						<Box
 							sx={{
 								height: "100vh",

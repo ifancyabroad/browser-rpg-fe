@@ -17,7 +17,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
 import { useEffect } from "react";
-import { openErrorModal } from "features/modals";
+import { closeBattleModal, openErrorModal } from "features/modals";
 import { CHARACTER_STATUS_MAP, Status } from "common/utils";
 import { useNavigate } from "react-router-dom";
 
@@ -45,6 +45,7 @@ export const Leaderboard: React.FC = () => {
 	}, [dispatch, open]);
 
 	const handleClose = () => {
+		dispatch(closeBattleModal());
 		dispatch(closeLeaderboard());
 		navigate("/");
 	};

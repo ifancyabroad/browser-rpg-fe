@@ -1,14 +1,15 @@
-import { Box, ButtonBase, Typography, alpha, styled } from "@mui/material";
+import { Box, Link, Typography, alpha, styled } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getCurrentRoom, getIsActiveRoom, setPath } from "./dungeonSlice";
 import { ROOM_ACTION_NAME_MAP, RoomType } from "common/utils";
 import { useDungeonContext } from "common/context";
 import { RoomTypeIcon } from "common/components";
+import { Fragment } from "react";
 
 const Wrapper = styled("div")(({ theme }) => ({
 	position: "absolute",
 	top: 16,
-	right: 24,
+	right: 16,
 	zIndex: 1,
 	border: `1px solid ${theme.palette.grey[300]}`,
 	backgroundColor: alpha(theme.palette.background.default, 0.8),
@@ -16,19 +17,11 @@ const Wrapper = styled("div")(({ theme }) => ({
 }));
 
 const RoomInfo = styled("div")(({ theme }) => ({
-	minHeight: "80px",
-	width: "100%",
+	minHeight: "60px",
 	display: "flex",
 	alignItems: "center",
-	padding: theme.spacing(2),
-}));
-
-const RoomButton = styled(ButtonBase)(({ theme }) => ({
-	minHeight: "80px",
-	width: "100%",
-	justifyContent: "flex-start",
-	gap: theme.spacing(2),
-	padding: theme.spacing(2),
+	gap: theme.spacing(1),
+	padding: theme.spacing(1),
 
 	".window": {
 		height: "40px",
@@ -52,19 +45,21 @@ export const RoomWindow: React.FC = () => {
 
 	return (
 		<Wrapper>
-			<Box p={2} borderBottom={1} borderColor="grey.300">
+			<Box p={1} borderBottom={1} borderColor="grey.300">
 				<Typography>Current Location</Typography>
 			</Box>
-			{isActionRoom ? (
-				<RoomButton onClick={handleLocation}>
-					<RoomTypeIcon type={roomType} className="window" />
-					<Typography color="text.secondary">{ROOM_ACTION_NAME_MAP[roomType as RoomType]}</Typography>
-				</RoomButton>
-			) : (
-				<RoomInfo>
+			<RoomInfo>
+				{isActionRoom ? (
+					<Fragment>
+						<RoomTypeIcon type={roomType} className="window" />
+						<Link component="button" onClick={handleLocation}>
+							{ROOM_ACTION_NAME_MAP[roomType as RoomType]}
+						</Link>
+					</Fragment>
+				) : (
 					<Typography fontStyle="italic">Empty</Typography>
-				</RoomInfo>
-			)}
+				)}
+			</RoomInfo>
 		</Wrapper>
 	);
 };
