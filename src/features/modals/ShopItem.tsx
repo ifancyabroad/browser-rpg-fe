@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { ConfirmationModal, openEquipmentModal } from "features/modals";
 import { Fragment, useState } from "react";
-import { HoverButton } from "common/components";
+import { EquipmentIcon, HoverButton } from "common/components";
 
 interface IProps {
 	item: IArmour | IWeapon;
@@ -17,7 +17,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 	const isLoading = status === "loading";
 	const character = useAppSelector((state) => state.character.character);
 	const gold = character?.gold ?? 0;
-	const { icon, name, price } = item;
+	const { name, price } = item;
 	const isDisabled = Boolean(price > gold);
 
 	const handleBuyItem = async () => {
@@ -47,13 +47,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 				onClick={openEquipmentDetailsModal}
 			>
 				<Box display="flex" alignItems="center" gap={2} overflow="hidden">
-					<Box
-						component="img"
-						src={icon || "https://via.placeholder.com/40"}
-						alt={name}
-						width={40}
-						height={40}
-					/>
+					<EquipmentIcon equipment={item} width={40} />
 					<Stack overflow="hidden">
 						<Typography color="text.secondary" noWrap>
 							{name}

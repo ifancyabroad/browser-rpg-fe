@@ -1,7 +1,7 @@
 import { ROOM_ACTION_NAME_MAP, ROOM_CLASS_NAME_MAP, RoomType } from "common/utils";
 import monsterIcon from "assets/images/icons/Quest_24_scull.png";
 import bossIcon from "assets/images/icons/Quest_48_pirate.png";
-import treasureIcon from "assets/images/icons/Quest_10_treasure.png";
+import treasureIcon from "assets/images/icons/Loot_102_chest.png";
 import merchantIcon from "assets/images/icons/Villager_man.png";
 import restIcon from "assets/images/icons/Campfire_Withfire.png";
 import exitIcon from "assets/images/icons/StoneStairs.png";

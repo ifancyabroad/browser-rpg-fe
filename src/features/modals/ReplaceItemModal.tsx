@@ -21,7 +21,7 @@ import { buyItem, takeTreasure } from "features/character";
 import { closeReplaceItemModal, closeTreasureModal, openEquipmentModal, openErrorModal } from "features/modals";
 import { getCurrentLocation, getCurrentRoom } from "features/dungeon";
 import { useEffect, useState } from "react";
-import { HoverButton } from "common/components";
+import { EquipmentIcon, HoverButton } from "common/components";
 
 interface IProps {
 	item: IArmour | IWeapon | null;
@@ -46,13 +46,7 @@ const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
 			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
 			<Box display="flex" alignItems="center" gap={2}>
-				<Box
-					component="img"
-					src={item.icon || "https://via.placeholder.com/40"}
-					width={40}
-					height={40}
-					alt={item.name}
-				/>
+				<EquipmentIcon equipment={item} width={40} />
 				<Stack>
 					<Typography color="text.secondary">{item.name}</Typography>
 					<Typography>

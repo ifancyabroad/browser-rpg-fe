@@ -37,7 +37,7 @@ export const SkillModal: React.FC = () => {
 				{name}
 			</DialogTitle>
 			<DialogContent>
-				<Stack spacing={1} mb={3}>
+				<Stack spacing={1} mb={2}>
 					<Box display="flex" gap={1}>
 						<Typography color="secondary.main">Level:</Typography>
 						<DialogContentText>{level}</DialogContentText>

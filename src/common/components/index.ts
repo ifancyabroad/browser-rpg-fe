@@ -18,3 +18,4 @@ export * from "./TableRowButton";
 export * from "./HoverButton";
 export * from "./ActiveEffects";
 export * from "./RoomTypeIcon";
+export * from "./EquipmentIcon";

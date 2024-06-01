@@ -1,7 +1,7 @@
-import { TableCell, TableRow, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { EQUIPMENT_SLOT_NAME_MAP, EquipmentSlot } from "common/utils";
 import { IArmour, IWeapon } from "common/types";
-import { EquipmentSlotIcon, EquipmentTypeIcon, TableRowButton } from "common/components";
+import { EquipmentIcon, HoverButton } from "common/components";
 import { useAppDispatch } from "common/hooks";
 import { openEquipmentModal } from "features/modals";
 
@@ -13,7 +13,7 @@ interface IProps {
 export const EquipmentItem: React.FC<IProps> = ({ equipment, slot }) => {
 	const dispatch = useAppDispatch();
 
-	const handleViewEquipment = (e: React.SyntheticEvent<HTMLTableRowElement>) => {
+	const handleViewEquipment = (e: React.SyntheticEvent<HTMLButtonElement>) => {
 		if (equipment) {
 			dispatch(openEquipmentModal({ item: equipment }));
 		}
@@ -21,30 +21,32 @@ export const EquipmentItem: React.FC<IProps> = ({ equipment, slot }) => {
 
 	if (!equipment) {
 		return (
-			<TableRow>
-				<TableCell component="th" scope="row" width={30}>
-					<EquipmentSlotIcon slot={slot} width={24} />
-				</TableCell>
-				<TableCell>
-					<Typography color="secondary.main">{EQUIPMENT_SLOT_NAME_MAP[slot]}</Typography>
-				</TableCell>
-				<TableCell align="center" colSpan={2} sx={{ fontStyle: "italic", color: "text.disabled" }}>
-					Nothing equipped
-				</TableCell>
-			</TableRow>
+			<Box display="flex" alignItems="center" border="1px solid transparent" gap={2} p={1}>
+				<Box
+					sx={{
+						height: "32px",
+						width: "32px",
+						border: "2px dashed",
+						borderColor: "grey.600",
+					}}
+				/>
+				<Typography color="secondary.main">{EQUIPMENT_SLOT_NAME_MAP[slot]}</Typography>
+			</Box>
 		);
 	}
 
 	return (
-		<TableRowButton onClick={handleViewEquipment}>
-			<TableCell component="th" scope="row" width={30}>
-				<EquipmentTypeIcon equipment={equipment} width={24} />
-			</TableCell>
-			<TableCell sx={{ color: "secondary.main" }}>{EQUIPMENT_SLOT_NAME_MAP[slot]}</TableCell>
-			<TableCell>Level {equipment.level}</TableCell>
-			<TableCell align="right" sx={{ color: "text.secondary" }}>
-				{equipment?.name}
-			</TableCell>
-		</TableRowButton>
+		<HoverButton
+			onClick={handleViewEquipment}
+			sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2, p: 1 }}
+		>
+			<Box display="flex" alignItems="center" gap={2}>
+				<EquipmentIcon equipment={equipment} width={32} />
+				<Typography color="secondary.main">{EQUIPMENT_SLOT_NAME_MAP[slot]}</Typography>
+			</Box>
+			<Typography color="text.secondary" textAlign="right" noWrap>
+				{equipment.name}
+			</Typography>
+		</HoverButton>
 	);
 };
