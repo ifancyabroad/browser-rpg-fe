@@ -2,9 +2,10 @@ import { Box, ButtonBase, darken, styled, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector, useFindPath } from "common/hooks";
 import { IRoom } from "common/types";
 import { ACTION_ROOMS, RoomState, RoomType } from "common/utils";
-import { setCurrentRoom, setPath } from "./dungeonSlice";
+import { getCurrentLocation, setCurrentRoom, setPath } from "./dungeonSlice";
 import { useDungeonContext } from "common/context";
 import { RoomTypeIcon } from "common/components";
+import { useMemo } from "react";
 
 const BaseTile = styled(Box)({
 	position: "relative",
@@ -62,6 +63,17 @@ const Room: React.FC<ITileProps> = ({ room }) => {
 	const isDisabled = isLoading || !isAccessible;
 	const isActionRoom = room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
 	const dungeonContext = useDungeonContext();
+	const currentLocation = useAppSelector(getCurrentLocation);
+	const isRoomOccupied = useMemo(() => {
+		if (!currentLocation) {
+			return false;
+		}
+		return (
+			room.location.level === currentLocation.level &&
+			room.location.x === currentLocation.x &&
+			room.location.y === currentLocation.y
+		);
+	}, [currentLocation, room.location]);
 
 	const handleMove = () => {
 		if (!isAccessible) {
@@ -87,7 +99,7 @@ const Room: React.FC<ITileProps> = ({ room }) => {
 				isAccessible={isAccessible}
 				className={room.state}
 			>
-				<RoomTypeIcon type={room.type} />
+				{!isRoomOccupied && <RoomTypeIcon type={room.type} />}
 			</BaseRoom>
 		</BaseTile>
 	);
