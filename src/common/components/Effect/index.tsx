@@ -3,7 +3,7 @@ import { IActiveEffect, IStatus } from "common/types";
 import { Typography } from "@mui/material";
 import { AUXILIARY_EFFECTS_NAME_MAP, AuxiliaryEffect as AuxEffect } from "common/utils";
 import { PropertyList } from "common/components";
-import poisonIcon from "assets/images/icons/Archerskill_38_poison.png";
+import poisonIcon from "assets/images/icons/deadly_potion.png";
 import bleedIcon from "assets/images/icons/Skill_Bleeding.png";
 import stunIcon from "assets/images/icons/skill_3_stuned.png";
 import disarmIcon from "assets/images/icons/Skill_Disarm.png";
