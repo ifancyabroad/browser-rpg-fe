@@ -159,14 +159,14 @@ export const Details: React.FC = () => {
 
 	return (
 		<Grid container spacing={1}>
-			<Grid item xs={12} md={4}>
+			<Grid item xs={4}>
 				<StatList title="Attributes" stats={mappedStats} />
 				<StatList title="Bonuses" stats={bonusStats} />
 			</Grid>
-			<Grid item xs={12} md={4}>
+			<Grid item xs={4}>
 				<StatList title="Resistances" stats={mappedResistances} />
 			</Grid>
-			<Grid item xs={12} md={4}>
+			<Grid item xs={4}>
 				<StatList title="Damage" stats={mappedDamage} />
 			</Grid>
 		</Grid>

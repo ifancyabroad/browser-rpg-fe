@@ -13,7 +13,7 @@ const Wrapper = styled("div")(({ theme }) => ({
 	zIndex: 1,
 	border: `1px solid ${theme.palette.grey[300]}`,
 	backgroundColor: alpha(theme.palette.background.default, 0.8),
-	minWidth: 250,
+	minWidth: 200,
 }));
 
 const RoomInfo = styled("div")(({ theme }) => ({

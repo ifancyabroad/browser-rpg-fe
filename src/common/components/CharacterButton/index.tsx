@@ -1,18 +1,7 @@
-import { Button, ButtonProps, styled } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { useAppDispatch } from "common/hooks";
 import { openCharacterSheet } from "features/character";
-import { ReactComponent as CharacterIcon } from "assets/images/icons/spiked-halo.svg";
-
-const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
-	position: "fixed",
-	bottom: 16,
-	right: 16,
-	borderRadius: "50%",
-	transformOrigin: "50% 50%",
-	height: 64,
-	width: 64,
-	padding: 0,
-}));
+import MenuIcon from "@mui/icons-material/Menu";
 
 export const CharacterButton: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -22,16 +11,17 @@ export const CharacterButton: React.FC = () => {
 	};
 
 	return (
-		<StyledButton
-			aria-label="character"
-			color="primary"
-			variant="contained"
+		<IconButton
 			onClick={handleDrawerToggle}
 			sx={{
 				display: { md: "none" },
+				position: "absolute",
+				top: 8,
+				left: 8,
+				zIndex: 1,
 			}}
 		>
-			<CharacterIcon height={40} width={40} />
-		</StyledButton>
+			<MenuIcon />
+		</IconButton>
 	);
 };

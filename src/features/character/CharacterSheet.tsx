@@ -7,7 +7,6 @@ import { SkillTable } from "./SkillTable";
 import { EquipmentTable } from "./EquipmentTable";
 import { Details } from "./Details";
 import CloseIcon from "@mui/icons-material/Close";
-import logo from "assets/images/logos/browser_heroes.png";
 import { ExperienceBar } from "./ExperienceBar";
 import { openLevelUpModal } from "features/modals";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
@@ -110,44 +109,6 @@ const CharacterContent: React.FC = () => {
 	);
 };
 
-const CharacterHeader: React.FC = () => {
-	const dispatch = useAppDispatch();
-
-	const handleDrawerToggle = () => {
-		dispatch(closeCharacterSheet());
-	};
-
-	return (
-		<Box
-			sx={{
-				display: "flex",
-				alignItems: "center",
-				p: 1,
-				bgcolor: "background.paper",
-				borderBottom: "1px solid #000",
-			}}
-		>
-			<Box
-				sx={{
-					flexGrow: 1,
-					display: "flex",
-					alignItems: "center",
-					gap: 2,
-				}}
-			>
-				<Box component="img" src={logo} height={32} width={32} />
-				<Typography variant="h6" fontFamily="'Cinzel', serif" fontWeight="bold">
-					Browser Heroes
-				</Typography>
-			</Box>
-
-			<IconButton aria-label="close" color="inherit" type="button" onClick={handleDrawerToggle}>
-				<CloseIcon />
-			</IconButton>
-		</Box>
-	);
-};
-
 const DRAWER_WIDTH = 400;
 const DRAWER_TOP = 0;
 
@@ -176,9 +137,11 @@ export const CharacterSheet: React.FC = () => {
 				open={mobileOpen}
 				onClose={handleDrawerToggle}
 				PaperProps={{
+					elevation: 0,
 					sx: {
 						width: DRAWER_WIDTH,
 						maxWidth: "100%",
+						border: "none",
 					},
 				}}
 				ModalProps={{
@@ -191,8 +154,11 @@ export const CharacterSheet: React.FC = () => {
 						border: 0,
 					}}
 				>
-					<CharacterHeader />
 					<CharacterContent />
+
+					<IconButton onClick={handleDrawerToggle} sx={{ position: "absolute", top: 8, right: 8 }}>
+						<CloseIcon />
+					</IconButton>
 				</Box>
 			</Drawer>
 			<Drawer

@@ -8,6 +8,7 @@ import { getActualLevel, getGridOffset, setPath } from "./dungeonSlice";
 import { DungeonContext, dungeonReducer, initialState } from "common/context";
 import { RoomModals } from "./RoomModals";
 import { RoomWindow } from "./RoomWindow";
+import { CharacterButton } from "common/components";
 
 const Canvas = styled("div")({
 	position: "relative",
@@ -64,6 +65,7 @@ export const Dungeon: React.FC = () => {
 	return (
 		<DungeonContext.Provider value={providerState}>
 			<Canvas>
+				<CharacterButton />
 				<RoomWindow />
 				{gridOffset && (
 					<GridWrapper>

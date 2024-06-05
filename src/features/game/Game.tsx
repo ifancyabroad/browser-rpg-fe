@@ -1,5 +1,4 @@
 import { Box, Container } from "@mui/material";
-import { CharacterButton } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { BattleModal } from "features/battle";
@@ -53,7 +52,6 @@ export const Game: React.FC = () => {
 				</Box>
 			</Box>
 
-			<CharacterButton />
 			<RewardsModal />
 			<ReplaceItemModal />
 			<LevelUpModal />
