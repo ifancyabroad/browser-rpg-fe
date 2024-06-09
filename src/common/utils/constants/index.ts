@@ -252,7 +252,7 @@ export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
 	[RoomType.Exit]: "exit",
 };
 
-export const TILE_SIZE = 64;
+export const TILE_SIZE = 16;
 
 export const MAX_SKILLS = 7;
 

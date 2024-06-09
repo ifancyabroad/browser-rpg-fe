@@ -9,7 +9,7 @@ import {
 	ICharacterClass,
 	ICharacterPayload,
 	ILevelUpPayload,
-	ILocation,
+	IMapLocation,
 	ITreasurePayload,
 	IWeapon,
 } from "common/types";
@@ -107,7 +107,7 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 	}
 });
 
-export const rest = createAsyncThunk("character/rest", async (payload: ILocation, { rejectWithValue }) => {
+export const rest = createAsyncThunk("character/rest", async (payload: IMapLocation, { rejectWithValue }) => {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/rest", payload);
 		return response.data.character;
@@ -133,7 +133,7 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
-export const move = createAsyncThunk("character/move", async (payload: ILocation, { rejectWithValue }) => {
+export const move = createAsyncThunk("character/move", async (payload: IMapLocation, { rejectWithValue }) => {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload);
 		return response.data;
@@ -146,7 +146,7 @@ export const move = createAsyncThunk("character/move", async (payload: ILocation
 	}
 });
 
-export const nextLevel = createAsyncThunk("character/nextLevel", async (payload: ILocation, { rejectWithValue }) => {
+export const nextLevel = createAsyncThunk("character/nextLevel", async (payload: IMapLocation, { rejectWithValue }) => {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel", payload);
 		return response.data;
@@ -161,7 +161,7 @@ export const nextLevel = createAsyncThunk("character/nextLevel", async (payload:
 
 export const getTreasure = createAsyncThunk(
 	"character/createTreasure",
-	async (payload: ILocation, { rejectWithValue }) => {
+	async (payload: IMapLocation, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<{ character: ICharacter }>("/api/character/createTreasure", payload);
 			return response.data;

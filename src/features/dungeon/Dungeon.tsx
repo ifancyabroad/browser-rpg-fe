@@ -9,8 +9,9 @@ import { DungeonContext, dungeonReducer, initialState } from "common/context";
 import { RoomModals } from "./RoomModals";
 import { RoomWindow } from "./RoomWindow";
 import { CharacterButton } from "common/components";
+import { Map } from "./Map";
 
-const Canvas = styled("div")({
+const Wrapper = styled("div")({
 	position: "relative",
 	flex: 1,
 	display: "flex",
@@ -31,6 +32,7 @@ const GridWrapper = styled("div")({
 	top: "50%",
 	left: "50%",
 	transform: "translate(-50%, -50%)",
+	display: "none",
 });
 
 const Grid = styled("div", {
@@ -64,9 +66,11 @@ export const Dungeon: React.FC = () => {
 
 	return (
 		<DungeonContext.Provider value={providerState}>
-			<Canvas>
+			<Wrapper>
 				<CharacterButton />
 				<RoomWindow />
+
+				<Map />
 				{gridOffset && (
 					<GridWrapper>
 						<Grid columns={level.length} top={gridOffset.top} left={gridOffset.left}>
@@ -81,7 +85,7 @@ export const Dungeon: React.FC = () => {
 					</GridWrapper>
 				)}
 				<Player image={character.characterClass.icon} />
-			</Canvas>
+			</Wrapper>
 
 			<RoomModals />
 		</DungeonContext.Provider>

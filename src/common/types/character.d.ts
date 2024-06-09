@@ -3,7 +3,7 @@ import {
 	IActiveEffect,
 	IArmour,
 	IEquipment,
-	ILocation,
+	IMapLocation,
 	IMap,
 	ISkill,
 	IStatus,
@@ -78,13 +78,13 @@ export interface ICharacter {
 export interface IBuyItemPayload {
 	id: string;
 	slot: EquipmentSlot;
-	location: ILocation;
+	location: IMapLocation;
 }
 
 export interface ITreasurePayload {
 	id?: string;
 	slot?: EquipmentSlot;
-	location: ILocation;
+	location: IMapLocation;
 }
 
 export interface ILevelUpPayload {
@@ -93,5 +93,5 @@ export interface ILevelUpPayload {
 }
 
 export interface IMovePayload {
-	location: ILocation;
+	location: IMapLocation;
 }

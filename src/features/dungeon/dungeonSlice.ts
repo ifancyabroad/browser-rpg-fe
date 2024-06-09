@@ -1,6 +1,6 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import { ILocation, IRoom } from "common/types";
+import { IMapLocation, IMapData, IRoom } from "common/types";
 import { ACTION_ROOMS, RoomState, TILE_SIZE } from "common/utils";
 import { startBattle } from "features/battle";
 import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
@@ -79,8 +79,17 @@ export const getGridOffset = createSelector(getActualLevel, getCurrentLocation, 
 	};
 });
 
-export const getIsInDisplayedPath = createSelector(dungeonSelector, ({ displayedPath }) => (location: ILocation) => {
+export const getIsInDisplayedPath = createSelector(dungeonSelector, ({ displayedPath }) => (location: IMapLocation) => {
 	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
+});
+
+export const getMapData = createSelector(getActualLevel, (level) => {
+	return {
+		cols: level[0].length,
+		rows: level.length,
+		tsize: TILE_SIZE,
+		map: level,
+	} as IMapData;
 });
 
 export const dungeonSlice = createSlice({

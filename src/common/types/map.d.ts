@@ -1,6 +1,15 @@
 import { RoomState, RoomType } from "@common/utils";
 
 export interface ILocation {
+	x: number;
+	y: number;
+}
+
+export interface IMapLocation extends ILocation {
+	level: number;
+}
+
+export interface IMapLocation {
 	level: number;
 	x: number;
 	y: number;
@@ -9,7 +18,8 @@ export interface ILocation {
 export interface IRoom {
 	state: RoomState;
 	type: RoomType;
-	location: ILocation;
+	location: IMapLocation;
+	tile: ILocation;
 }
 
 type TMapRow = IRoom[];
@@ -18,11 +28,18 @@ type TMap = TMapRow[];
 
 export interface ITreasure {
 	items: (IWeapon | IArmour)[];
-	location: ILocation;
+	location: IMapLocation;
 }
 
 export interface IMap {
 	maps: TMap[];
-	location: ILocation;
+	location: IMapLocation;
 	treasure: ITreasure[];
+}
+
+export interface IMapData {
+	cols: number;
+	rows: number;
+	tsize: number;
+	map: TMap;
 }

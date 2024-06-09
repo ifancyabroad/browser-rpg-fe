@@ -1,7 +1,7 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import type { RootState, AppDispatch } from "app/store";
 import { getActualLevel, getCurrentLocation } from "features/dungeon";
-import { ILocation } from "common/types";
+import { IMapLocation } from "common/types";
 import { RoomState } from "common/utils";
 import { AStarFinder } from "astar-typescript";
 
@@ -10,7 +10,7 @@ type DispatchFunc = () => AppDispatch;
 export const useAppDispatch: DispatchFunc = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useFindPath = (destination: ILocation) => {
+export const useFindPath = (destination: IMapLocation) => {
 	const location = useAppSelector(getCurrentLocation);
 	const level = useAppSelector(getActualLevel);
 
