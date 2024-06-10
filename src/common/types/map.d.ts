@@ -43,3 +43,8 @@ export interface IMapData {
 	tsize: number;
 	map: TMap;
 }
+
+export interface IPlayerData {
+	icon: string;
+	location: ILocation;
+}

@@ -226,6 +226,17 @@ export const ACTION_ROOMS = [
 	RoomType.Exit,
 ] as const;
 
+export const ACCESSIBLE_ROOMS = [
+	RoomType.Empty,
+	RoomType.Battle,
+	RoomType.Boss,
+	RoomType.Shop,
+	RoomType.Treasure,
+	RoomType.Rest,
+	RoomType.Entrance,
+	RoomType.Exit,
+] as const;
+
 export const ROOM_ACTION_NAME_MAP: Record<RoomType, string> = {
 	[RoomType.None]: "",
 	[RoomType.Empty]: "",

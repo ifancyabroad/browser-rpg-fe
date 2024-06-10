@@ -41,7 +41,7 @@ export const CharacterClassModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, skills, equipment, icon, stats } = characterClass;
+	const { name, description, skills, equipment, portrait, stats } = characterClass;
 
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm" scroll="body">
@@ -51,7 +51,7 @@ export const CharacterClassModal: React.FC = () => {
 					<Grid item xs={12} md={5} textAlign="center">
 						<Box
 							component="img"
-							src={icon || "https://via.placeholder.com/1024"}
+							src={portrait || "https://via.placeholder.com/1024"}
 							alt={name}
 							maxHeight="380px"
 						/>

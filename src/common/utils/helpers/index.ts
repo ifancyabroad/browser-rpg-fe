@@ -1,14 +1,15 @@
-import { IArmour, IEquipment, ISkill, IWeapon, TProperty } from "common/types";
+import { IArmour, IEquipment, IRoom, ISkill, IWeapon, TProperty } from "common/types";
 import {
 	DamageType,
 	EffectType,
 	EquipmentSlot,
 	EquipmentType,
+	RoomState,
 	SkillType,
 	Target,
 	WeaponSize,
 } from "common/utils/enums";
-import { DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
+import { ACTION_ROOMS, DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -89,3 +90,7 @@ export const getDamageTypeConfig = (damageType: DamageType) => {
 };
 
 export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" : "a");
+
+export const getIsActionRoom = (room: IRoom) => {
+	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
+};
