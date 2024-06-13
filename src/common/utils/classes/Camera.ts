@@ -3,13 +3,12 @@ import { IMapData } from "common/types";
 interface ICamera {
 	x: number;
 	y: number;
-	move(delta: number, dirx: number, diry: number): void;
+	width: number;
+	height: number;
+	move(x: number, y: number): void;
 }
 
 class Camera implements ICamera {
-	public static SPEED: number = 0;
-	public x: number;
-	public y: number;
 	private maxX: number;
 	private maxY: number;
 
@@ -17,32 +16,33 @@ class Camera implements ICamera {
 	 * Constructor for the Camera class.
 	 *
 	 * @param {IMapData} map - The map data.
+	 * @param {number} x - The x-coordinate of the camera.
+	 * @param {number} y - The y-coordinate of the camera.
 	 * @param {number} width - The width of the camera.
 	 * @param {number} height - The height of the camera.
 	 */
 	constructor(
 		public map: IMapData,
+		public x: number,
+		public y: number,
 		public width: number,
 		public height: number,
 	) {
-		this.x = 0;
-		this.y = 0;
-
 		this.maxX = map.cols * map.tsize - width;
 		this.maxY = map.rows * map.tsize - height;
+		this.move(x, y);
 	}
 
 	/**
-	 * Moves the camera based on the provided direction and speed.
+	 * Moves the camera to the specified coordinates and clamps the camera position within the map boundaries.
 	 *
-	 * @param {number} delta - The time delta for smooth movement.
-	 * @param {number} dirx - The direction of movement on the x-axis.
-	 * @param {number} diry - The direction of movement on the y-axis.
+	 * @param {number} x - The new x-coordinate for the camera.
+	 * @param {number} y - The new y-coordinate for the camera.
 	 */
-	public move(delta: number, dirx: number, diry: number) {
+	public move(x: number, y: number) {
 		// move camera
-		this.x += dirx * Camera.SPEED * delta;
-		this.y += diry * Camera.SPEED * delta;
+		this.x = x;
+		this.y = y;
 
 		// clamp camera
 		this.x = Math.max(0, Math.min(this.maxX, this.x));

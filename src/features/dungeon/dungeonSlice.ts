@@ -1,21 +1,17 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
-import { IMapLocation, IMapData, IRoom, IPlayerData } from "common/types";
+import { IMapData, IRoom, IPlayerData } from "common/types";
 import { ACTION_ROOMS, RoomState, TILE_SIZE } from "common/utils";
 import { startBattle } from "features/battle";
 import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
 
 interface IDungeonState {
-	path: number[][];
-	displayedPath: number[][];
 	currentRoom: IRoom | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
 const initialState: IDungeonState = {
-	path: [],
-	displayedPath: [],
 	currentRoom: null,
 	status: "idle",
 };
@@ -68,21 +64,6 @@ export const getTreasureByLocation = createSelector(
 	},
 );
 
-export const getGridOffset = createSelector(getActualLevel, getCurrentLocation, (level, location) => {
-	if (!location) {
-		return null;
-	}
-
-	return {
-		top: (level.length / 2 - location.y) * (TILE_SIZE + 1) - TILE_SIZE / 2, // +1 for gap between tiles,
-		left: (level.length / 2 - location.x) * (TILE_SIZE + 1) - TILE_SIZE / 2, // +1 for gap between tiles,
-	};
-});
-
-export const getIsInDisplayedPath = createSelector(dungeonSelector, ({ displayedPath }) => (location: IMapLocation) => {
-	return Boolean(displayedPath.find(([x, y]) => x === location.x && y === location.y));
-});
-
 export const getMapData = createSelector(getActualLevel, (level) => {
 	if (!level) {
 		return null;
@@ -109,12 +90,6 @@ export const dungeonSlice = createSlice({
 	name: "dungeon",
 	initialState,
 	reducers: {
-		setDisplayedPath: (state, action: PayloadAction<number[][]>) => {
-			state.displayedPath = action.payload;
-		},
-		setPath: (state, action: PayloadAction<number[][]>) => {
-			state.path = action.payload;
-		},
 		setCurrentRoom: (state, action: PayloadAction<IRoom>) => {
 			state.currentRoom = action.payload;
 		},
@@ -142,6 +117,6 @@ export const dungeonSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setDisplayedPath, setPath, setCurrentRoom } = dungeonSlice.actions;
+export const { setCurrentRoom } = dungeonSlice.actions;
 
 export default dungeonSlice.reducer;

@@ -1,5 +1,5 @@
 import { ILocation, IMapData, IPlayerData, IRoom } from "common/types";
-import { ACCESSIBLE_ROOMS } from "common/utils/constants";
+import { ACCESSIBLE_ROOMS, ROOM_SPRITE_LOCATION_MAP } from "common/utils/constants";
 import { RoomState, RoomType } from "common/utils/enums";
 import Camera from "./Camera";
 import Loader from "./Loader";
@@ -15,20 +15,93 @@ export class Game implements IGame {
 	private _previousElapsed: number = 0;
 	private _tileAtlas: HTMLImageElement | null = null;
 	private _playerIcon: HTMLImageElement | null = null;
-	private _camera: Camera | null = null;
+	private _camera: Camera;
 
 	/**
 	 * Constructor for the Game class.
 	 *
-	 * @param {IMapData} map - The map data.
-	 * @param {CanvasRenderingContext2D | null} ctx - The canvas rendering context.
+	 * @param {IMapData} _map - The map data for the game.
+	 * @param {IPlayerData} _player - The player data for the game.
+	 * @param {HTMLCanvasElement} canvas - The HTML canvas element for rendering.
+	 * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
 	 */
 	constructor(
-		private map: IMapData,
-		private player: IPlayerData,
+		private _map: IMapData,
+		private _player: IPlayerData,
 		public canvas: HTMLCanvasElement,
 		public ctx: CanvasRenderingContext2D,
-	) {}
+	) {
+		this._camera = new Camera(
+			this._map,
+			this._playerLocation.x,
+			this._playerLocation.y,
+			this.canvas.width,
+			this.canvas.height,
+		);
+	}
+
+	/**
+	 * Calculates the player's location on the map based on the player's coordinates and tile size.
+	 *
+	 * @return {ILocation} The calculated player location on the map.
+	 */
+	private get _playerLocation(): ILocation {
+		return { x: this._player.location.x * this._map.tsize, y: this._player.location.y * this._map.tsize };
+	}
+
+	/**
+	 * Returns the starting column index based on the camera's x position and map tile size.
+	 *
+	 * @return {number} The starting column index.
+	 */
+	private get _startCol(): number {
+		return Math.floor(this._camera.x / this._map.tsize);
+	}
+
+	/**
+	 * Calculates the ending column index based on the starting column, camera width, map tile size, and total columns in the map.
+	 *
+	 * @return {number} The calculated ending column index.
+	 */
+	private get _endCol(): number {
+		return Math.min(this._startCol + this._camera.width / this._map.tsize, this._map.cols - 1);
+	}
+
+	/**
+	 * Returns the starting row index based on the camera's y position and map tile size.
+	 *
+	 * @return {number} The starting row index.
+	 */
+	private get _startRow(): number {
+		return Math.floor(this._camera.y / this._map.tsize);
+	}
+
+	/**
+	 * Calculates the ending row index based on the starting row, camera height, map tile size, and total rows in the map.
+	 *
+	 * @return {number} The calculated ending row index.
+	 */
+	private get _endRow(): number {
+		return Math.min(this._startRow + this._camera.height / this._map.tsize, this._map.rows - 1);
+	}
+
+	/**
+	 * Calculates the x-axis offset based on the camera's x position, the starting column, and the map tile size.
+	 *
+	 * @return {number} The calculated x-axis offset.
+	 */
+	private get _offsetX(): number {
+		return -this._camera.x + this._startCol * this._map.tsize;
+	}
+
+	/**
+	 * Calculates the y-axis offset based on the camera's y position, the starting row, and the map tile size.
+	 *
+	 * @return {number} The calculated y-axis offset.
+	 */
+	private get _offsetY(): number {
+		return -this._camera.y + this._startRow * this._map.tsize;
+	}
 
 	/**
 	 * Loads necessary assets for the game, such as images, and returns a Promise array of the loaded images.
@@ -36,16 +109,15 @@ export class Game implements IGame {
 	 * @return {Promise<HTMLImageElement>[]} An array of Promises that resolve with the loaded images.
 	 */
 	private load(): Promise<HTMLImageElement>[] {
-		return [Loader.loadImage("tiles", tilemap), Loader.loadImage("player", this.player.icon)];
+		return [Loader.loadImage("tiles", tilemap), Loader.loadImage("player", this._player.icon)];
 	}
 
 	/**
-	 * Initializes the tileAtlas and camera for the game.
+	 * Initializes the tileAtlas and playerIcon for the game.
 	 */
 	private init() {
 		this._tileAtlas = Loader.getImage("tiles");
 		this._playerIcon = Loader.getImage("player");
-		this._camera = new Camera(this.map, this.canvas.width, this.canvas.height);
 	}
 
 	/**
@@ -53,14 +125,7 @@ export class Game implements IGame {
 	 *
 	 * @param {number} delta - The time elapsed since the last update.
 	 */
-	private update(delta: number) {
-		if (!this._camera) {
-			return;
-		}
-		var dirx = 0;
-		var diry = 0;
-		this._camera.move(delta, dirx, diry);
-	}
+	private update(delta: number) {}
 
 	/**
 	 * Retrieves the tile located at the specified column and row coordinates.
@@ -70,7 +135,7 @@ export class Game implements IGame {
 	 * @return {IRoom | undefined} The tile object at the given coordinates.
 	 */
 	private _getTile(col: number, row: number): IRoom | undefined {
-		return this.map.map[row]?.[col];
+		return this._map.map[row]?.[col];
 	}
 
 	/**
@@ -81,8 +146,8 @@ export class Game implements IGame {
 	 * @return {IRoom | undefined} The room object at the specified coordinates.
 	 */
 	private _getTileAtLocation(x: number, y: number): IRoom | undefined {
-		const col = Math.floor(x / this.map.tsize);
-		const row = Math.floor(y / this.map.tsize);
+		const col = Math.floor(x / this._map.tsize);
+		const row = Math.floor(y / this._map.tsize);
 		return this._getTile(col, row);
 	}
 
@@ -93,7 +158,7 @@ export class Game implements IGame {
 	 * @return {number[][]} - An array of locations representing the path from start to end.
 	 */
 	private _findPath(destination: ILocation): number[][] {
-		const matrix = this.map.map.map((row, y) =>
+		const matrix = this._map.map.map((row, y) =>
 			row.map(({ state }, x) => {
 				if (y === destination.y && x === destination.x) {
 					return 0;
@@ -105,7 +170,7 @@ export class Game implements IGame {
 			grid: { matrix },
 			diagonalAllowed: false,
 		});
-		const startPos = { x: this.player.location.x, y: this.player.location.y };
+		const startPos = { x: this._player.location.x, y: this._player.location.y };
 		const goalPos = { x: destination.x, y: destination.y };
 		return aStarInstance.findPath(startPos, goalPos);
 	}
@@ -126,19 +191,35 @@ export class Game implements IGame {
 
 		this.ctx.drawImage(
 			this._tileAtlas, // image
-			tile.tile.x * this.map.tsize, // source x
-			tile.tile.y * this.map.tsize, // source y
-			this.map.tsize, // source width
-			this.map.tsize, // source height
+			tile.tile.x * this._map.tsize, // source x
+			tile.tile.y * this._map.tsize, // source y
+			this._map.tsize, // source width
+			this._map.tsize, // source height
 			Math.round(x), // target x
 			Math.round(y), // target y
-			this.map.tsize, // target width
-			this.map.tsize, // target height
+			this._map.tsize, // target width
+			this._map.tsize, // target height
 		);
 
 		if (!isAccessible) {
 			this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-			this.ctx.fillRect(Math.round(x), Math.round(y), this.map.tsize, this.map.tsize);
+			this.ctx.fillRect(Math.round(x), Math.round(y), this._map.tsize, this._map.tsize);
+			return;
+		}
+
+		const roomSprite = ROOM_SPRITE_LOCATION_MAP[tile.type as RoomType];
+		if (roomSprite) {
+			this.ctx.drawImage(
+				this._tileAtlas, // image
+				roomSprite.x * this._map.tsize, // source x
+				roomSprite.y * this._map.tsize, // source y
+				this._map.tsize, // source width
+				this._map.tsize, // source height
+				Math.round(x), // target x
+				Math.round(y), // target y
+				this._map.tsize, // target width
+				this._map.tsize, // target height
+			);
 		}
 	}
 
@@ -147,22 +228,11 @@ export class Game implements IGame {
 	 *
 	 */
 	private _drawLayer() {
-		if (!this._camera) {
-			return;
-		}
-
-		const startCol = Math.floor(this._camera.x / this.map.tsize);
-		const endCol = Math.min(startCol + this._camera.width / this.map.tsize, this.map.cols - 1);
-		const startRow = Math.floor(this._camera.y / this.map.tsize);
-		const endRow = Math.min(startRow + this._camera.height / this.map.tsize, this.map.rows - 1);
-		const offsetX = -this._camera.x + startCol * this.map.tsize;
-		const offsetY = -this._camera.y + startRow * this.map.tsize;
-
-		for (let r = startRow; r <= endRow; r++) {
-			for (let c = startCol; c <= endCol; c++) {
+		for (let r = this._startRow; r <= this._endRow; r++) {
+			for (let c = this._startCol; c <= this._endCol; c++) {
 				const tile = this._getTile(c, r);
-				const x = (c - startCol) * this.map.tsize + offsetX;
-				const y = (r - startRow) * this.map.tsize + offsetY;
+				const x = (c - this._startCol) * this._map.tsize + this._offsetX;
+				const y = (r - this._startRow) * this._map.tsize + this._offsetY;
 				if (tile && tile.type !== RoomType.None) {
 					this._drawTile(tile, x, y);
 				}
@@ -182,10 +252,10 @@ export class Game implements IGame {
 
 		this.ctx.drawImage(
 			this._playerIcon, // image
-			this.player.location.x * this.map.tsize, // source x
-			this.player.location.y * this.map.tsize, // source y
-			this.map.tsize, // source width
-			this.map.tsize, // source height
+			this._playerLocation.x + this._offsetX, // destination x
+			this._playerLocation.y + this._offsetY, // destination y
+			this._map.tsize, // destination width
+			this._map.tsize, // destination height
 		);
 	}
 
@@ -211,7 +281,6 @@ export class Game implements IGame {
 		const p = this.load();
 		Promise.all(p).then(() => {
 			this.init();
-			// this.render();
 			window.requestAnimationFrame(this.tick.bind(this));
 		});
 	}
@@ -262,7 +331,8 @@ export class Game implements IGame {
 			return;
 		}
 
-		this.player.location = tile.location;
+		this._player.location = tile.location;
+		this._camera.move(this._playerLocation.x, this._playerLocation.y);
 
 		return tile;
 	}

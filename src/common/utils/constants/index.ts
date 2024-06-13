@@ -1,3 +1,4 @@
+import { ILocation } from "common/types";
 import {
 	ArmourType,
 	AuxiliaryEffect,
@@ -261,6 +262,19 @@ export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
 	[RoomType.Rest]: "rest",
 	[RoomType.Entrance]: "entrance",
 	[RoomType.Exit]: "exit",
+};
+
+export const ROOM_SPRITE_LOCATION_MAP: Record<RoomType, ILocation | null> = {
+	[RoomType.None]: null,
+	[RoomType.Empty]: null,
+	[RoomType.Wall]: null,
+	[RoomType.Battle]: { x: 10, y: 39 },
+	[RoomType.Boss]: { x: 11, y: 39 },
+	[RoomType.Shop]: { x: 9, y: 17 },
+	[RoomType.Treasure]: { x: 8, y: 23 },
+	[RoomType.Rest]: { x: 5, y: 21 },
+	[RoomType.Entrance]: null,
+	[RoomType.Exit]: { x: 8, y: 22 },
 };
 
 export const TILE_SIZE = 16;

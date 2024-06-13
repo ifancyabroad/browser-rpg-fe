@@ -1,6 +1,6 @@
 import { Box, Link, Typography, alpha, styled } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "common/hooks";
-import { getCurrentRoom, getIsActiveRoom, setPath } from "./dungeonSlice";
+import { useAppSelector } from "common/hooks";
+import { getCurrentRoom, getIsActiveRoom } from "./dungeonSlice";
 import { ROOM_ACTION_NAME_MAP, RoomType } from "common/utils";
 import { useDungeonContext } from "common/context";
 import { RoomTypeIcon } from "common/components";
@@ -29,15 +29,12 @@ const RoomInfo = styled("div")(({ theme }) => ({
 }));
 
 export const RoomWindow: React.FC = () => {
-	const dispatch = useAppDispatch();
 	const room = useAppSelector(getCurrentRoom);
 	const roomType = room ? room.type : RoomType.Empty;
 	const isActionRoom = useAppSelector(getIsActiveRoom);
 	const dungeonContext = useDungeonContext();
 
 	const handleLocation = () => {
-		dispatch(setPath([]));
-
 		if (isActionRoom) {
 			dungeonContext.dispatch({ type: "OPEN", payload: roomType });
 		}
