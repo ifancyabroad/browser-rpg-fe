@@ -33,20 +33,11 @@ export class Game implements IGame {
 	) {
 		this._camera = new Camera(
 			this._map,
-			this._playerLocation.x,
-			this._playerLocation.y,
+			this._player.location.x * this._map.tsize,
+			this._player.location.y * this._map.tsize,
 			this.canvas.width,
 			this.canvas.height,
 		);
-	}
-
-	/**
-	 * Calculates the player's location on the map based on the player's coordinates and tile size.
-	 *
-	 * @return {ILocation} The calculated player location on the map.
-	 */
-	private get _playerLocation(): ILocation {
-		return { x: this._player.location.x * this._map.tsize, y: this._player.location.y * this._map.tsize };
 	}
 
 	/**
@@ -59,12 +50,12 @@ export class Game implements IGame {
 	}
 
 	/**
-	 * Calculates the ending column index based on the starting column, camera width, map tile size, and total columns in the map.
+	 * Returns the ending column index based on the starting column, camera width, and map tile size.
 	 *
-	 * @return {number} The calculated ending column index.
+	 * @return {number} The ending column index.
 	 */
 	private get _endCol(): number {
-		return Math.min(this._startCol + this._camera.width / this._map.tsize, this._map.cols - 1);
+		return this._startCol + this._camera.width / this._map.tsize;
 	}
 
 	/**
@@ -77,12 +68,12 @@ export class Game implements IGame {
 	}
 
 	/**
-	 * Calculates the ending row index based on the starting row, camera height, map tile size, and total rows in the map.
+	 * Calculates the ending row index based on the starting row, camera height, and map tile size.
 	 *
-	 * @return {number} The calculated ending row index.
+	 * @return {number} The ending row index.
 	 */
 	private get _endRow(): number {
-		return Math.min(this._startRow + this._camera.height / this._map.tsize, this._map.rows - 1);
+		return this._startRow + this._camera.height / this._map.tsize;
 	}
 
 	/**
@@ -146,8 +137,8 @@ export class Game implements IGame {
 	 * @return {IRoom | undefined} The room object at the specified coordinates.
 	 */
 	private _getTileAtLocation(x: number, y: number): IRoom | undefined {
-		const col = Math.floor(x / this._map.tsize);
-		const row = Math.floor(y / this._map.tsize);
+		const col = Math.floor(x / this._map.tsize) + this._startCol;
+		const row = Math.floor(y / this._map.tsize) + this._startRow;
 		return this._getTile(col, row);
 	}
 
@@ -252,8 +243,8 @@ export class Game implements IGame {
 
 		this.ctx.drawImage(
 			this._playerIcon, // image
-			this._playerLocation.x + this._offsetX, // destination x
-			this._playerLocation.y + this._offsetY, // destination y
+			(this._player.location.x - this._startCol) * this._map.tsize + this._offsetX, // destination x
+			(this._player.location.y - this._startRow) * this._map.tsize + this._offsetY, // destination y
 			this._map.tsize, // destination width
 			this._map.tsize, // destination height
 		);
@@ -298,7 +289,7 @@ export class Game implements IGame {
 		window.requestAnimationFrame(this.tick.bind(this));
 
 		// clear previous frame
-		this.ctx.clearRect(0, 0, 512, 512);
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 		// compute delta time in seconds -- also cap it
 		let delta = (elapsed - this._previousElapsed) / 1000.0;
@@ -332,7 +323,7 @@ export class Game implements IGame {
 		}
 
 		this._player.location = tile.location;
-		this._camera.move(this._playerLocation.x, this._playerLocation.y);
+		this._camera.move(this._player.location.x * this._map.tsize, this._player.location.y * this._map.tsize);
 
 		return tile;
 	}

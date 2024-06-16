@@ -9,9 +9,6 @@ interface ICamera {
 }
 
 class Camera implements ICamera {
-	private maxX: number;
-	private maxY: number;
-
 	/**
 	 * Constructor for the Camera class.
 	 *
@@ -28,8 +25,6 @@ class Camera implements ICamera {
 		public width: number,
 		public height: number,
 	) {
-		this.maxX = map.cols * map.tsize - width;
-		this.maxY = map.rows * map.tsize - height;
 		this.move(x, y);
 	}
 
@@ -40,13 +35,8 @@ class Camera implements ICamera {
 	 * @param {number} y - The new y-coordinate for the camera.
 	 */
 	public move(x: number, y: number) {
-		// move camera
-		this.x = x;
-		this.y = y;
-
-		// clamp camera
-		this.x = Math.max(0, Math.min(this.maxX, this.x));
-		this.y = Math.max(0, Math.min(this.maxY, this.y));
+		this.x = x - this.width / 2;
+		this.y = y - this.height / 2;
 	}
 }
 
