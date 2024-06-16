@@ -90,12 +90,12 @@ export const CharacterCreate: React.FC = () => {
 							</Box>
 						) : (
 							<Grid container spacing={2} justifyContent="center">
-								{classes.map(({ id, icon, name, description }) => (
+								{classes.map(({ id, portrait, name, description }) => (
 									<Grid key={id} item xs={12} sm={3}>
 										<Card>
 											<CardMedia
 												sx={{ height: 300, backgroundPosition: "top" }}
-												image={icon}
+												image={portrait}
 												title={name}
 											/>
 											<CardContent>
