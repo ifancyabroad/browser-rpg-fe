@@ -4,7 +4,7 @@ import { RoomState, RoomType } from "common/utils/enums";
 import Camera from "./Camera";
 import Loader from "./Loader";
 import { AStarFinder } from "astar-typescript";
-import tilemap from "assets/images/tilemap/tilemap.png";
+import tilemap from "assets/images/tilemap/tilemap2.png";
 
 interface IGame {
 	run(): void;
@@ -137,8 +137,8 @@ export class Game implements IGame {
 	 * @return {IRoom | undefined} The room object at the specified coordinates.
 	 */
 	private _getTileAtLocation(x: number, y: number): IRoom | undefined {
-		const col = Math.floor(x / this._map.tsize) + this._startCol;
-		const row = Math.floor(y / this._map.tsize) + this._startRow;
+		const col = Math.round(x / this._map.tsize) + this._startCol;
+		const row = Math.round(y / this._map.tsize) + this._startRow;
 		return this._getTile(col, row);
 	}
 

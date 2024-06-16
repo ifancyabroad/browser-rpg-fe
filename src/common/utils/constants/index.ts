@@ -268,16 +268,16 @@ export const ROOM_SPRITE_LOCATION_MAP: Record<RoomType, ILocation | null> = {
 	[RoomType.None]: null,
 	[RoomType.Empty]: null,
 	[RoomType.Wall]: null,
-	[RoomType.Battle]: { x: 10, y: 39 },
-	[RoomType.Boss]: { x: 11, y: 39 },
-	[RoomType.Shop]: { x: 9, y: 17 },
-	[RoomType.Treasure]: { x: 8, y: 23 },
-	[RoomType.Rest]: { x: 5, y: 21 },
+	[RoomType.Battle]: { x: 5, y: 31 },
+	[RoomType.Boss]: { x: 5, y: 33 },
+	[RoomType.Shop]: { x: 9, y: 19 },
+	[RoomType.Treasure]: { x: 8, y: 25 },
+	[RoomType.Rest]: { x: 5, y: 23 },
 	[RoomType.Entrance]: null,
-	[RoomType.Exit]: { x: 8, y: 22 },
+	[RoomType.Exit]: { x: 8, y: 24 },
 };
 
-export const TILE_SIZE = 16;
+export const TILE_SIZE = 32;
 
 export const MAX_SKILLS = 7;
 
