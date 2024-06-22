@@ -19,7 +19,6 @@ export interface IRoom {
 	state: RoomState;
 	type: RoomType;
 	location: IMapLocation;
-	tile: ILocation;
 }
 
 type TMapRow = IRoom[];
@@ -37,14 +36,21 @@ export interface IMap {
 	treasure: ITreasure[];
 }
 
+export interface IRoomData extends IRoom {
+	tile: ILocation;
+	sprite: ILocation;
+}
+
+type TMapDataRow = IRoomData[];
+
+type TMapData = TMapDataRow[];
+
 export interface IMapData {
-	cols: number;
-	rows: number;
 	tsize: number;
-	map: TMap;
+	maps: TMapData[];
 }
 
 export interface IPlayerData {
 	icon: string;
-	location: ILocation;
+	location: IMapLocation;
 }

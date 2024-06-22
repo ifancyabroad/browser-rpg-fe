@@ -264,17 +264,42 @@ export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
 	[RoomType.Exit]: "exit",
 };
 
-export const ROOM_SPRITE_LOCATION_MAP: Record<RoomType, ILocation | null> = {
+const EMPTY_TILE = { x: 0, y: 0 };
+const GROUND_TILE = { x: 6, y: 10 };
+const TREE_TILE = { x: 4, y: 4 };
+const TREES_TILE = { x: 4, y: 5 };
+
+export const TILE_LOCATION_MAP: Record<RoomType, ILocation[]> = {
+	[RoomType.None]: [EMPTY_TILE],
+	[RoomType.Empty]: [GROUND_TILE],
+	[RoomType.Wall]: [TREE_TILE, TREES_TILE],
+	[RoomType.Battle]: [GROUND_TILE],
+	[RoomType.Boss]: [GROUND_TILE],
+	[RoomType.Shop]: [GROUND_TILE],
+	[RoomType.Treasure]: [GROUND_TILE],
+	[RoomType.Rest]: [GROUND_TILE],
+	[RoomType.Entrance]: [GROUND_TILE],
+	[RoomType.Exit]: [GROUND_TILE],
+};
+
+const BATTLE_SPRITE = { x: 5, y: 31 };
+const BOSS_SPRITE = { x: 5, y: 33 };
+const SHOP_SPRITE = { x: 9, y: 19 };
+const TREASURE_SPRITE = { x: 8, y: 25 };
+const REST_SPRITE = { x: 5, y: 23 };
+const EXIT_SPRITE = { x: 8, y: 24 };
+
+export const SPRITE_LOCATION_MAP: Record<RoomType, ILocation | null> = {
 	[RoomType.None]: null,
 	[RoomType.Empty]: null,
 	[RoomType.Wall]: null,
-	[RoomType.Battle]: { x: 5, y: 31 },
-	[RoomType.Boss]: { x: 5, y: 33 },
-	[RoomType.Shop]: { x: 9, y: 19 },
-	[RoomType.Treasure]: { x: 8, y: 25 },
-	[RoomType.Rest]: { x: 5, y: 23 },
+	[RoomType.Battle]: BATTLE_SPRITE,
+	[RoomType.Boss]: BOSS_SPRITE,
+	[RoomType.Shop]: SHOP_SPRITE,
+	[RoomType.Treasure]: TREASURE_SPRITE,
+	[RoomType.Rest]: REST_SPRITE,
 	[RoomType.Entrance]: null,
-	[RoomType.Exit]: { x: 8, y: 24 },
+	[RoomType.Exit]: EXIT_SPRITE,
 };
 
 export const TILE_SIZE = 32;

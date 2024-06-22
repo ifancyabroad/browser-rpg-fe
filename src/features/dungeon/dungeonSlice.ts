@@ -1,7 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { IMapData, IRoom, IPlayerData } from "common/types";
-import { ACTION_ROOMS, RoomState, TILE_SIZE } from "common/utils";
+import { ACTION_ROOMS, RoomState, TILE_SIZE, getMapTile } from "common/utils";
 import { startBattle } from "features/battle";
 import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
 
@@ -64,15 +64,13 @@ export const getTreasureByLocation = createSelector(
 	},
 );
 
-export const getMapData = createSelector(getActualLevel, (level) => {
-	if (!level) {
+export const getMapData = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
 		return null;
 	}
 	return {
-		cols: level[0].length,
-		rows: level.length,
 		tsize: TILE_SIZE,
-		map: level,
+		maps: character.map.maps.map((map) => map.map((row) => row.map(getMapTile))),
 	} as IMapData;
 });
 

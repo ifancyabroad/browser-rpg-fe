@@ -1,5 +1,5 @@
-import { ILocation, IMapData, IPlayerData, IRoom } from "common/types";
-import { ACCESSIBLE_ROOMS, ROOM_SPRITE_LOCATION_MAP } from "common/utils/constants";
+import { ILocation, IMapData, IPlayerData, IRoomData, TMapData } from "common/types";
+import { ACCESSIBLE_ROOMS } from "common/utils/constants";
 import { RoomState, RoomType } from "common/utils/enums";
 import Camera from "./Camera";
 import Loader from "./Loader";
@@ -38,6 +38,15 @@ export class Game implements IGame {
 			this.canvas.width,
 			this.canvas.height,
 		);
+	}
+
+	/**
+	 * Returns the active map based on the player's current location.
+	 *
+	 * @return {TMapData} The active map based on the player's current location.
+	 */
+	private get _activeMap(): TMapData {
+		return this._map.maps[this._player.location.level];
 	}
 
 	/**
@@ -123,10 +132,10 @@ export class Game implements IGame {
 	 *
 	 * @param {number} col - The column index of the tile.
 	 * @param {number} row - The row index of the tile.
-	 * @return {IRoom | undefined} The tile object at the given coordinates.
+	 * @return {IRoomData | undefined} The tile object at the given coordinates.
 	 */
-	private _getTile(col: number, row: number): IRoom | undefined {
-		return this._map.map[row]?.[col];
+	private _getTile(col: number, row: number): IRoomData | undefined {
+		return this._activeMap[row]?.[col];
 	}
 
 	/**
@@ -134,9 +143,9 @@ export class Game implements IGame {
 	 *
 	 * @param {number} x - The x coordinate for the location.
 	 * @param {number} y - The y coordinate for the location.
-	 * @return {IRoom | undefined} The room object at the specified coordinates.
+	 * @return {IRoomData | undefined} The room object at the specified coordinates.
 	 */
-	private _getTileAtLocation(x: number, y: number): IRoom | undefined {
+	private _getTileAtLocation(x: number, y: number): IRoomData | undefined {
 		const col = Math.round(x / this._map.tsize) + this._startCol;
 		const row = Math.round(y / this._map.tsize) + this._startRow;
 		return this._getTile(col, row);
@@ -149,7 +158,7 @@ export class Game implements IGame {
 	 * @return {number[][]} - An array of locations representing the path from start to end.
 	 */
 	private _findPath(destination: ILocation): number[][] {
-		const matrix = this._map.map.map((row, y) =>
+		const matrix = this._activeMap.map((row, y) =>
 			row.map(({ state }, x) => {
 				if (y === destination.y && x === destination.x) {
 					return 0;
@@ -169,11 +178,11 @@ export class Game implements IGame {
 	/**
 	 * Draws a tile on the canvas at the specified coordinates.
 	 *
-	 * @param {IRoom} tile - The tile to be drawn.
+	 * @param {IRoomData} tile - The tile to be drawn.
 	 * @param {number} x - The x-coordinate for the tile.
 	 * @param {number} y - The y-coordinate for the tile.
 	 */
-	private _drawTile(tile: IRoom, x: number, y: number) {
+	private _drawTile(tile: IRoomData, x: number, y: number) {
 		if (!this._tileAtlas) {
 			return;
 		}
@@ -198,12 +207,11 @@ export class Game implements IGame {
 			return;
 		}
 
-		const roomSprite = ROOM_SPRITE_LOCATION_MAP[tile.type as RoomType];
-		if (roomSprite) {
+		if (tile.sprite) {
 			this.ctx.drawImage(
 				this._tileAtlas, // image
-				roomSprite.x * this._map.tsize, // source x
-				roomSprite.y * this._map.tsize, // source y
+				tile.sprite.x * this._map.tsize, // source x
+				tile.sprite.y * this._map.tsize, // source y
 				this._map.tsize, // source width
 				this._map.tsize, // source height
 				Math.round(x), // target x
@@ -305,9 +313,9 @@ export class Game implements IGame {
 	 *
 	 * @param {number} x - The x-coordinate of the new location.
 	 * @param {number} y - The y-coordinate of the new location.
-	 * @return {IRoom | undefined} The room at the new location or undefined if no room is found.
+	 * @return {IRoomData | undefined} The room at the new location or undefined if no room is found.
 	 */
-	public move(x: number, y: number): IRoom | undefined {
+	public move(x: number, y: number): IRoomData | undefined {
 		const tile = this._getTileAtLocation(x, y);
 
 		if (!tile) {

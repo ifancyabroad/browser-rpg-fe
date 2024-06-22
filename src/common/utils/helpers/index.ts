@@ -1,15 +1,23 @@
-import { IArmour, IEquipment, IRoom, ISkill, IWeapon, TProperty } from "common/types";
+import { IArmour, IEquipment, IRoom, IRoomData, ISkill, IWeapon, TProperty } from "common/types";
 import {
 	DamageType,
 	EffectType,
 	EquipmentSlot,
 	EquipmentType,
 	RoomState,
+	RoomType,
 	SkillType,
 	Target,
 	WeaponSize,
 } from "common/utils/enums";
-import { ACTION_ROOMS, DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
+import {
+	ACTION_ROOMS,
+	DAMAGE_CONFIG,
+	EQUIPMENT_SLOT_TYPE_MAP,
+	PROPERTY_CONFIG,
+	SPRITE_LOCATION_MAP,
+	TILE_LOCATION_MAP,
+} from "common/utils/constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -93,4 +101,16 @@ export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" :
 
 export const getIsActionRoom = (room: IRoom) => {
 	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
+};
+
+export const getRandomElement = <T>(arr: T[]) => {
+	return arr[Math.floor(Math.random() * arr.length)];
+};
+
+export const getMapTile = (room: IRoom) => {
+	return {
+		...room,
+		tile: getRandomElement(TILE_LOCATION_MAP[room.type as RoomType]),
+		sprite: SPRITE_LOCATION_MAP[room.type as RoomType],
+	} as IRoomData;
 };
