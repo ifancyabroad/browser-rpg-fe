@@ -147,7 +147,7 @@ export class Game implements IGame {
 	 * @return {IRoomData | undefined} The room object at the specified coordinates.
 	 */
 	private _getTileAtLocation(x: number, y: number): IRoomData | undefined {
-		const col = Math.round(x / this._map.tsize) + this._startCol;
+		const col = Math.floor(x / this._map.tsize) + this._startCol;
 		const row = Math.round(y / this._map.tsize) + this._startRow;
 		return this._getTile(col, row);
 	}
@@ -337,6 +337,12 @@ export class Game implements IGame {
 		return tile;
 	}
 
+	/**
+	 * Highlights the room that the player can move to based on the provided coordinates.
+	 *
+	 * @param {number} x - The x-coordinate of the location to highlight.
+	 * @param {number} y - The y-coordinate of the location to highlight.
+	 */
 	public hover(x: number, y: number) {
 		const tile = this._getTileAtLocation(x, y);
 
