@@ -5,7 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import { getIsActionRoom } from "common/utils";
 import { useDungeonContext } from "common/context";
 
-export const Map: React.FC = () => {
+interface IProps {
+	height: number;
+	width: number;
+}
+
+export const Map: React.FC<IProps> = ({ height, width }) => {
 	const dispatch = useAppDispatch();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const mapData = useAppSelector(getMapData);
@@ -69,9 +74,9 @@ export const Map: React.FC = () => {
 			ref={canvasRef}
 			onClick={handleMove}
 			onMouseMove={handleHover}
-			width={800}
-			height={600}
-			style={{ width: 800, height: 600 }}
+			width={width}
+			height={height}
+			style={{ width, height }}
 		/>
 	);
 };
