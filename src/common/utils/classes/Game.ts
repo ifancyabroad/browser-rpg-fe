@@ -14,6 +14,7 @@ interface IGame {
 
 export class Game implements IGame {
 	private _previousElapsed: number = 0;
+	private _cursorLocation: ILocation | null = null;
 	private _tileAtlas: HTMLImageElement | null = null;
 	private _playerIcon: HTMLImageElement | null = null;
 	private _camera: Camera;
@@ -260,6 +261,42 @@ export class Game implements IGame {
 	}
 
 	/**
+	 * Draws the cursor on the canvas at the specified location.
+	 * The cursor is drawn as a yellow box.
+	 *
+	 * @returns {void} Does not return anything.
+	 */
+	private drawCursor(): void {
+		if (!this._cursorLocation) {
+			return;
+		}
+
+		this.ctx.lineWidth = 2;
+		this.ctx.strokeStyle = "#fce94f";
+
+		const startX = (this._cursorLocation.x - this._startCol) * this._map.tsize + this._offsetX;
+		const startY = (this._cursorLocation.y - this._startRow) * this._map.tsize + this._offsetY;
+		const length = this._map.tsize / 4;
+		const gap = this._map.tsize / 2;
+
+		this.ctx.beginPath();
+		this.ctx.moveTo(startX, startY);
+		this.ctx.lineTo(startX + length, startY);
+		this.ctx.moveTo(startX + length + gap, startY);
+		this.ctx.lineTo(startX + length + gap + length, startY);
+		this.ctx.lineTo(startX + length + gap + length, startY + length);
+		this.ctx.moveTo(startX + length + gap + length, startY + length + gap);
+		this.ctx.lineTo(startX + length + gap + length, startY + length + gap + length);
+		this.ctx.lineTo(startX + length + gap, startY + length + gap + length);
+		this.ctx.moveTo(startX + length, startY + length + gap + length);
+		this.ctx.lineTo(startX, startY + length + gap + length);
+		this.ctx.lineTo(startX, startY + length + gap);
+		this.ctx.moveTo(startX, startY + length);
+		this.ctx.lineTo(startX, startY);
+		this.ctx.stroke();
+	}
+
+	/**
 	 * Renders the game by drawing the layer.
 	 *
 	 */
@@ -269,6 +306,9 @@ export class Game implements IGame {
 
 		// draw player
 		this._drawPlayer();
+
+		// draw cursor
+		this.drawCursor();
 	}
 
 	/**
@@ -347,28 +387,24 @@ export class Game implements IGame {
 		const tile = this._getTileAtLocation(x, y);
 
 		if (!tile) {
+			this._cursorLocation = null;
 			this.canvas.style.cursor = "default";
 			return;
 		}
 
 		if (!ACCESSIBLE_ROOMS.includes(tile.type)) {
+			this._cursorLocation = null;
 			this.canvas.style.cursor = "default";
 			return;
 		}
 
 		if (!this._findPath(tile.location).length) {
+			this._cursorLocation = null;
 			this.canvas.style.cursor = "default";
 			return;
 		}
 
-		this.ctx.strokeStyle = "#fce94f";
-		this.ctx.strokeRect(
-			tile.location.x * this._map.tsize,
-			tile.location.y * this._map.tsize,
-			this._map.tsize,
-			this._map.tsize,
-		);
-
+		this._cursorLocation = tile.location;
 		this.canvas.style.cursor = "pointer";
 	}
 }
