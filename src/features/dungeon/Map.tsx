@@ -53,5 +53,25 @@ export const Map: React.FC = () => {
 		}
 	};
 
-	return <canvas ref={canvasRef} onClick={handleMove} width={800} height={600} style={{ width: 800, height: 600 }} />;
+	const handleHover = (e: React.MouseEvent<HTMLCanvasElement>) => {
+		if (!game) {
+			return;
+		}
+		const rect = e.currentTarget.getBoundingClientRect();
+		const x = e.clientX - rect.left;
+		const y = e.clientY - rect.top;
+
+		game.hover(x, y);
+	};
+
+	return (
+		<canvas
+			ref={canvasRef}
+			onClick={handleMove}
+			onMouseMove={handleHover}
+			width={800}
+			height={600}
+			style={{ width: 800, height: 600 }}
+		/>
+	);
 };

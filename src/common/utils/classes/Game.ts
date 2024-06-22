@@ -9,6 +9,7 @@ import tilemap from "assets/images/tilemap/tilemap2.png";
 interface IGame {
 	run(): void;
 	move(x: number, y: number): void;
+	hover(x: number, y: number): void;
 }
 
 export class Game implements IGame {
@@ -334,5 +335,34 @@ export class Game implements IGame {
 		this._camera.move(this._player.location.x * this._map.tsize, this._player.location.y * this._map.tsize);
 
 		return tile;
+	}
+
+	public hover(x: number, y: number) {
+		const tile = this._getTileAtLocation(x, y);
+
+		if (!tile) {
+			this.canvas.style.cursor = "default";
+			return;
+		}
+
+		if (!ACCESSIBLE_ROOMS.includes(tile.type)) {
+			this.canvas.style.cursor = "default";
+			return;
+		}
+
+		if (!this._findPath(tile.location).length) {
+			this.canvas.style.cursor = "default";
+			return;
+		}
+
+		this.ctx.strokeStyle = "#fce94f";
+		this.ctx.strokeRect(
+			tile.location.x * this._map.tsize,
+			tile.location.y * this._map.tsize,
+			this._map.tsize,
+			this._map.tsize,
+		);
+
+		this.canvas.style.cursor = "pointer";
 	}
 }
