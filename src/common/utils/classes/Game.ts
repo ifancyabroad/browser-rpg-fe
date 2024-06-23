@@ -155,6 +155,7 @@ export class Game implements IGame {
 
 	/**
 	 * Finds a path from the current player position to the given destination location using A* pathfinding algorithm.
+	 * Incredibly inefficient, use sparingly.
 	 *
 	 * @param {ILocation} destination - The destination location to find a path to.
 	 * @return {number[][]} - An array of locations representing the path from start to end.
@@ -189,8 +190,6 @@ export class Game implements IGame {
 			return;
 		}
 
-		const isAccessible = this._findPath(tile.location).length > 0;
-
 		this.ctx.drawImage(
 			this._tileAtlas, // image
 			tile.tile.x * this._map.tsize, // source x
@@ -203,13 +202,7 @@ export class Game implements IGame {
 			this._map.tsize, // target height
 		);
 
-		if (!isAccessible) {
-			this.ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-			this.ctx.fillRect(Math.round(x), Math.round(y), this._map.tsize, this._map.tsize);
-			return;
-		}
-
-		if (tile.sprite) {
+		if (tile.sprite && tile.state !== RoomState.Complete && tile.location !== this._player.location) {
 			this.ctx.drawImage(
 				this._tileAtlas, // image
 				tile.sprite.x * this._map.tsize, // source x
@@ -387,18 +380,6 @@ export class Game implements IGame {
 		const tile = this._getTileAtLocation(x, y);
 
 		if (!tile) {
-			this._cursorLocation = null;
-			this.canvas.style.cursor = "default";
-			return;
-		}
-
-		if (!ACCESSIBLE_ROOMS.includes(tile.type)) {
-			this._cursorLocation = null;
-			this.canvas.style.cursor = "default";
-			return;
-		}
-
-		if (!this._findPath(tile.location).length) {
 			this._cursorLocation = null;
 			this.canvas.style.cursor = "default";
 			return;

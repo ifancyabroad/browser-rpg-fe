@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Game } from "common/utils/classes/Game";
 import { getMapData, getPlayerData, setCurrentRoom } from "./dungeonSlice";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { getIsActionRoom } from "common/utils";
 import { useDungeonContext } from "common/context";
 
@@ -10,7 +10,7 @@ interface IProps {
 	width: number;
 }
 
-export const Map: React.FC<IProps> = ({ height, width }) => {
+export const Map: React.FC<IProps> = memo(({ height, width }) => {
 	const dispatch = useAppDispatch();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const mapData = useAppSelector(getMapData);
@@ -79,4 +79,4 @@ export const Map: React.FC<IProps> = ({ height, width }) => {
 			style={{ width, height }}
 		/>
 	);
-};
+});
