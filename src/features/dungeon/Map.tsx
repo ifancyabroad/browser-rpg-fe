@@ -35,6 +35,12 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 		}
 	}, [game]);
 
+	useEffect(() => {
+		if (game && mapData && playerData) {
+			game.setData(mapData, playerData);
+		}
+	}, [game, mapData, playerData]);
+
 	const handleMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		if (!game) {
 			return;

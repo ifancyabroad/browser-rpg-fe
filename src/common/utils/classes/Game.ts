@@ -388,4 +388,9 @@ export class Game implements IGame {
 		this._cursorLocation = tile.location;
 		this.canvas.style.cursor = "pointer";
 	}
+
+	public setData(map: IMapData, player: IPlayerData) {
+		this._map = map;
+		this._player = player;
+	}
 }
