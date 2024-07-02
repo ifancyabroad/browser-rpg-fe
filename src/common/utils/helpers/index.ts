@@ -103,14 +103,10 @@ export const getIsActionRoom = (room: IRoom) => {
 	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
 };
 
-export const getRandomElement = <T>(arr: T[]) => {
-	return arr[Math.floor(Math.random() * arr.length)];
-};
-
 export const getMapTile = (room: IRoom) => {
 	return {
 		...room,
-		tile: getRandomElement(TILE_LOCATION_MAP[room.type as RoomType]),
+		tile: TILE_LOCATION_MAP[room.type as RoomType],
 		sprite: SPRITE_LOCATION_MAP[room.type as RoomType],
 	} as IRoomData;
 };

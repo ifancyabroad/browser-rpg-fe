@@ -169,7 +169,7 @@ export const CombatLog: React.FC<IProps> = ({ turns }) => {
 				p: 2,
 			}}
 		>
-			<Box position="relative" height={{ xs: 200, lg: "100%" }}>
+			<Box position="relative" height={{ xs: 200, md: "100%" }}>
 				<Box
 					sx={{
 						position: "absolute",
