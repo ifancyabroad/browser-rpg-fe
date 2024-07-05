@@ -1,7 +1,7 @@
 import { PayloadAction, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { IMapData, IRoom, IPlayerData } from "common/types";
-import { ACTION_ROOMS, RoomState, TILE_SIZE, getMapTile } from "common/utils";
+import { ACTION_ROOMS, RoomState, RoomType, TILE_SIZE, getLevelConfig } from "common/utils";
 import { startBattle } from "features/battle";
 import { buyItem, characterSelector, getTreasure, nextLevel, rest, takeTreasure } from "features/character";
 
@@ -68,9 +68,20 @@ export const getMapData = createSelector(characterSelector, ({ character }) => {
 	if (!character) {
 		return null;
 	}
+
+	const { spriteLocationMap, tileLocationMap } = getLevelConfig(character.map.location.level);
+
 	return {
 		tsize: TILE_SIZE,
-		maps: character.map.maps.map((map) => map.map((row) => row.map(getMapTile))),
+		maps: character.map.maps.map((map) =>
+			map.map((row) =>
+				row.map((room) => ({
+					...room,
+					tile: tileLocationMap[room.type as RoomType],
+					sprite: spriteLocationMap[room.type as RoomType],
+				})),
+			),
+		),
 	} as IMapData;
 });
 

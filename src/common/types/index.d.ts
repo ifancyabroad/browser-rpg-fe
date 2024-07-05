@@ -13,3 +13,4 @@ export * from "./battle";
 export * from "./skill";
 export * from "./equipment";
 export * from "./map";
+export * from "./level";

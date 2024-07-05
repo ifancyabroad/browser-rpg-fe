@@ -148,7 +148,7 @@ export class Game implements IGame {
 	 * @return {IRoomData | undefined} The room object at the specified coordinates.
 	 */
 	private _getTileAtLocation(x: number, y: number): IRoomData | undefined {
-		const col = Math.floor(x / this._map.tsize) + this._startCol;
+		const col = Math.ceil(x / this._map.tsize) + this._startCol;
 		const row = Math.round(y / this._map.tsize) + this._startRow;
 		return this._getTile(col, row);
 	}
