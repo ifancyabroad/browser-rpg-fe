@@ -53,7 +53,7 @@ export const CharacterClassModal: React.FC = () => {
 							component="img"
 							src={portrait || "https://via.placeholder.com/1024"}
 							alt={name}
-							maxHeight="380px"
+							maxWidth="100%"
 						/>
 					</Grid>
 					<Grid item xs={12} md={7}>

@@ -215,6 +215,7 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Alive]: "Alive",
 	[Status.Dead]: "Dead",
 	[Status.Retired]: "Retired",
+	[Status.Complete]: "Won",
 };
 
 export const ACTION_ROOMS = [

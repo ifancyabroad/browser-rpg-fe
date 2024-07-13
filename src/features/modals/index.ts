@@ -12,4 +12,5 @@ export * from "./SkillModal";
 export * from "./CharacterClassModal";
 export * from "./TreasureModal";
 export * from "./ShopModal";
+export * from "./VictoryModal";
 export * from "./modalsSlice";

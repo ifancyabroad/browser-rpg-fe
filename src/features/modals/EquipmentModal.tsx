@@ -27,7 +27,7 @@ export const EquipmentModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, type, price, properties } = item;
+	const { name, description, type, level, properties } = item;
 	const isArmour = "armourType" in item;
 	const isWeapon = "weaponType" in item;
 
@@ -72,8 +72,8 @@ export const EquipmentModal: React.FC = () => {
 						</Fragment>
 					)}
 					<Box display="flex" gap={1}>
-						<Typography color="secondary.main">Price:</Typography>
-						<DialogContentText>{price}g</DialogContentText>
+						<Typography color="secondary.main">Level:</Typography>
+						<DialogContentText>{level}</DialogContentText>
 					</Box>
 				</Stack>
 				<Stack spacing={2}>

@@ -49,6 +49,9 @@ export const Start: React.FC = () => {
 					<Container>
 						{hasActiveCharacter ? (
 							<Stack spacing={3} alignItems="center">
+								<Typography variant="h4" textAlign="center">
+									BROWSER HEROES
+								</Typography>
 								<Typography textAlign="center">
 									<MuiLink component="button" onClick={openConfirmationModal}>
 										Click here
@@ -80,6 +83,9 @@ export const Start: React.FC = () => {
 							</Stack>
 						) : (
 							<Fragment>
+								<Typography variant="h4" textAlign="center" mb={2}>
+									BROWSER HEROES
+								</Typography>
 								<Typography textAlign="center">
 									Welcome to{" "}
 									<Box component="span" color="text.secondary">

@@ -392,5 +392,6 @@ export class Game implements IGame {
 	public setData(map: IMapData, player: IPlayerData) {
 		this._map = map;
 		this._player = player;
+		this._camera.move(this._player.location.x * this._map.tsize, this._player.location.y * this._map.tsize);
 	}
 }
