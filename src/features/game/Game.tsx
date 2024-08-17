@@ -10,6 +10,7 @@ import {
 	RewardsModal,
 	ShopModal,
 	TreasureModal,
+	VictoryModal,
 	openBattleModal,
 	openVictoryModal,
 } from "features/modals";
@@ -63,6 +64,7 @@ export const Game: React.FC = () => {
 			<GameOverModal />
 			<ShopModal />
 			<BattleModal />
+			<VictoryModal />
 		</Fragment>
 	);
 };

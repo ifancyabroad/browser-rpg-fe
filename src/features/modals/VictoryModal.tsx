@@ -32,13 +32,15 @@ export const VictoryModal: React.FC = () => {
 				Victory!
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText textAlign="center">
+				<DialogContentText textAlign="center" mb={2}>
 					Congratulations{" "}
 					<Box component="span" color="text.secondary">
 						{name}
 					</Box>
-					, you have defeated the final boss and escaped the dungeon. <br /> Your deeds will be saved in the
-					pantheon of heroes.
+					, you have defeated the final boss and escaped the dungeon.
+				</DialogContentText>
+				<DialogContentText textAlign="center">
+					Your deeds will be saved in the pantheon of heroes.
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>

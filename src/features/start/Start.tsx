@@ -46,61 +46,57 @@ export const Start: React.FC = () => {
 				<Header />
 
 				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
-					<Container>
-						{hasActiveCharacter ? (
-							<Stack spacing={3} alignItems="center">
-								<Typography variant="h4" textAlign="center">
-									BROWSER HEROES
-								</Typography>
-								<Typography textAlign="center">
-									<MuiLink component="button" onClick={openConfirmationModal}>
-										Click here
-									</MuiLink>{" "}
-									to start a new game or continue the below journey.
-								</Typography>
-								<Paper
-									sx={{
-										py: 1,
-										px: 2,
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center",
-										gap: 3,
-									}}
-								>
-									<Typography color="text.secondary">{character?.name}</Typography>
-									<Typography>Level {character?.level}</Typography>
-									<Typography>{character?.characterClass.name}</Typography>
-									<Typography color="text.secondary">
-										HP {character?.hitPoints}/{character?.maxHitPoints}
+					<Container maxWidth="xs">
+						<Paper sx={{ p: 3 }}>
+							{hasActiveCharacter ? (
+								<Stack spacing={3} alignItems="center">
+									<Typography variant="h4" textAlign="center">
+										BROWSER HEROES
 									</Typography>
-									<Typography>
-										<MuiLink component={Link} to="/game">
-											CONTINUE
-										</MuiLink>
+									<Typography textAlign="center">
+										<MuiLink component="button" onClick={openConfirmationModal}>
+											Click here
+										</MuiLink>{" "}
+										to start a new game or continue the below journey.
 									</Typography>
-								</Paper>
-							</Stack>
-						) : (
-							<Fragment>
-								<Typography variant="h4" textAlign="center" mb={2}>
-									BROWSER HEROES
-								</Typography>
-								<Typography textAlign="center">
-									Welcome to{" "}
-									<Box component="span" color="text.secondary">
-										Browser Heroes
-									</Box>
-									, your new adventure awaits you!
-								</Typography>
-								<Typography textAlign="center">
+									<Paper
+										sx={{
+											py: 1,
+											px: 2,
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center",
+											gap: 3,
+										}}
+									>
+										<Typography color="text.secondary">{character?.name}</Typography>
+										<Typography>Level {character?.level}</Typography>
+										<Typography>{character?.characterClass.name}</Typography>
+										<Typography>
+											<MuiLink component={Link} to="/game">
+												CONTINUE
+											</MuiLink>
+										</Typography>
+									</Paper>
+								</Stack>
+							) : (
+								<Stack spacing={3} alignItems="center">
+									<Typography variant="h4" textAlign="center">
+										BROWSER HEROES
+									</Typography>
+									<Typography textAlign="center">
+										Welcome to{" "}
+										<Box component="span" color="text.secondary">
+											Browser Heroes
+										</Box>
+										, your new adventure awaits you!
+									</Typography>
 									<MuiLink component={Link} to="/create">
-										Click here
-									</MuiLink>{" "}
-									to start a new adventure and see how long you can survive!
-								</Typography>
-							</Fragment>
-						)}
+										Create Character
+									</MuiLink>
+								</Stack>
+							)}
+						</Paper>
 					</Container>
 				</Box>
 
