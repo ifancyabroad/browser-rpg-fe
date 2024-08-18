@@ -11,7 +11,14 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeEquipmentModal } from "./modalsSlice";
-import { ARMOUR_TYPE_NAME_MAP, EQUIPMENT_TYPE_NAME_MAP, WEAPON_SIZE_NAME_MAP } from "common/utils";
+import {
+	ARMOUR_TYPE_NAME_MAP,
+	EQUIPMENT_TYPE_NAME_MAP,
+	ITEM_RARITY_COLOR_MAP,
+	ITEM_RARITY_NAME_MAP,
+	ItemRarity,
+	WEAPON_SIZE_NAME_MAP,
+} from "common/utils";
 import { Fragment } from "react";
 import { EquipmentIcon, PropertyList } from "common/components";
 
@@ -35,7 +42,9 @@ export const EquipmentModal: React.FC = () => {
 		<Dialog open={open} onClose={handleClose} scroll="body">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 				<EquipmentIcon equipment={item} width={48} />
-				{name}
+				<Typography component="span" color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]}>
+					{name}
+				</Typography>
 			</DialogTitle>
 			<DialogContent>
 				<Stack spacing={1} mb={2}>
@@ -73,7 +82,7 @@ export const EquipmentModal: React.FC = () => {
 					)}
 					<Box display="flex" gap={1}>
 						<Typography color="secondary.main">Level:</Typography>
-						<DialogContentText>{level}</DialogContentText>
+						<DialogContentText>{ITEM_RARITY_NAME_MAP[level as ItemRarity]}</DialogContentText>
 					</Box>
 				</Stack>
 				<Stack spacing={2}>

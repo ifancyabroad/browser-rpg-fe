@@ -2,7 +2,7 @@ import { Box, Link, Stack, Typography } from "@mui/material";
 import { EquipmentIcon, HoverButton } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EQUIPMENT_TYPE_NAME_MAP } from "common/utils";
+import { EQUIPMENT_TYPE_NAME_MAP, ITEM_RARITY_COLOR_MAP, ITEM_RARITY_NAME_MAP, ItemRarity } from "common/utils";
 import { openEquipmentModal } from "features/modals";
 import goldIcon from "assets/images/icons/GoldCoinTen.png";
 
@@ -64,11 +64,11 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
 				<EquipmentIcon equipment={item} width={40} />
 				<Stack overflow="hidden">
-					<Typography color="text.secondary" noWrap>
+					<Typography color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]} noWrap>
 						{name}
 					</Typography>
 					<Typography>
-						Level {level} {EQUIPMENT_TYPE_NAME_MAP[type]}
+						{ITEM_RARITY_NAME_MAP[level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[type]}
 					</Typography>
 				</Stack>
 			</Box>

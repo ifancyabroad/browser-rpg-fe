@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { EQUIPMENT_SLOT_NAME_MAP, EquipmentSlot } from "common/utils";
+import { EQUIPMENT_SLOT_NAME_MAP, EquipmentSlot, ITEM_RARITY_COLOR_MAP, ItemRarity } from "common/utils";
 import { IArmour, IWeapon } from "common/types";
 import { EquipmentIcon, HoverButton } from "common/components";
 import { useAppDispatch } from "common/hooks";
@@ -44,7 +44,7 @@ export const EquipmentItem: React.FC<IProps> = ({ equipment, slot }) => {
 				<EquipmentIcon equipment={equipment} width={32} />
 				<Typography color="secondary.main">{EQUIPMENT_SLOT_NAME_MAP[slot]}</Typography>
 			</Box>
-			<Typography color="text.secondary" textAlign="right" noWrap>
+			<Typography color={ITEM_RARITY_COLOR_MAP[equipment.level as ItemRarity]} textAlign="right" noWrap>
 				{equipment.name}
 			</Typography>
 		</HoverButton>

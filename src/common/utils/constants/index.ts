@@ -5,6 +5,7 @@ import {
 	DamageType,
 	EquipmentSlot,
 	EquipmentType,
+	ItemRarity,
 	RoomType,
 	SkillClass,
 	SkillType,
@@ -267,6 +268,20 @@ export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
 export const TILE_SIZE = 32;
 
 export const MAX_SKILLS = 7;
+
+export const ITEM_RARITY_COLOR_MAP: Record<ItemRarity, string> = {
+	[ItemRarity.Common]: "#FFFFFF",
+	[ItemRarity.Uncommon]: "#99E64C",
+	[ItemRarity.Rare]: "#2F6BC6",
+	[ItemRarity.Epic]: "#FF47DA",
+};
+
+export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
+	[ItemRarity.Common]: "Common",
+	[ItemRarity.Uncommon]: "Uncommon",
+	[ItemRarity.Rare]: "Rare",
+	[ItemRarity.Epic]: "Epic",
+};
 
 export * from "./config";
 export * from "./levels";
