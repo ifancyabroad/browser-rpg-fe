@@ -18,7 +18,9 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 	const isLoading = status === "loading";
 	const character = useAppSelector((state) => state.character.character);
 	const gold = character?.gold ?? 0;
+	const discountMultiplier = character?.discountMultiplier ?? 1;
 	const { name, price, level } = item;
+	const merchantPrice = Math.round(price * discountMultiplier);
 	const isDisabled = Boolean(price > gold);
 
 	const handleBuyItem = async () => {
@@ -53,7 +55,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 						<Typography color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]} noWrap>
 							{name}
 						</Typography>
-						<Typography>Price {price}g</Typography>
+						<Typography>Price {merchantPrice}g</Typography>
 					</Stack>
 				</Box>
 				<Link component="button" onClick={openConfirmationModal} disabled={isDisabled}>
@@ -63,7 +65,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 
 			<ConfirmationModal
 				title="Are you sure?"
-				content={`Item will cost ${price}g`}
+				content={`Item will cost ${merchantPrice}g`}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleBuyItem}
 				open={isConfirmationOpen}

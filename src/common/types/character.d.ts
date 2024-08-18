@@ -58,6 +58,7 @@ export interface ICharacter {
 	nextLevelExperience: number;
 	gold: number;
 	goldMultiplier: number;
+	discountMultiplier: number;
 	day: number;
 	kills: number;
 	armourClass: number;
