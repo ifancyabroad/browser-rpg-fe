@@ -4,7 +4,6 @@ import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSl
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { useEffect } from "react";
 import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
-import { getCurrentLocation } from "features/dungeon";
 import { IArmour, IWeapon } from "common/types";
 import { ShopItem } from "./ShopItem";
 
@@ -14,7 +13,6 @@ export const ShopModal: React.FC = () => {
 	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
 	const availableItems = character ? character.availableItems : [];
-	const location = useAppSelector(getCurrentLocation);
 
 	useEffect(() => {
 		if (open) {
@@ -23,7 +21,7 @@ export const ShopModal: React.FC = () => {
 		}
 	}, [dispatch, open]);
 
-	if (!character || !location) {
+	if (!character) {
 		return null;
 	}
 
@@ -35,7 +33,7 @@ export const ShopModal: React.FC = () => {
 		try {
 			const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
 			if (slot) {
-				await dispatch(buyItem({ id: item.id, slot, location })).unwrap();
+				await dispatch(buyItem({ id: item.id, slot })).unwrap();
 				return Promise.resolve();
 			}
 

@@ -16,10 +16,9 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EQUIPMENT_SLOT_TYPE_MAP, EQUIPMENT_TYPE_NAME_MAP, EquipmentSlot, RoomType } from "common/utils";
+import { EQUIPMENT_SLOT_TYPE_MAP, EQUIPMENT_TYPE_NAME_MAP, EquipmentSlot } from "common/utils";
 import { buyItem, takeTreasure } from "features/character";
 import { closeReplaceItemModal, closeTreasureModal, openEquipmentModal, openErrorModal } from "features/modals";
-import { getCurrentLocation, getCurrentRoom } from "features/dungeon";
 import { useEffect, useState } from "react";
 import { EquipmentIcon, HoverButton } from "common/components";
 
@@ -65,18 +64,17 @@ export const ReplaceItemModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { open, item } = useAppSelector((state) => state.modals.replaceItemModal);
 	const character = useAppSelector((state) => state.character.character);
-	const location = useAppSelector(getCurrentLocation);
-	const room = useAppSelector(getCurrentRoom);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const [slot, setSlot] = useState<EquipmentSlot | null>(null);
+	const isShop = true; // TODO: Get isShop from modal data
 
 	useEffect(() => {
 		const sl = item ? EQUIPMENT_SLOT_TYPE_MAP[item.type][0] : null;
 		setSlot(sl);
 	}, [item]);
 
-	if (!character || !item || !location) {
+	if (!character || !item) {
 		return null;
 	}
 
@@ -97,13 +95,11 @@ export const ReplaceItemModal: React.FC = () => {
 			if (!slot) {
 				throw new Error("No item selected");
 			}
-			if (room?.type === RoomType.Shop) {
-				await dispatch(buyItem({ id, slot, location })).unwrap();
-			} else if (room?.type === RoomType.Treasure) {
-				await dispatch(takeTreasure({ id, slot, location })).unwrap();
-				dispatch(closeTreasureModal());
+			if (isShop) {
+				await dispatch(buyItem({ id, slot })).unwrap();
 			} else {
-				throw new Error("Invalid room type");
+				await dispatch(takeTreasure({ id, slot, zone: character.zone })).unwrap();
+				dispatch(closeTreasureModal());
 			}
 			dispatch(closeReplaceItemModal());
 		} catch (err) {

@@ -1,15 +1,14 @@
-import { IArmour, IEquipment, IRoom, ISkill, IWeapon, TProperty } from "common/types";
+import { IArmour, IEquipment, ISkill, IWeapon, TProperty } from "common/types";
 import {
 	DamageType,
 	EffectType,
 	EquipmentSlot,
 	EquipmentType,
-	RoomState,
 	SkillType,
 	Target,
 	WeaponSize,
 } from "common/utils/enums";
-import { ACTION_ROOMS, DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, LEVELS, PROPERTY_CONFIG } from "common/utils/constants";
+import { DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -91,10 +90,49 @@ export const getDamageTypeConfig = (damageType: DamageType) => {
 
 export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" : "a");
 
-export const getIsActionRoom = (room: IRoom) => {
-	return room.state !== RoomState.Complete && ACTION_ROOMS.includes(room.type);
-};
+export const decodeMapData = function (data: string): number[] {
+	// Bits on the far end of the 32-bit global tile ID are used for tile flags
+	const FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
+	const FLIPPED_VERTICALLY_FLAG = 0x40000000;
+	const FLIPPED_DIAGONALLY_FLAG = 0x20000000;
+	const ROTATED_HEXAGONAL_120_FLAG = 0x10000000;
 
-export const getLevelConfig = (level: number) => {
-	return LEVELS[level] ?? LEVELS[LEVELS.length - 1];
+	const binaryString = Buffer.from(data, "base64").toString("binary");
+	const len = binaryString.length;
+	const bytes: number[] = new Array(len / 4);
+
+	// Interpret binaryString as an array of bytes representing little-endian encoded uint32 values.
+	for (let i = 0; i < len; i += 4) {
+		bytes[i / 4] =
+			(binaryString.charCodeAt(i) |
+				(binaryString.charCodeAt(i + 1) << 8) |
+				(binaryString.charCodeAt(i + 2) << 16) |
+				(binaryString.charCodeAt(i + 3) << 24)) >>>
+			0;
+	}
+
+	// Extract and clear the flip flags.
+	for (let i = 0; i < bytes.length; i++) {
+		const globalTileID = bytes[i];
+		bytes[i] =
+			globalTileID &
+			~(
+				FLIPPED_HORIZONTALLY_FLAG |
+				FLIPPED_VERTICALLY_FLAG |
+				FLIPPED_DIAGONALLY_FLAG |
+				ROTATED_HEXAGONAL_120_FLAG
+			);
+	}
+
+	// Resolve the tile by subtracting the local tileset firstgid.
+	// This is done in reverse order to avoid modifying the globalTileID while iterating.
+	// The firstgid is always 1 because we only have one tileset.
+	for (let i = bytes.length - 1; i >= 0; i--) {
+		const tileID = bytes[i];
+		if (1 <= tileID) {
+			bytes[i] = tileID - 1;
+		}
+	}
+
+	return bytes;
 };

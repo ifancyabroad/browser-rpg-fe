@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Game } from "common/utils/classes/Game";
-import { getMapData, getPlayerData, setCurrentRoom } from "./dungeonSlice";
 import { memo, useEffect, useRef, useState } from "react";
 import { getIsActionRoom } from "common/utils";
 import { useDungeonContext } from "common/context";
@@ -11,10 +10,9 @@ interface IProps {
 }
 
 export const Map: React.FC<IProps> = memo(({ height, width }) => {
-	const dispatch = useAppDispatch();
 	const canvasRef = useRef<HTMLCanvasElement>(null);
-	const mapData = useAppSelector(getMapData);
-	const playerData = useAppSelector(getPlayerData);
+	const character = useAppSelector((state) => state.character.character);
+	const zone = character?.zone;
 	const dungeonContext = useDungeonContext();
 	const [game, setGame] = useState<Game | null>(null);
 
@@ -24,10 +22,10 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 		}
 		const canvas = canvasRef.current;
 		const context = canvas?.getContext("2d");
-		if (canvas && context && mapData && playerData) {
-			setGame(new Game(mapData, playerData, canvas, context));
+		if (canvas && context && zone) {
+			setGame(new Game(zone, canvas, context));
 		}
-	}, [mapData, playerData, game]);
+	}, [zone, game]);
 
 	useEffect(() => {
 		if (game) {
@@ -36,10 +34,10 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 	}, [game]);
 
 	useEffect(() => {
-		if (game && mapData && playerData) {
-			game.setData(mapData, playerData);
+		if (game && zone) {
+			game.setData(zone);
 		}
-	}, [game, mapData, playerData]);
+	}, [game, zone]);
 
 	const handleMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		if (!game) {
@@ -53,8 +51,6 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 		if (!room) {
 			return;
 		}
-
-		dispatch(setCurrentRoom(room));
 
 		if (getIsActionRoom(room)) {
 			dungeonContext.dispatch({

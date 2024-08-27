@@ -1,5 +1,3 @@
-import { IMapData } from "common/types";
-
 interface ICamera {
 	x: number;
 	y: number;
@@ -12,14 +10,12 @@ class Camera implements ICamera {
 	/**
 	 * Constructor for the Camera class.
 	 *
-	 * @param {IMapData} map - The map data.
 	 * @param {number} x - The x-coordinate of the camera.
 	 * @param {number} y - The y-coordinate of the camera.
 	 * @param {number} width - The width of the camera.
 	 * @param {number} height - The height of the camera.
 	 */
 	constructor(
-		public map: IMapData,
 		public x: number,
 		public y: number,
 		public width: number,

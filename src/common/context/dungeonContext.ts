@@ -1,31 +1,31 @@
-import { RoomType } from "common/utils";
+import { ZoneModalType } from "common/utils";
 import { createContext, Dispatch, useContext } from "react";
 
 type TDungeonModalAction =
 	| {
 			type: "OPEN";
-			payload: RoomType;
+			payload: ZoneModalType;
 	  }
 	| {
 			type: "CLOSE";
 	  };
 
 export interface IDungeonModalState {
-	[RoomType.Battle]: boolean;
-	[RoomType.Boss]: boolean;
-	[RoomType.Shop]: boolean;
-	[RoomType.Treasure]: boolean;
-	[RoomType.Rest]: boolean;
-	[RoomType.Exit]: boolean;
+	[ZoneModalType.Battle]: boolean;
+	[ZoneModalType.Boss]: boolean;
+	[ZoneModalType.Shop]: boolean;
+	[ZoneModalType.Treasure]: boolean;
+	[ZoneModalType.Rest]: boolean;
+	[ZoneModalType.Exit]: boolean;
 }
 
 export const initialState: IDungeonModalState = {
-	[RoomType.Battle]: false,
-	[RoomType.Boss]: false,
-	[RoomType.Shop]: false,
-	[RoomType.Treasure]: false,
-	[RoomType.Rest]: false,
-	[RoomType.Exit]: false,
+	[ZoneModalType.Battle]: false,
+	[ZoneModalType.Boss]: false,
+	[ZoneModalType.Shop]: false,
+	[ZoneModalType.Treasure]: false,
+	[ZoneModalType.Rest]: false,
+	[ZoneModalType.Exit]: false,
 };
 
 export const dungeonReducer = (state: IDungeonModalState, action: TDungeonModalAction) => {

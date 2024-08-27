@@ -2,8 +2,7 @@ import { styled } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { useCallback, useReducer, useState } from "react";
 import { DungeonContext, dungeonReducer, initialState } from "common/context";
-import { RoomModals } from "./RoomModals";
-import { RoomWindow } from "./RoomWindow";
+import { RoomModals } from "./ZoneModals";
 import { CharacterButton, Loader } from "common/components";
 import { Map } from "./Map";
 
@@ -39,7 +38,6 @@ export const Dungeon: React.FC = () => {
 		<DungeonContext.Provider value={providerState}>
 			<Wrapper ref={handleRect}>
 				<CharacterButton />
-				<RoomWindow />
 				{elementRect ? <Map height={elementRect.height} width={elementRect.width} /> : <Loader />}
 			</Wrapper>
 

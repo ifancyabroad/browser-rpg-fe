@@ -6,7 +6,6 @@ import {
 	EquipmentSlot,
 	EquipmentType,
 	ItemRarity,
-	RoomType,
 	SkillClass,
 	SkillType,
 	Stat,
@@ -219,52 +218,6 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Complete]: "Won",
 };
 
-export const ACTION_ROOMS = [
-	RoomType.Battle,
-	RoomType.Boss,
-	RoomType.Shop,
-	RoomType.Treasure,
-	RoomType.Rest,
-	RoomType.Exit,
-] as const;
-
-export const ACCESSIBLE_ROOMS = [
-	RoomType.Empty,
-	RoomType.Battle,
-	RoomType.Boss,
-	RoomType.Shop,
-	RoomType.Treasure,
-	RoomType.Rest,
-	RoomType.Entrance,
-	RoomType.Exit,
-] as const;
-
-export const ROOM_ACTION_NAME_MAP: Record<RoomType, string> = {
-	[RoomType.None]: "",
-	[RoomType.Empty]: "",
-	[RoomType.Wall]: "",
-	[RoomType.Battle]: "Start Battle",
-	[RoomType.Boss]: "Fight Boss",
-	[RoomType.Shop]: "Visit Merchant",
-	[RoomType.Treasure]: "Open Chest",
-	[RoomType.Rest]: "Rest",
-	[RoomType.Entrance]: "",
-	[RoomType.Exit]: "Descend",
-};
-
-export const ROOM_CLASS_NAME_MAP: Record<RoomType, string> = {
-	[RoomType.None]: "",
-	[RoomType.Empty]: "empty",
-	[RoomType.Wall]: "wall",
-	[RoomType.Battle]: "battle",
-	[RoomType.Boss]: "boss",
-	[RoomType.Shop]: "merchant",
-	[RoomType.Treasure]: "treasure",
-	[RoomType.Rest]: "rest",
-	[RoomType.Entrance]: "entrance",
-	[RoomType.Exit]: "exit",
-};
-
 export const TILE_SIZE = 32;
 
 export const MAX_SKILLS = 7;
@@ -284,4 +237,3 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 };
 
 export * from "./config";
-export * from "./levels";

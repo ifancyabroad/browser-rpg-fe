@@ -74,7 +74,7 @@ const CharacterContent: React.FC = () => {
 					</Box>
 					<Box display="flex" alignItems="center" gap={1}>
 						<Typography color="secondary.main">Floor</Typography>
-						<Typography>{character.map.location.level + 1}</Typography>
+						<Typography>{character.zone.level + 1}</Typography>
 					</Box>
 					<Box display="flex" alignItems="center" gap={1}>
 						<Typography color="secondary.main">Gold</Typography>

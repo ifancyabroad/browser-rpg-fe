@@ -146,25 +146,6 @@ export enum HitType {
 	Miss = "miss",
 }
 
-export enum RoomType {
-	None,
-	Empty,
-	Wall,
-	Battle,
-	Boss,
-	Shop,
-	Treasure,
-	Rest,
-	Entrance,
-	Exit,
-}
-
-export enum RoomState {
-	Idle = "idle",
-	Blocking = "blocking",
-	Complete = "complete",
-}
-
 export enum CharacterSheetTab {
 	Skills,
 	Inventory,
@@ -176,4 +157,27 @@ export enum ItemRarity {
 	Uncommon = 2,
 	Rare = 3,
 	Epic = 4,
+}
+
+export enum ZoneModalType {
+	Battle,
+	Boss,
+	Shop,
+	Treasure,
+	Rest,
+	Exit,
+}
+
+export enum Zone {
+	Forest = "forest",
+	Hills = "hills",
+	Hell = "hell",
+}
+
+export enum TileType {
+	None = "none",
+	Merchant = "merchant",
+	Entrance = "entrance",
+	Exit = "exit",
+	Rest = "rest",
 }

@@ -9,9 +9,9 @@ import {
 	ICharacterClass,
 	ICharacterPayload,
 	ILevelUpPayload,
-	IMapLocation,
 	ITreasurePayload,
 	IWeapon,
+	IZone,
 } from "common/types";
 import { CharacterSheetTab, PropertyType, State, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, startBattle } from "features/battle";
@@ -107,9 +107,9 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 	}
 });
 
-export const rest = createAsyncThunk("character/rest", async (payload: IMapLocation, { rejectWithValue }) => {
+export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/rest", payload);
+		const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
 		return response.data.character;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -133,9 +133,9 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
-export const move = createAsyncThunk("character/move", async (payload: IMapLocation, { rejectWithValue }) => {
+export const nextZone = createAsyncThunk("character/nextZone", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/move", payload);
+		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel");
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -146,9 +146,9 @@ export const move = createAsyncThunk("character/move", async (payload: IMapLocat
 	}
 });
 
-export const nextLevel = createAsyncThunk("character/nextLevel", async (payload: IMapLocation, { rejectWithValue }) => {
+export const getTreasure = createAsyncThunk("character/createTreasure", async (payload: IZone, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel", payload);
+		const response = await axios.post<{ character: ICharacter }>("/api/character/createTreasure", payload);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -158,22 +158,6 @@ export const nextLevel = createAsyncThunk("character/nextLevel", async (payload:
 		return rejectWithValue(error.response.data.error);
 	}
 });
-
-export const getTreasure = createAsyncThunk(
-	"character/createTreasure",
-	async (payload: IMapLocation, { rejectWithValue }) => {
-		try {
-			const response = await axios.post<{ character: ICharacter }>("/api/character/createTreasure", payload);
-			return response.data;
-		} catch (err) {
-			const error = err as AxiosError<IApiError>;
-			if (!error.response) {
-				throw err;
-			}
-			return rejectWithValue(error.response.data.error);
-		}
-	},
-);
 
 export const takeTreasure = createAsyncThunk(
 	"character/takeTreasure",
@@ -337,25 +321,14 @@ export const characterSlice = createSlice({
 			state.status = "failed";
 			state.error = action.error.message;
 		});
-		builder.addCase(move.pending, (state) => {
+		builder.addCase(nextZone.pending, (state) => {
 			state.status = "loading";
 		});
-		builder.addCase(move.fulfilled, (state, action) => {
+		builder.addCase(nextZone.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.character = action.payload.character;
 		});
-		builder.addCase(move.rejected, (state, action) => {
-			state.status = "failed";
-			state.error = action.error.message;
-		});
-		builder.addCase(nextLevel.pending, (state) => {
-			state.status = "loading";
-		});
-		builder.addCase(nextLevel.fulfilled, (state, action) => {
-			state.status = "succeeded";
-			state.character = action.payload.character;
-		});
-		builder.addCase(nextLevel.rejected, (state, action) => {
+		builder.addCase(nextZone.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

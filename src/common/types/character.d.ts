@@ -1,16 +1,5 @@
-import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
-import {
-	IActiveEffect,
-	IArmour,
-	IEquipment,
-	IMapLocation,
-	IMap,
-	ISkill,
-	IStatus,
-	IWeapon,
-	TDamageTypes,
-	TStats,
-} from "common/types";
+import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType, Zone } from "common/utils";
+import { IActiveEffect, IArmour, IEquipment, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
 
 export interface ICharacterClass {
 	id: string;
@@ -24,6 +13,11 @@ export interface ICharacterClass {
 	skills: ISkill[];
 	stats: TStats;
 	equipment?: Partial<IEquipment>;
+}
+
+export interface IZone {
+	name: Zone;
+	level: number;
 }
 
 export interface ILevelUpData {
@@ -67,7 +61,7 @@ export interface ICharacter {
 	availableItems: (IWeapon | IArmour)[];
 	slainBy?: string;
 	levelUpData?: ILevelUpData;
-	map: IMap;
+	zone: IZone;
 	baseHitPoints: number;
 	baseMaxHitPoints: number;
 	baseStats: TStats;
@@ -79,20 +73,15 @@ export interface ICharacter {
 export interface IBuyItemPayload {
 	id: string;
 	slot: EquipmentSlot;
-	location: IMapLocation;
 }
 
 export interface ITreasurePayload {
 	id?: string;
 	slot?: EquipmentSlot;
-	location: IMapLocation;
+	zone: IZone;
 }
 
 export interface ILevelUpPayload {
 	stat: Stat;
 	skill?: string;
-}
-
-export interface IMovePayload {
-	location: IMapLocation;
 }
