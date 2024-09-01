@@ -74,7 +74,7 @@ export const Leaderboard: React.FC = () => {
 										Status
 									</TableCell>
 									<TableCell align="right" sx={{ color: "info.light" }}>
-										Floor
+										Streak
 									</TableCell>
 									<TableCell align="right" sx={{ color: "info.light" }}>
 										Kills
@@ -108,7 +108,7 @@ export const Leaderboard: React.FC = () => {
 													? `Slain By ${character.slainBy}`
 													: CHARACTER_STATUS_MAP[character.status]}
 											</TableCell>
-											<TableCell align="right">{character.zone.level}</TableCell>
+											<TableCell align="right">{character.streak}</TableCell>
 											<TableCell align="right">{character.kills}</TableCell>
 										</TableRow>
 									))

@@ -17,10 +17,11 @@ import {
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import { EQUIPMENT_SLOT_TYPE_MAP, EQUIPMENT_TYPE_NAME_MAP, EquipmentSlot } from "common/utils";
-import { buyItem, takeTreasure } from "features/character";
+import { buyItem } from "features/character";
 import { closeReplaceItemModal, closeTreasureModal, openEquipmentModal, openErrorModal } from "features/modals";
 import { useEffect, useState } from "react";
 import { EquipmentIcon, HoverButton } from "common/components";
+import { takeTreasure } from "features/battle";
 
 interface IProps {
 	item: IArmour | IWeapon | null;
@@ -98,7 +99,7 @@ export const ReplaceItemModal: React.FC = () => {
 			if (isShop) {
 				await dispatch(buyItem({ id, slot })).unwrap();
 			} else {
-				await dispatch(takeTreasure({ id, slot, zone: character.zone })).unwrap();
+				await dispatch(takeTreasure({ id, slot })).unwrap();
 				dispatch(closeTreasureModal());
 			}
 			dispatch(closeReplaceItemModal());

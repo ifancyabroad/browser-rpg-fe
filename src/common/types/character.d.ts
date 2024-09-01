@@ -15,11 +15,6 @@ export interface ICharacterClass {
 	equipment?: Partial<IEquipment>;
 }
 
-export interface IZone {
-	name: Zone;
-	level: number;
-}
-
 export interface ILevelUpData {
 	level: number;
 	skills: ISkill[];
@@ -55,13 +50,14 @@ export interface ICharacter {
 	discountMultiplier: number;
 	day: number;
 	kills: number;
+	streak: number;
 	armourClass: number;
 	hitBonus: number;
 	critBonus: number;
 	availableItems: (IWeapon | IArmour)[];
 	slainBy?: string;
 	levelUpData?: ILevelUpData;
-	zone: IZone;
+	zone: Zone;
 	baseHitPoints: number;
 	baseMaxHitPoints: number;
 	baseStats: TStats;
@@ -73,12 +69,6 @@ export interface ICharacter {
 export interface IBuyItemPayload {
 	id: string;
 	slot: EquipmentSlot;
-}
-
-export interface ITreasurePayload {
-	id?: string;
-	slot?: EquipmentSlot;
-	zone: IZone;
 }
 
 export interface ILevelUpPayload {

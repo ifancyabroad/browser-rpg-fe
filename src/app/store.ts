@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import modalsReducer from "features/modals/modalsSlice";
 import authenticationReducer from "features/authentication/authenticationSlice";
 import characterReducer from "features/character/characterSlice";
-import dungeonReducer from "features/dungeon/dungeonSlice";
 import battleReducer from "features/battle/battleSlice";
 import leaderboardReducer from "features/leaderboard/leaderboardSlice";
 
@@ -11,7 +10,6 @@ export const store = configureStore({
 		modals: modalsReducer,
 		authentication: authenticationReducer,
 		character: characterReducer,
-		dungeon: dungeonReducer,
 		battle: battleReducer,
 		leaderboard: leaderboardReducer,
 	},

@@ -87,9 +87,16 @@ export interface IBattle {
 	enemy: IEnemy;
 	turns: IAction[][];
 	state: BattleState;
+	result?: BattleResult;
 	reward?: IReward;
+	treasure?: (IWeapon | IArmour)[];
 }
 
 export interface IActionPayload {
 	id: string;
+}
+
+export interface ITreasurePayload {
+	id?: string;
+	slot?: EquipmentSlot;
 }

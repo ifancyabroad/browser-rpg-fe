@@ -9,12 +9,10 @@ import {
 	ICharacterClass,
 	ICharacterPayload,
 	ILevelUpPayload,
-	ITreasurePayload,
 	IWeapon,
-	IZone,
 } from "common/types";
 import { CharacterSheetTab, PropertyType, State, Status, WeaponSize } from "common/utils";
-import { fetchBattle, postAction, startBattle } from "features/battle";
+import { fetchBattle, postAction, startBattle, takeTreasure } from "features/battle";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -132,48 +130,6 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 		return rejectWithValue(error.response.data.error);
 	}
 });
-
-export const nextZone = createAsyncThunk("character/nextZone", async (_, { rejectWithValue }) => {
-	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/nextLevel");
-		return response.data;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
-		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
-
-export const getTreasure = createAsyncThunk("character/createTreasure", async (payload: IZone, { rejectWithValue }) => {
-	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/createTreasure", payload);
-		return response.data;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
-		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
-
-export const takeTreasure = createAsyncThunk(
-	"character/takeTreasure",
-	async (payload: ITreasurePayload, { rejectWithValue }) => {
-		try {
-			const response = await axios.post<{ character: ICharacter }>("/api/character/takeTreasure", payload);
-			return response.data;
-		} catch (err) {
-			const error = err as AxiosError<IApiError>;
-			if (!error.response) {
-				throw err;
-			}
-			return rejectWithValue(error.response.data.error);
-		}
-	},
-);
 
 export const characterSelector = (state: RootState) => state.character;
 
@@ -318,28 +274,6 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(levelUp.rejected, (state, action) => {
-			state.status = "failed";
-			state.error = action.error.message;
-		});
-		builder.addCase(nextZone.pending, (state) => {
-			state.status = "loading";
-		});
-		builder.addCase(nextZone.fulfilled, (state, action) => {
-			state.status = "succeeded";
-			state.character = action.payload.character;
-		});
-		builder.addCase(nextZone.rejected, (state, action) => {
-			state.status = "failed";
-			state.error = action.error.message;
-		});
-		builder.addCase(getTreasure.pending, (state) => {
-			state.status = "loading";
-		});
-		builder.addCase(getTreasure.fulfilled, (state, action) => {
-			state.status = "succeeded";
-			state.character = action.payload.character;
-		});
-		builder.addCase(getTreasure.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

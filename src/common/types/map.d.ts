@@ -11,6 +11,7 @@ export interface ITreasure {
 }
 
 export interface ITileProperties {
+	globalIDs: number[];
 	location: ILocation;
 	type: TileType;
 	blocking: boolean;

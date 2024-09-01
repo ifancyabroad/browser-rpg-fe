@@ -1,31 +1,25 @@
-import { ZoneModalType } from "common/utils";
+import { TileType } from "common/utils";
 import { createContext, Dispatch, useContext } from "react";
 
 type TDungeonModalAction =
 	| {
 			type: "OPEN";
-			payload: ZoneModalType;
+			payload: TileType;
 	  }
 	| {
 			type: "CLOSE";
 	  };
 
 export interface IDungeonModalState {
-	[ZoneModalType.Battle]: boolean;
-	[ZoneModalType.Boss]: boolean;
-	[ZoneModalType.Shop]: boolean;
-	[ZoneModalType.Treasure]: boolean;
-	[ZoneModalType.Rest]: boolean;
-	[ZoneModalType.Exit]: boolean;
+	[TileType.Merchant]: boolean;
+	[TileType.Rest]: boolean;
+	[TileType.Exit]: boolean;
 }
 
 export const initialState: IDungeonModalState = {
-	[ZoneModalType.Battle]: false,
-	[ZoneModalType.Boss]: false,
-	[ZoneModalType.Shop]: false,
-	[ZoneModalType.Treasure]: false,
-	[ZoneModalType.Rest]: false,
-	[ZoneModalType.Exit]: false,
+	[TileType.Merchant]: false,
+	[TileType.Rest]: false,
+	[TileType.Exit]: false,
 };
 
 export const dungeonReducer = (state: IDungeonModalState, action: TDungeonModalAction) => {

@@ -1,4 +1,4 @@
-import { IArmour, IEquipment, ISkill, IWeapon, TProperty } from "common/types";
+import { IArmour, IEquipment, ISkill, ITileProperties, IWeapon, TProperty } from "common/types";
 import {
 	DamageType,
 	EffectType,
@@ -8,7 +8,8 @@ import {
 	Target,
 	WeaponSize,
 } from "common/utils/enums";
-import { DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
+import { ACTION_TILES, DAMAGE_CONFIG, EQUIPMENT_SLOT_TYPE_MAP, PROPERTY_CONFIG } from "common/utils/constants";
+import TiledMap from "tiled-types";
 
 export const getSkillType = (skill: ISkill) => {
 	const { effects } = skill;
@@ -90,14 +91,18 @@ export const getDamageTypeConfig = (damageType: DamageType) => {
 
 export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" : "a");
 
-export const decodeMapData = function (data: string): number[] {
+export const getIsActionTile = (tile: ITileProperties) => {
+	return ACTION_TILES.includes(tile.type);
+};
+
+export const decodeLayerData = function (data: string): number[] {
 	// Bits on the far end of the 32-bit global tile ID are used for tile flags
 	const FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 	const FLIPPED_VERTICALLY_FLAG = 0x40000000;
 	const FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 	const ROTATED_HEXAGONAL_120_FLAG = 0x10000000;
 
-	const binaryString = Buffer.from(data, "base64").toString("binary");
+	const binaryString = window.atob(data);
 	const len = binaryString.length;
 	const bytes: number[] = new Array(len / 4);
 
@@ -135,4 +140,20 @@ export const decodeMapData = function (data: string): number[] {
 	}
 
 	return bytes;
+};
+
+export const decodeMap = function (map: TiledMap) {
+	const { layers } = map;
+	const decodedLayers = layers.map((layer) => {
+		if ("data" in layer) {
+			const data = decodeLayerData(layer.data as string);
+			return { ...layer, data };
+		}
+		return layer;
+	});
+
+	return {
+		...map,
+		layers: decodedLayers,
+	} as TiledMap;
 };

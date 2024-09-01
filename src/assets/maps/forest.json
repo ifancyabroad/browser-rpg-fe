@@ -66,7 +66,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":6,
+ "nextobjectid":7,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
@@ -2573,9 +2573,14 @@
                  "id":545,
                  "properties":[
                         {
-                         "name":"blocking",
-                         "type":"bool",
-                         "value":true
+                         "name":"class",
+                         "type":"string",
+                         "value":"Thief"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
                         }]
                 },
             
@@ -2583,18 +2588,28 @@
                  "id":546,
                  "properties":[
                         {
-                         "name":"blocking",
-                         "type":"bool",
-                         "value":true
+                         "name":"class",
+                         "type":"string",
+                         "value":"Mage"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
                         }]
                 }, 
                 {
                  "id":547,
                  "properties":[
                         {
-                         "name":"blocking",
-                         "type":"bool",
-                         "value":true
+                         "name":"class",
+                         "type":"string",
+                         "value":"Fighter"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
                         }]
                 }, 
                 {

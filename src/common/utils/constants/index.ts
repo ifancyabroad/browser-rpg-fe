@@ -10,6 +10,7 @@ import {
 	SkillType,
 	Stat,
 	Status,
+	TileType,
 	WeaponSize,
 	WeaponType,
 } from "common/utils";
@@ -218,7 +219,7 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Complete]: "Won",
 };
 
-export const TILE_SIZE = 32;
+export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Exit];
 
 export const MAX_SKILLS = 7;
 

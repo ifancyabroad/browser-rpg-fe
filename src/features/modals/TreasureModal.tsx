@@ -1,38 +1,20 @@
-import { Box, Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeTreasureModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { getAvailableItemSlot } from "common/utils";
 import { Gold, TreasureItem } from "./TreasureItem";
 import { IArmour, IWeapon } from "common/types";
-import { getIsTwoHandedWeaponEquipped, getTreasure, takeTreasure } from "features/character";
-import { useEffect } from "react";
-import { Loader } from "common/components";
+import { getIsTwoHandedWeaponEquipped } from "features/character";
+import { takeTreasure } from "features/battle";
 
 export const TreasureModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.modals.treasureModalOpen);
 	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
-	// TODO: Get treasure
+	const battle = useAppSelector((state) => state.battle.battle);
 
-	useEffect(() => {
-		if (treasure || !character || !open) {
-			return;
-		}
-
-		const fetchData = async () => {
-			try {
-				await dispatch(getTreasure(character.zone)).unwrap();
-			} catch (err) {
-				const { message } = err as Error;
-				dispatch(openErrorModal({ message }));
-			}
-		};
-
-		fetchData();
-	}, [dispatch, treasure, character, open]);
-
-	if (!character) {
+	if (!battle || !battle.treasure || !character) {
 		return null;
 	}
 
@@ -40,7 +22,7 @@ export const TreasureModal: React.FC = () => {
 		try {
 			const slot = getAvailableItemSlot(item, character.equipment, isTwoHandedWeaponEquipped);
 			if (slot) {
-				await dispatch(takeTreasure({ id: item.id, slot, zone: character.zone })).unwrap();
+				await dispatch(takeTreasure({ id: item.id, slot })).unwrap();
 				dispatch(closeTreasureModal());
 				return Promise.resolve();
 			}
@@ -54,7 +36,7 @@ export const TreasureModal: React.FC = () => {
 
 	const handleTakeGold = async () => {
 		try {
-			await dispatch(takeTreasure({ zone: character.zone })).unwrap();
+			await dispatch(takeTreasure({})).unwrap();
 			dispatch(closeTreasureModal());
 		} catch (err) {
 			const { message } = err as Error;
@@ -68,18 +50,12 @@ export const TreasureModal: React.FC = () => {
 				Choose one treasure!
 			</DialogTitle>
 			<DialogContent>
-				{treasure ? (
-					<Stack alignItems="center" justifyContent="center" spacing={1}>
-						{treasure.items.map((item) => (
-							<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
-						))}
-						<Gold onTake={handleTakeGold} />
-					</Stack>
-				) : (
-					<Box display="flex" justifyContent="center" alignItems="center" minHeight="220px">
-						<Loader />
-					</Box>
-				)}
+				<Stack alignItems="center" justifyContent="center" spacing={1}>
+					{battle.treasure.map((item) => (
+						<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
+					))}
+					<Gold onTake={handleTakeGold} />
+				</Stack>
 			</DialogContent>
 		</Dialog>
 	);
