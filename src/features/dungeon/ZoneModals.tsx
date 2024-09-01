@@ -53,15 +53,15 @@ export const RoomModals: React.FC = () => {
 				disabled={isCharacterLoading}
 			/>
 			<ConfirmationModal
-				title="Visit Merchant?"
-				content="You come across a merchant interested in selling some items he has discovered."
+				title="Travelling Merchant"
+				content="Hello there! I have a few items for sale. Would you like to take a look?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}
 				open={state[TileType.Merchant]}
 			/>
 			<ConfirmationModal
-				title="Descend"
-				content="You have found a staircase descending further into the dungeon, are you ready to proceed?"
+				title="Ready?"
+				content="This is the entrance to the forest. Once you enter you will not be able to return to town until you have slain at least one monster."
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
 				open={state[TileType.Exit]}

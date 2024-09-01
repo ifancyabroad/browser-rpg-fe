@@ -1,7 +1,14 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeBattleModal, closeRewardsModal, openLevelUpModal } from "./modalsSlice";
+import {
+	closeBattleModal,
+	closeRewardsModal,
+	openErrorModal,
+	openLevelUpModal,
+	openTreasureModal,
+} from "./modalsSlice";
 import { getLevelUpAvailable } from "features/character";
+import { getTreasureAvailable, nextBattle, returnToTown } from "features/battle";
 
 export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -10,14 +17,37 @@ export const RewardsModal: React.FC = () => {
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
 	const showLevelUp = useAppSelector(getLevelUpAvailable);
+	const showTreasure = useAppSelector(getTreasureAvailable);
 
-	const handleCompleteBattle = async () => {
+	const handleReturnToTown = async () => {
 		dispatch(closeBattleModal());
 		dispatch(closeRewardsModal());
 
-		if (showLevelUp) {
-			dispatch(openLevelUpModal());
+		try {
+			await dispatch(returnToTown()).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
 		}
+	};
+
+	const handleNextBattle = async () => {
+		dispatch(closeRewardsModal());
+
+		try {
+			await dispatch(nextBattle()).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
+	};
+
+	const handleClaimTreasure = () => {
+		dispatch(openTreasureModal());
+	};
+
+	const handleLevelUp = () => {
+		dispatch(openLevelUpModal());
 	};
 
 	if (!battle || !battle.reward) {
@@ -28,7 +58,7 @@ export const RewardsModal: React.FC = () => {
 	const { name } = battle.enemy;
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
+		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="sm">
 			<DialogTitle id="form-dialog-title" textAlign="center">
 				Victory!
 			</DialogTitle>
@@ -50,8 +80,21 @@ export const RewardsModal: React.FC = () => {
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Link component="button" onClick={handleCompleteBattle} disabled={isLoading}>
-					Confirm
+				{showTreasure && (
+					<Link component="button" onClick={handleClaimTreasure} disabled={isLoading}>
+						Claim Treasure
+					</Link>
+				)}
+				{showLevelUp && (
+					<Link component="button" onClick={handleLevelUp} disabled={isLoading}>
+						Level Up
+					</Link>
+				)}
+				<Link component="button" color="text.secondary" onClick={handleReturnToTown} disabled={isLoading}>
+					Return to Town
+				</Link>
+				<Link component="button" onClick={handleNextBattle} disabled={isLoading}>
+					Continue
 				</Link>
 			</DialogActions>
 		</Dialog>

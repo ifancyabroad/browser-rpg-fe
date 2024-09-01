@@ -11,8 +11,8 @@ import {
 	ILevelUpPayload,
 	IWeapon,
 } from "common/types";
-import { CharacterSheetTab, PropertyType, State, Status, WeaponSize } from "common/utils";
-import { fetchBattle, postAction, startBattle, takeTreasure } from "features/battle";
+import { CharacterSheetTab, PropertyType, Status, WeaponSize } from "common/utils";
+import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from "features/battle";
 
 interface ICharacerState {
 	character: ICharacter | null;
@@ -158,8 +158,8 @@ export const getLevelUpAvailable = createSelector(characterSelector, ({ characte
 	if (!character) {
 		return false;
 	}
-	const { experience, nextLevelExperience, state } = character;
-	return experience >= nextLevelExperience && state === State.Idle;
+	const { experience, nextLevelExperience } = character;
+	return experience >= nextLevelExperience;
 });
 
 const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType, name: string) => {
@@ -277,17 +277,6 @@ export const characterSlice = createSlice({
 			state.status = "failed";
 			state.error = action.error.message;
 		});
-		builder.addCase(takeTreasure.pending, (state) => {
-			state.status = "loading";
-		});
-		builder.addCase(takeTreasure.fulfilled, (state, action) => {
-			state.status = "succeeded";
-			state.character = action.payload.character;
-		});
-		builder.addCase(takeTreasure.rejected, (state, action) => {
-			state.status = "failed";
-			state.error = action.error.message;
-		});
 		builder.addCase(startBattle.fulfilled, (state, action) => {
 			state.character = action.payload.character;
 		});
@@ -295,6 +284,12 @@ export const characterSlice = createSlice({
 			state.character = action.payload.character;
 		});
 		builder.addCase(postAction.fulfilled, (state, action) => {
+			state.character = action.payload.character;
+		});
+		builder.addCase(takeTreasure.fulfilled, (state, action) => {
+			state.character = action.payload.character;
+		});
+		builder.addCase(returnToTown.fulfilled, (state, action) => {
 			state.character = action.payload.character;
 		});
 	},

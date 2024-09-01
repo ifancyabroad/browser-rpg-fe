@@ -1,6 +1,6 @@
 import { BattleState, HitType, Target, Zone } from "common/utils";
 import { ISkill } from "./skill";
-import { IEquipment } from "./equipment";
+import { IArmour, IEquipment, IWeapon } from "./equipment";
 import { TDamageTypes, TStats } from "common/types";
 
 export interface IEnemy {
@@ -86,6 +86,7 @@ export interface IBattle {
 	hero: string;
 	enemy: IEnemy;
 	turns: IAction[][];
+	zone: Zone;
 	state: BattleState;
 	result?: BattleResult;
 	reward?: IReward;
