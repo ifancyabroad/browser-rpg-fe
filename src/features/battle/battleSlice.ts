@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IActionPayload, IApiError, IBattle, ICharacter, ITreasurePayload } from "common/types";
-import { Zone } from "common/utils";
+import { IActionPayload, IApiError, IBattle, ICharacter, ITreasurePayload, IZonePayload } from "common/types";
 
 interface IGameState {
 	battle: IBattle | null;
@@ -15,18 +14,21 @@ const initialState: IGameState = {
 	status: "idle",
 };
 
-export const startBattle = createAsyncThunk("battle/startBattle", async (payload: Zone, { rejectWithValue }) => {
-	try {
-		const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start", payload);
-		return response.data;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
+export const startBattle = createAsyncThunk(
+	"battle/startBattle",
+	async (payload: IZonePayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start", payload);
+			return response.data;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
 		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
+	},
+);
 
 export const nextBattle = createAsyncThunk("battle/nextBattle", async (_, { rejectWithValue }) => {
 	try {

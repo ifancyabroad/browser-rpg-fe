@@ -30,7 +30,7 @@ export const RoomModals: React.FC = () => {
 	const handleExit = async () => {
 		try {
 			// TODO: Change Zone to be dynamic
-			await dispatch(startBattle(Zone.Forest)).unwrap();
+			await dispatch(startBattle({ zone: Zone.Forest })).unwrap();
 			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;

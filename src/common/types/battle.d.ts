@@ -1,4 +1,4 @@
-import { BattleState, HitType, Target } from "common/utils";
+import { BattleState, HitType, Target, Zone } from "common/utils";
 import { ISkill } from "./skill";
 import { IEquipment } from "./equipment";
 import { TDamageTypes, TStats } from "common/types";
@@ -99,4 +99,8 @@ export interface IActionPayload {
 export interface ITreasurePayload {
 	id?: string;
 	slot?: EquipmentSlot;
+}
+
+export interface IZonePayload {
+	zone: Zone;
 }
