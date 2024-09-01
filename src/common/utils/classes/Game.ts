@@ -1,12 +1,13 @@
 import { ILocation, ITileProperties } from "common/types";
 import Camera from "./Camera";
 import Loader from "./Loader";
+import { GameMap } from "./GameMap";
 import { AStarFinder } from "astar-typescript";
 import tilemap from "assets/images/tilemap/tilemap.png";
 import forestJSON from "assets/maps/forest.json";
-import TiledMap, { TiledLayer, TiledProperty, TiledTileset } from "tiled-types";
-import { TileType } from "common/utils/enums";
+import TiledMap, { TiledTileset } from "tiled-types";
 import { decodeMap } from "common/utils/helpers";
+import { TileType } from "common/utils/enums";
 
 interface IGame {
 	run(): void;
@@ -19,7 +20,7 @@ export class Game implements IGame {
 	private _cursorLocation: ILocation | null = null;
 	private _tileAtlas: HTMLImageElement | null = null;
 	private _tiledMap: TiledMap;
-	private _tiledProperties: ITileProperties[][];
+	private _map: GameMap;
 	private _location: ILocation;
 	private _camera: Camera;
 
@@ -37,11 +38,9 @@ export class Game implements IGame {
 	) {
 		this._tiledMap = decodeMap(forestJSON as unknown as TiledMap);
 
-		this._tiledProperties = this._getTiledMapProperties();
+		this._map = new GameMap(this._tiledMap);
 
-		console.log(this._tiledProperties);
-
-		this._location = this._getStartingLocation();
+		this._location = this._map.startingLocation;
 
 		this._camera = new Camera(
 			this._location.x * this._tiledMap.tilewidth,
@@ -138,17 +137,6 @@ export class Game implements IGame {
 	private update(delta: number) {}
 
 	/**
-	 * Retrieves the tile located at the specified column and row coordinates.
-	 *
-	 * @param {number} col - The column index of the tile.
-	 * @param {number} row - The row index of the tile.
-	 * @return {ITileProperties | undefined} The tile object at the given coordinates.
-	 */
-	private _getTile(col: number, row: number): ITileProperties | undefined {
-		return this._tiledProperties[row]?.[col];
-	}
-
-	/**
 	 * Retrieves the location based on the given coordinates.
 	 *
 	 * @param x - The x-coordinate.
@@ -178,7 +166,7 @@ export class Game implements IGame {
 	/**
 	 * Retrieves the global ID of a tile based on the given property.
 	 *
-	 * @param prop - The name of the property to search for.
+	 * @param className - The name of the class to search for.
 	 * @returns The global ID of the tile if found, otherwise undefined.
 	 */
 	private _getHeroGlobalID(className: string): number | undefined {
@@ -190,133 +178,15 @@ export class Game implements IGame {
 	}
 
 	/**
-	 * Retrieves the starting location of the game.
-	 *
-	 * @returns The starting location as an object with `x` and `y` coordinates.
-	 */
-	private _getStartingLocation(): ILocation {
-		const location = this._tiledProperties.flatMap((row) => row).find((p) => p.type === TileType.Entrance);
-		return location ? location.location : { x: 0, y: 0 };
-	}
-
-	/**
-	 * Retrieves the tile located at the specified column and row coordinates.
-	 *
-	 * @param {TiledLayer} layer - The layer to retrieve the tile from.
-	 * @param {number} col - The column index of the tile.
-	 * @param {number} row - The row index of the tile.
-	 * @return {number | undefined} The tile object at the given coordinates.
-	 */
-	private _getTileGlobalID(layer: TiledLayer, col: number, row: number): number | undefined {
-		if ("data" in layer) {
-			// TODO: Refactor this
-			const data = layer.data as number[];
-			const result = data.reduce((resultArray, item, index) => {
-				const chunkIndex = Math.floor(index / layer.width);
-
-				if (!resultArray[chunkIndex]) {
-					resultArray[chunkIndex] = []; // start a new chunk
-				}
-
-				resultArray[chunkIndex].push(item);
-
-				return resultArray;
-			}, [] as number[][]);
-			const tile = result[row]?.[col];
-			return tile as number;
-		}
-
-		if ("objects" in layer) {
-			const obj = layer.objects.find((o) => {
-				const x = Math.floor(o.x / this._tiledMap.tilewidth);
-				const y = Math.floor((o.y - o.height) / this._tiledMap.tileheight);
-				return x === col && y === row;
-			});
-
-			if (!obj?.gid) {
-				return;
-			}
-
-			return obj.gid - 1;
-		}
-	}
-
-	/**
-	 * Retrieves the tile properties based on the provided location.
-	 *
-	 * @param {ILocation} location - The location object with x and y properties representing the column and row respectively.
-	 * @return {ITileProperties} The tile properties at the specified coordinates.
-	 */
-	private _getTileProperties(location: ILocation): ITileProperties {
-		const { x, y } = location;
-
-		const properties: ITileProperties = {
-			globalIDs: [],
-			location: { x, y },
-			active: false,
-			blocking: false,
-			type: TileType.None,
-		};
-
-		if (!this._tileset.tiles) {
-			return properties;
-		}
-
-		const tiles = this._tileset.tiles;
-		const tileProperties: TiledProperty[] = [];
-
-		this._tiledMap.layers.forEach((layer) => {
-			const id = this._getTileGlobalID(layer, x, y);
-			if (id) {
-				properties.globalIDs.push(id);
-			}
-			const tile = tiles.find((t) => t.id === id);
-			if (tile && tile.properties) {
-				tileProperties.push(...tile.properties);
-			}
-		});
-
-		if (!tileProperties.length) {
-			return properties;
-		}
-
-		const type = tileProperties.find((p) => p.name === "type");
-		if (type) {
-			properties.type = type.value as TileType;
-		}
-
-		properties.active = tileProperties.some((p) => p.name === "active" && p.value === true);
-		properties.blocking = tileProperties.some((p) => p.name === "blocking" && p.value === true);
-
-		return properties;
-	}
-
-	/**
-	 * Retrieves the properties of each tile in the tiled map.
-	 *
-	 * @returns An array of tile properties, where each element represents a row of tiles.
-	 *          Each row contains an array of tile properties for each tile in that row.
-	 */
-	private _getTiledMapProperties(): ITileProperties[][] {
-		const properties: ITileProperties[][] = [];
-		for (let y = 0; y < this._tiledMap.height; y++) {
-			properties[y] = [];
-			for (let x = 0; x < this._tiledMap.width; x++) {
-				properties[y][x] = this._getTileProperties({ x, y });
-			}
-		}
-		return properties;
-	}
-
-	/**
 	 * Finds a path from the current player position to the given destination location using A* pathfinding algorithm.
 	 * Incredibly inefficient, use sparingly.
 	 *
 	 * @param {ILocation} destination - The destination location to find a path to.
+	 * @param {boolean} includeEndNode - Whether to include the end node in the path.
 	 * @return {number[][]} - An array of locations representing the path from start to end.
 	 */
-	private _findPath(destination: ILocation, includeEndNode = false): number[][] {
-		const matrix = this._tiledProperties.map((row) => row.map((p) => (p.blocking ? 1 : 0)));
+	private _findPath(destination: ILocation, includeEndNode = true): number[][] {
+		const matrix = this._map.map.map((row) => row.map((p) => (p.blocking ? 1 : 0)));
 		const aStarInstance = new AStarFinder({
 			grid: { matrix },
 			diagonalAllowed: false,
@@ -330,7 +200,7 @@ export class Game implements IGame {
 	/**
 	 * Draws a tile on the canvas at the specified coordinates.
 	 *
-	 * @param {ITileProperties} tileProperties - The global ID of the tile to draw.
+	 * @param {ITileProperties} tileProperties - The properties of the tile to draw.
 	 * @param {number} x - The x-coordinate for the tile.
 	 * @param {number} y - The y-coordinate for the tile.
 	 */
@@ -360,12 +230,11 @@ export class Game implements IGame {
 
 	/**
 	 * Draws the visible portion of the game map layer on the canvas based on the camera position.
-	 *
 	 */
 	private _drawLayers() {
 		for (let r = this._startRow; r <= this._endRow; r++) {
 			for (let c = this._startCol; c <= this._endCol; c++) {
-				const tile = this._getTile(c, r);
+				const tile = this._map.getTile(c, r);
 				const x = (c - this._startCol) * this._tiledMap.tilewidth + this._offsetX;
 				const y = (r - this._startRow) * this._tiledMap.tileheight + this._offsetY;
 
@@ -444,8 +313,7 @@ export class Game implements IGame {
 	}
 
 	/**
-	 * Renders the game by drawing the layer.
-	 *
+	 * Renders the game by drawing the layers, player, and cursor.
 	 */
 	public render() {
 		// draw dungeon
@@ -505,17 +373,21 @@ export class Game implements IGame {
 	 */
 	public move(x: number, y: number): ITileProperties | undefined {
 		const location = this._getLocationByCoordinates(x, y);
-		const properties = this._getTile(location.x, location.y);
+		const properties = this._map.getTile(location.x, location.y);
 
 		if (!properties || properties.blocking) {
 			return;
 		}
 
-		if (!this._findPath(properties.location).length) {
+		const includeEndNode = properties.type !== TileType.Merchant; // TODO: Use tiled property for this?
+		const path = this._findPath(properties.location, includeEndNode);
+
+		if (!path.length) {
 			return;
 		}
 
-		this._location = properties.location;
+		const newLocation = path[path.length - 1];
+		this._location = { x: newLocation[0], y: newLocation[1] };
 		this._camera.move(this._location.x * this._tiledMap.tilewidth, this._location.y * this._tiledMap.tileheight);
 
 		return properties;
@@ -529,7 +401,7 @@ export class Game implements IGame {
 	 */
 	public hover(x: number, y: number) {
 		const location = this._getLocationByCoordinates(x, y);
-		const properties = this._getTile(location.x, location.y);
+		const properties = this._map.getTile(location.x, location.y);
 
 		if (!properties || properties.blocking) {
 			this._cursorLocation = null;
@@ -541,6 +413,11 @@ export class Game implements IGame {
 		this.canvas.style.cursor = "pointer";
 	}
 
+	/**
+	 * Sets the hero data and updates the camera position.
+	 *
+	 * @param {string} hero - The character class for the player.
+	 */
 	public setData(hero: string) {
 		this.hero = hero;
 		this._camera.move(this._location.x * this._tiledMap.tilewidth, this._location.y * this._tiledMap.tileheight);
