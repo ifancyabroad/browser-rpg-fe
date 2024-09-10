@@ -4,7 +4,7 @@ import { rest } from "features/character";
 import { ConfirmationModal, openErrorModal, openShopModal } from "features/modals";
 import { startBattle } from "features/battle";
 import { Fragment } from "react";
-import { TileType, Zone } from "common/utils";
+import { TileType } from "common/utils";
 
 export const RoomModals: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -29,8 +29,8 @@ export const RoomModals: React.FC = () => {
 
 	const handleExit = async () => {
 		try {
-			// TODO: Change Zone to be dynamic
-			await dispatch(startBattle({ zone: Zone.Forest })).unwrap();
+			// TODO: Allow user to choose starting level
+			await dispatch(startBattle({ level: 1 })).unwrap();
 			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;

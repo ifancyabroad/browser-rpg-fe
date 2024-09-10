@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IActionPayload, IApiError, IBattle, ICharacter, ITreasurePayload, IZonePayload } from "common/types";
+import { IActionPayload, IApiError, IBattle, ICharacter, ILevelPayload, ITreasurePayload } from "common/types";
 
 interface IGameState {
 	battle: IBattle | null;
@@ -18,7 +18,7 @@ const initialState: IGameState = {
 
 export const startBattle = createAsyncThunk(
 	"battle/startBattle",
-	async (payload: IZonePayload, { rejectWithValue }) => {
+	async (payload: ILevelPayload, { rejectWithValue }) => {
 		try {
 			const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start", payload);
 			return response.data;

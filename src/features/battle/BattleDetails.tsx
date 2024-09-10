@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { CombatLog } from "./CombatLog";
 import { ActiveEffects, HealthBar } from "common/components";
@@ -20,6 +20,24 @@ export const BattleDetails: React.FC = () => {
 			</Typography>
 			<HealthBar value={hitPoints} max={maxHitPoints} />
 			<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />
+			<Box display="flex" justifyContent="space-between" gap={1}>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Level</Typography>
+					<Typography>{battle.level}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Highest</Typography>
+					<Typography>{character.maxBattleLevel}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Zone</Typography>
+					<Typography textTransform="capitalize">{battle.zone}</Typography>
+				</Box>
+				<Box display="flex" alignItems="center" gap={1}>
+					<Typography color="secondary.main">Slain</Typography>
+					<Typography>{character.streak}</Typography>
+				</Box>
+			</Box>
 			<CombatLog turns={battle.turns} />
 		</Stack>
 	);

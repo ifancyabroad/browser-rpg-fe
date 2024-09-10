@@ -1,4 +1,4 @@
-import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType, Zone } from "common/utils";
+import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
 import { IActiveEffect, IArmour, IEquipment, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
 
 export interface ICharacterClass {
@@ -46,8 +46,8 @@ export interface ICharacter {
 	currentLevelExperience: number;
 	nextLevelExperience: number;
 	gold: number;
-	goldMultiplier: number;
 	discountMultiplier: number;
+	maxBattleLevel: number;
 	day: number;
 	kills: number;
 	streak: number;
@@ -57,7 +57,6 @@ export interface ICharacter {
 	availableItems: (IWeapon | IArmour)[];
 	slainBy?: string;
 	levelUpData?: ILevelUpData;
-	zone: Zone;
 	baseHitPoints: number;
 	baseMaxHitPoints: number;
 	baseStats: TStats;

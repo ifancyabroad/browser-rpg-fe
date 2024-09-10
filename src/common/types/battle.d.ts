@@ -88,6 +88,7 @@ export interface IBattle {
 	turns: IAction[][];
 	zone: Zone;
 	state: BattleState;
+	level: number;
 	result?: BattleResult;
 	reward?: IReward;
 	treasure?: (IWeapon | IArmour)[];
@@ -102,6 +103,6 @@ export interface ITreasurePayload {
 	slot?: EquipmentSlot;
 }
 
-export interface IZonePayload {
-	zone: Zone;
+export interface ILevelPayload {
+	level: number;
 }
