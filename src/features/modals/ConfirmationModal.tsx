@@ -3,7 +3,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, L
 interface IProps {
 	open: boolean;
 	title: string;
-	content: string;
+	content: string | JSX.Element;
 	handleClose: () => void;
 	handleConfirm: () => void;
 	disabled?: boolean;

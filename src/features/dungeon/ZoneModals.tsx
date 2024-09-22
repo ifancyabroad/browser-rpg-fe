@@ -5,11 +5,11 @@ import { ConfirmationModal, openErrorModal, openShopModal } from "features/modal
 import { startBattle } from "features/battle";
 import { Fragment } from "react";
 import { TileType } from "common/utils";
+import { Box } from "@mui/material";
 
 export const RoomModals: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
-	const restPrice = character ? character.restPrice : 0;
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
 	const { state, dispatch: localDispatch } = useDungeonContext();
@@ -44,15 +44,30 @@ export const RoomModals: React.FC = () => {
 		localDispatch({ type: "CLOSE" });
 	};
 
+	if (!character) {
+		return null;
+	}
+
+	const { gold, restPrice } = character;
+	const isRestDisabled = gold < restPrice;
+
 	return (
 		<Fragment>
 			<ConfirmationModal
 				title="Tavern"
-				content={`Welcome traveller! I have a room available for the night. It will cost you ${restPrice} gold. Would you like to rest?`}
+				content={
+					<Fragment>
+						Welcome traveller! I have a room available for the night. It will cost you{" "}
+						<Box component="span" color="text.secondary">
+							{restPrice} gold
+						</Box>
+						. Would you like to rest?
+					</Fragment>
+				}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
 				open={state[TileType.Rest]}
-				disabled={isCharacterLoading}
+				disabled={isCharacterLoading || isRestDisabled}
 			/>
 			<ConfirmationModal
 				title="Travelling Merchant"
