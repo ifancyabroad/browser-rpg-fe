@@ -17,6 +17,7 @@ export interface IEnemy {
 	resistances: TDamageTypes;
 	activeStatusEffects: IStatus[];
 	activeAuxiliaryEffects: IActiveEffect[];
+	boss: boolean;
 }
 
 export interface IDamage {

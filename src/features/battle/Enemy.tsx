@@ -9,7 +9,7 @@ export const Enemy: React.FC = () => {
 		return null;
 	}
 
-	const { name, level, image, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects } = enemy;
+	const { name, level, image, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects, boss } = enemy;
 
 	return (
 		<Stack spacing={1}>
@@ -18,7 +18,12 @@ export const Enemy: React.FC = () => {
 				<Box component="span" color="text.secondary">
 					{level}
 				</Box>{" "}
-				{name}
+				{name}{" "}
+				{boss && (
+					<Box component="span" color="error.main">
+						(Boss)
+					</Box>
+				)}
 			</Typography>
 			<HealthBar value={hitPoints} max={maxHitPoints} />
 			<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />

@@ -61,12 +61,13 @@ export const Start: React.FC = () => {
 									</Typography>
 									<Paper
 										sx={{
+											width: "100%",
 											py: 1,
 											px: 2,
 											display: "flex",
 											alignItems: "center",
-											justifyContent: "center",
-											gap: 3,
+											justifyContent: "space-between",
+											gap: 1,
 										}}
 									>
 										<Typography color="text.secondary">{character?.name}</Typography>
