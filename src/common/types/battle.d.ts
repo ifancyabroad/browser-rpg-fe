@@ -31,14 +31,14 @@ export interface IHeal {
 	target: Target;
 }
 
-export interface IStatusSkill {
+export interface IEffectSource {
 	id: string;
 	name: string;
 	icon: string;
 }
 
 export interface IStatus {
-	skill: IStatusSkill;
+	source: IEffectSource;
 	target: Target;
 	properties: TProperty[];
 	remaining: number;
@@ -49,7 +49,7 @@ export interface IStatus {
 }
 
 export interface IAuxiliary {
-	skill: IStatusSkill;
+	source: IEffectSource;
 	target: Target;
 	effect: AuxiliaryEffect;
 	remaining: number;
@@ -64,15 +64,27 @@ export interface IActiveEffect {
 	remaining: number;
 }
 
-export interface IAction {
-	skill: string;
-	self: string;
-	enemy: string;
+export interface IActionWeaponEffect {
+	name: string;
+	damage: IDamage[];
+	status: IStatus[];
+	auxiliary: IAuxiliary[];
+}
+
+export interface IActionSkillEffect {
+	name: string;
 	weaponDamage: IDamage[][];
 	damage: IDamage[];
 	heal: IHeal[];
 	status: IStatus[];
 	auxiliary: IAuxiliary[];
+}
+
+export interface IAction {
+	self: string;
+	enemy: string;
+	skill: IActionSkillEffect;
+	weapon: IActionWeaponEffect[];
 	activeEffects: IActiveEffect[];
 }
 

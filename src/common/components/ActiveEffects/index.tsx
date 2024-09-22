@@ -14,7 +14,7 @@ export const ActiveEffects: React.FC<IProps> = ({ auxiliaryEffects, statusEffect
 				<AuxiliaryEffect key={effect.effect} {...effect} />
 			))}
 			{statusEffects.map((effect) => (
-				<StatusEffect key={effect.skill.id} {...effect} />
+				<StatusEffect key={effect.source.id} {...effect} />
 			))}
 		</Box>
 	);

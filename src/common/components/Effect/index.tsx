@@ -11,7 +11,7 @@ import disarmIcon from "assets/images/icons/Skill_Disarm.png";
 const StatusDetails: React.FC<IStatus> = (effect) => (
 	<Stack>
 		<Typography variant="h6" fontSize={16}>
-			{effect.skill.name}
+			{effect.source.name}
 		</Typography>
 		{"properties" in effect && <PropertyList properties={effect.properties} />}
 		<Typography variant="body2" fontStyle="italic" color="text.secondary">
@@ -21,11 +21,11 @@ const StatusDetails: React.FC<IStatus> = (effect) => (
 );
 
 export const StatusEffect: React.FC<IStatus> = (status) => {
-	const icon = status.skill.icon || "https://via.placeholder.com/40";
+	const icon = status.source.icon || "https://via.placeholder.com/40";
 
 	return (
 		<Tooltip title={<StatusDetails {...status} />} placement="top">
-			<img src={icon} alt={status.skill.name} width="40" />
+			<img src={icon} alt={status.source.name} width="40" />
 		</Tooltip>
 	);
 };

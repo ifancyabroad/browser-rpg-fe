@@ -20,7 +20,7 @@ import {
 	WEAPON_SIZE_NAME_MAP,
 } from "common/utils";
 import { Fragment } from "react";
-import { EquipmentIcon, PropertyList } from "common/components";
+import { EffectList, EquipmentIcon, PropertyList } from "common/components";
 
 export const EquipmentModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -96,6 +96,12 @@ export const EquipmentModal: React.FC = () => {
 							<Stack spacing={1}>
 								<PropertyList properties={properties} />
 							</Stack>
+						</Box>
+					)}
+					{isWeapon && item.effects && item.effects.length && (
+						<Box>
+							<Typography color="info.main">Effects</Typography>
+							<EffectList effects={item.effects} />
 						</Box>
 					)}
 				</Stack>

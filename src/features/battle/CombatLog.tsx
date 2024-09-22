@@ -1,6 +1,6 @@
 import { Box, Divider, Typography, useTheme } from "@mui/material";
 import { useAppSelector } from "common/hooks";
-import { IAction } from "common/types";
+import { IAction, IAuxiliary, IDamage, IHeal, IStatus } from "common/types";
 import {
 	AUXILIARY_EFFECTS_NAME_MAP,
 	AUXILIARY_EFFECTS_NAME_MAP_PASSED,
@@ -15,16 +15,28 @@ import {
 } from "common/utils";
 import { Fragment } from "react";
 
-const Action: React.FC<IAction> = ({
-	damage,
+interface IActionEffectProps {
+	self: string;
+	enemy: string;
+	weaponDamage: IDamage[][];
+	damage: IDamage[];
+	heal: IHeal[];
+	status: IStatus[];
+	auxiliary: IAuxiliary[];
+	source: string;
+	isWeapon?: boolean;
+}
+
+const ActionEffects: React.FC<IActionEffectProps> = ({
+	self,
 	enemy,
+	weaponDamage,
+	damage,
 	heal,
 	status,
 	auxiliary,
-	activeEffects,
-	self,
-	skill,
-	weaponDamage,
+	source,
+	isWeapon = false,
 }) => {
 	const theme = useTheme();
 
@@ -34,9 +46,6 @@ const Action: React.FC<IAction> = ({
 
 	return (
 		<Fragment>
-			<Typography variant="body2">
-				{self} uses {skill}
-			</Typography>
 			{weaponDamage
 				.flatMap((damage) => damage)
 				.map((damage, index) => {
@@ -68,6 +77,12 @@ const Action: React.FC<IAction> = ({
 						<Box component="span" color={config?.colour} fontStyle="italic">
 							({damage.type})
 						</Box>
+						{isWeapon && (
+							<Box component="span" color="text.secondary" fontStyle="italic">
+								{" "}
+								({source})
+							</Box>
+						)}
 					</Typography>
 				);
 			})}
@@ -85,8 +100,8 @@ const Action: React.FC<IAction> = ({
 
 					if (status.saved) {
 						return (
-							<Typography key={`${status.skill.id}-${index}`} variant="body2">
-								{getTarget(status.target)} saves against {skill}{" "}
+							<Typography key={`${status.source.id}-${index}`} variant="body2">
+								{getTarget(status.target)} saves against {source}{" "}
 								<Box component="span" color="text.secondary" fontStyle="italic">
 									({status.modifier})
 								</Box>
@@ -95,7 +110,7 @@ const Action: React.FC<IAction> = ({
 					}
 
 					return (
-						<Typography key={`${status.skill.id}-${index}`} variant="body2">
+						<Typography key={`${status.source.id}-${index}`} variant="body2">
 							{getTarget(status.target)} receives{" "}
 							<Box component="span" color={color}>
 								{prefix}
@@ -103,6 +118,12 @@ const Action: React.FC<IAction> = ({
 								{suffix}
 							</Box>{" "}
 							to {config?.name}
+							{isWeapon && (
+								<Box component="span" color="text.secondary" fontStyle="italic">
+									{" "}
+									({source})
+								</Box>
+							)}
 						</Typography>
 					);
 				}),
@@ -113,6 +134,12 @@ const Action: React.FC<IAction> = ({
 						<Typography key={index} variant="body2">
 							{getTarget(status.target)} saves against{" "}
 							{AUXILIARY_EFFECTS_NAME_MAP[status.effect as AuxiliaryEffect]}
+							{isWeapon && (
+								<Box component="span" color="text.secondary" fontStyle="italic">
+									{" "}
+									({source})
+								</Box>
+							)}
 						</Typography>
 					);
 				}
@@ -121,9 +148,52 @@ const Action: React.FC<IAction> = ({
 					<Typography key={index} variant="body2">
 						{getTarget(status.target)} is{" "}
 						{AUXILIARY_EFFECTS_NAME_MAP_PASSED[status.effect as AuxiliaryEffect]}
+						{isWeapon && (
+							<Box component="span" color="text.secondary" fontStyle="italic">
+								{" "}
+								({source})
+							</Box>
+						)}
 					</Typography>
 				);
 			})}
+		</Fragment>
+	);
+};
+
+const Action: React.FC<IAction> = ({ self, enemy, skill, weapon, activeEffects }) => {
+	return (
+		<Fragment>
+			<Typography variant="body2">
+				{self} uses {skill.name}
+			</Typography>
+
+			<ActionEffects
+				self={self}
+				enemy={enemy}
+				weaponDamage={skill.weaponDamage}
+				damage={skill.damage}
+				heal={skill.heal}
+				status={skill.status}
+				auxiliary={skill.auxiliary}
+				source={skill.name}
+			/>
+
+			{weapon.map((weapon, index) => (
+				<ActionEffects
+					key={index}
+					self={self}
+					enemy={enemy}
+					weaponDamage={[]}
+					damage={weapon.damage}
+					heal={[]}
+					status={weapon.status}
+					auxiliary={weapon.auxiliary}
+					source={weapon.name}
+					isWeapon
+				/>
+			))}
+
 			{activeEffects.map(
 				(effect, index) =>
 					({
