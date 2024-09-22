@@ -27,8 +27,6 @@ export const Header: React.FC = () => {
 				<Box display="flex" justifyContent="flex-end" gap={3}>
 					{isLoggedIn ? (
 						<Fragment>
-							<Link color="text.secondary">Almanac</Link>
-							<Link color="text.secondary">My Heroes</Link>
 							<Link component="button" onClick={handleViewLeaderboard} color="text.secondary">
 								Leaderboard
 							</Link>
