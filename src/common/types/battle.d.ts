@@ -114,7 +114,3 @@ export interface ITreasurePayload {
 	id?: string;
 	slot?: EquipmentSlot;
 }
-
-export interface ILevelPayload {
-	level: number;
-}

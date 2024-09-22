@@ -31,8 +31,7 @@ export const RoomModals: React.FC = () => {
 
 	const handleExit = async () => {
 		try {
-			// TODO: Allow user to choose starting level
-			await dispatch(startBattle({ level: 1 })).unwrap();
+			await dispatch(startBattle()).unwrap();
 			localDispatch({ type: "CLOSE" });
 		} catch (err) {
 			const { message } = err as Error;
