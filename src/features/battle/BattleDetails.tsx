@@ -11,18 +11,22 @@ export const BattleDetails: React.FC = () => {
 		return null;
 	}
 
-	const { name, activeAuxiliaryEffects, activeStatusEffects, hitPoints, maxHitPoints } = character;
+	const { name, activeAuxiliaryEffects, activeStatusEffects, hitPoints, maxHitPoints, level } = character;
 
 	return (
 		<Stack height="100%" spacing={1}>
 			<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
-				{name} the {character.characterClass.name}
+				{name} the Level{" "}
+				<Box component="span" color="text.secondary">
+					{level}
+				</Box>{" "}
+				{character.characterClass.name}
 			</Typography>
 			<HealthBar value={hitPoints} max={maxHitPoints} />
 			<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />
 			<Box display="flex" justifyContent="space-between" gap={1}>
 				<Box display="flex" alignItems="center" gap={1}>
-					<Typography color="secondary.main">Level</Typography>
+					<Typography color="secondary.main">Battle</Typography>
 					<Typography>{battle.level}</Typography>
 				</Box>
 				<Box display="flex" alignItems="center" gap={1}>

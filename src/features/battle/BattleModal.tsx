@@ -49,7 +49,7 @@ export const BattleModal: React.FC = () => {
 		<Dialog open={open} maxWidth="md" scroll="body">
 			<DialogContent>
 				{isLoading ? (
-					<Box display="flex" justifyContent="center" alignItems="center" minHeight="550px">
+					<Box display="flex" justifyContent="center" alignItems="center" minHeight="616px">
 						<Loader />
 					</Box>
 				) : battle ? (
@@ -62,7 +62,7 @@ export const BattleModal: React.FC = () => {
 						</Grid>
 					</Grid>
 				) : (
-					<Box display="flex" justifyContent="center" alignItems="center" minHeight="550px">
+					<Box display="flex" justifyContent="center" alignItems="center" minHeight="616px">
 						<Loader />
 					</Box>
 				)}
