@@ -105,6 +105,19 @@ export const buyItem = createAsyncThunk("character/buy", async (payload: IBuyIte
 	}
 });
 
+export const restockItems = createAsyncThunk("character/restockItems", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/restock");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
@@ -251,6 +264,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(buyItem.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(restockItems.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(restockItems.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(restockItems.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

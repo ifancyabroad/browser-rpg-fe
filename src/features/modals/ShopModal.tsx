@@ -3,7 +3,13 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
 import { useEffect } from "react";
-import { buyItem, getIsTwoHandedWeaponEquipped, setCharacterSheetTab, viewItems } from "features/character";
+import {
+	buyItem,
+	getIsTwoHandedWeaponEquipped,
+	restockItems,
+	setCharacterSheetTab,
+	viewItems,
+} from "features/character";
 import { IArmour, IWeapon } from "common/types";
 import { ShopItem } from "./ShopItem";
 
@@ -13,6 +19,7 @@ export const ShopModal: React.FC = () => {
 	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const character = useAppSelector((state) => state.character.character);
 	const availableItems = character ? character.availableItems : [];
+	const isRestockDisabled = character ? character.gold < character.restockPrice : true;
 
 	useEffect(() => {
 		if (open) {
@@ -44,6 +51,15 @@ export const ShopModal: React.FC = () => {
 		}
 	};
 
+	const handleRestock = async () => {
+		try {
+			await dispatch(restockItems()).unwrap();
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
+	};
+
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
@@ -68,6 +84,9 @@ export const ShopModal: React.FC = () => {
 				</Box>
 			</DialogContent>
 			<DialogActions>
+				<Link component="button" color="text.secondary" onClick={handleRestock} disabled={isRestockDisabled}>
+					Restock - {character.restockPrice}g
+				</Link>
 				<Link component="button" onClick={handleClose}>
 					Close
 				</Link>

@@ -55,6 +55,9 @@ export interface ICharacter {
 	hitBonus: number;
 	critBonus: number;
 	availableItems: (IWeapon | IArmour)[];
+	restockCount: number;
+	restockPrice: number;
+	restPrice: number;
 	slainBy?: string;
 	levelUpData?: ILevelUpData;
 	baseHitPoints: number;

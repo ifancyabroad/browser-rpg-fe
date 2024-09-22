@@ -8,6 +8,8 @@ import { TileType } from "common/utils";
 
 export const RoomModals: React.FC = () => {
 	const dispatch = useAppDispatch();
+	const character = useAppSelector((state) => state.character.character);
+	const restPrice = character ? character.restPrice : 0;
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
 	const { state, dispatch: localDispatch } = useDungeonContext();
@@ -45,8 +47,8 @@ export const RoomModals: React.FC = () => {
 	return (
 		<Fragment>
 			<ConfirmationModal
-				title="Rest?"
-				content="You stumble upon an abandoned camp and a chance to rest for the night."
+				title="Tavern"
+				content={`Welcome traveller! I have a room available for the night. It will cost you ${restPrice} gold. Would you like to rest?`}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
 				open={state[TileType.Rest]}
