@@ -18,4 +18,3 @@ export * from "./TableRowButton";
 export * from "./HoverButton";
 export * from "./ActiveEffects";
 export * from "./EquipmentIcon";
-export * from "./GameHeader";

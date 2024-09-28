@@ -71,7 +71,7 @@ export const Start: React.FC = () => {
 										}}
 									>
 										<Typography color="text.secondary">{character?.name}</Typography>
-										<Typography>Level {character?.level}</Typography>
+										<Typography>Lvl {character?.level}</Typography>
 										<Typography>{character?.characterClass.name}</Typography>
 										<Typography>
 											<MuiLink component={Link} to="/game">

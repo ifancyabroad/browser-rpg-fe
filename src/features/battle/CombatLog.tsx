@@ -215,20 +215,15 @@ const Action: React.FC<IAction> = ({ self, enemy, skill, weapon, activeEffects }
 	);
 };
 
-interface IProps {
-	turns: IAction[][];
-}
-
-export const CombatLog: React.FC<IProps> = ({ turns }) => {
-	const character = useAppSelector((state) => state.character.character);
+export const CombatLog: React.FC = () => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const isLoading = useAppSelector((state) => state.battle.status === "loading");
 
-	if (!character || !battle) {
+	if (!battle) {
 		return null;
 	}
 
-	const reversedTurns = [...turns].reverse();
+	const reversedTurns = [...battle.turns].reverse();
 
 	return (
 		<Box

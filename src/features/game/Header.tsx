@@ -1,10 +1,13 @@
 import { Box, Container, Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
+import { CharacterButton } from "common/components";
 
-export const GameHeader: React.FC = () => (
+export const Header: React.FC = () => (
 	<Box py={1}>
 		<Container maxWidth={false}>
-			<Box display="flex" justifyContent="flex-end" gap={3}>
+			<Box display="flex" justifyContent="space-between" gap={3}>
+				<CharacterButton />
+
 				<MuiLink component={Link} to="/">
 					&lt; Back
 				</MuiLink>

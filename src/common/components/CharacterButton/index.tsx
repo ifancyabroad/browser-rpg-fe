@@ -15,10 +15,6 @@ export const CharacterButton: React.FC = () => {
 			onClick={handleDrawerToggle}
 			sx={{
 				display: { md: "none" },
-				position: "absolute",
-				top: 8,
-				left: 8,
-				zIndex: 1,
 			}}
 		>
 			<MenuIcon />

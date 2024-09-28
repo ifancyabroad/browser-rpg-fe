@@ -1,5 +1,4 @@
 import { Box, Container } from "@mui/material";
-import { GameHeader } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { BattleModal } from "features/battle";
@@ -17,6 +16,7 @@ import {
 } from "features/modals";
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { Header } from "./Header";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
@@ -52,7 +52,7 @@ export const Game: React.FC = () => {
 								flexDirection: "column",
 							}}
 						>
-							<GameHeader />
+							<Header />
 							<Outlet />
 						</Box>
 					</Container>

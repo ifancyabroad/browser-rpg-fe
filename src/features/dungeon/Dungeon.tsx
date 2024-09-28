@@ -3,7 +3,7 @@ import { useAppSelector } from "common/hooks";
 import { useCallback, useReducer, useState } from "react";
 import { DungeonContext, dungeonReducer, initialState } from "common/context";
 import { RoomModals } from "./ZoneModals";
-import { CharacterButton, Loader } from "common/components";
+import { Loader } from "common/components";
 import { Map } from "./Map";
 import { State } from "common/utils";
 
@@ -53,8 +53,6 @@ export const Dungeon: React.FC = () => {
 	return (
 		<DungeonContext.Provider value={providerState}>
 			<Wrapper ref={handleRect}>
-				<CharacterButton />
-
 				{elementRect ? <Map height={elementRect.height} width={elementRect.width} /> : <Loader />}
 
 				{isBattle && (

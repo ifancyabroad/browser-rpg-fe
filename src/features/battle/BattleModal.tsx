@@ -1,13 +1,26 @@
-import { Box, Dialog, DialogActions, DialogContent, Grid } from "@mui/material";
+import {
+	Box,
+	Collapse,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	Grid,
+	Stack,
+	useMediaQuery,
+	useTheme,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals/modalsSlice";
 import { BattleResult } from "common/utils";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { fetchBattle } from "./battleSlice";
 import { ActionBar } from "./ActionBar";
 import { Enemy } from "./Enemy";
-import { BattleDetails } from "./BattleDetails";
+import { Hero } from "./Hero";
 import { Loader } from "common/components";
+import { MobileMenu } from "./MobileMenu";
+import { BattleStats } from "./BattleStats";
+import { CombatLog } from "./CombatLog";
 
 export const BattleModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -15,6 +28,9 @@ export const BattleModal: React.FC = () => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.modalStatus);
 	const isLoading = status === "loading";
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+	const isBattleStatsOpen = useAppSelector((state) => state.battle.isBattleStatsOpen);
 
 	useEffect(() => {
 		if (battle || !open) {
@@ -46,7 +62,7 @@ export const BattleModal: React.FC = () => {
 	}, [dispatch, battle, open]);
 
 	return (
-		<Dialog open={open} maxWidth="md" scroll="body">
+		<Dialog open={open} maxWidth="md" scroll="body" fullScreen={isMobile}>
 			<DialogContent>
 				{isLoading ? (
 					<Box display="flex" justifyContent="center" alignItems="center" minHeight="616px">
@@ -55,7 +71,25 @@ export const BattleModal: React.FC = () => {
 				) : battle ? (
 					<Grid container spacing={2}>
 						<Grid item xs={12} md={6}>
-							<BattleDetails />
+							<Stack height={{ md: "100%" }} spacing={1}>
+								<MobileMenu />
+
+								{isMobile && (
+									<Collapse in={isBattleStatsOpen}>
+										<BattleStats />
+										<CombatLog />
+									</Collapse>
+								)}
+
+								<Hero />
+
+								{!isMobile && (
+									<Fragment>
+										<BattleStats />
+										<CombatLog />
+									</Fragment>
+								)}
+							</Stack>
 						</Grid>
 						<Grid item xs={12} md={6}>
 							<Enemy />

@@ -46,7 +46,14 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 		<Fragment>
 			<HoverButton
 				component={Box}
-				sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+					gap: 3,
+					p: 1,
+					overflow: "hidden",
+				}}
 				onClick={openEquipmentDetailsModal}
 			>
 				<Box display="flex" alignItems="center" gap={2} overflow="hidden">

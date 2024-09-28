@@ -7,20 +7,10 @@ import { postAction } from "./battleSlice";
 import { openErrorModal } from "features/modals";
 import { MAX_SKILLS } from "common/utils";
 
-const Wrapper = styled(Box)(({ theme }) => ({
-	flex: 1,
-	position: "sticky",
-	bottom: theme.spacing(2),
-	margin: "auto",
-	marginTop: theme.spacing(4),
-	display: "flex",
-	alignItems: "flex-end",
-	justifyContent: "center",
-}));
-
 const EmptySlot = styled(Box)(({ theme }) => ({
 	border: `2px dashed ${theme.palette.grey[800]}`,
 	width: "64px",
+	height: "64px",
 }));
 
 const StyledButton = styled(ButtonBase)({
@@ -85,16 +75,14 @@ export const ActionBar: React.FC = () => {
 	const emptySlots = Array.from({ length: MAX_SKILLS - character.skills.length }).fill(null);
 
 	return (
-		<Wrapper>
-			<Box display="flex" justifyContent="space-between" gap="2px">
-				{character.skills.map((skill) => (
-					<SkillButton key={skill.id} {...skill} />
-				))}
+		<Box display="flex" justifyContent="center" gap="2px" flexWrap="wrap" mt={2}>
+			{character.skills.map((skill) => (
+				<SkillButton key={skill.id} {...skill} />
+			))}
 
-				{emptySlots.map((_, index) => (
-					<EmptySlot key={index} />
-				))}
-			</Box>
-		</Wrapper>
+			{emptySlots.map((_, index) => (
+				<EmptySlot key={index} />
+			))}
+		</Box>
 	);
 };
