@@ -54,7 +54,7 @@ export const TreasureModal: React.FC = () => {
 					{battle.treasure.map((item) => (
 						<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
 					))}
-					<Gold onTake={handleTakeGold} />
+					<Gold level={battle.level} onTake={handleTakeGold} />
 				</Stack>
 			</DialogContent>
 		</Dialog>

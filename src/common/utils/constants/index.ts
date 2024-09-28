@@ -237,4 +237,6 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Epic]: "Epic",
 };
 
+export const REWARD_GOLD_MULTIPLIER = 50;
+
 export * from "./config";
