@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
 import { CharacterNameModal, openCharacterClassModal, openErrorModal } from "features/modals";
 import { useNavigate } from "react-router-dom";
-import { Loader } from "common/components";
+import { GameHeader, Loader } from "common/components";
 
 export const CharacterCreate: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -79,6 +79,8 @@ export const CharacterCreate: React.FC = () => {
 					flexDirection: "column",
 				}}
 			>
+				<GameHeader />
+
 				<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
 					<Container maxWidth="lg">
 						<Typography color="text.secondary" textAlign="center" mb={4}>

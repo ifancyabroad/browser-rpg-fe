@@ -1,4 +1,5 @@
 import { Box, Container } from "@mui/material";
+import { GameHeader } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { State, Status } from "common/utils";
 import { BattleModal } from "features/battle";
@@ -51,6 +52,7 @@ export const Game: React.FC = () => {
 								flexDirection: "column",
 							}}
 						>
+							<GameHeader />
 							<Outlet />
 						</Box>
 					</Container>
