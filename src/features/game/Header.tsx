@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
 					<IconButton
 						onClick={handleDrawerToggle}
 						sx={{
-							display: { md: "none" },
+							visibility: { md: "hidden" },
 						}}
 					>
 						<MenuIcon />

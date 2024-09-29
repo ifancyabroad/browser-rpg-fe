@@ -37,6 +37,7 @@ export const Enemy: React.FC = () => {
 				<Box
 					component="img"
 					sx={{
+						aspectRatio: "227/321",
 						width: { xs: "60%", sm: "80%" },
 						verticalAlign: "middle",
 					}}

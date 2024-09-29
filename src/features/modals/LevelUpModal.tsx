@@ -38,13 +38,24 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 		<HoverButton
 			component={Box}
 			isActive={isSelected}
-			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+			sx={{
+				width: "100%",
+				display: "flex",
+				justifyContent: "space-between",
+				alignItems: "center",
+				gap: 3,
+				p: 1,
+			}}
 		>
-			<Box display="flex" alignItems="center" gap={2}>
+			<Box display="flex" alignItems="center" gap={2} overflow="hidden" flex={1}>
 				<SkillIcon skill={skill} />
-				<Stack>
-					<Typography color="text.secondary">{skill.name}</Typography>
-					<Typography variant="body2">{secondaryText}</Typography>
+				<Stack overflow="hidden">
+					<Typography color="text.secondary" noWrap>
+						{skill.name}
+					</Typography>
+					<Typography variant="body2" noWrap>
+						{secondaryText}
+					</Typography>
 				</Stack>
 			</Box>
 			<Link component="button" onClick={handleViewSkill}>

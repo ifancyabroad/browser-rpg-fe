@@ -51,12 +51,12 @@ export const BattleModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} maxWidth="md" scroll="body" fullScreen={isMobile}>
-			<DialogContent>
-				{isLoading ? (
-					<Box display="flex" justifyContent="center" alignItems="center" minHeight="616px">
-						<Loader />
-					</Box>
-				) : battle ? (
+			{isLoading ? (
+				<Box display="flex" justifyContent="center" alignItems="center" minHeight="600px">
+					<Loader />
+				</Box>
+			) : battle ? (
+				<DialogContent>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
 							<Stack height={{ sm: "100%" }} spacing={1}>
@@ -69,12 +69,12 @@ export const BattleModal: React.FC = () => {
 							<Enemy />
 						</Grid>
 					</Grid>
-				) : (
-					<Box display="flex" justifyContent="center" alignItems="center" minHeight="616px">
-						<Loader />
-					</Box>
-				)}
-			</DialogContent>
+				</DialogContent>
+			) : (
+				<Box display="flex" justifyContent="center" alignItems="center" minHeight="600px">
+					<Loader />
+				</Box>
+			)}
 			<DialogActions>
 				<Stack spacing={1}>
 					<BattleStats />
