@@ -37,8 +37,7 @@ export const Enemy: React.FC = () => {
 				<Box
 					component="img"
 					sx={{
-						height: { xs: 300, md: 500 },
-						maxWidth: "100%",
+						width: { xs: "60%", sm: "80%" },
 						verticalAlign: "middle",
 					}}
 					src={image}
