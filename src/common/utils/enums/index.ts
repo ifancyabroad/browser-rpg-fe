@@ -176,3 +176,8 @@ export enum TileType {
 	Exit = "exit",
 	Rest = "rest",
 }
+
+export enum LeaderboardTab {
+	Overall,
+	User,
+}

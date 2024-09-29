@@ -14,3 +14,4 @@ export * from "./skill";
 export * from "./equipment";
 export * from "./map";
 export * from "./level";
+export * from "./leaderboard";

@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IApiError, ICharacter } from "common/types";
+import { IApiError, ILeaderboardCharacter, ILeaderboardPayload } from "common/types";
 
 interface ILeaderboardState {
-	leaderboard: ICharacter[];
+	leaderboard: ILeaderboardCharacter[];
 	isOpen: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -16,18 +16,23 @@ const initialState: ILeaderboardState = {
 	status: "idle",
 };
 
-export const fetchLeaderboard = createAsyncThunk("battle/fetchLeaderboard", async (_, { rejectWithValue }) => {
-	try {
-		const response = await axios.get<{ leaderboard: ICharacter[] }>("/api/leaderboard");
-		return response.data;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
+export const fetchLeaderboard = createAsyncThunk(
+	"battle/fetchLeaderboard",
+	async (payload: ILeaderboardPayload | void, { rejectWithValue }) => {
+		try {
+			const response = await axios.get<{ leaderboard: ILeaderboardCharacter[] }>("/api/leaderboard", {
+				params: payload,
+			});
+			return response.data;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
 		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
+	},
+);
 
 export const leaderboardSelector = (state: RootState) => state.leaderboard;
 
