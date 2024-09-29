@@ -1,24 +1,13 @@
-import {
-	Box,
-	Collapse,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	Grid,
-	Stack,
-	useMediaQuery,
-	useTheme,
-} from "@mui/material";
+import { Box, Dialog, DialogActions, DialogContent, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals/modalsSlice";
 import { BattleResult } from "common/utils";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 import { fetchBattle } from "./battleSlice";
 import { ActionBar } from "./ActionBar";
 import { Enemy } from "./Enemy";
 import { Hero } from "./Hero";
 import { Loader } from "common/components";
-import { MobileMenu } from "./MobileMenu";
 import { BattleStats } from "./BattleStats";
 import { CombatLog } from "./CombatLog";
 
@@ -29,8 +18,7 @@ export const BattleModal: React.FC = () => {
 	const status = useAppSelector((state) => state.battle.modalStatus);
 	const isLoading = status === "loading";
 	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-	const isBattleStatsOpen = useAppSelector((state) => state.battle.isBattleStatsOpen);
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	useEffect(() => {
 		if (battle || !open) {
@@ -70,28 +58,14 @@ export const BattleModal: React.FC = () => {
 					</Box>
 				) : battle ? (
 					<Grid container spacing={2}>
-						<Grid item xs={12} md={6}>
-							<Stack height={{ md: "100%" }} spacing={1}>
-								<MobileMenu />
-
-								{isMobile && (
-									<Collapse in={isBattleStatsOpen}>
-										<BattleStats />
-										<CombatLog />
-									</Collapse>
-								)}
-
+						<Grid item xs={12} sm={6}>
+							<Stack height={{ sm: "100%" }} spacing={1}>
 								<Hero />
 
-								{!isMobile && (
-									<Fragment>
-										<BattleStats />
-										<CombatLog />
-									</Fragment>
-								)}
+								{!isMobile && <CombatLog />}
 							</Stack>
 						</Grid>
-						<Grid item xs={12} md={6}>
+						<Grid item xs={12} sm={6}>
 							<Enemy />
 						</Grid>
 					</Grid>
@@ -102,7 +76,10 @@ export const BattleModal: React.FC = () => {
 				)}
 			</DialogContent>
 			<DialogActions>
-				<ActionBar />
+				<Stack spacing={1}>
+					<BattleStats />
+					<ActionBar />
+				</Stack>
 			</DialogActions>
 		</Dialog>
 	);

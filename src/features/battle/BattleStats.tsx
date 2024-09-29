@@ -10,7 +10,7 @@ export const BattleStats: React.FC = () => {
 	}
 
 	return (
-		<Box display="flex" justifyContent="space-between" gap={1}>
+		<Box display="flex" justifyContent="space-between" flexWrap="wrap" gap={1}>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Battle</Typography>
 				<Typography>{battle.level}</Typography>
@@ -20,12 +20,12 @@ export const BattleStats: React.FC = () => {
 				<Typography>{character.maxBattleLevel}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
-				<Typography color="secondary.main">Zone</Typography>
-				<Typography textTransform="capitalize">{battle.zone}</Typography>
-			</Box>
-			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Slain</Typography>
 				<Typography>{character.streak}</Typography>
+			</Box>
+			<Box display="flex" alignItems="center" gap={1}>
+				<Typography color="secondary.main">Zone</Typography>
+				<Typography textTransform="capitalize">{battle.zone}</Typography>
 			</Box>
 		</Box>
 	);

@@ -9,7 +9,6 @@ export * from "./EquipmentSlotIcon";
 export * from "./Loader";
 export * from "./PropertyList";
 export * from "./EffectList";
-export * from "./CharacterButton";
 export * from "./StatIcon";
 export * from "./HealthBar";
 export * from "./Effect";

@@ -75,7 +75,7 @@ export const ActionBar: React.FC = () => {
 	const emptySlots = Array.from({ length: MAX_SKILLS - character.skills.length }).fill(null);
 
 	return (
-		<Box display="flex" justifyContent="center" gap="2px" flexWrap="wrap" mt={2}>
+		<Box display="flex" justifyContent="center" gap="2px" flexWrap="wrap">
 			{character.skills.map((skill) => (
 				<SkillButton key={skill.id} {...skill} />
 			))}

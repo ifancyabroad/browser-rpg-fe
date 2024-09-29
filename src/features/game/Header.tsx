@@ -1,17 +1,34 @@
-import { Box, Container, Link as MuiLink } from "@mui/material";
+import { Box, Container, IconButton, Link as MuiLink } from "@mui/material";
 import { Link } from "react-router-dom";
-import { CharacterButton } from "common/components";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useAppDispatch } from "common/hooks";
+import { openCharacterSheet } from "features/character";
 
-export const Header: React.FC = () => (
-	<Box py={1}>
-		<Container maxWidth={false}>
-			<Box display="flex" justifyContent="space-between" gap={3}>
-				<CharacterButton />
+export const Header: React.FC = () => {
+	const dispatch = useAppDispatch();
 
-				<MuiLink component={Link} to="/">
-					&lt; Back
-				</MuiLink>
-			</Box>
-		</Container>
-	</Box>
-);
+	const handleDrawerToggle = () => {
+		dispatch(openCharacterSheet());
+	};
+
+	return (
+		<Box py={1}>
+			<Container maxWidth={false}>
+				<Box display="flex" justifyContent="space-between" gap={3}>
+					<IconButton
+						onClick={handleDrawerToggle}
+						sx={{
+							display: { md: "none" },
+						}}
+					>
+						<MenuIcon />
+					</IconButton>
+
+					<MuiLink component={Link} to="/">
+						&lt; Back
+					</MuiLink>
+				</Box>
+			</Container>
+		</Box>
+	);
+};

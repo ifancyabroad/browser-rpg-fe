@@ -5,7 +5,6 @@ import { IActionPayload, IApiError, IBattle, ICharacter, ITreasurePayload } from
 
 interface IGameState {
 	battle: IBattle | null;
-	isBattleStatsOpen: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	modalStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -13,7 +12,6 @@ interface IGameState {
 
 const initialState: IGameState = {
 	battle: null,
-	isBattleStatsOpen: false,
 	status: "idle",
 	modalStatus: "idle",
 };
@@ -121,14 +119,7 @@ export const getTreasureAvailable = createSelector(battleSelector, ({ battle }) 
 export const battleSlice = createSlice({
 	name: "battle",
 	initialState,
-	reducers: {
-		openBattleStats: (state) => {
-			state.isBattleStatsOpen = true;
-		},
-		closeBattleStats: (state) => {
-			state.isBattleStatsOpen = false;
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(startBattle.pending, (state) => {
 			state.status = "loading";
@@ -209,6 +200,6 @@ export const battleSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { openBattleStats, closeBattleStats } = battleSlice.actions;
+// export const { } = battleSlice.actions;
 
 export default battleSlice.reducer;

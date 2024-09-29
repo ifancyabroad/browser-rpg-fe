@@ -168,6 +168,7 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					justifyContent: "center",
+					flexWrap: "wrap",
 					padding: "16px",
 					paddingTop: "0",
 					gap: "16px",
