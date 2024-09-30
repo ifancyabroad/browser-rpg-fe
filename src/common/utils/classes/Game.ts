@@ -381,7 +381,7 @@ export class Game implements IGame {
 			return;
 		}
 
-		const includeEndNode = ![TileType.Merchant, TileType.Rest, TileType.Exit].includes(properties.type); // TODO: Use tiled property for this?
+		const includeEndNode = [TileType.None, TileType.Entrance].includes(properties.type);
 		const path = this._findPath(properties.location, includeEndNode);
 
 		if (!path.length) {
