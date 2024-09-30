@@ -1,6 +1,12 @@
-import { ILocation, ITileProperties } from "common/types";
+import { ILocation, ITileLayerTileProperties, ITileProperties } from "common/types";
 import { TileType } from "common/utils/enums";
-import TiledMap, { TiledLayer, TiledProperty, TiledTileset } from "tiled-types";
+import TiledMap, {
+	TiledLayerObjectgroup,
+	TiledLayerTilelayer,
+	TiledProperty,
+	TiledTile,
+	TiledTileset,
+} from "tiled-types";
 
 interface IGameMap {
 	get map(): ITileProperties[][];
@@ -51,45 +57,83 @@ export class GameMap implements IGameMap {
 	}
 
 	/**
-	 * Retrieves the tile located at the specified column and row coordinates.
+	 * Retrieves tile properties from a specified tile layer.
 	 *
-	 * @param {TiledLayer} layer - The layer to retrieve the tile from.
-	 * @param {number} col - The column index of the tile.
-	 * @param {number} row - The row index of the tile.
-	 * @return {number | undefined} The tile object at the given coordinates.
+	 * @param layer - The tile layer from which to retrieve the tile.
+	 * @param tiles - An array of tiles to search for the specified tile.
+	 * @param col - The column index of the tile within the layer.
+	 * @param row - The row index of the tile within the layer.
+	 * @returns The properties of the tile at the specified position, or undefined if the tile does not exist.
 	 */
-	private _getTileGlobalID(layer: TiledLayer, col: number, row: number): number | undefined {
-		if ("data" in layer) {
-			// TODO: Refactor this
-			const data = layer.data as number[];
-			const result = data.reduce((resultArray, item, index) => {
-				const chunkIndex = Math.floor(index / layer.width);
+	private _getTileFromTileLayer(
+		layer: TiledLayerTilelayer,
+		tiles: TiledTile[],
+		col: number,
+		row: number,
+	): ITileLayerTileProperties | undefined {
+		// TODO: Refactor this
+		const data = layer.data as number[];
+		const result = data.reduce((resultArray, item, index) => {
+			const chunkIndex = Math.floor(index / layer.width);
 
-				if (!resultArray[chunkIndex]) {
-					resultArray[chunkIndex] = []; // start a new chunk
-				}
-
-				resultArray[chunkIndex].push(item);
-
-				return resultArray;
-			}, [] as number[][]);
-			const tile = result[row]?.[col];
-			return tile as number;
-		}
-
-		if ("objects" in layer) {
-			const obj = layer.objects.find((o) => {
-				const x = Math.floor(o.x / this._tiledMap.tilewidth);
-				const y = Math.floor((o.y - o.height) / this._tiledMap.tileheight);
-				return x === col && y === row;
-			});
-
-			if (!obj?.gid) {
-				return;
+			if (!resultArray[chunkIndex]) {
+				resultArray[chunkIndex] = []; // start a new chunk
 			}
 
-			return obj.gid - 1;
+			resultArray[chunkIndex].push(item);
+
+			return resultArray;
+		}, [] as number[][]);
+
+		const globalID = result[row]?.[col];
+
+		if (!globalID) {
+			return;
 		}
+
+		const tile = tiles.find((t) => t.id === globalID);
+
+		const properties: TiledProperty[] = tile?.properties || [];
+
+		return {
+			globalID,
+			properties,
+		};
+	}
+
+	/**
+	 * Retrieves tile properties from a specified object layer based on column and row indices.
+	 *
+	 * @param layer - The object layer from which to retrieve the tile.
+	 * @param tiles - An array of tiles used in the map.
+	 * @param col - The column index of the tile.
+	 * @param row - The row index of the tile.
+	 * @returns The properties of the tile at the specified position, or undefined if no tile is found.
+	 */
+	private _getTileFromObjectLayer(
+		layer: TiledLayerObjectgroup,
+		tiles: TiledTile[],
+		col: number,
+		row: number,
+	): ITileLayerTileProperties | undefined {
+		const obj = layer.objects.find((o) => {
+			const x = Math.floor(o.x / this._tiledMap.tilewidth);
+			const y = Math.floor((o.y - o.height) / this._tiledMap.tileheight);
+			return x === col && y === row;
+		});
+
+		if (!obj) {
+			return;
+		}
+
+		const globalID = obj.gid ? obj.gid - 1 : 0;
+
+		const properties: TiledProperty[] = obj.properties || [];
+
+		return {
+			globalID,
+			properties,
+		};
 	}
 
 	/**
@@ -117,13 +161,22 @@ export class GameMap implements IGameMap {
 		const tileProperties: TiledProperty[] = [];
 
 		this._tiledMap.layers.forEach((layer) => {
-			const id = this._getTileGlobalID(layer, x, y);
-			if (id) {
-				properties.globalIDs.push(id);
+			if ("data" in layer) {
+				const tile = this._getTileFromTileLayer(layer, tiles, x, y);
+
+				if (tile) {
+					properties.globalIDs.push(tile.globalID);
+					tileProperties.push(...tile.properties);
+				}
 			}
-			const tile = tiles.find((t) => t.id === id);
-			if (tile && tile.properties) {
-				tileProperties.push(...tile.properties);
+
+			if ("objects" in layer) {
+				const tile = this._getTileFromObjectLayer(layer, tiles, x, y);
+
+				if (tile) {
+					properties.globalIDs.push(tile.globalID);
+					tileProperties.push(...tile.properties);
+				}
 			}
 		});
 

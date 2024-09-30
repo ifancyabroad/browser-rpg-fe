@@ -263,17 +263,19 @@ export class Game implements IGame {
 
 		const tilesetLocation = this._getTilesetLocationByGlobalID(globalID);
 
-		this.ctx.drawImage(
-			this._tileAtlas, // image
-			tilesetLocation.x * this._tiledMap.tilewidth, // source x
-			tilesetLocation.y * this._tiledMap.tileheight, // source y
-			this._tiledMap.tilewidth, // source width
-			this._tiledMap.tileheight, // source height
-			(this._location.x - this._startCol) * this._tiledMap.tilewidth + this._offsetX, // destination x
-			(this._location.y - this._startRow) * this._tiledMap.tileheight + this._offsetY, // destination y
-			this._tiledMap.tilewidth, // destination width
-			this._tiledMap.tileheight, // destination height
-		);
+		if (Math.floor(Date.now() / 400) % 2 === 0) {
+			this.ctx.drawImage(
+				this._tileAtlas, // image
+				tilesetLocation.x * this._tiledMap.tilewidth, // source x
+				tilesetLocation.y * this._tiledMap.tileheight, // source y
+				this._tiledMap.tilewidth, // source width
+				this._tiledMap.tileheight, // source height
+				(this._location.x - this._startCol) * this._tiledMap.tilewidth + this._offsetX, // destination x
+				(this._location.y - this._startRow) * this._tiledMap.tileheight + this._offsetY, // destination y
+				this._tiledMap.tilewidth, // destination width
+				this._tiledMap.tileheight, // destination height
+			);
+		}
 	}
 
 	/**
@@ -375,11 +377,11 @@ export class Game implements IGame {
 		const location = this._getLocationByCoordinates(x, y);
 		const properties = this._map.getTile(location.x, location.y);
 
-		if (!properties || properties.blocking) {
+		if (!properties || !properties.globalIDs.length || properties.blocking) {
 			return;
 		}
 
-		const includeEndNode = properties.type !== TileType.Merchant; // TODO: Use tiled property for this?
+		const includeEndNode = ![TileType.Merchant, TileType.Rest, TileType.Exit].includes(properties.type); // TODO: Use tiled property for this?
 		const path = this._findPath(properties.location, includeEndNode);
 
 		if (!path.length) {
@@ -403,7 +405,7 @@ export class Game implements IGame {
 		const location = this._getLocationByCoordinates(x, y);
 		const properties = this._map.getTile(location.x, location.y);
 
-		if (!properties || properties.blocking) {
+		if (!properties || !properties.globalIDs.length || properties.blocking) {
 			this._cursorLocation = null;
 			this.canvas.style.cursor = "default";
 			return;

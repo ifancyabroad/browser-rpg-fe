@@ -5,7 +5,7 @@
  "layers":[
         {
          "compression":"",
-         "data":"AAAAAAAAAAAAAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAADmAAAA5gAAAOYAAADmAAAAAAAAAAAAAAAAAAAA5gAAAOYAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAADmAAAA5gAAAOYAAAAAAAAA5gAAAOYAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC6AAAAuQAAAOYAAADmAAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC6AAAAugAAALoAAAC5AAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC6AAAAugAAALoAAAC6AAAAugAAALkAAADmAAAA5gAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAAugAAALkAAAC5AAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALoAAAC6AAAAugAAALkAAAC5AAAA5gAAAOYAAAAAAAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALkAAAC5AAAA5gAAAOYAAAAAAAAAAAAAAAAAAADmAAAA5gAAAOYAAADmAAAA5gAAALkAAAC5AAAAuQAAALkAAADmAAAA5gAAAOYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADmAAAA5gAAAOYAAADmAAAAuQAAAOYAAADmAAAA5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOYAAADmAAAAvAAAALwAAAC8AAAA5gAAAOYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5gAAAOYAAADmAAAAvAAAALwAAAC8AAAAvAAAAOYAAADmAAAA5gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA5gAAAOYAAADmAAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAAOYAAADmAAAAAAAAAAAAAAAAAAAA5gAAAOYAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAA5gAAAOYAAAAAAAAA5gAAAOYAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAADmAAAA5gAAAA==",
+         "data":"AAAAAAAAAAAAAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAAAAAAAAAAAAAAAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAAugAAALoAAAAAAAAAAAAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAAugAAALoAAAC6AAAAAAAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALoAAAC6AAAAugAAALoAAAC6AAAAugAAALoAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC6AAAAugAAALoAAAC6AAAAugAAALoAAAC6AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAAugAAALoAAAC6AAAAugAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAuQAAALoAAAC6AAAAugAAALoAAAC6AAAAugAAALoAAADmAAAA5gAAAOYAAADmAAAAuQAAALkAAAC5AAAAuQAAALkAAAC5AAAAugAAALoAAAC6AAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAALkAAAC5AAAAuQAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAADmAAAAuQAAAOYAAADmAAAA5gAAAOYAAADmAAAA5gAAAOYAAAAAAAAA5gAAAOYAAAC8AAAAvAAAAOYAAADmAAAAvAAAALwAAAC8AAAA5gAAAOYAAADmAAAA5gAAAOYAAAAAAAAAAAAAAAAAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAADmAAAAAAAAAAAAAAAAAAAAAAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8AAAAvAAAALwAAAC8AAAAvAAAALwAAAC8AAAAAAAAAAAAAAAAAAAAAAAAAA==",
          "encoding":"base64",
          "height":16,
          "id":5,
@@ -19,7 +19,7 @@
         }, 
         {
          "compression":"",
-         "data":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABfAAAAbgAAAG4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB9AAAAAAAAAF8AAABfAAAAXwAAAG4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXwAAALABAABAAQAAXwAAADcBAAA2AQAAbgAAAF8AAABfAAAAXwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXwAAANkAAADXAAAA1wAAAN0AAADXAAAA2gAAAAAAAAAAAAAAAAAAAH0AAABuAAAAAAAAAAAAAAAAAAAAAAAAAF8AAADYAAAANgEAADMBAADYAAAAMwEAANgAAAAAAAAAJgIAAEUBAAAAAAAAXwAAAG4AAAAAAAAAAAAAAAAAAABfAAAA2wAAANcAAADXAAAA3gAAANcAAADfAAAAAAAAAAAAAAB9AQAAbgAAAF8AAABfAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABfAAAAFgEAACgBAAAmAQAA2AAAAH4BAAAAAAAAfQAAAG4AAABuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcAQAAIgEAANgAAAAAAAAAAAAAAG4AAABuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEBAADYAAAAQQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAApAAAANgAAABoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuwEAAHEAAADYAAAAhgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAdwAAAHEAAACPAAAA2AAAAGgAAACVAAAAYgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABxAAAAdwAAAJUAAACAAAAArwEAANgAAACAAAAAaAAAAHEAAABxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABxAAAAYgAAAHcAAAC9AQAAhgAAAIAAAADYAAAAuwEAAGIAAAC6AQAAdwAAAGIAAAAAAAAAAAAAAA==",
+         "data":"AAAAAAAAAAAAAAAAXwAAAG4AAABuAAAAbgAAAF8AAABfAAAAYAAAAHAAAABwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXwAAAF8AAABuAAAAXwAAAG4AAABfAAAAbgAAAF8AAABgAAAAYQAAAGEAAABhAAAAAAAAAAAAAAAAAAAAbgAAAG4AAABuAAAAQAEAALABAABfAAAAbgAAAF8AAABvAAAAYAAAAGAAAABvAAAAcAAAAGEAAAAAAAAAAAAAAG4AAABfAAAAbgAAANgAAAA0AQAAMQEAADMBAAAAAAAAAAAAAAAAAABhAAAAfwAAAGAAAABwAAAAAAAAAG4AAABuAAAAbgAAANkAAADeAAAA1wAAANcAAADXAAAA2gAAAAAAAAAAAAAAAAAAAAAAAABwAAAAYQAAAGEAAABfAAAAbgAAAAAAAADYAAAAfwEAADMBAAA0AQAAMQEAANgAAACuAQAAJgIAAEUBAAAAAAAAfgAAAG8AAABhAAAAbgAAAAAAAAAAAAAA2wAAANcAAADXAAAA1wAAANcAAADhAAAA1wAAANwAAAB9AQAAAAAAAHAAAABgAAAAcAAAAAAAAAAAAAAAAAAAAAAAAAAoAQAAFgEAACgBAAAmAQAA2AAAAH4BAAAAAAAAAAAAAAAAAABwAAAAcAAAAHAAAAAAAAAAAAAAAAAAAAAAAAAAJwEAABYBAAAcAQAAIgEAANgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEEBAADYAAAAQQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZgAAAAAAAAAAAAAApAAAANgAAABoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABxAAAAYgAAAHEAAABxAAAAYgAAAHEAAADYAAAAcQAAAGIAAABxAAAAYgAAAHEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGIAAABxAAAAYgAAAGIAAABxAAAA2AAAAHEAAABiAAAAZgAAAHEAAABiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB1AAAAcQAAAGIAAAB1AAAAYgAAANgAAACAAAAAYgAAAGIAAABiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmAAAAYgAAAHEAAADYAAAArwEAAGIAAABmAAAAAAAAAAAAAAAAAAAAAAAAAA==",
          "encoding":"base64",
          "height":16,
          "id":6,
@@ -37,37 +37,55 @@
          "name":"locations",
          "objects":[
                 {
-                 "gid":426,
-                 "height":32,
-                 "id":12,
+                 "height":0,
+                 "id":14,
                  "name":"",
+                 "point":true,
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"entrance"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":270,
+                 "y":212
+                }, 
+                {
+                 "gid":366,
+                 "height":32,
+                 "id":16,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"exit"
+                        }],
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
                  "x":256,
                  "y":512
-                }, 
-                {
-                 "gid":428,
-                 "height":32,
-                 "id":13,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":160,
-                 "y":160
                 }],
          "opacity":1,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"exit"
+                }],
          "type":"objectgroup",
          "visible":true,
          "x":0,
          "y":0
         }],
  "nextlayerid":8,
- "nextobjectid":14,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
@@ -76,7 +94,7 @@
         {
          "columns":15,
          "firstgid":1,
-         "image":"..\/..\/..\/Downloads\/The Roguelike Remastered 1-5-10 Alpha.png",
+         "image":"..\/..\/..\/..\/..\/..\/Users\/edgar\/Downloads\/The Roguelike Remastered 1-5-10 Alpha.png",
          "imageheight":1504,
          "imagewidth":480,
          "margin":0,
@@ -1454,15 +1472,6 @@
                         }]
                 }, 
                 {
-                 "id":365,
-                 "properties":[
-                        {
-                         "name":"blocking",
-                         "type":"bool",
-                         "value":true
-                        }]
-                }, 
-                {
                  "id":366,
                  "properties":[
                         {
@@ -1533,8 +1542,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":379,
                  "properties":[
@@ -1543,7 +1551,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":380,
                  "properties":[
@@ -1678,8 +1687,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":400,
                  "properties":[
@@ -1688,7 +1696,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":401,
                  "properties":[
@@ -1828,8 +1837,7 @@
                          "type":"string",
                          "value":"exit"
                         }]
-                },
-            
+                }, 
                 {
                  "id":426,
                  "properties":[
@@ -1838,7 +1846,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":427,
                  "properties":[
@@ -1998,8 +2007,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":447,
                  "properties":[
@@ -2008,7 +2016,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":448,
                  "properties":[
@@ -2143,8 +2152,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":473,
                  "properties":[
@@ -2153,7 +2161,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":474,
                  "properties":[
@@ -2288,8 +2297,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":499,
                  "properties":[
@@ -2298,7 +2306,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":500,
                  "properties":[
@@ -2433,8 +2442,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":520,
                  "properties":[
@@ -2443,7 +2451,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":521,
                  "properties":[
@@ -2583,8 +2592,7 @@
                          "type":"string",
                          "value":"hero"
                         }]
-                },
-            
+                }, 
                 {
                  "id":546,
                  "properties":[
@@ -2598,7 +2606,8 @@
                          "type":"string",
                          "value":"hero"
                         }]
-                }, 
+                },
+            
                 {
                  "id":547,
                  "properties":[
@@ -2738,8 +2747,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":577,
                  "properties":[
@@ -2748,7 +2756,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":578,
                  "properties":[
@@ -2883,8 +2892,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":598,
                  "properties":[
@@ -2893,7 +2901,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":604,
                  "properties":[
@@ -3028,8 +3037,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":624,
                  "properties":[
@@ -3038,7 +3046,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":625,
                  "properties":[

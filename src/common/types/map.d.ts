@@ -1,4 +1,5 @@
 import { TileType } from "common/utils";
+import { TiledProperty } from "tiled-types";
 
 export interface ILocation {
 	x: number;
@@ -16,4 +17,9 @@ export interface ITileProperties {
 	type: TileType;
 	blocking: boolean;
 	active: boolean;
+}
+
+export interface ITileLayerTileProperties {
+	globalID: number;
+	properties: TiledProperty[];
 }
