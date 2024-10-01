@@ -4,8 +4,6 @@ export * from "./HOCGameData";
 export * from "./PageLoader";
 export * from "./Header";
 export * from "./SkillIcon";
-export * from "./EquipmentTypeIcon";
-export * from "./EquipmentSlotIcon";
 export * from "./Loader";
 export * from "./PropertyList";
 export * from "./EffectList";

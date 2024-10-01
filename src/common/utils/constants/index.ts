@@ -172,6 +172,7 @@ export const EQUIPMENT_TYPE_NAME_MAP: Record<EquipmentType | WeaponType, string>
 	[WeaponType.Spear]: "Spear",
 	[WeaponType.Staff]: "Staff",
 	[WeaponType.Sword]: "Sword",
+	[WeaponType.Wand]: "Wand",
 };
 
 export const EQUIPMENT_SLOT_TYPE_MAP: Record<EquipmentType, EquipmentSlot[]> = {
