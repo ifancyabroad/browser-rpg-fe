@@ -63,11 +63,13 @@ export const ContactModal: React.FC = () => {
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
-			<DialogTitle textAlign="center">Contact Us</DialogTitle>
+			<DialogTitle textAlign="center">Contact</DialogTitle>
 			<DialogContent>
 				<form id="contact-form" onSubmit={handleSubmit}>
 					<Stack spacing={2}>
-						<DialogContentText>Please fill out the form below to contact us.</DialogContentText>
+						<DialogContentText>
+							If you have any questions or comments, please feel free to contact me using the form below.
+						</DialogContentText>
 						<TextField
 							fullWidth
 							label="Email"
@@ -105,7 +107,7 @@ export const ContactModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="text.secondary" onClick={handleClose}>
-					Cancel
+					Close
 				</Link>
 				<Link component="button" type="submit" form="contact-form" disabled={disabled}>
 					Submit
