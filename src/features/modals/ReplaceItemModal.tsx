@@ -63,12 +63,11 @@ const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
 
 export const ReplaceItemModal: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { open, item } = useAppSelector((state) => state.modals.replaceItemModal);
+	const { open, item, isReward } = useAppSelector((state) => state.modals.replaceItemModal);
 	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const [slot, setSlot] = useState<EquipmentSlot | null>(null);
-	const isShop = true; // TODO: Get isShop from modal data
 
 	useEffect(() => {
 		const sl = item ? EQUIPMENT_SLOT_TYPE_MAP[item.type][0] : null;
@@ -96,11 +95,11 @@ export const ReplaceItemModal: React.FC = () => {
 			if (!slot) {
 				throw new Error("No item selected");
 			}
-			if (isShop) {
-				await dispatch(buyItem({ id, slot })).unwrap();
-			} else {
+			if (isReward) {
 				await dispatch(takeTreasure({ id, slot })).unwrap();
 				dispatch(closeTreasureModal());
+			} else {
+				await dispatch(buyItem({ id, slot })).unwrap();
 			}
 			dispatch(closeReplaceItemModal());
 		} catch (err) {

@@ -13,6 +13,7 @@ interface ModalsState {
 	replaceItemModal: {
 		open: boolean;
 		item?: IArmour | IWeapon;
+		isReward?: boolean;
 	};
 	rewardsModalOpen: boolean;
 	gameOverModalOpen: boolean;
@@ -99,10 +100,11 @@ export const modalsSlice = createSlice({
 		},
 		openReplaceItemModal: (
 			state,
-			action: PayloadAction<{ title?: string; message?: string; item: IArmour | IWeapon }>,
+			action: PayloadAction<{ title?: string; message?: string; item: IArmour | IWeapon; isReward?: boolean }>,
 		) => {
 			state.replaceItemModal.open = true;
 			state.replaceItemModal.item = action.payload.item;
+			state.replaceItemModal.isReward = action.payload.isReward;
 		},
 		closeReplaceItemModal: (state) => {
 			state.replaceItemModal.open = false;

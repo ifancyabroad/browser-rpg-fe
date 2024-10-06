@@ -27,7 +27,7 @@ export const TreasureModal: React.FC = () => {
 				return Promise.resolve();
 			}
 
-			dispatch(openReplaceItemModal({ item }));
+			dispatch(openReplaceItemModal({ item, isReward: true }));
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
