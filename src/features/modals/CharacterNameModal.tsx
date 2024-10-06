@@ -14,6 +14,8 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 	const isLoading = status === "loading";
 	const generatedName = nameByRace("human");
 	const [name, setName] = useState(typeof generatedName === "string" ? generatedName : "");
+	const [error, setError] = useState<string | null>(null);
+	const isDisabled = Boolean(!name || error || isLoading);
 
 	const handleClose = () => {
 		onClose();
@@ -23,14 +25,35 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 		onConfirm(name);
 	};
 
+	const validateName = (name: string) => {
+		if (name.length < 3) {
+			setError("Name must be at least 3 characters long.");
+			return;
+		}
+
+		if (name.length > 10) {
+			setError("Name must be at most 10 characters long.");
+			return;
+		}
+
+		if (!/^[\p{L}]+$/u.test(name)) {
+			setError("Name must only contain alphabetic characters.");
+			return;
+		}
+
+		setError(null);
+	};
+
 	const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setName(event.target.value);
+		validateName(event.target.value);
 	};
 
 	const handleGenerateName = () => {
 		const generatedName = nameByRace("human");
 		if (typeof generatedName === "string") {
 			setName(generatedName);
+			validateName(generatedName);
 		}
 	};
 
@@ -53,6 +76,8 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 						minLength: 3,
 						maxLength: 10,
 					}}
+					error={Boolean(error)}
+					helperText={error}
 				/>
 			</DialogContent>
 			<DialogActions>
@@ -62,7 +87,7 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				<Link component="button" color="text.secondary" onClick={handleClose}>
 					Cancel
 				</Link>
-				<Link component="button" onClick={handleConfirm} disabled={isLoading}>
+				<Link component="button" onClick={handleConfirm} disabled={isDisabled}>
 					Confirm
 				</Link>
 			</DialogActions>
