@@ -4,6 +4,7 @@ import authenticationReducer from "features/authentication/authenticationSlice";
 import characterReducer from "features/character/characterSlice";
 import battleReducer from "features/battle/battleSlice";
 import leaderboardReducer from "features/leaderboard/leaderboardSlice";
+import contactReducer from "features/contact/contactSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 		character: characterReducer,
 		battle: battleReducer,
 		leaderboard: leaderboardReducer,
+		contact: contactReducer,
 	},
 });
 

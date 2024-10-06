@@ -15,6 +15,7 @@ import { Start } from "features/start";
 import { CharacterCreate } from "features/character";
 import { Leaderboard } from "features/leaderboard";
 import { Dungeon } from "features/dungeon";
+import { ContactModal } from "features/contact";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
@@ -48,6 +49,7 @@ function App() {
 				<CharacterClassModal />
 				<LoginModal />
 				<RegistrationModal />
+				<ContactModal />
 				<ErrorModal />
 			</Router>
 		</HOCSession>

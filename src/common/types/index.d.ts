@@ -15,3 +15,4 @@ export * from "./equipment";
 export * from "./map";
 export * from "./level";
 export * from "./leaderboard";
+export * from "./contact";
