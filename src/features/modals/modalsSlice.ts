@@ -35,6 +35,7 @@ interface ModalsState {
 	battleModalOpen: boolean;
 	combatLogModalOpen: boolean;
 	victoryModalOpen: boolean;
+	howToPlayModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -64,6 +65,7 @@ const initialState: ModalsState = {
 	battleModalOpen: false,
 	combatLogModalOpen: false,
 	victoryModalOpen: false,
+	howToPlayModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -182,6 +184,12 @@ export const modalsSlice = createSlice({
 		closeVictoryModal: (state) => {
 			state.victoryModalOpen = false;
 		},
+		openHowToPlayModal: (state) => {
+			state.howToPlayModalOpen = true;
+		},
+		closeHowToPlayModal: (state) => {
+			state.howToPlayModalOpen = false;
+		},
 	},
 });
 
@@ -219,6 +227,8 @@ export const {
 	closeCombatLogModal,
 	openVictoryModal,
 	closeVictoryModal,
+	openHowToPlayModal,
+	closeHowToPlayModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

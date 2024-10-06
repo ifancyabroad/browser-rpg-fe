@@ -5,6 +5,7 @@ import { BattleModal, CombatLogModal } from "features/battle";
 import { CharacterSheet } from "features/character";
 import {
 	GameOverModal,
+	HowToPlayModal,
 	LevelUpModal,
 	ReplaceItemModal,
 	RewardsModal,
@@ -12,6 +13,7 @@ import {
 	TreasureModal,
 	VictoryModal,
 	openBattleModal,
+	openHowToPlayModal,
 	openVictoryModal,
 } from "features/modals";
 import { Fragment, useEffect } from "react";
@@ -21,6 +23,13 @@ import { Header } from "./Header";
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const dispatch = useAppDispatch();
+	const hasSeenTutorial = localStorage.getItem("tutorial") === "true";
+
+	useEffect(() => {
+		if (!hasSeenTutorial) {
+			dispatch(openHowToPlayModal());
+		}
+	}, [dispatch, hasSeenTutorial]);
 
 	useEffect(() => {
 		if (character?.status === Status.Complete) {
@@ -68,6 +77,7 @@ export const Game: React.FC = () => {
 			<BattleModal />
 			<CombatLogModal />
 			<VictoryModal />
+			<HowToPlayModal />
 		</Fragment>
 	);
 };

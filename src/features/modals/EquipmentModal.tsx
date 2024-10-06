@@ -39,7 +39,7 @@ export const EquipmentModal: React.FC = () => {
 	const isWeapon = "weaponType" in item;
 
 	return (
-		<Dialog open={open} onClose={handleClose} scroll="body">
+		<Dialog open={open} onClose={handleClose}>
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 				<EquipmentIcon equipment={item} width={48} />
 				<Typography component="span" color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]}>

@@ -44,7 +44,7 @@ export const CharacterClassModal: React.FC = () => {
 	const { name, description, skills, equipment, portrait, stats } = characterClass;
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="sm" scroll="body">
+		<Dialog open={open} onClose={handleClose} maxWidth="sm">
 			{isMobile && <DialogTitle>{name}</DialogTitle>}
 			<DialogContent>
 				<Grid container spacing={2}>

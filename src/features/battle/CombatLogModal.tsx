@@ -12,7 +12,7 @@ export const CombatLogModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} maxWidth="md" scroll="body">
+		<Dialog open={open} maxWidth="md">
 			<DialogTitle textAlign="center">Combat Log</DialogTitle>
 			<DialogContent>
 				<CombatLog />

@@ -13,4 +13,5 @@ export * from "./CharacterClassModal";
 export * from "./TreasureModal";
 export * from "./ShopModal";
 export * from "./VictoryModal";
+export * from "./HowToPlayModal";
 export * from "./modalsSlice";

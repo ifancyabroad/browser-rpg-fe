@@ -129,6 +129,7 @@ const theme = createTheme({
 				fullWidth: true,
 				maxWidth: "xs",
 				transitionDuration: 0,
+				scroll: "body",
 			},
 			styleOverrides: {
 				paper: {

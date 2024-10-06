@@ -50,7 +50,7 @@ export const BattleModal: React.FC = () => {
 	}, [dispatch, battle, open]);
 
 	return (
-		<Dialog open={open} maxWidth="md" scroll="body" fullScreen={isMobile}>
+		<Dialog open={open} maxWidth="md" fullScreen={isMobile}>
 			{isLoading ? (
 				<Box display="flex" justifyContent="center" alignItems="center" minHeight="600px">
 					<Loader />

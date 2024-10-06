@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useAppDispatch } from "common/hooks";
 import { openCharacterSheet } from "features/character";
+import { openHowToPlayModal } from "features/modals";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -11,10 +12,14 @@ export const Header: React.FC = () => {
 		dispatch(openCharacterSheet());
 	};
 
+	const handleOpenTutorial = () => {
+		dispatch(openHowToPlayModal());
+	};
+
 	return (
 		<Box py={1}>
 			<Container maxWidth={false}>
-				<Box display="flex" justifyContent="space-between" gap={3}>
+				<Box display="flex" alignItems="flex-start" justifyContent="space-between" gap={3}>
 					<IconButton
 						onClick={handleDrawerToggle}
 						sx={{
@@ -24,9 +29,14 @@ export const Header: React.FC = () => {
 						<MenuIcon />
 					</IconButton>
 
-					<MuiLink component={Link} to="/">
-						&lt; Back
-					</MuiLink>
+					<Box display="flex" alignItems="center" gap={3}>
+						<MuiLink component="button" color="text.secondary" onClick={handleOpenTutorial}>
+							How to Play
+						</MuiLink>
+						<MuiLink component={Link} to="/">
+							&lt; Back
+						</MuiLink>
+					</Box>
 				</Box>
 			</Container>
 		</Box>

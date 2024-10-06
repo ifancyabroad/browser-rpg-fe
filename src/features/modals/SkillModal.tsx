@@ -31,7 +31,7 @@ export const SkillModal: React.FC = () => {
 	const type = getSkillType(skill);
 
 	return (
-		<Dialog open={open} onClose={handleClose} scroll="body">
+		<Dialog open={open} onClose={handleClose}>
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 				<SkillIcon skill={skill} width={48} />
 				{name}
