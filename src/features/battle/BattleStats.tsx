@@ -20,8 +20,8 @@ export const BattleStats: React.FC = () => {
 				<Typography>{character.maxBattleLevel}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
-				<Typography color="secondary.main">Slain</Typography>
-				<Typography>{character.streak}</Typography>
+				<Typography color="secondary.main">Gold</Typography>
+				<Typography>{character.streak + 1}x</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Zone</Typography>

@@ -97,6 +97,12 @@ export const HowToPlayModal: React.FC = () => {
 				<DialogContentText textAlign="left" mb={2}>
 					Collect equipment from defeated monsters and the shop to improve your chances of survival.
 				</DialogContentText>
+				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
+					Multiplier
+				</DialogContentText>
+				<DialogContentText textAlign="left" mb={2}>
+					Defeat monsters in succession to increase your multiplier and earn more gold.
+				</DialogContentText>
 				<DialogContentText textAlign="left" sx={{ color: "text.secondary" }}>
 					Good Luck Hero!
 				</DialogContentText>

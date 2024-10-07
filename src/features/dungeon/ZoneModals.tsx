@@ -12,6 +12,8 @@ export const RoomModals: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const characterStatus = useAppSelector((state) => state.character.status);
 	const isCharacterLoading = characterStatus === "loading";
+	const battleStatus = useAppSelector((state) => state.battle.status);
+	const isBattleLoading = battleStatus === "loading";
 	const { state, dispatch: localDispatch } = useDungeonContext();
 
 	const handleRest = async () => {
@@ -48,7 +50,7 @@ export const RoomModals: React.FC = () => {
 	}
 
 	const { gold, restPrice } = character;
-	const isRestDisabled = gold < restPrice;
+	const isRestDisabled = isCharacterLoading || gold < restPrice;
 
 	return (
 		<Fragment>
@@ -66,7 +68,7 @@ export const RoomModals: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleRest}
 				open={state[TileType.Rest]}
-				disabled={isCharacterLoading || isRestDisabled}
+				disabled={isRestDisabled}
 			/>
 			<ConfirmationModal
 				title="Travelling Merchant"
@@ -81,7 +83,7 @@ export const RoomModals: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
 				open={state[TileType.Exit]}
-				disabled={isCharacterLoading}
+				disabled={isBattleLoading}
 			/>
 		</Fragment>
 	);
