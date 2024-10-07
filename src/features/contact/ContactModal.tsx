@@ -89,7 +89,7 @@ export const ContactModal: React.FC = () => {
 						/>
 						<TextField
 							fullWidth
-							label="Body"
+							label="Message"
 							name="body"
 							multiline
 							rows={4}
