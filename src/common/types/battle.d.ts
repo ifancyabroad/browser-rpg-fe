@@ -102,6 +102,8 @@ export interface IBattle {
 	zone: Zone;
 	state: BattleState;
 	level: number;
+	maxLevel: number;
+	multiplier: number;
 	result?: BattleResult;
 	reward?: IReward;
 	treasure?: (IWeapon | IArmour)[];

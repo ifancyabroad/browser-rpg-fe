@@ -50,7 +50,6 @@ export interface ICharacter {
 	maxBattleLevel: number;
 	day: number;
 	kills: number;
-	streak: number;
 	armourClass: number;
 	hitBonus: number;
 	critBonus: number;

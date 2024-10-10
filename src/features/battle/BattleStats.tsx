@@ -2,10 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 
 export const BattleStats: React.FC = () => {
-	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
 
-	if (!character || !battle) {
+	if (!battle) {
 		return null;
 	}
 
@@ -17,11 +16,11 @@ export const BattleStats: React.FC = () => {
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Highest</Typography>
-				<Typography>{character.maxBattleLevel}</Typography>
+				<Typography>{battle.maxLevel}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Gold</Typography>
-				<Typography>{character.streak + 1}x</Typography>
+				<Typography>{battle.multiplier}x</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Zone</Typography>
