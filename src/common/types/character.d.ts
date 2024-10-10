@@ -34,6 +34,7 @@ export interface ICharacter {
 	level: number;
 	skills: ISkill[];
 	equipment: IEquipment;
+	potions: number;
 	hitPoints: number;
 	maxHitPoints: number;
 	stats: TStats;

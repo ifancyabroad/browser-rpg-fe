@@ -21,7 +21,7 @@ export const ShopItem: React.FC<IProps> = ({ item, onBuyItem }) => {
 	const discountMultiplier = character?.discountMultiplier ?? 1;
 	const { name, price, level } = item;
 	const merchantPrice = Math.round(price * discountMultiplier);
-	const isDisabled = Boolean(price > gold);
+	const isDisabled = Boolean(merchantPrice > gold);
 
 	const handleBuyItem = async () => {
 		await onBuyItem(item);

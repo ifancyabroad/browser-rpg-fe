@@ -14,4 +14,5 @@ export * from "./TreasureModal";
 export * from "./ShopModal";
 export * from "./VictoryModal";
 export * from "./HowToPlayModal";
+export * from "./PotionSellerModal";
 export * from "./modalsSlice";

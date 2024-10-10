@@ -118,6 +118,19 @@ export const restockItems = createAsyncThunk("character/restockItems", async (_,
 	}
 });
 
+export const buyPotion = createAsyncThunk("character/buyPotion", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/buyPotion");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/rest");
@@ -275,6 +288,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(restockItems.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(buyPotion.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(buyPotion.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(buyPotion.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

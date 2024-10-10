@@ -4,6 +4,7 @@ import { closeHowToPlayModal } from "./modalsSlice";
 import tavern from "assets/images/tutorial/tile319.png";
 import dungeon from "assets/images/tutorial/tile365.png";
 import merchant from "assets/images/tutorial/tile549.png";
+import hut from "assets/images/tutorial/tile326.png";
 
 export const HowToPlayModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -68,6 +69,15 @@ export const HowToPlayModal: React.FC = () => {
 						</span>
 					</DialogContentText>
 					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
+						<img src={hut} alt="Hut" /> -{" "}
+						<span>
+							<Box component="span" color="text.secondary">
+								Potion Seller:
+							</Box>{" "}
+							Purchase potions to restore health.
+						</span>
+					</DialogContentText>
+					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
 						<img src={dungeon} alt="Dungeon" /> -{" "}
 						<span>
 							<Box component="span" color="text.secondary">
@@ -96,6 +106,12 @@ export const HowToPlayModal: React.FC = () => {
 				</DialogContentText>
 				<DialogContentText textAlign="left" mb={2}>
 					Collect equipment from defeated monsters and the shop to improve your chances of survival.
+				</DialogContentText>
+				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
+					Potions
+				</DialogContentText>
+				<DialogContentText textAlign="left" mb={2}>
+					Purchase potions from the potion seller to restore health during combat.
 				</DialogContentText>
 				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
 					Multiplier

@@ -19,7 +19,7 @@ export const BattleStats: React.FC = () => {
 				<Typography>{battle.maxLevel}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
-				<Typography color="secondary.main">Gold</Typography>
+				<Typography color="secondary.main">Gold Multiplier</Typography>
 				<Typography>{battle.multiplier}x</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>

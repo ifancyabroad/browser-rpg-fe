@@ -73,16 +73,16 @@ const CharacterContent: React.FC = () => {
 						<Typography>{character.level}</Typography>
 					</Box>
 					<Box display="flex" alignItems="center" gap={1}>
-						<Typography color="secondary.main">Day</Typography>
-						<Typography>{character.day}</Typography>
+						<Typography color="secondary.main">Highest</Typography>
+						<Typography>{character.maxBattleLevel}</Typography>
+					</Box>
+					<Box display="flex" alignItems="center" gap={1}>
+						<Typography color="secondary.main">Potions</Typography>
+						<Typography>{character.potions}</Typography>
 					</Box>
 					<Box display="flex" alignItems="center" gap={1}>
 						<Typography color="secondary.main">Gold</Typography>
 						<Typography>{character.gold}</Typography>
-					</Box>
-					<Box display="flex" alignItems="center" gap={1}>
-						<Typography color="secondary.main">Kills</Typography>
-						<Typography>{character.kills}</Typography>
 					</Box>
 				</Box>
 			</Stack>

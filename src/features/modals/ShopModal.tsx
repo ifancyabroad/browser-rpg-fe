@@ -1,15 +1,9 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Link, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
-import { CharacterSheetTab, getAvailableItemSlot } from "common/utils";
+import { getAvailableItemSlot } from "common/utils";
 import { useEffect } from "react";
-import {
-	buyItem,
-	getIsTwoHandedWeaponEquipped,
-	restockItems,
-	setCharacterSheetTab,
-	viewItems,
-} from "features/character";
+import { buyItem, getIsTwoHandedWeaponEquipped, restockItems, viewItems } from "features/character";
 import { IArmour, IWeapon } from "common/types";
 import { ShopItem } from "./ShopItem";
 
@@ -23,7 +17,6 @@ export const ShopModal: React.FC = () => {
 
 	useEffect(() => {
 		if (open) {
-			dispatch(setCharacterSheetTab(CharacterSheetTab.Inventory));
 			dispatch(viewItems());
 		}
 	}, [dispatch, open]);

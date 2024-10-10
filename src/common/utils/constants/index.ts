@@ -220,9 +220,12 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Complete]: "Won",
 };
 
-export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Exit];
+export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Hut, TileType.Exit];
 
 export const MAX_SKILLS = 7;
+
+export const POTION_PRICE = 200;
+export const MAX_POTIONS = 3;
 
 export const ITEM_RARITY_COLOR_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Common]: "#FFFFFF",

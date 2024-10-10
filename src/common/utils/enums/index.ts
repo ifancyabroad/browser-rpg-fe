@@ -176,6 +176,7 @@ export enum TileType {
 	Entrance = "entrance",
 	Exit = "exit",
 	Rest = "rest",
+	Hut = "hut",
 }
 
 export enum LeaderboardTab {

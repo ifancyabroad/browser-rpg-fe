@@ -7,6 +7,7 @@ import {
 	GameOverModal,
 	HowToPlayModal,
 	LevelUpModal,
+	PotionSellerModal,
 	ReplaceItemModal,
 	RewardsModal,
 	ShopModal,
@@ -74,6 +75,7 @@ export const Game: React.FC = () => {
 			<TreasureModal />
 			<GameOverModal />
 			<ShopModal />
+			<PotionSellerModal />
 			<BattleModal />
 			<CombatLogModal />
 			<VictoryModal />

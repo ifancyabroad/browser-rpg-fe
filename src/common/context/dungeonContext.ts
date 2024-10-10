@@ -13,12 +13,14 @@ type TDungeonModalAction =
 export interface IDungeonModalState {
 	[TileType.Merchant]: boolean;
 	[TileType.Rest]: boolean;
+	[TileType.Hut]: boolean;
 	[TileType.Exit]: boolean;
 }
 
 export const initialState: IDungeonModalState = {
 	[TileType.Merchant]: false,
 	[TileType.Rest]: false,
+	[TileType.Hut]: false,
 	[TileType.Exit]: false,
 };
 
