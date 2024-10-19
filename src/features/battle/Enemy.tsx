@@ -13,20 +13,22 @@ export const Enemy: React.FC = () => {
 
 	return (
 		<Stack spacing={1}>
-			<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
-				Level{" "}
-				<Box component="span" color="text.secondary">
-					{level}
-				</Box>{" "}
-				{name}{" "}
-				{boss && (
-					<Box component="span" color="error.main">
-						(Boss)
-					</Box>
-				)}
-			</Typography>
-			<HealthBar value={hitPoints} max={maxHitPoints} />
-			<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />
+			<Stack spacing={1} minHeight={110}>
+				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
+					Level{" "}
+					<Box component="span" color="text.secondary">
+						{level}
+					</Box>{" "}
+					{name}{" "}
+					{boss && (
+						<Box component="span" color="error.main">
+							(Boss)
+						</Box>
+					)}
+				</Typography>
+				<HealthBar value={hitPoints} max={maxHitPoints} />
+				<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />
+			</Stack>
 			<Box
 				sx={{
 					display: "flex",

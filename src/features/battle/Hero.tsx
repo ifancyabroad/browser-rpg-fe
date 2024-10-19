@@ -19,7 +19,7 @@ export const Hero: React.FC = () => {
 	const { name, activeAuxiliaryEffects, activeStatusEffects, hitPoints, maxHitPoints, level } = character;
 
 	return (
-		<Stack spacing={1}>
+		<Stack spacing={1} minHeight={110}>
 			<Box display="flex" justifyContent="space-between">
 				<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
 					{name} the Level{" "}

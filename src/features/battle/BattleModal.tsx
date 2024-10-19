@@ -13,7 +13,7 @@ import { CombatLog } from "./CombatLog";
 
 const BattleLoader: React.FC = () => {
 	return (
-		<Box display="flex" justifyContent="center" alignItems="center" minHeight={630}>
+		<Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
 			<Loader />
 		</Box>
 	);
@@ -24,7 +24,7 @@ export const BattleModal: React.FC = () => {
 	const open = useAppSelector((state) => state.modals.battleModalOpen);
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.modalStatus);
-	const isLoading = status === "loading";
+	const isLoading = status === "loading" || !battle;
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -60,8 +60,32 @@ export const BattleModal: React.FC = () => {
 	return (
 		<Dialog open={open} maxWidth="md" fullScreen={isMobile}>
 			{isLoading ? (
-				<BattleLoader />
-			) : battle ? (
+				// Empty layout to prevent jumping when loading
+				<DialogContent sx={{ position: "relative" }}>
+					<Grid container spacing={2}>
+						<Grid item xs={12} sm={6}>
+							<Stack height={{ sm: "100%" }} spacing={1}>
+								<Box sx={{ height: 110 }} />
+								<Box sx={{ flex: 1, display: { xs: "none", sm: "block" } }} />
+							</Stack>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<Stack spacing={1}>
+								<Box sx={{ height: 110 }} />
+								<Box
+									sx={{
+										aspectRatio: "227/321",
+										width: { xs: "60%", sm: "80%" },
+										verticalAlign: "middle",
+									}}
+								/>
+							</Stack>
+						</Grid>
+					</Grid>
+
+					<BattleLoader />
+				</DialogContent>
+			) : (
 				<DialogContent>
 					<Grid container spacing={2}>
 						<Grid item xs={12} sm={6}>
@@ -76,11 +100,9 @@ export const BattleModal: React.FC = () => {
 						</Grid>
 					</Grid>
 				</DialogContent>
-			) : (
-				<BattleLoader />
 			)}
 			<DialogActions>
-				<Stack spacing={1}>
+				<Stack spacing={1} minHeight={96}>
 					<BattleStats />
 					<ActionBar />
 				</Stack>
