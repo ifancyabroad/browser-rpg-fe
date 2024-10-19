@@ -30,13 +30,13 @@ export const Header: React.FC = () => {
 		<Box py={1}>
 			<Container maxWidth={false}>
 				<Box display="flex" justifyContent="flex-end" gap={3}>
+					<Link component="button" onClick={handleOpenContact} color="text.secondary">
+						Contact
+					</Link>
 					{isLoggedIn ? (
 						<Fragment>
 							<Link component="button" onClick={handleViewLeaderboard} color="text.secondary">
 								Leaderboard
-							</Link>
-							<Link component="button" onClick={handleOpenContact} color="text.secondary">
-								Contact
 							</Link>
 							<Link component="button" onClick={handleLogout}>
 								Sign Out
