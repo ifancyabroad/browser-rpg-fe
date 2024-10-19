@@ -11,6 +11,14 @@ import { Loader } from "common/components";
 import { BattleStats } from "./BattleStats";
 import { CombatLog } from "./CombatLog";
 
+const BattleLoader: React.FC = () => {
+	return (
+		<Box display="flex" justifyContent="center" alignItems="center" minHeight={630}>
+			<Loader />
+		</Box>
+	);
+};
+
 export const BattleModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.modals.battleModalOpen);
@@ -52,9 +60,7 @@ export const BattleModal: React.FC = () => {
 	return (
 		<Dialog open={open} maxWidth="md" fullScreen={isMobile}>
 			{isLoading ? (
-				<Box display="flex" justifyContent="center" alignItems="center" minHeight="600px">
-					<Loader />
-				</Box>
+				<BattleLoader />
 			) : battle ? (
 				<DialogContent>
 					<Grid container spacing={2}>
@@ -71,9 +77,7 @@ export const BattleModal: React.FC = () => {
 					</Grid>
 				</DialogContent>
 			) : (
-				<Box display="flex" justifyContent="center" alignItems="center" minHeight="600px">
-					<Loader />
-				</Box>
+				<BattleLoader />
 			)}
 			<DialogActions>
 				<Stack spacing={1}>
