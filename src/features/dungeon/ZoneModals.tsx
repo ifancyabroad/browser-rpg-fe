@@ -6,6 +6,7 @@ import { startBattle } from "features/battle";
 import { Fragment } from "react";
 import { TileType } from "common/utils";
 import { Box } from "@mui/material";
+import { openLeaderboard } from "features/leaderboard";
 
 export const RoomModals: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -44,6 +45,11 @@ export const RoomModals: React.FC = () => {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
 		}
+	};
+
+	const handleOpenLeaderboard = () => {
+		dispatch(openLeaderboard());
+		localDispatch({ type: "CLOSE" });
 	};
 
 	const closeConfirmationModal = () => {
@@ -91,11 +97,18 @@ export const RoomModals: React.FC = () => {
 			/>
 			<ConfirmationModal
 				title="Ready?"
-				content="This is the entrance to the forest. Once you enter you will not be able to return to town until you have slain at least one monster."
+				content="Beyond this gate lies the unknown. Are you ready to begin your adventure?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
 				open={state[TileType.Exit]}
 				disabled={isBattleLoading}
+			/>
+			<ConfirmationModal
+				title="Monument of Heroes"
+				content="Here lies a monument to the heroes who have come before you. Would you like to take a look?"
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleOpenLeaderboard}
+				open={state[TileType.Leaderboard]}
 			/>
 		</Fragment>
 	);

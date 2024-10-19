@@ -2,9 +2,7 @@ import { Box, Container, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { logout } from "features/authentication";
 import { openContactModal } from "features/contact";
-import { openLeaderboard } from "features/leaderboard";
 import { openLoginModal } from "features/modals";
-import { Fragment } from "react";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -16,10 +14,6 @@ export const Header: React.FC = () => {
 
 	const handleLogout = async () => {
 		dispatch(logout());
-	};
-
-	const handleViewLeaderboard = () => {
-		dispatch(openLeaderboard());
 	};
 
 	const handleOpenContact = () => {
@@ -34,14 +28,9 @@ export const Header: React.FC = () => {
 						Contact
 					</Link>
 					{isLoggedIn ? (
-						<Fragment>
-							<Link component="button" onClick={handleViewLeaderboard} color="text.secondary">
-								Leaderboard
-							</Link>
-							<Link component="button" onClick={handleLogout}>
-								Sign Out
-							</Link>
-						</Fragment>
+						<Link component="button" onClick={handleLogout}>
+							Sign Out
+						</Link>
 					) : (
 						<Link component="button" onClick={handleLogin}>
 							Sign In

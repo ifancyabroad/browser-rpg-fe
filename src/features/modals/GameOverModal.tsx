@@ -14,7 +14,6 @@ export const GameOverModal: React.FC = () => {
 	const isLoading = status === "loading";
 
 	const handleViewLeaderboard = () => {
-		dispatch(closeGameOverModal());
 		dispatch(openLeaderboard());
 	};
 

@@ -20,13 +20,11 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
 import { Fragment, useEffect, useState } from "react";
-import { closeBattleModal, openErrorModal } from "features/modals";
+import { openErrorModal } from "features/modals";
 import { CHARACTER_STATUS_MAP, LeaderboardTab, Status } from "common/utils";
-import { useNavigate } from "react-router-dom";
 
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
 	const open = useAppSelector((state) => state.leaderboard.isOpen);
 	const rankings = useAppSelector((state) => state.leaderboard.leaderboard);
 	const status = useAppSelector((state) => state.leaderboard.status);
@@ -50,9 +48,7 @@ export const Leaderboard: React.FC = () => {
 	}, [dispatch, open, leaderboardTab]);
 
 	const handleClose = () => {
-		dispatch(closeBattleModal());
 		dispatch(closeLeaderboard());
-		navigate("/");
 	};
 
 	const handleChangeTab = (event: React.SyntheticEvent, newValue: LeaderboardTab) => {

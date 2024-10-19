@@ -220,7 +220,7 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 	[Status.Complete]: "Won",
 };
 
-export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Hut, TileType.Exit];
+export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Hut, TileType.Exit, TileType.Leaderboard];
 
 export const MAX_SKILLS = 7;
 

@@ -15,6 +15,7 @@ export interface IDungeonModalState {
 	[TileType.Rest]: boolean;
 	[TileType.Hut]: boolean;
 	[TileType.Exit]: boolean;
+	[TileType.Leaderboard]: boolean;
 }
 
 export const initialState: IDungeonModalState = {
@@ -22,6 +23,7 @@ export const initialState: IDungeonModalState = {
 	[TileType.Rest]: false,
 	[TileType.Hut]: false,
 	[TileType.Exit]: false,
+	[TileType.Leaderboard]: false,
 };
 
 export const dungeonReducer = (state: IDungeonModalState, action: TDungeonModalAction) => {
