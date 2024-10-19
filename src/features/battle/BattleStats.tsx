@@ -15,8 +15,8 @@ export const BattleStats: React.FC = () => {
 				<Typography>{battle.level}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
-				<Typography color="secondary.main">Highest</Typography>
-				<Typography>{battle.maxLevel}</Typography>
+				<Typography color="secondary.main">Turn</Typography>
+				<Typography>{battle.turns.length + 1}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Gold Multiplier</Typography>
