@@ -93,16 +93,6 @@ export const Leaderboard: React.FC = () => {
 											</Tooltip>
 										</Box>
 									</TableCell>
-									<TableCell align="right" sx={{ color: "info.light" }}>
-										<Box component="span" display={{ xs: "none", md: "inline" }}>
-											Highest Level
-										</Box>
-										<Box component="span" display={{ xs: "inline", md: "none" }}>
-											<Tooltip title="Highest Level">
-												<span>HL</span>
-											</Tooltip>
-										</Box>
-									</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -163,7 +153,6 @@ export const Leaderboard: React.FC = () => {
 												)}
 											</TableCell>
 											<TableCell align="right">{character.kills}</TableCell>
-											<TableCell align="right">{character.maxBattleLevel}</TableCell>
 										</TableRow>
 									))
 								)}
