@@ -57,6 +57,19 @@ export const STATS_NAME_MAP: Record<Stat, string> = {
 	[Stat.Wisdom]: "Wisdom",
 };
 
+export const STATS_DESCRIPTION_MAP: Record<Stat, string> = {
+	[Stat.Charisma]:
+		"Charisma measures your character's personality and persuasiveness. It affects prices at the tavern, potion seller, and merchant.",
+	[Stat.Constitution]:
+		"Constitution represents your character's health and stamina. A high Constitution increases hit points.",
+	[Stat.Dexterity]: "Dexterity measures agility, reflexes, and balance. It affects weapon accuracy and initiative.",
+	[Stat.Intelligence]:
+		"Intelligence reflects your character's ability to learn and reason. It affects elemental skill damage.",
+	[Stat.Strength]: "Strength measures your character's physical power. It affects melee damage.",
+	[Stat.Wisdom]:
+		"Wisdom represents your character's insight and intuition. It affects necrotic and radiant skill damage.",
+};
+
 export const AUXILIARY_STATS_ABBR_MAP: Record<AuxiliaryStat, string> = {
 	[AuxiliaryStat.ArmourClass]: "AC",
 	[AuxiliaryStat.HitChance]: "HIT",
