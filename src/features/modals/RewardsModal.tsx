@@ -55,7 +55,8 @@ export const RewardsModal: React.FC = () => {
 	}
 
 	const { experience, gold } = battle.reward;
-	const { name } = battle.enemy;
+	const { name, boss } = battle.enemy;
+	const prefix = boss ? "" : "the ";
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="sm">
@@ -64,8 +65,9 @@ export const RewardsModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center">
-					You have defeated the{" "}
+					You have defeated{" "}
 					<Box component="span" color="primary.main">
+						{prefix}
 						{name}
 					</Box>
 					. You gain{" "}
