@@ -34,9 +34,10 @@ export const EquipmentModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, type, level, properties } = item;
+	const { name, description, level, properties } = item;
 	const isArmour = "armourType" in item;
 	const isWeapon = "weaponType" in item;
+	const type = isWeapon ? item.weaponType : item.type;
 
 	return (
 		<Dialog open={open} onClose={handleClose}>
@@ -78,10 +79,16 @@ export const EquipmentModal: React.FC = () => {
 									{item.min}-{item.max}
 								</DialogContentText>
 							</Box>
+							<Box display="flex" gap={1}>
+								<Typography color="secondary.main">Damage Type:</Typography>
+								<DialogContentText sx={{ textTransform: "capitalize" }}>
+									{item.damageType}
+								</DialogContentText>
+							</Box>
 						</Fragment>
 					)}
 					<Box display="flex" gap={1}>
-						<Typography color="secondary.main">Level:</Typography>
+						<Typography color="secondary.main">Rarity:</Typography>
 						<DialogContentText>{ITEM_RARITY_NAME_MAP[level as ItemRarity]}</DialogContentText>
 					</Box>
 				</Stack>
