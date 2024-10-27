@@ -34,7 +34,7 @@ export const EquipmentModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, description, level, properties } = item;
+	const { name, level, properties } = item;
 	const isArmour = "armourType" in item;
 	const isWeapon = "weaponType" in item;
 	const type = isWeapon ? item.weaponType : item.type;
@@ -48,7 +48,7 @@ export const EquipmentModal: React.FC = () => {
 				</Typography>
 			</DialogTitle>
 			<DialogContent>
-				<Stack spacing={1} mb={2}>
+				<Stack spacing={1}>
 					<Box display="flex" gap={1}>
 						<Typography color="secondary.main">Type:</Typography>
 						<DialogContentText>{EQUIPMENT_TYPE_NAME_MAP[type]}</DialogContentText>
@@ -92,26 +92,20 @@ export const EquipmentModal: React.FC = () => {
 						<DialogContentText>{ITEM_RARITY_NAME_MAP[level as ItemRarity]}</DialogContentText>
 					</Box>
 				</Stack>
-				<Stack spacing={2}>
-					<Box>
-						<Typography color="info.main">Description</Typography>
-						<DialogContentText>{description}</DialogContentText>
+				{properties && properties.length && (
+					<Box mt={2}>
+						<Typography color="info.main">Properties</Typography>
+						<Stack spacing={1}>
+							<PropertyList properties={properties} />
+						</Stack>
 					</Box>
-					{properties && properties.length && (
-						<Box>
-							<Typography color="info.main">Properties</Typography>
-							<Stack spacing={1}>
-								<PropertyList properties={properties} />
-							</Stack>
-						</Box>
-					)}
-					{isWeapon && item.effects && item.effects.length && (
-						<Box>
-							<Typography color="info.main">Effects</Typography>
-							<EffectList effects={item.effects} />
-						</Box>
-					)}
-				</Stack>
+				)}
+				{isWeapon && item.effects && item.effects.length && (
+					<Box mt={2}>
+						<Typography color="info.main">Effects</Typography>
+						<EffectList effects={item.effects} />
+					</Box>
+				)}
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" onClick={handleClose}>
