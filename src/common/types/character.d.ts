@@ -45,7 +45,7 @@ export interface ICharacter {
 	characterClass: ICharacterClass;
 	experience: number;
 	currentLevelExperience: number;
-	nextLevelExperience: number;
+	nextLevelExperience: number | null;
 	gold: number;
 	discountMultiplier: number;
 	maxBattleLevel: number;

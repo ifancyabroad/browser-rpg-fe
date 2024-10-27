@@ -185,6 +185,9 @@ export const getLevelUpAvailable = createSelector(characterSelector, ({ characte
 		return false;
 	}
 	const { experience, nextLevelExperience } = character;
+	if (!nextLevelExperience) {
+		return false;
+	}
 	return experience >= nextLevelExperience;
 });
 

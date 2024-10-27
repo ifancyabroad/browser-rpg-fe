@@ -23,10 +23,17 @@ export const ExperienceBar: React.FC = () => {
 	}
 
 	const { experience, currentLevelExperience, nextLevelExperience } = character;
-	const normalisedValue =
-		experience > nextLevelExperience
-			? 100
-			: ((experience - currentLevelExperience) * 100) / (nextLevelExperience - currentLevelExperience);
+
+	let normalisedValue: number;
+
+	if (!nextLevelExperience) {
+		normalisedValue = 100;
+	} else if (experience > nextLevelExperience) {
+		normalisedValue = 100;
+	} else {
+		normalisedValue =
+			((experience - currentLevelExperience) * 100) / (nextLevelExperience - currentLevelExperience);
+	}
 
 	return (
 		<Box display="flex" gap={2} alignItems="center">
@@ -38,7 +45,8 @@ export const ExperienceBar: React.FC = () => {
 				<Box component="span" color="secondary.main">
 					XP
 				</Box>{" "}
-				{experience}/{nextLevelExperience}
+				{experience}
+				{nextLevelExperience && `/${nextLevelExperience}`}
 			</Typography>
 		</Box>
 	);
