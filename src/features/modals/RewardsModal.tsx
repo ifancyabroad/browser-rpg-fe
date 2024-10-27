@@ -65,12 +65,14 @@ export const RewardsModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center">
-					You have defeated{" "}
+					You have defeated {prefix}{" "}
 					<Box component="span" color="primary.main">
-						{prefix}
 						{name}
 					</Box>
-					. You gain{" "}
+					.
+				</DialogContentText>
+				<DialogContentText textAlign="center">
+					You gain{" "}
 					<Box component="span" color="text.secondary">
 						{experience} experience
 					</Box>{" "}

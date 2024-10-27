@@ -28,8 +28,8 @@ export const Landing: React.FC = () => {
 				<Container maxWidth="xs">
 					<Paper sx={{ p: 3 }}>
 						<Stack spacing={3}>
-							<Typography variant="h4" textAlign="center">
-								BROWSER HEROES
+							<Typography variant="h1" textAlign="center">
+								Browser Heroes
 							</Typography>
 							<Typography textAlign="center">
 								Welcome to{" "}

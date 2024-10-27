@@ -50,8 +50,8 @@ export const Start: React.FC = () => {
 						<Paper sx={{ p: 3 }}>
 							{hasActiveCharacter ? (
 								<Stack spacing={3} alignItems="center">
-									<Typography variant="h4" textAlign="center">
-										BROWSER HEROES
+									<Typography variant="h1" textAlign="center">
+										Browser Heroes
 									</Typography>
 									<Typography textAlign="center">
 										<MuiLink component="button" onClick={openConfirmationModal}>
@@ -82,8 +82,8 @@ export const Start: React.FC = () => {
 								</Stack>
 							) : (
 								<Stack spacing={3} alignItems="center">
-									<Typography variant="h4" textAlign="center">
-										BROWSER HEROES
+									<Typography variant="h1" textAlign="center">
+										Browser Heroes
 									</Typography>
 									<Typography textAlign="center">
 										Welcome to{" "}

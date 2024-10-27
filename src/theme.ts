@@ -26,40 +26,41 @@ const theme = createTheme({
 	},
 	typography: {
 		h1: {
-			fontFamily: "monospace",
+			fontFamily: "'Jacquard 24'",
+			fontSize: "2.5rem",
 			color: "#fff",
 		},
 		h2: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 			color: "#fff",
 		},
 		h3: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 			color: "#fff",
 		},
 		h4: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 			color: "#fff",
 		},
 		h5: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 			color: "#fff",
 		},
 		h6: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 			color: "#fff",
 		},
 		allVariants: {
-			fontFamily: "monospace",
+			fontFamily: "'Ubuntu Mono', monospace",
 		},
-		fontFamily: "monospace",
+		fontFamily: "'Ubuntu Mono', monospace",
 	},
 
 	components: {
 		MuiChip: {
 			styleOverrides: {
 				root: {
-					fontFamily: "monospace",
+					fontFamily: "'Ubuntu Mono', monospace",
 				},
 				sizeSmall: {
 					fontSize: "12px",
@@ -69,7 +70,7 @@ const theme = createTheme({
 		MuiBadge: {
 			styleOverrides: {
 				badge: {
-					fontFamily: "monospace",
+					fontFamily: "'Ubuntu Mono', monospace",
 					borderRadius: 0,
 				},
 			},
