@@ -16,8 +16,14 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
-import { EQUIPMENT_SLOT_TYPE_MAP, EQUIPMENT_TYPE_NAME_MAP, EquipmentSlot } from "common/utils";
-import { buyItem } from "features/character";
+import {
+	EQUIPMENT_SLOT_TYPE_MAP,
+	EQUIPMENT_TYPE_NAME_MAP,
+	EquipmentSlot,
+	getItemsToReplace,
+	WeaponSize,
+} from "common/utils";
+import { buyItem, getIsTwoHandedWeaponEquipped } from "features/character";
 import { closeReplaceItemModal, closeTreasureModal, openEquipmentModal, openErrorModal } from "features/modals";
 import { useEffect, useState } from "react";
 import { EquipmentIcon, HoverButton } from "common/components";
@@ -65,6 +71,7 @@ export const ReplaceItemModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { open, item, isReward } = useAppSelector((state) => state.modals.replaceItemModal);
 	const character = useAppSelector((state) => state.character.character);
+	const isTwoHandedWeaponEquipped = useAppSelector(getIsTwoHandedWeaponEquipped);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const [slot, setSlot] = useState<EquipmentSlot | null>(null);
@@ -80,7 +87,9 @@ export const ReplaceItemModal: React.FC = () => {
 
 	const { id, type } = item;
 	const slots = EQUIPMENT_SLOT_TYPE_MAP[type];
-	const replaceItem = character.equipment[slots[0]]?.name;
+	const isTwoHandedWeapon = "size" in item && item.size === WeaponSize.TwoHanded;
+	const showSlotSelection = slots.length > 1 && !isTwoHandedWeapon;
+	const replaceItems = getItemsToReplace(item, character.equipment, isTwoHandedWeaponEquipped);
 
 	const handleClose = () => {
 		dispatch(closeReplaceItemModal());
@@ -114,7 +123,7 @@ export const ReplaceItemModal: React.FC = () => {
 				Replace item?
 			</DialogTitle>
 			<DialogContent>
-				{slots.length > 1 ? (
+				{showSlotSelection ? (
 					<FormControl sx={{ width: "100%", alignItems: "center" }}>
 						<FormLabel id="replace-item-label" sx={{ textAlign: "center", mb: 2 }}>
 							Choose an item to replace
@@ -142,7 +151,7 @@ export const ReplaceItemModal: React.FC = () => {
 					<DialogContentText textAlign="center">
 						Confirm you wish to replace{" "}
 						<Box component="span" color="text.secondary">
-							{replaceItem}
+							{replaceItems.map((it) => it?.name).join(" and ")}
 						</Box>
 					</DialogContentText>
 				)}

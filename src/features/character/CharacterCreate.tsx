@@ -95,13 +95,13 @@ export const CharacterCreate: React.FC = () => {
 							<Grid container spacing={2} justifyContent="center">
 								{classes.map(({ id, portrait, name, description }) => (
 									<Grid key={id} item xs={12} sm={3}>
-										<Card>
+										<Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
 											<CardMedia
 												sx={{ height: 300, backgroundPosition: "top" }}
 												image={portrait}
 												title={name}
 											/>
-											<CardContent>
+											<CardContent sx={{ flex: 1 }}>
 												<Typography color="text.secondary" gutterBottom>
 													{name}
 												</Typography>
