@@ -56,21 +56,12 @@ export const LoginModal: React.FC = () => {
 					inputRef={emailRef}
 					autoFocus
 					margin="dense"
-					id="name"
 					label="Email Address"
 					type="email"
 					fullWidth
 					required
 				/>
-				<TextField
-					inputRef={passwordRef}
-					margin="dense"
-					id="standard-basic"
-					label="Password"
-					type="password"
-					fullWidth
-					required
-				/>
+				<TextField inputRef={passwordRef} margin="dense" label="Password" type="password" fullWidth required />
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="text.secondary" onClick={handleClose}>

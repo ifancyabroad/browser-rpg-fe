@@ -9,6 +9,7 @@ export const RegistrationModal: React.FC = () => {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
 	const open = useAppSelector((state) => state.modals.registrationModalOpen);
 	const isLoading = useAppSelector(getIsLoading);
+	const usernameRef = useRef<HTMLInputElement>(null);
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -31,6 +32,7 @@ export const RegistrationModal: React.FC = () => {
 		try {
 			await dispatch(
 				register({
+					username: usernameRef.current!.value,
 					email: emailRef.current!.value,
 					password: passwordRef.current!.value,
 				}),
@@ -46,31 +48,24 @@ export const RegistrationModal: React.FC = () => {
 			<DialogTitle id="form-dialog-title">Register</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>
-					Please enter your email and password to register or click{" "}
+					Please enter a username and password to register or click{" "}
 					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
 						here
 					</Link>{" "}
 					to sign in.
 				</DialogContentText>
 				<TextField
-					inputRef={emailRef}
+					inputRef={usernameRef}
 					autoFocus
 					margin="dense"
-					id="name"
-					label="Email Address"
-					type="email"
+					label="Username"
+					type="text"
 					fullWidth
 					required
+					inputProps={{ minLength: 2, maxLength: 20 }}
 				/>
-				<TextField
-					inputRef={passwordRef}
-					margin="dense"
-					id="standard-basic"
-					label="Password"
-					type="password"
-					fullWidth
-					required
-				/>
+				<TextField inputRef={emailRef} margin="dense" label="Email Address" type="email" fullWidth required />
+				<TextField inputRef={passwordRef} margin="dense" label="Password" type="password" fullWidth required />
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="text.secondary" onClick={handleClose}>

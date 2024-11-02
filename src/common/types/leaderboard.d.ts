@@ -9,6 +9,7 @@ export interface ILeaderboardCharacter {
 	status: string;
 	kills: number;
 	maxBattleLevel: number;
+	username: string;
 	isUser: boolean;
 }
 

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IApiError, ILoginPayload, ISession, IUser } from "common/types";
+import { IApiError, ILoginPayload, IRegisterPayload, ISession, IUser } from "common/types";
 
 interface IAuthenticationState {
 	sessionChecked: boolean;
@@ -46,7 +46,7 @@ export const fetchUser = createAsyncThunk("authentication/fetchUser", async (_, 
 
 export const register = createAsyncThunk(
 	"authentication/register",
-	async (payload: ILoginPayload, { rejectWithValue }) => {
+	async (payload: IRegisterPayload, { rejectWithValue }) => {
 		try {
 			const response = await axios.put<IUser>("/api/auth/register", payload);
 			return response.data;

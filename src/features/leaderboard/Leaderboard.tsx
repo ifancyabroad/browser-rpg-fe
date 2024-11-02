@@ -122,15 +122,15 @@ export const Leaderboard: React.FC = () => {
 													<Box>
 														<Typography color="text.secondary">
 															{character.name}{" "}
-															{character.isUser && (
-																<Box
-																	component="span"
-																	color="primary.main"
-																	fontStyle="italic"
-																>
-																	(You)
-																</Box>
-															)}
+															<Box
+																component="span"
+																color={
+																	character.isUser ? "primary.main" : "text.primary"
+																}
+																fontStyle="italic"
+															>
+																({character.username})
+															</Box>
 														</Typography>
 														<Typography variant="body2">
 															Level {character.level} {character.characterClass.name}
