@@ -9,7 +9,8 @@ export const Enemy: React.FC = () => {
 		return null;
 	}
 
-	const { name, level, image, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects, boss } = enemy;
+	const { name, level, image, hitPoints, maxHitPoints, activeAuxiliaryEffects, activeStatusEffects, boss, hero } =
+		enemy;
 
 	return (
 		<Stack spacing={1}>
@@ -23,6 +24,11 @@ export const Enemy: React.FC = () => {
 					{boss && (
 						<Box component="span" color="error.main">
 							(Boss)
+						</Box>
+					)}
+					{hero && (
+						<Box component="span" color="info.light">
+							(Special)
 						</Box>
 					)}
 				</Typography>

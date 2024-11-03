@@ -18,6 +18,7 @@ export interface IEnemy {
 	activeStatusEffects: IStatus[];
 	activeAuxiliaryEffects: IActiveEffect[];
 	boss: boolean;
+	hero: boolean;
 }
 
 export interface IDamage {

@@ -55,8 +55,8 @@ export const RewardsModal: React.FC = () => {
 	}
 
 	const { experience, gold } = battle.reward;
-	const { name, boss } = battle.enemy;
-	const prefix = boss ? "" : "the ";
+	const { name, boss, hero } = battle.enemy;
+	const prefix = boss || hero ? "" : "the ";
 
 	return (
 		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="sm">
