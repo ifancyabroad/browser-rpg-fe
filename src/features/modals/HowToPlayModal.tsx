@@ -16,8 +16,8 @@ export const HowToPlayModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} maxWidth="sm">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} aria-labelledby="how-to-play-dialog-title" onClose={handleClose} maxWidth="sm">
+			<DialogTitle id="how-to-play-dialog-title" textAlign="center">
 				How to Play
 			</DialogTitle>
 			<DialogContent>

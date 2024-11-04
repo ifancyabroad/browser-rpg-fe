@@ -44,8 +44,8 @@ export const RegistrationModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="xs">
-			<DialogTitle id="form-dialog-title">Register</DialogTitle>
+		<Dialog open={open} onClose={handleClose} aria-labelledby="registration-dialog-title" maxWidth="xs">
+			<DialogTitle id="registration-dialog-title">Register</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>
 					Please enter a username and password to register or click{" "}

@@ -56,8 +56,8 @@ export const Leaderboard: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" maxWidth="md">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} onClose={handleClose} aria-labelledby="leaderboard-dialog-title" maxWidth="md">
+			<DialogTitle id="leaderboard-dialog-title" textAlign="center">
 				Hall of Legends
 			</DialogTitle>
 			<DialogContent>

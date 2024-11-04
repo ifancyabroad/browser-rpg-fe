@@ -42,8 +42,8 @@ export const LoginModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Login</DialogTitle>
+		<Dialog open={open} onClose={handleClose} aria-labelledby="login-dialog-title">
+			<DialogTitle id="login-dialog-title">Login</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>
 					Please enter your email and password to login or click{" "}

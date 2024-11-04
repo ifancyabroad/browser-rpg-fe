@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, Grid, Stack, useMediaQuery, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals/modalsSlice";
-import { BattleResult } from "common/utils";
+import { openErrorModal, openGameOverModal, openRewardsModal, openVictoryModal } from "features/modals/modalsSlice";
+import { BattleResult, FINAL_LEVEL } from "common/utils";
 import { useEffect } from "react";
 import { fetchBattle } from "./battleSlice";
 import { ActionBar } from "./ActionBar";
@@ -51,6 +51,10 @@ export const BattleModal: React.FC = () => {
 		}
 		if (battle.result === BattleResult.Won) {
 			dispatch(openRewardsModal());
+
+			if (battle.level === FINAL_LEVEL) {
+				dispatch(openVictoryModal());
+			}
 		}
 		if (battle.result === BattleResult.Lost) {
 			dispatch(openGameOverModal());

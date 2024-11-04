@@ -145,8 +145,8 @@ export const LevelUpModal: React.FC = () => {
 	const isDisabled = isLoading || !stat;
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} aria-labelledby="level-up-dialog-title">
+			<DialogTitle id="level-up-dialog-title" textAlign="center">
 				You have reached level {level}!
 			</DialogTitle>
 			<DialogContent>

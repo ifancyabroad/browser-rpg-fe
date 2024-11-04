@@ -58,8 +58,8 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 	};
 
 	return (
-		<Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Name</DialogTitle>
+		<Dialog open={isOpen} onClose={handleClose} aria-labelledby="character-name-dialog-title">
+			<DialogTitle id="character-name-dialog-title">Name</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>Please give your character a name.</DialogContentText>
 				<TextField
@@ -81,7 +81,7 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Link component="button" onClick={handleGenerateName}>
+				<Link component="button" color="info.light" onClick={handleGenerateName}>
 					Generate Name
 				</Link>
 				<Link component="button" color="text.secondary" onClick={handleClose}>

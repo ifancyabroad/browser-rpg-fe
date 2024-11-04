@@ -45,8 +45,8 @@ export const TreasureModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open}>
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} aria-labelledby="treasure-dialog-title">
+			<DialogTitle id="treasure-dialog-title" textAlign="center">
 				Choose one treasure!
 			</DialogTitle>
 			<DialogContent>

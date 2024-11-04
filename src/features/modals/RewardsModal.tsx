@@ -59,8 +59,8 @@ export const RewardsModal: React.FC = () => {
 	const prefix = boss || hero ? "" : "the ";
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="sm">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} aria-labelledby="rewards-dialog-title" maxWidth="sm">
+			<DialogTitle id="rewards-dialog-title" textAlign="center">
 				Victory!
 			</DialogTitle>
 			<DialogContent>
@@ -85,12 +85,12 @@ export const RewardsModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				{showTreasure && (
-					<Link component="button" onClick={handleClaimTreasure} disabled={isLoading}>
+					<Link component="button" color="info.light" onClick={handleClaimTreasure} disabled={isLoading}>
 						Claim Treasure
 					</Link>
 				)}
 				{showLevelUp && (
-					<Link component="button" onClick={handleLevelUp} disabled={isLoading}>
+					<Link component="button" color="info.light" onClick={handleLevelUp} disabled={isLoading}>
 						Level Up
 					</Link>
 				)}

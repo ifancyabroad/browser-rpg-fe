@@ -11,13 +11,17 @@ export const VictoryModal: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 
 	const handleViewLeaderboard = () => {
-		dispatch(closeVictoryModal());
 		dispatch(openLeaderboard());
+	};
+
+	const handleExit = () => {
+		// TODO: retire character and change status to complete
+		dispatch(closeVictoryModal());
+		navigate("/");
 	};
 
 	const handleContinue = async () => {
 		dispatch(closeVictoryModal());
-		navigate("/");
 	};
 
 	if (!character) {
@@ -27,28 +31,32 @@ export const VictoryModal: React.FC = () => {
 	const { name } = character;
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
-			<DialogTitle id="form-dialog-title" textAlign="center">
-				Victory!
+		<Dialog open={open} aria-labelledby="victory-dialog-title" maxWidth="xs">
+			<DialogTitle id="victory-dialog-title" textAlign="center">
+				Congratulations!
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center" mb={2}>
-					Congratulations{" "}
+					With the foul creatures slain, the town is saved and{" "}
 					<Box component="span" color="text.secondary">
 						{name}
-					</Box>
-					, you have defeated the final boss and escaped the dungeon.
+					</Box>{" "}
+					is hailed as a hero.
 				</DialogContentText>
 				<DialogContentText textAlign="center">
-					Your deeds will be saved in the pantheon of heroes.
+					Do you wish to retire your hero or would you like to continue your adventure in a bid to earn your
+					place in the pantheon of heroes?
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
-				<Link component="button" color="text.secondary" onClick={handleViewLeaderboard}>
+				<Link component="button" color="info.light" onClick={handleViewLeaderboard}>
 					View Leaderboard
 				</Link>
+				<Link component="button" color="text.secondary" onClick={handleExit}>
+					Retire
+				</Link>
 				<Link component="button" onClick={handleContinue}>
-					Back to Menu
+					Continue
 				</Link>
 			</DialogActions>
 		</Dialog>

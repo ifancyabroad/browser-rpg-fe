@@ -15,7 +15,6 @@ import {
 	VictoryModal,
 	openBattleModal,
 	openHowToPlayModal,
-	openVictoryModal,
 } from "features/modals";
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
@@ -33,9 +32,6 @@ export const Game: React.FC = () => {
 	}, [dispatch, hasSeenTutorial]);
 
 	useEffect(() => {
-		if (character?.status === Status.Complete) {
-			dispatch(openVictoryModal());
-		}
 		if (character?.state === State.Battle) {
 			dispatch(openBattleModal());
 		}

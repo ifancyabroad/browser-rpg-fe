@@ -118,8 +118,8 @@ export const ReplaceItemModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} onClose={handleClose} aria-labelledby="replace-item-dialog-title">
+			<DialogTitle id="replace-item-dialog-title" textAlign="center">
 				Replace item?
 			</DialogTitle>
 			<DialogContent>

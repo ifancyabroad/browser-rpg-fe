@@ -11,8 +11,8 @@ export const ErrorModal: React.FC = () => {
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} onClose={handleClose} aria-labelledby="error-dialog-title">
+			<DialogTitle id="error-dialog-title" textAlign="center">
 				{title || "Error"}
 			</DialogTitle>
 			<DialogContent>

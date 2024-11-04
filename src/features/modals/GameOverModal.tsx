@@ -31,8 +31,8 @@ export const GameOverModal: React.FC = () => {
 	const determiner = getDeterminer(name);
 
 	return (
-		<Dialog open={open} aria-labelledby="form-dialog-title" maxWidth="xs">
-			<DialogTitle id="form-dialog-title" textAlign="center">
+		<Dialog open={open} aria-labelledby="game-over-dialog-title" maxWidth="xs">
+			<DialogTitle id="game-over-dialog-title" textAlign="center">
 				You Died
 			</DialogTitle>
 			<DialogContent>

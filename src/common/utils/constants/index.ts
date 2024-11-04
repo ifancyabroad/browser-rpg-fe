@@ -234,11 +234,6 @@ export const CHARACTER_STATUS_MAP: Record<Status, string> = {
 
 export const ACTION_TILES = [TileType.Merchant, TileType.Rest, TileType.Hut, TileType.Exit, TileType.Leaderboard];
 
-export const MAX_SKILLS = 7;
-
-export const POTION_PRICE = 200;
-export const MAX_POTIONS = 3;
-
 export const ITEM_RARITY_COLOR_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Common]: "#FFFFFF",
 	[ItemRarity.Uncommon]: "#99E64C",
@@ -254,5 +249,9 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 };
 
 export const REWARD_GOLD_MULTIPLIER = 10;
+export const MAX_SKILLS = 7;
+export const POTION_PRICE = 200;
+export const MAX_POTIONS = 3;
+export const FINAL_LEVEL = 50;
 
 export * from "./config";
