@@ -59,6 +59,7 @@ export interface ICharacter {
 	restockCount: number;
 	restockPrice: number;
 	restPrice: number;
+	potionPrice: number;
 	slainBy?: string;
 	levelUpData?: ILevelUpData;
 	baseHitPoints: number;

@@ -250,7 +250,6 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 
 export const REWARD_GOLD_MULTIPLIER = 10;
 export const MAX_SKILLS = 7;
-export const BASE_POTION_PRICE = 100;
 export const MAX_POTIONS = 3;
 export const FINAL_LEVEL = 50;
 

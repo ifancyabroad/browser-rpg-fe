@@ -6,20 +6,12 @@ import healthPotion from "assets/images/icons/Res_49_health.png";
 import { Fragment, useState } from "react";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { buyPotion } from "features/character";
-import { BASE_POTION_PRICE, MAX_POTIONS } from "common/utils";
+import { MAX_POTIONS } from "common/utils";
 
 export const PotionSellerModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.modals.potionSellerModalOpen);
 	const character = useAppSelector((state) => state.character.character);
-	const gold = character?.gold ?? 0;
-	const potions = character?.potions ?? 0;
-	const level = character?.level ?? 1;
-	const discountMultiplier = character?.discountMultiplier ?? 1;
-	const merchantPrice = Math.round(BASE_POTION_PRICE * level * discountMultiplier);
-	const canAfford = gold >= merchantPrice;
-	const maxPotionsReached = potions >= MAX_POTIONS;
-	const isDisabled = Boolean(!canAfford || maxPotionsReached);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
@@ -52,6 +44,11 @@ export const PotionSellerModal: React.FC = () => {
 		return null;
 	}
 
+	const { gold, potions, potionPrice } = character;
+	const canAfford = gold >= potionPrice;
+	const maxPotionsReached = potions >= MAX_POTIONS;
+	const isDisabled = Boolean(!canAfford || maxPotionsReached);
+
 	return (
 		<Fragment>
 			<Dialog open={open} onClose={handleClose}>
@@ -61,7 +58,7 @@ export const PotionSellerModal: React.FC = () => {
 						<Typography component="span" color="secondary">
 							Gold:{" "}
 						</Typography>
-						{character.gold}
+						{gold}
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
@@ -84,7 +81,7 @@ export const PotionSellerModal: React.FC = () => {
 							</Box>
 							<Stack>
 								<Typography color="text.secondary">Health Potion</Typography>
-								<Typography>Price {merchantPrice}g</Typography>
+								<Typography>Price {potionPrice}g</Typography>
 							</Stack>
 						</Box>
 						<Link component="button" onClick={openConfirmationModal} disabled={isDisabled}>
@@ -107,7 +104,7 @@ export const PotionSellerModal: React.FC = () => {
 
 			<ConfirmationModal
 				title="Are you sure?"
-				content={`Item will cost ${merchantPrice}g`}
+				content={`Item will cost ${potionPrice}g`}
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleBuyPotion}
 				open={isConfirmationOpen}
