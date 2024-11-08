@@ -1,4 +1,13 @@
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Link, Typography } from "@mui/material";
+import {
+	Box,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Link,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { getAvailableItemSlot } from "common/utils";
@@ -56,7 +65,7 @@ export const ShopModal: React.FC = () => {
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
-				Shop
+				Merchant
 				<Typography component="span" fontSize={16}>
 					<Typography component="span" color="secondary">
 						Gold:{" "}
@@ -65,6 +74,10 @@ export const ShopModal: React.FC = () => {
 				</Typography>
 			</DialogTitle>
 			<DialogContent>
+				<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
+					Buy it if you want, I'm not fussed. Right? Shop around... Come back... It's up to you. I'm not
+					pushing you into anything, right?
+				</DialogContentText>
 				<Box
 					display="grid"
 					justifyContent="center"

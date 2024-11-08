@@ -69,11 +69,12 @@ export const RoomModals: React.FC = () => {
 				title="Tavern"
 				content={
 					<Fragment>
-						Welcome traveller! I have a room available for the night. It will cost you{" "}
+						Would you like to rest at the tavern?
+						<br /> It will cost you{" "}
 						<Box component="span" color="text.secondary">
 							{restPrice} gold
 						</Box>
-						. Would you like to rest?
+						.
 					</Fragment>
 				}
 				handleClose={closeConfirmationModal}
@@ -83,14 +84,14 @@ export const RoomModals: React.FC = () => {
 			/>
 			<ConfirmationModal
 				title="Travelling Merchant"
-				content="Hello there! I have a few items for sale. Would you like to take a look?"
+				content="Would you like to browse their wares?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenShop}
 				open={state[TileType.Merchant]}
 			/>
 			<ConfirmationModal
 				title="Potion Seller"
-				content="Welcome to my humble abode. I have potions for sale. Would you like to take a look?"
+				content="Would you like to see what they have for sale?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenPotionSeller}
 				open={state[TileType.Hut]}

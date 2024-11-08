@@ -1,4 +1,14 @@
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Link, Stack, Typography } from "@mui/material";
+import {
+	Box,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Link,
+	Stack,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closePotionSellerModal, openErrorModal } from "./modalsSlice";
 import { HoverButton } from "common/components";
@@ -62,6 +72,11 @@ export const PotionSellerModal: React.FC = () => {
 					</Typography>
 				</DialogTitle>
 				<DialogContent>
+					<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
+						Look, I dunno why you'd want a potion anyway. If you’re off to fight a dragon, just use your
+						fists.
+					</DialogContentText>
+
 					<HoverButton
 						component={Box}
 						isActive={true}
@@ -88,6 +103,10 @@ export const PotionSellerModal: React.FC = () => {
 							Buy
 						</Link>
 					</HoverButton>
+
+					<DialogContentText textAlign="center" sx={{ color: "text.secondary" }} mt={1}>
+						Potions: {potions}/{MAX_POTIONS}
+					</DialogContentText>
 
 					{maxPotionsReached && (
 						<Typography textAlign="center" color="success.main" mt={2}>
