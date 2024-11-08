@@ -254,3 +254,4 @@ export const MAX_POTIONS = 3;
 export const FINAL_LEVEL = 50;
 
 export * from "./config";
+export * from "./quotes";

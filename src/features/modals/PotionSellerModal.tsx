@@ -16,7 +16,7 @@ import healthPotion from "assets/images/icons/Res_49_health.png";
 import { Fragment, useState } from "react";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { buyPotion } from "features/character";
-import { MAX_POTIONS } from "common/utils";
+import { getRandomElement, MAX_POTIONS, POTION_SELLER_QUOTES } from "common/utils";
 
 export const PotionSellerModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -73,8 +73,7 @@ export const PotionSellerModal: React.FC = () => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
-						Look, I dunno why you'd want a potion anyway. If you’re off to fight a dragon, just use your
-						fists.
+						{getRandomElement(POTION_SELLER_QUOTES)}
 					</DialogContentText>
 
 					<HoverButton

@@ -171,3 +171,7 @@ export const decodeMap = function (map: TiledMap) {
 		layers: decodedLayers,
 	} as TiledMap;
 };
+
+export const getRandomElement = <T>(arr: T[]) => {
+	return arr[Math.floor(Math.random() * arr.length)];
+};

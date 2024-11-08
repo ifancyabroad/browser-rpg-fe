@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
-import { getAvailableItemSlot } from "common/utils";
+import { getAvailableItemSlot, getRandomElement, MERCHANT_QUOTES } from "common/utils";
 import { useEffect } from "react";
 import { buyItem, getIsTwoHandedWeaponEquipped, restockItems, viewItems } from "features/character";
 import { IArmour, IWeapon } from "common/types";
@@ -75,8 +75,7 @@ export const ShopModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
-					Buy it if you want, I'm not fussed. Right? Shop around... Come back... It's up to you. I'm not
-					pushing you into anything, right?
+					{getRandomElement(MERCHANT_QUOTES)}
 				</DialogContentText>
 				<Box
 					display="grid"
