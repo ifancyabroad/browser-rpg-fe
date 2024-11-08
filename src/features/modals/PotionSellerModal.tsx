@@ -6,7 +6,7 @@ import healthPotion from "assets/images/icons/Res_49_health.png";
 import { Fragment, useState } from "react";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { buyPotion } from "features/character";
-import { MAX_POTIONS, POTION_PRICE } from "common/utils";
+import { BASE_POTION_PRICE, MAX_POTIONS } from "common/utils";
 
 export const PotionSellerModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -14,8 +14,9 @@ export const PotionSellerModal: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const gold = character?.gold ?? 0;
 	const potions = character?.potions ?? 0;
+	const level = character?.level ?? 1;
 	const discountMultiplier = character?.discountMultiplier ?? 1;
-	const merchantPrice = Math.round(POTION_PRICE * discountMultiplier);
+	const merchantPrice = Math.round(BASE_POTION_PRICE * level * discountMultiplier);
 	const canAfford = gold >= merchantPrice;
 	const maxPotionsReached = potions >= MAX_POTIONS;
 	const isDisabled = Boolean(!canAfford || maxPotionsReached);
