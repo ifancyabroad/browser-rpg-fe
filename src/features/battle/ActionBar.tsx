@@ -59,7 +59,12 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 		<Tooltip title={<SkillTooltip {...skill} />} placement="top" enterTouchDelay={700}>
 			<div>
 				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
-					<SkillIcon skill={skill} width={64} />
+					<Box sx={{ position: "relative", height: 64, width: 64, img: { verticalAlign: "middle" } }}>
+						<SkillIcon skill={skill} width={64} />
+						<Typography variant="caption" sx={{ position: "absolute", bottom: 0, right: 0 }}>
+							{skill.remaining}/{skill.maxUses}
+						</Typography>
+					</Box>
 				</StyledButton>
 			</div>
 		</Tooltip>

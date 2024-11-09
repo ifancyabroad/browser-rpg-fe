@@ -76,10 +76,12 @@ export const BattleModal: React.FC = () => {
 						<Grid item xs={12} sm={6}>
 							<Stack spacing={1}>
 								<Box sx={{ height: { xs: 94, sm: 110 } }} />
+								<Box sx={{ height: 35.5 }} display={{ sm: "none" }} />
 								<Box
 									sx={{
 										aspectRatio: "227/321",
-										width: { xs: "60%", sm: "80%" },
+										width: { sm: "80%" },
+										height: { xs: 200, sm: "auto" },
 										verticalAlign: "middle",
 									}}
 								/>

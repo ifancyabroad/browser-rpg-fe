@@ -17,6 +17,7 @@ import { Fragment, useState } from "react";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { buyPotion } from "features/character";
 import { getRandomElement, MAX_POTIONS, POTION_SELLER_QUOTES } from "common/utils";
+import potionSeller from "assets/images/icons/Human_66_nobg.png";
 
 export const PotionSellerModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -63,7 +64,18 @@ export const PotionSellerModal: React.FC = () => {
 		<Fragment>
 			<Dialog open={open} onClose={handleClose}>
 				<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
-					Potion Seller
+					<Box>
+						<Box
+							component="img"
+							src={potionSeller}
+							alt="Potion Seller"
+							width={40}
+							borderRadius="50%"
+							sx={{ verticalAlign: "middle" }}
+							mr={1}
+						/>
+						Potion Seller
+					</Box>
 					<Typography component="span" fontSize={16}>
 						<Typography component="span" color="secondary">
 							Gold:{" "}

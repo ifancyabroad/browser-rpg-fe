@@ -25,7 +25,7 @@ export const StatusEffect: React.FC<IStatus> = (status) => {
 
 	return (
 		<Tooltip title={<StatusDetails {...status} />} placement="top">
-			<img src={icon} alt={status.source.name} width="40" />
+			<Box component="img" src={icon} alt={status.source.name} sx={{ width: { xs: 24, sm: 40 } }} />
 		</Tooltip>
 	);
 };

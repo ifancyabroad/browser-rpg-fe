@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { buyItem, getIsTwoHandedWeaponEquipped, restockItems, viewItems } from "features/character";
 import { IArmour, IWeapon } from "common/types";
 import { ShopItem } from "./ShopItem";
+import merchant from "assets/images/icons/Merchant_nb.png";
 
 export const ShopModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -65,7 +66,18 @@ export const ShopModal: React.FC = () => {
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm">
 			<DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
-				Merchant
+				<Box>
+					<Box
+						component="img"
+						src={merchant}
+						alt="Merchant"
+						width={40}
+						borderRadius="50%"
+						sx={{ verticalAlign: "middle" }}
+						mr={1}
+					/>
+					Merchant
+				</Box>
 				<Typography component="span" fontSize={16}>
 					<Typography component="span" color="secondary">
 						Gold:{" "}
