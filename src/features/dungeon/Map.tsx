@@ -78,7 +78,7 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 			onMouseMove={handleHover}
 			width={width}
 			height={height}
-			style={{ width, height }}
+			style={{ width, height, WebkitTapHighlightColor: "transparent" }}
 		/>
 	);
 });

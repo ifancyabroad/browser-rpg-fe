@@ -53,7 +53,7 @@ export const Game: React.FC = () => {
 					<Container disableGutters sx={{ ml: 0 }}>
 						<Box
 							sx={{
-								height: "100vh",
+								height: "100svh",
 								display: "flex",
 								flexDirection: "column",
 							}}

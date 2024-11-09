@@ -66,7 +66,7 @@ export const Leaderboard: React.FC = () => {
 						<Tab label="Overall" value={LeaderboardTab.Overall} />
 						<Tab label="Your Heroes" value={LeaderboardTab.User} />
 					</Tabs>
-					<TableContainer sx={{ height: 600 }}>
+					<TableContainer sx={{ minHeight: 600 }}>
 						<Table size="small" sx={{ bgcolor: "#000" }}>
 							<TableHead>
 								<TableRow>

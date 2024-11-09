@@ -166,7 +166,7 @@ export const CharacterSheet: React.FC = () => {
 				variant="permanent"
 				PaperProps={{
 					sx: {
-						height: "100vh",
+						height: "100svh",
 						width: DRAWER_WIDTH,
 						top: DRAWER_TOP,
 						backgroundColor: "transparent",

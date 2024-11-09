@@ -38,7 +38,7 @@ export const Start: React.FC = () => {
 		<Fragment>
 			<Box
 				sx={{
-					minHeight: "100vh",
+					minHeight: "100svh",
 					display: "flex",
 					flexDirection: "column",
 				}}
