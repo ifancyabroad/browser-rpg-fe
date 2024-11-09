@@ -232,9 +232,10 @@ export const CombatLog: React.FC = () => {
 				borderColor: "grey.600",
 				flex: 1,
 				p: 2,
+				height: { xs: 200, sm: "auto" },
 			}}
 		>
-			<Box position="relative" height={{ xs: 400, sm: "100%" }}>
+			<Box position="relative" height="100%">
 				<Box
 					sx={{
 						position: "absolute",

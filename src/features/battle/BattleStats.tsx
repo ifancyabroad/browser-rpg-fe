@@ -9,7 +9,7 @@ export const BattleStats: React.FC = () => {
 	}
 
 	return (
-		<Box display="flex" justifyContent="space-between" flexWrap="wrap" gap={1}>
+		<Box display="flex" justifyContent="center" flexWrap="wrap" gap={{ xs: 2, md: 3 }}>
 			<Box display="flex" alignItems="center" gap={1}>
 				<Typography color="secondary.main">Battle</Typography>
 				<Typography>{battle.level}</Typography>
@@ -19,7 +19,7 @@ export const BattleStats: React.FC = () => {
 				<Typography>{battle.turns.length + 1}</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>
-				<Typography color="secondary.main">Gold Multiplier</Typography>
+				<Typography color="secondary.main">Gold</Typography>
 				<Typography>{battle.multiplier}x</Typography>
 			</Box>
 			<Box display="flex" alignItems="center" gap={1}>

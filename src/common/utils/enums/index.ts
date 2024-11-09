@@ -186,3 +186,8 @@ export enum LeaderboardTab {
 	Overall,
 	User,
 }
+
+export enum EnemyTab {
+	Portrait,
+	CombatLog,
+}

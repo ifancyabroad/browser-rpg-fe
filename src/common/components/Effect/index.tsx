@@ -1,4 +1,4 @@
-import { Stack, Tooltip } from "@mui/material";
+import { Box, Stack, Tooltip } from "@mui/material";
 import { IActiveEffect, IStatus } from "common/types";
 import { Typography } from "@mui/material";
 import { AUXILIARY_EFFECTS_NAME_MAP, AuxiliaryEffect as AuxEffect } from "common/utils";
@@ -53,7 +53,7 @@ export const AuxiliaryEffect: React.FC<IActiveEffect> = (effect) => {
 
 	return (
 		<Tooltip title={<AuxiliaryDetails {...effect} />} placement="top">
-			<img src={icon} alt={effect.effect.name} width="40" />
+			<Box component="img" src={icon} alt={effect.effect.name} sx={{ width: { xs: 24, sm: 40 } }} />
 		</Tooltip>
 	);
 };

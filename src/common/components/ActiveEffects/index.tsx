@@ -9,7 +9,7 @@ interface IProps {
 
 export const ActiveEffects: React.FC<IProps> = ({ auxiliaryEffects, statusEffects }) => {
 	return (
-		<Box display="flex" gap="1px" minHeight={40}>
+		<Box display="flex" gap="1px" minHeight={{ xs: 24, sm: 40 }}>
 			{auxiliaryEffects.map((effect) => (
 				<AuxiliaryEffect key={effect.effect} {...effect} />
 			))}
