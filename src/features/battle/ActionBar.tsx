@@ -56,7 +56,7 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	};
 
 	return (
-		<Tooltip title={<SkillTooltip {...skill} />} placement="top">
+		<Tooltip title={<SkillTooltip {...skill} />} placement="top" enterTouchDelay={700}>
 			<div>
 				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
 					<SkillIcon skill={skill} width={64} />
@@ -100,7 +100,7 @@ const PotionButton: React.FC<ICharacter> = (character) => {
 	};
 
 	return (
-		<Tooltip title={<PotionTooltip {...character} />} placement="top">
+		<Tooltip title={<PotionTooltip {...character} />} placement="top" enterTouchDelay={700}>
 			<div>
 				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
 					<Box sx={{ position: "relative", height: 64, width: 64, img: { verticalAlign: "middle" } }}>

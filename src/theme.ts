@@ -124,6 +124,9 @@ const theme = createTheme({
 					outline: "2px solid #7d623c",
 				},
 			},
+			defaultProps: {
+				enterTouchDelay: 0,
+			},
 		},
 		MuiDialog: {
 			defaultProps: {
