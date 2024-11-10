@@ -1,5 +1,5 @@
 import { Box, Link, Stack, Typography } from "@mui/material";
-import { EquipmentIcon, HoverButton } from "common/components";
+import { EquipmentIcon, EquipmentLink, HoverButton } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { IArmour, IWeapon } from "common/types";
 import {
@@ -11,6 +11,7 @@ import {
 } from "common/utils";
 import { openEquipmentModal } from "features/modals";
 import goldIcon from "assets/images/icons/GoldCoinTen.png";
+import { Fragment } from "react";
 
 interface IGoldProps {
 	level: number;
@@ -44,10 +45,11 @@ export const Gold: React.FC<IGoldProps> = ({ level, onTake }) => {
 
 interface IItemProps {
 	item: IArmour | IWeapon;
+	replaceItems: (IArmour | IWeapon)[];
 	onTakeItem: (item: IArmour | IWeapon) => Promise<void>;
 }
 
-export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
+export const TreasureItem: React.FC<IItemProps> = ({ item, replaceItems, onTakeItem }) => {
 	const dispatch = useAppDispatch();
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
@@ -64,26 +66,50 @@ export const TreasureItem: React.FC<IItemProps> = ({ item, onTakeItem }) => {
 	};
 
 	return (
-		<HoverButton
-			component={Box}
-			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
-			onClick={openEquipmentDetailsModal}
+		<Box
+			sx={{
+				width: "100%",
+			}}
 		>
-			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
-				<EquipmentIcon equipment={item} width={40} />
-				<Stack overflow="hidden">
-					<Typography color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]} noWrap>
-						{name}
-					</Typography>
-					<Typography>
-						{ITEM_RARITY_NAME_MAP[level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[type]}
-					</Typography>
-				</Stack>
-			</Box>
+			<HoverButton
+				component={Box}
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+					gap: 3,
+					p: 1,
+				}}
+				onClick={openEquipmentDetailsModal}
+			>
+				<Box display="flex" alignItems="center" gap={2} overflow="hidden">
+					<EquipmentIcon equipment={item} width={40} />
+					<Stack overflow="hidden">
+						<Typography color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]} noWrap>
+							{name}
+						</Typography>
+						<Typography>
+							{ITEM_RARITY_NAME_MAP[level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[type]}
+						</Typography>
+					</Stack>
+				</Box>
 
-			<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
-				Take
-			</Link>
-		</HoverButton>
+				<Link component="button" onClick={handleTakeItem} disabled={isLoading}>
+					Take
+				</Link>
+			</HoverButton>
+
+			{replaceItems.length > 0 && (
+				<Typography component="p" variant="caption">
+					Replace:{" "}
+					{replaceItems.map((replaceItem, index) => (
+						<Fragment key={replaceItem.id}>
+							<EquipmentLink item={replaceItem} />
+							{index < replaceItems.length - 1 && ", "}
+						</Fragment>
+					))}
+				</Typography>
+			)}
+		</Box>
 	);
 };

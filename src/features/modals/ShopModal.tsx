@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
-import { getAvailableItemSlot, getRandomElement, MERCHANT_QUOTES } from "common/utils";
+import { getAvailableItemSlot, getItemsToReplace, getRandomElement, MERCHANT_QUOTES } from "common/utils";
 import { useEffect } from "react";
 import { buyItem, getIsTwoHandedWeaponEquipped, restockItems, viewItems } from "features/character";
 import { IArmour, IWeapon } from "common/types";
@@ -96,7 +96,12 @@ export const ShopModal: React.FC = () => {
 					gap={1}
 				>
 					{availableItems.map((item) => (
-						<ShopItem key={item.id} item={item} onBuyItem={handleBuyItem} />
+						<ShopItem
+							key={item.id}
+							item={item}
+							replaceItems={getItemsToReplace(item, character.equipment, isTwoHandedWeaponEquipped)}
+							onBuyItem={handleBuyItem}
+						/>
 					))}
 				</Box>
 			</DialogContent>

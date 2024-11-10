@@ -67,11 +67,15 @@ export const getItemsToReplace = (
 ) => {
 	const slots = EQUIPMENT_SLOT_TYPE_MAP[item.type];
 
+	if (getAvailableItemSlot(item, equipment, isTwoHandedWeaponEquipped)) {
+		return [];
+	}
+
 	if (isTwoHandedWeaponEquipped && slots.includes(EquipmentSlot.Hand2)) {
 		return [equipment.hand1 as IWeapon];
 	}
 
-	return slots.map((slot) => equipment[slot]).filter((it) => it !== null);
+	return slots.map((slot) => equipment[slot]).filter((it) => it !== null) as (IArmour | IWeapon)[];
 };
 
 export const mapToArray = <T extends object>(object: T) => {

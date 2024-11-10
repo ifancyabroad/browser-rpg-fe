@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeTreasureModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
-import { getAvailableItemSlot } from "common/utils";
+import { getAvailableItemSlot, getItemsToReplace } from "common/utils";
 import { Gold, TreasureItem } from "./TreasureItem";
 import { IArmour, IWeapon } from "common/types";
 import { getIsTwoHandedWeaponEquipped } from "features/character";
@@ -52,7 +52,12 @@ export const TreasureModal: React.FC = () => {
 			<DialogContent>
 				<Stack alignItems="center" justifyContent="center" spacing={1}>
 					{battle.treasure.map((item) => (
-						<TreasureItem key={item.id} item={item} onTakeItem={handleTakeItem} />
+						<TreasureItem
+							key={item.id}
+							item={item}
+							replaceItems={getItemsToReplace(item, character.equipment, isTwoHandedWeaponEquipped)}
+							onTakeItem={handleTakeItem}
+						/>
 					))}
 					<Gold level={battle.level} onTake={handleTakeGold} />
 				</Stack>
