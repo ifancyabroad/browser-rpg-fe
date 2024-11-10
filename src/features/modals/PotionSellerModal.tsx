@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closePotionSellerModal, openErrorModal } from "./modalsSlice";
 import { HoverButton } from "common/components";
 import healthPotion from "assets/images/icons/Res_49_health.png";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { ConfirmationModal } from "./ConfirmationModal";
 import { buyPotion } from "features/character";
 import { getRandomElement, MAX_POTIONS, POTION_SELLER_QUOTES } from "common/utils";
@@ -26,6 +26,13 @@ export const PotionSellerModal: React.FC = () => {
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
+	const [currentQuote, setCurrentQuote] = useState(getRandomElement(POTION_SELLER_QUOTES));
+
+	useEffect(() => {
+		if (!open) {
+			setCurrentQuote(getRandomElement(POTION_SELLER_QUOTES));
+		}
+	}, [open]);
 
 	const handleClose = () => {
 		dispatch(closePotionSellerModal());
@@ -85,7 +92,7 @@ export const PotionSellerModal: React.FC = () => {
 				</DialogTitle>
 				<DialogContent>
 					<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
-						{getRandomElement(POTION_SELLER_QUOTES)}
+						{currentQuote}
 					</DialogContentText>
 
 					<HoverButton

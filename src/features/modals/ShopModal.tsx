@@ -11,7 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeShopModal, openErrorModal, openReplaceItemModal } from "./modalsSlice";
 import { getAvailableItemSlot, getItemsToReplace, getRandomElement, MERCHANT_QUOTES } from "common/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { buyItem, getIsTwoHandedWeaponEquipped, restockItems, viewItems } from "features/character";
 import { IArmour, IWeapon } from "common/types";
 import { ShopItem } from "./ShopItem";
@@ -24,6 +24,13 @@ export const ShopModal: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
 	const availableItems = character ? character.availableItems : [];
 	const isRestockDisabled = character ? character.gold < character.restockPrice : true;
+	const [currentQuote, setCurrentQuote] = useState(getRandomElement(MERCHANT_QUOTES));
+
+	useEffect(() => {
+		if (!open) {
+			setCurrentQuote(getRandomElement(MERCHANT_QUOTES));
+		}
+	}, [open]);
 
 	useEffect(() => {
 		if (open) {
@@ -87,7 +94,7 @@ export const ShopModal: React.FC = () => {
 			</DialogTitle>
 			<DialogContent>
 				<DialogContentText textAlign="center" fontStyle="italic" mb={2}>
-					{getRandomElement(MERCHANT_QUOTES)}
+					{currentQuote}
 				</DialogContentText>
 				<Box
 					display="grid"
