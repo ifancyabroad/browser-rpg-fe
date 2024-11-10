@@ -13,7 +13,6 @@ import {
 	TableHead,
 	TableRow,
 	Tabs,
-	Tooltip,
 	Typography,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
@@ -84,14 +83,7 @@ export const Leaderboard: React.FC = () => {
 										Status
 									</TableCell>
 									<TableCell align="right" sx={{ color: "info.light" }}>
-										<Box component="span" display={{ xs: "none", md: "inline" }}>
-											Kills
-										</Box>
-										<Box component="span" display={{ xs: "inline", md: "none" }}>
-											<Tooltip title="Kills">
-												<span>K</span>
-											</Tooltip>
-										</Box>
+										Kills
 									</TableCell>
 								</TableRow>
 							</TableHead>

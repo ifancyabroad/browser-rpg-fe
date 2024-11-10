@@ -7,6 +7,7 @@ import { postAction } from "./battleSlice";
 import { openErrorModal } from "features/modals";
 import { MAX_POTIONS, MAX_SKILLS } from "common/utils";
 import healthPotion from "assets/images/icons/Res_49_health.png";
+import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
 const EmptySlot = styled(Box)(({ theme }) => ({
 	border: `2px dashed ${theme.palette.grey[800]}`,
@@ -61,9 +62,15 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
 					<Box sx={{ position: "relative", height: 64, width: 64, img: { verticalAlign: "middle" } }}>
 						<SkillIcon skill={skill} width={64} />
-						<Typography variant="caption" sx={{ position: "absolute", bottom: 0, right: 0 }}>
-							{skill.remaining}/{skill.maxUses}
-						</Typography>
+						{skill.maxUses > 0 ? (
+							<Typography variant="caption" sx={{ position: "absolute", bottom: 0, right: 0 }}>
+								{skill.remaining}/{skill.maxUses}
+							</Typography>
+						) : (
+							<Typography variant="caption" sx={{ position: "absolute", bottom: 0, right: 0 }}>
+								<AllInclusiveIcon fontSize="inherit" sx={{ verticalAlign: "middle" }} />
+							</Typography>
+						)}
 					</Box>
 				</StyledButton>
 			</div>
