@@ -9,32 +9,37 @@ import {
 	ICharacterClass,
 	ICharacterPayload,
 	ILevelUpPayload,
+	IProgress,
 	IWeapon,
 } from "common/types";
 import { CharacterSheetTab, PropertyType, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from "features/battle";
 
-interface ICharacerState {
+interface ICharacterState {
 	character: ICharacter | null;
 	classes: ICharacterClass[];
+	progress: IProgress[];
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classesStatus: "idle" | "loading" | "succeeded" | "failed";
+	progressStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
-const initialState: ICharacerState = {
+const initialState: ICharacterState = {
 	character: null,
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
 	classes: [],
+	progress: [],
 	status: "idle",
 	characterStatus: "idle",
 	classesStatus: "idle",
+	progressStatus: "idle",
 };
 
 export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async (_, { rejectWithValue }) => {
@@ -148,6 +153,19 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/levelup", payload);
 		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
+export const fetchProgress = createAsyncThunk("character/fetchProgress", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<{ progress: IProgress[] }>("/api/character/progress");
+		return response.data.progress;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -342,6 +360,17 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(returnToTown.fulfilled, (state, action) => {
 			state.character = action.payload.character;
+		});
+		builder.addCase(fetchProgress.pending, (state) => {
+			state.progressStatus = "loading";
+		});
+		builder.addCase(fetchProgress.fulfilled, (state, action) => {
+			state.progressStatus = "succeeded";
+			state.progress = action.payload;
+		});
+		builder.addCase(fetchProgress.rejected, (state, action) => {
+			state.progressStatus = "failed";
+			state.error = action.error.message;
 		});
 	},
 });

@@ -79,3 +79,20 @@ export interface ILevelUpPayload {
 	stat: Stat;
 	skill?: string;
 }
+
+export interface IProgressHero {
+	name: string;
+	kills: number;
+	level: number;
+	status: Status;
+	slainBy: string;
+}
+
+export interface IProgress {
+	name: string;
+	portrait: string;
+	hero: IProgressHero;
+	kills: number;
+	deaths: number;
+	victories: number;
+}

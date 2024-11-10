@@ -12,7 +12,7 @@ import {
 } from "features/modals";
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
-import { CharacterCreate } from "features/character";
+import { CharacterCreate, Progress } from "features/character";
 import { Leaderboard } from "features/leaderboard";
 import { Dungeon } from "features/dungeon";
 import { ContactModal } from "features/contact";
@@ -29,6 +29,7 @@ function App() {
 							<Routes>
 								<Route path="/" element={<Start />} />
 								<Route path="/create" element={<CharacterCreate />} />
+								<Route path="/progress" element={<Progress />} />
 								<Route path="/game" element={<Game />}>
 									<Route index element={<Dungeon />} />
 								</Route>

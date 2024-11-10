@@ -4,7 +4,7 @@ import { getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ConfirmationModal, openErrorModal } from "features/modals";
-import { Footer, Header } from "common/components";
+import { Footer, Header, HoverButton } from "common/components";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -59,7 +59,9 @@ export const Start: React.FC = () => {
 										</MuiLink>{" "}
 										to start a new game or continue the below journey.
 									</Typography>
-									<Paper
+									<HoverButton
+										component="div"
+										isActive
 										sx={{
 											width: "100%",
 											py: 1,
@@ -68,6 +70,7 @@ export const Start: React.FC = () => {
 											alignItems: "center",
 											justifyContent: "space-between",
 											gap: 1,
+											cursor: "default",
 										}}
 									>
 										<Typography color="text.secondary">{character?.name}</Typography>
@@ -78,7 +81,10 @@ export const Start: React.FC = () => {
 												CONTINUE
 											</MuiLink>
 										</Typography>
-									</Paper>
+									</HoverButton>
+									<MuiLink component={Link} to="/progress" color="text.secondary">
+										View Progress
+									</MuiLink>
 								</Stack>
 							) : (
 								<Stack spacing={3} alignItems="center">
@@ -92,9 +98,15 @@ export const Start: React.FC = () => {
 										</Box>
 										, your new adventure awaits you!
 									</Typography>
-									<MuiLink component={Link} to="/create">
-										Create Character
-									</MuiLink>
+									<Stack alignItems="center">
+										<MuiLink component={Link} to="/create">
+											Create Character
+										</MuiLink>
+										<Typography textAlign="center">OR</Typography>
+										<MuiLink component={Link} to="/progress" color="text.secondary">
+											View Progress
+										</MuiLink>
+									</Stack>
 								</Stack>
 							)}
 						</Paper>
