@@ -19,6 +19,7 @@ export interface IEnemy {
 	activeAuxiliaryEffects: IActiveEffect[];
 	boss: boolean;
 	hero: boolean;
+	username?: string;
 }
 
 export interface IDamage {

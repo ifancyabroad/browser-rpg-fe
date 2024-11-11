@@ -14,11 +14,10 @@ export const Hero: React.FC = () => {
 	return (
 		<Stack spacing={1} minHeight={{ xs: 94, sm: 110 }}>
 			<Typography variant="h6" fontSize={18} color="primary.main" noWrap>
-				{name} the Level{" "}
 				<Box component="span" color="text.secondary">
-					{level}
-				</Box>{" "}
-				{character.characterClass.name}
+					Level {level}{" "}
+				</Box>
+				{character.characterClass.name} {name}
 			</Typography>
 			<HealthBar value={hitPoints} max={maxHitPoints} />
 			<ActiveEffects auxiliaryEffects={activeAuxiliaryEffects} statusEffects={activeStatusEffects} />
