@@ -23,6 +23,12 @@ export const GameOverModal: React.FC = () => {
 		navigate("/");
 	};
 
+	const handlePlayAgain = async () => {
+		dispatch(closeBattleModal());
+		dispatch(closeGameOverModal());
+		navigate("/create");
+	};
+
 	if (!battle) {
 		return null;
 	}
@@ -45,6 +51,9 @@ export const GameOverModal: React.FC = () => {
 				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
+				<Link component="button" color="info.light" onClick={handlePlayAgain} disabled={isLoading}>
+					Play Again
+				</Link>
 				<Link component="button" color="text.secondary" onClick={handleViewLeaderboard}>
 					View Leaderboard
 				</Link>

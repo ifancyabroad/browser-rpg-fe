@@ -65,7 +65,6 @@ export const CharacterNameModal: React.FC<IProps> = ({ isOpen, onClose, onConfir
 				<TextField
 					onChange={handleChangeName}
 					value={name}
-					autoFocus
 					margin="dense"
 					id="name"
 					label="Name"
