@@ -162,6 +162,19 @@ export const levelUp = createAsyncThunk("character/levelUp", async (payload: ILe
 	}
 });
 
+export const swapWeapons = createAsyncThunk("character/swapWeapons", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/swapWeapons");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const fetchProgress = createAsyncThunk("character/fetchProgress", async (_, { rejectWithValue }) => {
 	try {
 		const response = await axios.get<{ progress: IProgress[] }>("/api/character/progress");
@@ -223,6 +236,20 @@ export const getEquipmentBonus = createSelector(
 		return equipment.map((item) => getItemPropertyBonus(item, type, name)).filter(({ value }) => value !== 0);
 	},
 );
+
+export const getCanSwapWeapons = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return false;
+	}
+	const hand1 = character.equipment.hand1;
+	const hand2 = character.equipment.hand2;
+	if (!hand1 || !hand2) {
+		return false;
+	}
+	const isHand1OneHanded = hand1.size === WeaponSize.OneHanded;
+	const isHand2OneHanded = "size" in hand2 && hand2.size === WeaponSize.OneHanded;
+	return isHand1OneHanded && isHand2OneHanded;
+});
 
 export const characterSlice = createSlice({
 	name: "character",
@@ -343,6 +370,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(levelUp.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(swapWeapons.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(swapWeapons.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(swapWeapons.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
