@@ -14,6 +14,8 @@ interface IProps {
 export const EquipmentTable: React.FC<IProps> = ({ equipment }) => {
 	const dispatch = useAppDispatch();
 	const canSwap = useAppSelector(getCanSwapWeapons);
+	const status = useAppSelector((state) => state.character.status);
+	const isDisabled = status === "loading";
 
 	const handleSwap = async () => {
 		try {
@@ -31,7 +33,7 @@ export const EquipmentTable: React.FC<IProps> = ({ equipment }) => {
 					<EquipmentItem key={index} slot={slot} equipment={equipment[slot]} />
 					{slot === EquipmentSlot.Hand1 && canSwap && (
 						<Box display="flex" justifyContent="flex-end" px={1}>
-							<Link component="button" onClick={handleSwap}>
+							<Link component="button" onClick={handleSwap} disabled={isDisabled}>
 								Swap
 							</Link>
 						</Box>
