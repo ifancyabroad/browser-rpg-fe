@@ -61,7 +61,7 @@ const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
 				</Stack>
 			</Box>
 			<Link component="button" onClick={handleViewItem}>
-				View Details
+				Details
 			</Link>
 		</HoverButton>
 	);
@@ -133,13 +133,13 @@ export const ReplaceItemModal: React.FC = () => {
 							name="attribute"
 							value={slot}
 							onChange={handleSlotChange}
-							sx={{ gap: 1 }}
+							sx={{ maxWidth: "100%", gap: 1 }}
 						>
 							{slots.map((sl) => (
 								<FormControlLabel
 									key={sl}
 									value={sl}
-									sx={{ m: 0 }}
+									sx={{ maxWidth: "100%", m: 0 }}
 									control={<Radio sx={{ display: "none" }} />}
 									disableTypography
 									label={<ItemLabel item={character.equipment[sl]} isSelected={sl === slot} />}

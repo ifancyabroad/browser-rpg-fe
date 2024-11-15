@@ -47,7 +47,7 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 				p: 1,
 			}}
 		>
-			<Box display="flex" alignItems="center" gap={2} overflow="hidden" flex={1}>
+			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
 				<SkillIcon skill={skill} />
 				<Stack overflow="hidden">
 					<Typography color="text.secondary" noWrap>
@@ -59,7 +59,7 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 				</Stack>
 			</Box>
 			<Link component="button" onClick={handleViewSkill}>
-				View Details
+				Details
 			</Link>
 		</HoverButton>
 	);
@@ -67,14 +67,13 @@ const SkillLabel: React.FC<ISkillLabelProps> = ({ isSelected, skill }) => {
 
 interface IStatLabelProps {
 	stat: Stat;
+	baseValue: number;
 	currentValue: number;
 	isSelected: boolean;
 	isDisabled: boolean;
 }
 
-const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected, isDisabled }) => {
-	const value = isSelected ? currentValue + 1 : currentValue;
-
+const StatLabel: React.FC<IStatLabelProps> = ({ stat, baseValue, currentValue, isSelected, isDisabled }) => {
 	return (
 		<HoverButton
 			component={Box}
@@ -94,7 +93,7 @@ const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected, 
 				<StatIcon stat={stat} width={24} />
 				<Box>
 					<Typography lineHeight={1}>
-						{STATS_NAME_MAP[stat]} +1{" "}
+						{STATS_NAME_MAP[stat]}{" "}
 						{isDisabled && (
 							<Box component="span" color="error.main">
 								(Max)
@@ -103,7 +102,11 @@ const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected, 
 					</Typography>
 				</Box>
 			</Box>
-			<Typography color={isSelected ? "success.light" : "text.secondary"}>({value})</Typography>
+			<Box display="flex" alignItems="center" gap={1}>
+				<Typography color="text.secondary">{baseValue} →</Typography>
+				<Typography color="success.light">{baseValue + 1}</Typography>
+				<Typography color="info.light">({currentValue + 1})</Typography>
+			</Box>
 		</HoverButton>
 	);
 };
@@ -177,13 +180,13 @@ export const LevelUpModal: React.FC = () => {
 							name="attribute"
 							value={stat}
 							onChange={handleSkillChange}
-							sx={{ gap: 1 }}
+							sx={{ maxWidth: "100%", gap: 1 }}
 						>
 							{skills.map((sk) => (
 								<FormControlLabel
 									key={sk.id}
 									value={sk.id}
-									sx={{ m: 0 }}
+									sx={{ maxWidth: "100%", m: 0 }}
 									control={<Radio sx={{ display: "none" }} />}
 									disableTypography
 									label={<SkillLabel skill={sk} isSelected={sk.id === skill} />}
@@ -218,6 +221,7 @@ export const LevelUpModal: React.FC = () => {
 										label={
 											<StatLabel
 												stat={st}
+												baseValue={character.baseStats[st]}
 												currentValue={character.stats[st]}
 												isSelected={isSelected}
 												isDisabled={isDisabled}
