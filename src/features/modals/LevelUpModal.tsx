@@ -16,7 +16,7 @@ import {
 import { HoverButton, SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
-import { SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
+import { MAX_STAT_VALUE, SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
 import { levelUp } from "features/character";
 import { useEffect, useState } from "react";
 import { closeLevelUpModal, openErrorModal, openSkillModal } from "./modalsSlice";
@@ -69,24 +69,41 @@ interface IStatLabelProps {
 	stat: Stat;
 	currentValue: number;
 	isSelected: boolean;
+	isDisabled: boolean;
 }
 
-const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected }) => {
+const StatLabel: React.FC<IStatLabelProps> = ({ stat, currentValue, isSelected, isDisabled }) => {
 	const value = isSelected ? currentValue + 1 : currentValue;
 
 	return (
 		<HoverButton
 			component={Box}
 			isActive={isSelected}
-			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
+			disabled={isDisabled}
+			sx={{
+				width: "100%",
+				display: "flex",
+				justifyContent: "space-between",
+				alignItems: "center",
+				gap: 3,
+				p: 1,
+				opacity: isDisabled ? 0.5 : 1,
+			}}
 		>
 			<Box display="flex" alignItems="center" gap={2}>
 				<StatIcon stat={stat} width={24} />
-				<Typography>{STATS_NAME_MAP[stat]} +1</Typography>
+				<Box>
+					<Typography lineHeight={1}>
+						{STATS_NAME_MAP[stat]} +1{" "}
+						{isDisabled && (
+							<Box component="span" color="error.main">
+								(Max)
+							</Box>
+						)}
+					</Typography>
+				</Box>
 			</Box>
-			<Typography variant="body2" color={isSelected ? "success.light" : "text.secondary"}>
-				({value})
-			</Typography>
+			<Typography color={isSelected ? "success.light" : "text.secondary"}>({value})</Typography>
 		</HoverButton>
 	);
 };
@@ -186,22 +203,29 @@ export const LevelUpModal: React.FC = () => {
 							onChange={handleStatChange}
 							sx={{ gap: 1 }}
 						>
-							{STATS.map((st) => (
-								<FormControlLabel
-									key={st}
-									value={st}
-									sx={{ m: 0 }}
-									control={<Radio sx={{ display: "none" }} />}
-									disableTypography
-									label={
-										<StatLabel
-											stat={st}
-											currentValue={character.stats[st]}
-											isSelected={st === stat}
-										/>
-									}
-								/>
-							))}
+							{STATS.map((st) => {
+								const isSelected = st === stat;
+								const isDisabled = character.baseStats[st] >= MAX_STAT_VALUE;
+
+								return (
+									<FormControlLabel
+										key={st}
+										value={st}
+										sx={{ m: 0 }}
+										control={<Radio sx={{ display: "none" }} />}
+										disableTypography
+										disabled={isDisabled}
+										label={
+											<StatLabel
+												stat={st}
+												currentValue={character.stats[st]}
+												isSelected={isSelected}
+												isDisabled={isDisabled}
+											/>
+										}
+									/>
+								);
+							})}
 						</RadioGroup>
 					</FormControl>
 				)}

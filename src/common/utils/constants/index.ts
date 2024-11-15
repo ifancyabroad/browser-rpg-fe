@@ -251,6 +251,7 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 export const REWARD_GOLD_MULTIPLIER = 10;
 export const MAX_SKILLS = 7;
 export const MAX_POTIONS = 3;
+export const MAX_STAT_VALUE = 25;
 export const FINAL_LEVEL = 50;
 
 export * from "./config";
