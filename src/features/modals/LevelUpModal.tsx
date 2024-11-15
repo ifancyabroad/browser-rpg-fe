@@ -208,7 +208,7 @@ export const LevelUpModal: React.FC = () => {
 						>
 							{STATS.map((st) => {
 								const isSelected = st === stat;
-								const isDisabled = character.baseStats[st] >= MAX_STAT_VALUE;
+								const isStatDisabled = character.baseStats[st] >= MAX_STAT_VALUE;
 
 								return (
 									<FormControlLabel
@@ -217,14 +217,14 @@ export const LevelUpModal: React.FC = () => {
 										sx={{ m: 0 }}
 										control={<Radio sx={{ display: "none" }} />}
 										disableTypography
-										disabled={isDisabled}
+										disabled={isStatDisabled}
 										label={
 											<StatLabel
 												stat={st}
 												baseValue={character.baseStats[st]}
 												currentValue={character.stats[st]}
 												isSelected={isSelected}
-												isDisabled={isDisabled}
+												isDisabled={isStatDisabled}
 											/>
 										}
 									/>
