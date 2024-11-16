@@ -219,6 +219,9 @@ export const Progress: React.FC = () => {
 
 				<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
 					<Container maxWidth="md">
+						<Typography textAlign="center" color="text.secondary" mb={4}>
+							Progress
+						</Typography>
 						{isLoading ? (
 							<Box height={480} display="flex" justifyContent="center" alignItems="center">
 								<Loader />

@@ -24,13 +24,18 @@ interface IBonus {
 
 interface IStatItemProps {
 	name: string;
-	value: number;
 	baseValue: number;
 	bonuses: IBonus[];
 	max?: number;
 }
 
-const StatItem: React.FC<IStatItemProps> = ({ name, value, baseValue, bonuses, max }) => {
+const StatItem: React.FC<IStatItemProps> = ({ name, baseValue, bonuses, max }) => {
+	let value = baseValue + bonuses.reduce((acc, { value }) => acc + value, 0);
+
+	if (max) {
+		value = Math.min(value, max);
+	}
+
 	return (
 		<Box display="flex" justifyContent="space-between">
 			<Typography color="secondary.main">{name}</Typography>
@@ -128,7 +133,7 @@ export const CharacterModal: React.FC = () => {
 		return null;
 	}
 
-	const { name, skills, equipmentAsArray, characterClass, level, stats, baseStats, kills } = character;
+	const { name, skills, equipmentAsArray, characterClass, level, baseStats, kills } = character;
 	const { portrait } = characterClass;
 	const baseArmourClass = character.equipment.body?.armourClass ?? 0;
 
@@ -186,9 +191,9 @@ export const CharacterModal: React.FC = () => {
 									<StatItem
 										key={stat}
 										name={STATS_NAME_MAP[stat]}
-										value={stats[stat]}
 										baseValue={baseStats[stat]}
 										bonuses={getEquipmentBonus(PropertyType.Stat, stat)}
+										max={30}
 									/>
 								))}
 							</Stack>
@@ -196,19 +201,16 @@ export const CharacterModal: React.FC = () => {
 							<Stack spacing={1}>
 								<StatItem
 									name="Armour Class"
-									value={character.armourClass}
 									baseValue={baseArmourClass}
 									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass)}
 								/>
 								<StatItem
 									name="Hit Bonus"
-									value={character.hitBonus}
 									baseValue={0}
 									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.HitChance)}
 								/>
 								<StatItem
 									name="Crit Bonus"
-									value={character.critBonus}
 									baseValue={0}
 									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.CritChance)}
 								/>
