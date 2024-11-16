@@ -54,7 +54,7 @@ export const PotionSellerModal: React.FC = () => {
 	const handleBuyMaxPotions = async () => {
 		try {
 			await dispatch(buyPotion({ quantity: availablePotions })).unwrap();
-			setIsConfirmationOpen(false);
+			setIsMaxConfirmationOpen(false);
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));

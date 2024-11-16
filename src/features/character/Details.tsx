@@ -1,4 +1,5 @@
 import {
+	Box,
 	Grid,
 	Stack,
 	Table,
@@ -37,8 +38,10 @@ interface IStat {
 	suffix?: string;
 }
 
-const getValueColor = (value: number, baseValue: number = 0) => {
-	if (value < baseValue) {
+const getValueColor = (value: number, baseValue: number = 0, max?: number) => {
+	if (max && value >= max) {
+		return "text.secondary";
+	} else if (value < baseValue) {
 		return "error.main";
 	} else if (value > baseValue) {
 		return "success.main";
@@ -47,8 +50,11 @@ const getValueColor = (value: number, baseValue: number = 0) => {
 	}
 };
 
-const StatBonuses: React.FC<{ bonuses: IBonus[] }> = ({ bonuses }) => (
+const StatBonuses: React.FC<{ baseValue: number; bonuses: IBonus[] }> = ({ baseValue, bonuses }) => (
 	<Stack>
+		<Typography variant="body2" color="text.secondary">
+			Base: {baseValue}
+		</Typography>
 		{bonuses.map(({ name, value }) => (
 			<Typography key={name} color={getValueColor(value)} variant="body2">
 				{value > 0 ? `+${value}` : value} {name}
@@ -60,9 +66,10 @@ const StatBonuses: React.FC<{ bonuses: IBonus[] }> = ({ bonuses }) => (
 interface IProps {
 	title: string;
 	stats: IStat[];
+	max?: number;
 }
 
-const StatList: React.FC<IProps> = ({ title, stats }) => {
+const StatList: React.FC<IProps> = ({ title, stats, max }) => {
 	return (
 		<TableContainer>
 			<Table size="small">
@@ -81,12 +88,23 @@ const StatList: React.FC<IProps> = ({ title, stats }) => {
 									<Typography color="secondary">{abbreviation}</Typography>
 								</Tooltip>
 							</TableCell>
-							<TableCell>
+							<TableCell sx={{ pl: 0 }}>
 								<Tooltip
-									title={bonuses.length > 0 ? <StatBonuses bonuses={bonuses} /> : null}
+									title={
+										bonuses.length > 0 ? (
+											<StatBonuses baseValue={baseValue} bonuses={bonuses} />
+										) : null
+									}
 									placement="top"
 								>
-									<Typography color={getValueColor(value, baseValue)}>
+									<Typography color={getValueColor(value, baseValue, max)}>
+										<Box
+											component="span"
+											color="error.main"
+											visibility={max && value >= max ? "visible" : "hidden"}
+										>
+											(M){" "}
+										</Box>
 										{value}
 										{suffix}
 									</Typography>
@@ -160,7 +178,7 @@ export const Details: React.FC = () => {
 	return (
 		<Grid container spacing={1}>
 			<Grid item xs={4}>
-				<StatList title="Attributes" stats={mappedStats} />
+				<StatList title="Attributes" stats={mappedStats} max={30} />
 				<StatList title="Bonuses" stats={bonusStats} />
 			</Grid>
 			<Grid item xs={4}>
