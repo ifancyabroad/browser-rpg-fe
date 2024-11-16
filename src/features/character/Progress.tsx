@@ -134,7 +134,7 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 const OverallStats: React.FC = () => {
 	const progress = useAppSelector((state) => state.character.progress);
 
-	const overallRank = Math.min(...progress.map(({ rank }) => rank || Infinity));
+	const overallRank = Math.min(...progress.map(({ rank }) => rank || 0));
 	const totalVictories = progress.reduce((acc, { victories }) => acc + victories, 0);
 	const totalDays = progress.reduce((acc, { days }) => acc + days, 0);
 	const totalKills = progress.reduce((acc, { kills }) => acc + kills, 0);
@@ -147,7 +147,7 @@ const OverallStats: React.FC = () => {
 					<Box component="span" color="secondary.main">
 						Overall Rank:
 					</Box>{" "}
-					{overallRank}
+					{overallRank || "N/A"}
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
