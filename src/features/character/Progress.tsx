@@ -136,9 +136,9 @@ const OverallStats: React.FC = () => {
 
 	const overallRank = Math.min(...progress.map(({ rank }) => rank || 0));
 	const totalVictories = progress.reduce((acc, { victories }) => acc + victories, 0);
-	const totalDays = progress.reduce((acc, { days }) => acc + days, 0);
 	const totalKills = progress.reduce((acc, { kills }) => acc + kills, 0);
 	const totalDeaths = progress.reduce((acc, { deaths }) => acc + deaths, 0);
+	const kdRatio = totalDeaths ? (totalKills / totalDeaths).toFixed(2) : "N/A";
 
 	return (
 		<Paper sx={{ p: 2 }}>
@@ -157,12 +157,6 @@ const OverallStats: React.FC = () => {
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
-						Total Days:
-					</Box>{" "}
-					{totalDays}
-				</Typography>
-				<Typography>
-					<Box component="span" color="secondary.main">
 						Total Kills:
 					</Box>{" "}
 					{totalKills}
@@ -172,6 +166,12 @@ const OverallStats: React.FC = () => {
 						Total Deaths:
 					</Box>{" "}
 					{totalDeaths}
+				</Typography>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						K/D Ratio:
+					</Box>{" "}
+					{kdRatio}
 				</Typography>
 			</Box>
 		</Paper>
