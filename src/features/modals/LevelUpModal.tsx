@@ -16,7 +16,15 @@ import {
 import { HoverButton, SkillIcon, StatIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ISkill } from "common/types";
-import { MAX_STAT_VALUE, SKILL_TYPE_NAME_MAP, STATS, STATS_NAME_MAP, Stat, getSkillType } from "common/utils";
+import {
+	MAX_STAT_VALUE,
+	SKILL_TYPE_NAME_MAP,
+	STATS,
+	STATS_ABBR_MAP,
+	STATS_NAME_MAP,
+	Stat,
+	getSkillType,
+} from "common/utils";
 import { levelUp } from "features/character";
 import { useEffect, useState } from "react";
 import { closeLevelUpModal, openErrorModal, openSkillModal } from "./modalsSlice";
@@ -93,7 +101,12 @@ const StatLabel: React.FC<IStatLabelProps> = ({ stat, baseValue, currentValue, i
 				<StatIcon stat={stat} width={24} />
 				<Box>
 					<Typography lineHeight={1}>
-						{STATS_NAME_MAP[stat]}{" "}
+						<Box component="span" display={{ sm: "none" }}>
+							{STATS_ABBR_MAP[stat]}
+						</Box>
+						<Box component="span" display={{ xs: "none", sm: "initial" }}>
+							{STATS_NAME_MAP[stat]}
+						</Box>{" "}
 						{isDisabled && (
 							<Box component="span" color="error.main">
 								(Max)
