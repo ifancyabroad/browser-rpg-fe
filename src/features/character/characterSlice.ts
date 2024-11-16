@@ -5,6 +5,7 @@ import {
 	IApiError,
 	IArmour,
 	IBuyItemPayload,
+	IBuyPotionPayload,
 	ICharacter,
 	ICharacterClass,
 	ICharacterPayload,
@@ -123,18 +124,21 @@ export const restockItems = createAsyncThunk("character/restockItems", async (_,
 	}
 });
 
-export const buyPotion = createAsyncThunk("character/buyPotion", async (_, { rejectWithValue }) => {
-	try {
-		const response = await axios.post<{ character: ICharacter }>("/api/character/buyPotion");
-		return response.data.character;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
+export const buyPotion = createAsyncThunk(
+	"character/buyPotion",
+	async (payload: IBuyPotionPayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.post<{ character: ICharacter }>("/api/character/buyPotion", payload);
+			return response.data.character;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
 		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
+	},
+);
 
 export const rest = createAsyncThunk("character/rest", async (_, { rejectWithValue }) => {
 	try {

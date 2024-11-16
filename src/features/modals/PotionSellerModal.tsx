@@ -24,9 +24,12 @@ export const PotionSellerModal: React.FC = () => {
 	const open = useAppSelector((state) => state.modals.potionSellerModalOpen);
 	const character = useAppSelector((state) => state.character.character);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+	const [isMaxConfirmationOpen, setIsMaxConfirmationOpen] = useState(false);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
 	const [currentQuote, setCurrentQuote] = useState(getRandomElement(POTION_SELLER_QUOTES));
+	const currentPotions = character?.potions ?? 0;
+	const availablePotions = MAX_POTIONS - currentPotions;
 
 	useEffect(() => {
 		if (!open) {
@@ -40,7 +43,17 @@ export const PotionSellerModal: React.FC = () => {
 
 	const handleBuyPotion = async () => {
 		try {
-			await dispatch(buyPotion()).unwrap();
+			await dispatch(buyPotion({ quantity: 1 })).unwrap();
+			setIsConfirmationOpen(false);
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
+	};
+
+	const handleBuyMaxPotions = async () => {
+		try {
+			await dispatch(buyPotion({ quantity: availablePotions })).unwrap();
 			setIsConfirmationOpen(false);
 		} catch (err) {
 			const { message } = err as Error;
@@ -58,6 +71,16 @@ export const PotionSellerModal: React.FC = () => {
 		setIsConfirmationOpen(false);
 	};
 
+	const openMaxConfirmationModal = (e: React.SyntheticEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		e.preventDefault();
+		setIsMaxConfirmationOpen(true);
+	};
+
+	const closeMaxConfirmationModal = () => {
+		setIsMaxConfirmationOpen(false);
+	};
+
 	if (!character) {
 		return null;
 	}
@@ -66,6 +89,9 @@ export const PotionSellerModal: React.FC = () => {
 	const canAfford = gold >= potionPrice;
 	const maxPotionsReached = potions >= MAX_POTIONS;
 	const isDisabled = Boolean(!canAfford || maxPotionsReached);
+	const maxPrice = potionPrice * availablePotions;
+	const canAffordMax = gold >= maxPrice;
+	const isDisabledMax = Boolean(!canAffordMax || maxPotionsReached);
 
 	return (
 		<Fragment>
@@ -122,9 +148,18 @@ export const PotionSellerModal: React.FC = () => {
 						</Link>
 					</HoverButton>
 
-					<DialogContentText textAlign="center" sx={{ color: "text.secondary" }} mt={1}>
-						Potions: {potions}/{MAX_POTIONS}
-					</DialogContentText>
+					<Box display="flex" justifyContent="center" alignItems="center" gap={2} textAlign="center" mt={1}>
+						<DialogContentText sx={{ color: "text.secondary" }}>
+							Potions: {potions}/{MAX_POTIONS}
+						</DialogContentText>
+
+						<DialogContentText>
+							<Link component="button" onClick={openMaxConfirmationModal} disabled={isDisabledMax}>
+								Max
+							</Link>{" "}
+							({maxPrice}g)
+						</DialogContentText>
+					</Box>
 
 					{maxPotionsReached && (
 						<Typography textAlign="center" color="success.main" mt={2}>
@@ -145,6 +180,15 @@ export const PotionSellerModal: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleBuyPotion}
 				open={isConfirmationOpen}
+				disabled={isLoading}
+			/>
+
+			<ConfirmationModal
+				title="Are you sure?"
+				content={`You will buy ${availablePotions} potions for ${maxPrice}g`}
+				handleClose={closeMaxConfirmationModal}
+				handleConfirm={handleBuyMaxPotions}
+				open={isMaxConfirmationOpen}
 				disabled={isLoading}
 			/>
 		</Fragment>

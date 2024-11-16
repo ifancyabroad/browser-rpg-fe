@@ -80,6 +80,10 @@ export interface ILevelUpPayload {
 	skill?: string;
 }
 
+export interface IBuyPotionPayload {
+	quantity: number;
+}
+
 export interface IProgressHero {
 	name: string;
 	kills: number;
