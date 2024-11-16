@@ -216,16 +216,20 @@ export const CharacterModal: React.FC = () => {
 						</Stack>
 					</Grid>
 					<Grid item xs={12} sm={6} md={3}>
-						<Stack spacing={1} overflow="hidden">
-							<Typography color="text.secondary">Equipment</Typography>
+						<Stack>
+							<Typography color="text.secondary" mb={1}>
+								Equipment
+							</Typography>
 							{equipmentAsArray.map((equipment) => (
 								<EquipmentItem key={equipment.id} equipment={equipment} />
 							))}
 						</Stack>
 					</Grid>
 					<Grid item xs={12} sm={6} md={3}>
-						<Stack spacing={1}>
-							<Typography color="text.secondary">Skills</Typography>
+						<Stack>
+							<Typography color="text.secondary" mb={1}>
+								Skills
+							</Typography>
 							{skills.map((skill) => (
 								<SkillItem key={skill.id} skill={skill} />
 							))}
