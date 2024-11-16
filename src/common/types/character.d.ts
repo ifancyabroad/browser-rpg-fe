@@ -84,19 +84,13 @@ export interface IBuyPotionPayload {
 	quantity: number;
 }
 
-export interface IProgressHero {
-	name: string;
-	kills: number;
-	level: number;
-	status: Status;
-	slainBy: string;
-}
-
 export interface IProgress {
 	name: string;
 	portrait: string;
-	hero: IProgressHero;
+	hero: ICharacter | null;
 	kills: number;
 	deaths: number;
 	victories: number;
+	days: number;
+	rank: number | null;
 }

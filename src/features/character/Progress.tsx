@@ -8,7 +8,7 @@ import { Header } from "./Header";
 import { IProgress } from "common/types";
 import { Status } from "common/utils";
 
-const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, name, portrait }) => {
+const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, name, portrait, rank }) => {
 	const hasVictory = victories > 0;
 
 	return (
@@ -64,7 +64,7 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 					</Stack>
 
 					<Typography textAlign="right">
-						<Box component="span" color="secondary.main">
+						<Box component="span" color="info.main">
 							Class:
 						</Box>{" "}
 						{name}
@@ -81,9 +81,21 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 						</Typography>
 						<Typography>
 							<Box component="span" color="secondary.main">
+								Rank:
+							</Box>{" "}
+							{rank}
+						</Typography>
+						<Typography>
+							<Box component="span" color="secondary.main">
 								Level:
 							</Box>{" "}
 							{hero.level}
+						</Typography>
+						<Typography>
+							<Box component="span" color="secondary.main">
+								Day:
+							</Box>{" "}
+							{hero.day}
 						</Typography>
 						<Typography>
 							<Box component="span" color="secondary.main">
@@ -119,6 +131,53 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 	);
 };
 
+const OverallStats: React.FC = () => {
+	const progress = useAppSelector((state) => state.character.progress);
+
+	const overallRank = Math.min(...progress.map(({ rank }) => rank || Infinity));
+	const totalVictories = progress.reduce((acc, { victories }) => acc + victories, 0);
+	const totalDays = progress.reduce((acc, { days }) => acc + days, 0);
+	const totalKills = progress.reduce((acc, { kills }) => acc + kills, 0);
+	const totalDeaths = progress.reduce((acc, { deaths }) => acc + deaths, 0);
+
+	return (
+		<Paper sx={{ p: 2 }}>
+			<Box display="flex" justifyContent="space-between" flexWrap="wrap" gap={2}>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						Overall Rank:
+					</Box>{" "}
+					{overallRank}
+				</Typography>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						Total Victories:
+					</Box>{" "}
+					{totalVictories}
+				</Typography>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						Total Days:
+					</Box>{" "}
+					{totalDays}
+				</Typography>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						Total Kills:
+					</Box>{" "}
+					{totalKills}
+				</Typography>
+				<Typography>
+					<Box component="span" color="secondary.main">
+						Total Deaths:
+					</Box>{" "}
+					{totalDeaths}
+				</Typography>
+			</Box>
+		</Paper>
+	);
+};
+
 export const Progress: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const progress = useAppSelector((state) => state.character.progress);
@@ -149,15 +208,18 @@ export const Progress: React.FC = () => {
 			<Header />
 
 			<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
-				<Container maxWidth="lg">
+				<Container maxWidth="md">
 					{isLoading ? (
 						<Box height={480} display="flex" justifyContent="center" alignItems="center">
 							<Loader />
 						</Box>
 					) : (
-						<Grid container spacing={2} justifyContent="center">
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<OverallStats />
+							</Grid>
 							{progress.map((classProgress) => (
-								<Grid key={classProgress.name} item xs={12} md={3}>
+								<Grid key={classProgress.name} item xs={12} md={4}>
 									<ProgressClass {...classProgress} />
 								</Grid>
 							))}
