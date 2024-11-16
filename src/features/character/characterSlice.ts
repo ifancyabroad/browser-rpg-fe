@@ -17,7 +17,7 @@ import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from
 interface ICharacterState {
 	character: ICharacter | null;
 	classes: ICharacterClass[];
-	progress: IProgress[];
+	progress: IProgress | null;
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
@@ -34,7 +34,7 @@ const initialState: ICharacterState = {
 	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
 	classes: [],
-	progress: [],
+	progress: null,
 	status: "idle",
 	characterStatus: "idle",
 	classesStatus: "idle",
@@ -179,7 +179,7 @@ export const swapWeapons = createAsyncThunk("character/swapWeapons", async (_, {
 
 export const fetchProgress = createAsyncThunk("character/fetchProgress", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<{ progress: IProgress[] }>("/api/character/progress");
+		const response = await axios.get<{ progress: IProgress }>("/api/character/progress");
 		return response.data.progress;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;

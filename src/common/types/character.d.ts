@@ -85,12 +85,11 @@ export interface IBuyPotionPayload {
 }
 
 export interface IProgress {
-	name: string;
-	portrait: string;
-	hero: ICharacter | null;
+	overallProgress: ICharacter[];
+	classProgress: ICharacter[];
+	rank: number | null;
+	victories: number;
 	kills: number;
 	deaths: number;
-	victories: number;
 	days: number;
-	rank: number | null;
 }

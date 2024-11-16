@@ -1,23 +1,41 @@
-import { Box, Container, Grid, Link, Paper, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Link, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { fetchProgress } from "./characterSlice";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { Loader } from "common/components";
 import { Header } from "./Header";
-import { IProgress } from "common/types";
-import { Status } from "common/utils";
+import { ICharacter } from "common/types";
+import { FINAL_LEVEL, Status } from "common/utils";
 import { CharacterModal } from "features/modals/CharacterModal";
 
-const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, name, portrait, rank }) => {
+interface TabPanelProps {
+	children?: React.ReactNode;
+	index: number;
+	value: number;
+}
+
+const TabPanel: React.FC<TabPanelProps> = (props) => {
+	const { children, value, index, ...other } = props;
+
+	return (
+		<div role="tabpanel" hidden={value !== index} {...other}>
+			{value === index ? children : null}
+		</div>
+	);
+};
+
+const ProgressClass: React.FC<ICharacter> = (character) => {
 	const dispatch = useAppDispatch();
-	const hasVictory = victories > 0;
+	const { name, characterClass, day, level, kills, maxBattleLevel, status, slainBy } = character;
+	const { portrait } = characterClass;
+	const hasVictory = maxBattleLevel >= FINAL_LEVEL;
 
 	const handleViewHero = () => {
-		if (!hero) {
+		if (!character) {
 			return;
 		}
-		dispatch(openCharacterModal({ character: hero }));
+		dispatch(openCharacterModal({ character }));
 	};
 
 	return (
@@ -50,93 +68,59 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 					color: "white",
 				}}
 			>
-				<Box display="flex" justifyContent="space-between" mb={4}>
-					<Stack spacing={1}>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Kills:
-							</Box>{" "}
-							{kills}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Deaths:
-							</Box>{" "}
-							{deaths}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Victories:
-							</Box>{" "}
-							{victories}
-						</Typography>
-					</Stack>
-
+				<Box display="flex" justifyContent="space-between" mb={2}>
+					<Link component="button" onClick={handleViewHero}>
+						{name}
+					</Link>
 					<Typography textAlign="right">
 						<Box component="span" color="info.main">
 							Class:
 						</Box>{" "}
-						{name}
+						{characterClass.name}
 					</Typography>
 				</Box>
 
-				{hero && (
-					<Stack spacing={1}>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Best Hero:
-							</Box>{" "}
-							<Link component="button" onClick={handleViewHero}>
-								{hero.name}
-							</Link>
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Rank:
-							</Box>{" "}
-							{rank}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Level:
-							</Box>{" "}
-							{hero.level}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Day:
-							</Box>{" "}
-							{hero.day}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Kills:
-							</Box>{" "}
-							{hero.kills}
-						</Typography>
-						<Typography>
-							<Box component="span" color="secondary.main">
-								Status:
-							</Box>{" "}
+				<Stack spacing={1}>
+					<Typography>
+						<Box component="span" color="secondary.main">
+							Level:
+						</Box>{" "}
+						{level}
+					</Typography>
+					<Typography>
+						<Box component="span" color="secondary.main">
+							Kills:
+						</Box>{" "}
+						{kills}
+					</Typography>
+					<Typography>
+						<Box component="span" color="secondary.main">
+							Day:
+						</Box>{" "}
+						{day}
+					</Typography>
+					<Typography>
+						<Box component="span" color="secondary.main">
+							Status:
+						</Box>{" "}
+						{
 							{
-								{
-									[Status.Alive]: "Alive",
-									[Status.Dead]: "Dead",
-									[Status.Retired]: "Retired",
-									[Status.Complete]: "Complete",
-								}[hero.status]
-							}
+								[Status.Alive]: "Alive",
+								[Status.Dead]: "Dead",
+								[Status.Retired]: "Retired",
+								[Status.Complete]: "Complete",
+							}[status]
+						}
+					</Typography>
+					{slainBy && (
+						<Typography>
+							<Box component="span" color="secondary.main">
+								Slain By:
+							</Box>{" "}
+							{slainBy}
 						</Typography>
-						{hero.slainBy && (
-							<Typography>
-								<Box component="span" color="secondary.main">
-									Slain By:
-								</Box>{" "}
-								{hero.slainBy}
-							</Typography>
-						)}
-					</Stack>
-				)}
+					)}
+				</Stack>
 			</Box>
 		</Paper>
 	);
@@ -145,11 +129,13 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 const OverallStats: React.FC = () => {
 	const progress = useAppSelector((state) => state.character.progress);
 
-	const overallRank = Math.min(...progress.map(({ rank }) => rank || 0));
-	const totalVictories = progress.reduce((acc, { victories }) => acc + victories, 0);
-	const totalKills = progress.reduce((acc, { kills }) => acc + kills, 0);
-	const totalDeaths = progress.reduce((acc, { deaths }) => acc + deaths, 0);
-	const kdRatio = totalDeaths ? (totalKills / totalDeaths).toFixed(2) : "N/A";
+	if (!progress) {
+		return null;
+	}
+
+	const { deaths, kills, rank, victories } = progress;
+
+	const kdRatio = deaths ? (kills / deaths).toFixed(2) : "N/A";
 
 	return (
 		<Paper sx={{ p: 2 }}>
@@ -158,25 +144,25 @@ const OverallStats: React.FC = () => {
 					<Box component="span" color="secondary.main">
 						Overall Rank:
 					</Box>{" "}
-					{overallRank || "N/A"}
+					{rank || "N/A"}
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
 						Total Victories:
 					</Box>{" "}
-					{totalVictories}
+					{victories}
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
 						Total Kills:
 					</Box>{" "}
-					{totalKills}
+					{kills}
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
 						Total Deaths:
 					</Box>{" "}
-					{totalDeaths}
+					{deaths}
 				</Typography>
 				<Typography>
 					<Box component="span" color="secondary.main">
@@ -189,11 +175,19 @@ const OverallStats: React.FC = () => {
 	);
 };
 
+enum ProgressTab {
+	Overall,
+	Class,
+}
+
 export const Progress: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const progress = useAppSelector((state) => state.character.progress);
 	const status = useAppSelector((state) => state.character.progressStatus);
 	const isLoading = status === "loading";
+	const classProgress = progress?.classProgress || [];
+	const overallProgress = progress?.overallProgress || [];
+	const [progressTab, setProgressTab] = useState(ProgressTab.Overall);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -207,6 +201,10 @@ export const Progress: React.FC = () => {
 
 		fetchData();
 	}, [dispatch]);
+
+	const handleChangeTab = (event: React.SyntheticEvent, newValue: ProgressTab) => {
+		setProgressTab(newValue);
+	};
 
 	return (
 		<Fragment>
@@ -230,11 +228,56 @@ export const Progress: React.FC = () => {
 								<Grid item xs={12}>
 									<OverallStats />
 								</Grid>
-								{progress.map((classProgress) => (
-									<Grid key={classProgress.name} item xs={12} md={4}>
-										<ProgressClass {...classProgress} />
+								<Grid container spacing={2} item xs={12}>
+									<Grid item xs={12}>
+										<Tabs value={progressTab} onChange={handleChangeTab} variant="fullWidth">
+											<Tab label="Top 3 Overall" value={ProgressTab.Overall} />
+											<Tab label="Top 3 By Class" value={ProgressTab.Class} />
+										</Tabs>
 									</Grid>
-								))}
+									<Grid item xs={12}>
+										<TabPanel value={progressTab} index={ProgressTab.Overall}>
+											<Grid container spacing={2}>
+												{overallProgress.length ? (
+													overallProgress.map((character) => (
+														<Grid key={character.id} item xs={12} md={4}>
+															<ProgressClass {...character} />
+														</Grid>
+													))
+												) : (
+													<Box
+														height={400}
+														display="flex"
+														justifyContent="center"
+														alignItems="center"
+													>
+														<Typography>No characters found</Typography>
+													</Box>
+												)}
+											</Grid>
+										</TabPanel>
+										<TabPanel value={progressTab} index={ProgressTab.Class}>
+											<Grid container spacing={2}>
+												{classProgress.length ? (
+													classProgress.map((character) => (
+														<Grid key={character.id} item xs={12} md={4}>
+															<ProgressClass {...character} />
+														</Grid>
+													))
+												) : (
+													<Box
+														height={400}
+														display="flex"
+														justifyContent="center"
+														alignItems="center"
+													>
+														<Typography>No characters found</Typography>
+													</Box>
+												)}
+											</Grid>
+										</TabPanel>
+									</Grid>
+								</Grid>
 							</Grid>
 						)}
 					</Container>
