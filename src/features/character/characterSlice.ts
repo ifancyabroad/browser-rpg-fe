@@ -3,7 +3,6 @@ import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
 import {
 	IApiError,
-	IArmour,
 	IBuyItemPayload,
 	IBuyPotionPayload,
 	ICharacter,
@@ -11,9 +10,8 @@ import {
 	ICharacterPayload,
 	ILevelUpPayload,
 	IProgress,
-	IWeapon,
 } from "common/types";
-import { CharacterSheetTab, PropertyType, Status, WeaponSize } from "common/utils";
+import { CharacterSheetTab, getItemPropertyBonus, PropertyType, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from "features/battle";
 
 interface ICharacterState {
@@ -225,14 +223,6 @@ export const getLevelUpAvailable = createSelector(characterSelector, ({ characte
 	}
 	return experience >= nextLevelExperience;
 });
-
-const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType, name: string) => {
-	const properties = item.properties ?? [];
-	const value = properties
-		.filter((property) => property.type === type && property.name === name)
-		.reduce((n, { value }) => n + value, 0);
-	return { name: item.name, value };
-};
 
 export const getEquipmentBonus = createSelector(
 	getEquipmentAsArray,

@@ -1,7 +1,7 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { ISkill } from "common/types";
 import { HoverButton, SkillIcon } from "common/components";
-import { useAppDispatch, useAppSelector } from "common/hooks";
+import { useAppDispatch } from "common/hooks";
 import { openSkillModal } from "features/modals";
 import { SKILL_TYPE_NAME_MAP, getSkillType } from "common/utils";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
@@ -12,15 +12,10 @@ interface IProps {
 
 export const SkillItem: React.FC<IProps> = ({ skill }) => {
 	const dispatch = useAppDispatch();
-	const character = useAppSelector((state) => state.character.character);
 
 	const handleViewSkill = (e: React.SyntheticEvent<HTMLButtonElement>) => {
 		dispatch(openSkillModal({ skill }));
 	};
-
-	if (!character) {
-		return null;
-	}
 
 	const type = getSkillType(skill);
 

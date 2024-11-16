@@ -1,15 +1,24 @@
-import { Box, Container, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Link, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { fetchProgress } from "./characterSlice";
-import { openErrorModal } from "features/modals";
+import { openCharacterModal, openErrorModal } from "features/modals";
 import { Loader } from "common/components";
 import { Header } from "./Header";
 import { IProgress } from "common/types";
 import { Status } from "common/utils";
+import { CharacterModal } from "features/modals/CharacterModal";
 
 const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, name, portrait, rank }) => {
+	const dispatch = useAppDispatch();
 	const hasVictory = victories > 0;
+
+	const handleViewHero = () => {
+		if (!hero) {
+			return;
+		}
+		dispatch(openCharacterModal({ character: hero }));
+	};
 
 	return (
 		<Paper
@@ -77,7 +86,9 @@ const ProgressClass: React.FC<IProgress> = ({ deaths, hero, kills, victories, na
 							<Box component="span" color="secondary.main">
 								Best Hero:
 							</Box>{" "}
-							{hero.name}
+							<Link component="button" onClick={handleViewHero}>
+								{hero.name}
+							</Link>
 						</Typography>
 						<Typography>
 							<Box component="span" color="secondary.main">
@@ -198,35 +209,39 @@ export const Progress: React.FC = () => {
 	}, [dispatch]);
 
 	return (
-		<Box
-			sx={{
-				minHeight: "100svh",
-				display: "flex",
-				flexDirection: "column",
-			}}
-		>
-			<Header />
+		<Fragment>
+			<Box
+				sx={{
+					minHeight: "100svh",
+					display: "flex",
+					flexDirection: "column",
+				}}
+			>
+				<Header />
 
-			<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
-				<Container maxWidth="md">
-					{isLoading ? (
-						<Box height={480} display="flex" justifyContent="center" alignItems="center">
-							<Loader />
-						</Box>
-					) : (
-						<Grid container spacing={2}>
-							<Grid item xs={12}>
-								<OverallStats />
-							</Grid>
-							{progress.map((classProgress) => (
-								<Grid key={classProgress.name} item xs={12} md={4}>
-									<ProgressClass {...classProgress} />
+				<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
+					<Container maxWidth="md">
+						{isLoading ? (
+							<Box height={480} display="flex" justifyContent="center" alignItems="center">
+								<Loader />
+							</Box>
+						) : (
+							<Grid container spacing={2}>
+								<Grid item xs={12}>
+									<OverallStats />
 								</Grid>
-							))}
-						</Grid>
-					)}
-				</Container>
+								{progress.map((classProgress) => (
+									<Grid key={classProgress.name} item xs={12} md={4}>
+										<ProgressClass {...classProgress} />
+									</Grid>
+								))}
+							</Grid>
+						)}
+					</Container>
+				</Box>
 			</Box>
-		</Box>
+
+			<CharacterModal />
+		</Fragment>
 	);
 };

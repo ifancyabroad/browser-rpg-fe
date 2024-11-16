@@ -1,7 +1,6 @@
 import {
 	Box,
 	Grid,
-	Stack,
 	Table,
 	TableBody,
 	TableCell,
@@ -11,9 +10,11 @@ import {
 	Tooltip,
 	Typography,
 } from "@mui/material";
+import { StatBonuses } from "common/components";
 import { useAppSelector } from "common/hooks";
 import {
 	AuxiliaryStat,
+	getValueColor,
 	PropertyType,
 	RESISTANCES,
 	RESISTANCES_ABBR_MAP,
@@ -37,31 +38,6 @@ interface IStat {
 	bonuses: IBonus[];
 	suffix?: string;
 }
-
-const getValueColor = (value: number, baseValue: number = 0, max?: number) => {
-	if (max && value >= max) {
-		return "text.secondary";
-	} else if (value < baseValue) {
-		return "error.main";
-	} else if (value > baseValue) {
-		return "success.main";
-	} else {
-		return "text.primary";
-	}
-};
-
-const StatBonuses: React.FC<{ baseValue: number; bonuses: IBonus[] }> = ({ baseValue, bonuses }) => (
-	<Stack>
-		<Typography variant="body2" color="text.secondary">
-			Base: {baseValue}
-		</Typography>
-		{bonuses.map(({ name, value }) => (
-			<Typography key={name} color={getValueColor(value)} variant="body2">
-				{value > 0 ? `+${value}` : value} {name}
-			</Typography>
-		))}
-	</Stack>
-);
 
 interface IProps {
 	title: string;

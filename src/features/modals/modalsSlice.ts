@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IArmour, ICharacterClass, ISkill, IWeapon } from "common/types";
+import { IArmour, ICharacter, ICharacterClass, ISkill, IWeapon } from "common/types";
 
 interface ModalsState {
 	loginModalOpen: boolean;
@@ -36,6 +36,10 @@ interface ModalsState {
 	victoryModalOpen: boolean;
 	howToPlayModalOpen: boolean;
 	potionSellerModalOpen: boolean;
+	characterModal: {
+		open: boolean;
+		character?: ICharacter;
+	};
 }
 
 const initialState: ModalsState = {
@@ -66,6 +70,9 @@ const initialState: ModalsState = {
 	victoryModalOpen: false,
 	howToPlayModalOpen: false,
 	potionSellerModalOpen: false,
+	characterModal: {
+		open: false,
+	},
 };
 
 export const modalsSlice = createSlice({
@@ -190,6 +197,14 @@ export const modalsSlice = createSlice({
 		closePotionSellerModal: (state) => {
 			state.potionSellerModalOpen = false;
 		},
+		openCharacterModal: (state, action: PayloadAction<{ character: ICharacter }>) => {
+			state.characterModal.open = true;
+			state.characterModal.character = action.payload.character;
+		},
+		closeCharacterModal: (state) => {
+			state.characterModal.open = false;
+			state.characterModal.character = undefined;
+		},
 	},
 });
 
@@ -229,6 +244,8 @@ export const {
 	closeHowToPlayModal,
 	openPotionSellerModal,
 	closePotionSellerModal,
+	openCharacterModal,
+	closeCharacterModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

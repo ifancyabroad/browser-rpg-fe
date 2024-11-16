@@ -4,6 +4,7 @@ import {
 	EffectType,
 	EquipmentSlot,
 	EquipmentType,
+	PropertyType,
 	SkillType,
 	Target,
 	WeaponSize,
@@ -178,4 +179,24 @@ export const decodeMap = function (map: TiledMap) {
 
 export const getRandomElement = <T>(arr: T[]) => {
 	return arr[Math.floor(Math.random() * arr.length)];
+};
+
+export const getValueColor = (value: number, baseValue: number = 0, max?: number) => {
+	if (max && value >= max) {
+		return "text.secondary";
+	} else if (value < baseValue) {
+		return "error.main";
+	} else if (value > baseValue) {
+		return "success.main";
+	} else {
+		return "text.primary";
+	}
+};
+
+export const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType, name: string) => {
+	const properties = item.properties ?? [];
+	const value = properties
+		.filter((property) => property.type === type && property.name === name)
+		.reduce((n, { value }) => n + value, 0);
+	return { name: item.name, value };
 };

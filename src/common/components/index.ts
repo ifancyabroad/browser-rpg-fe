@@ -16,3 +16,4 @@ export * from "./HoverButton";
 export * from "./ActiveEffects";
 export * from "./EquipmentIcon";
 export * from "./EquipmentLink";
+export * from "./StatBonuses";
