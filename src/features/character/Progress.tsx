@@ -248,14 +248,11 @@ export const Progress: React.FC = () => {
 														</Grid>
 													))
 												) : (
-													<Box
-														height={400}
-														display="flex"
-														justifyContent="center"
-														alignItems="center"
-													>
-														<Typography>No characters found</Typography>
-													</Box>
+													<Grid item xs={12} height={416}>
+														<Typography textAlign="center">
+															You do not have any heroes to display.
+														</Typography>
+													</Grid>
 												)}
 											</Grid>
 										</TabPanel>
@@ -268,14 +265,11 @@ export const Progress: React.FC = () => {
 														</Grid>
 													))
 												) : (
-													<Box
-														height={400}
-														display="flex"
-														justifyContent="center"
-														alignItems="center"
-													>
-														<Typography>No characters found</Typography>
-													</Box>
+													<Grid item xs={12} height={416}>
+														<Typography textAlign="center">
+															You do not have any heroes to display.
+														</Typography>
+													</Grid>
 												)}
 											</Grid>
 										</TabPanel>
