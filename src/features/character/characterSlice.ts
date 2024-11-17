@@ -16,6 +16,7 @@ import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from
 
 interface ICharacterState {
 	character: ICharacter | null;
+	characters: ICharacter[];
 	classes: ICharacterClass[];
 	progress: IProgress | null;
 	isCharacterSheetOpen: boolean;
@@ -25,11 +26,13 @@ interface ICharacterState {
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classesStatus: "idle" | "loading" | "succeeded" | "failed";
 	progressStatus: "idle" | "loading" | "succeeded" | "failed";
+	characterByIDStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
 const initialState: ICharacterState = {
 	character: null,
+	characters: [],
 	isCharacterSheetOpen: false,
 	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
@@ -39,6 +42,7 @@ const initialState: ICharacterState = {
 	characterStatus: "idle",
 	classesStatus: "idle",
 	progressStatus: "idle",
+	characterByIDStatus: "idle",
 };
 
 export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async (_, { rejectWithValue }) => {
@@ -189,6 +193,22 @@ export const fetchProgress = createAsyncThunk("character/fetchProgress", async (
 		return rejectWithValue(error.response.data.error);
 	}
 });
+
+export const fetchCharacterByID = createAsyncThunk(
+	"character/fetchCharacterByID",
+	async (id: string, { rejectWithValue }) => {
+		try {
+			const response = await axios.get<{ character: ICharacter }>(`/api/character/${id}`);
+			return response.data.character;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	},
+);
 
 export const characterSelector = (state: RootState) => state.character;
 
@@ -402,6 +422,17 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(fetchProgress.rejected, (state, action) => {
 			state.progressStatus = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(fetchCharacterByID.pending, (state) => {
+			state.characterByIDStatus = "loading";
+		});
+		builder.addCase(fetchCharacterByID.fulfilled, (state, action) => {
+			state.characterByIDStatus = "succeeded";
+			state.characters = [...state.characters, action.payload];
+		});
+		builder.addCase(fetchCharacterByID.rejected, (state, action) => {
+			state.characterByIDStatus = "failed";
 			state.error = action.error.message;
 		});
 	},

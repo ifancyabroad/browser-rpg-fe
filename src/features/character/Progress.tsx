@@ -5,7 +5,7 @@ import { fetchProgress } from "./characterSlice";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { Loader } from "common/components";
 import { Header } from "./Header";
-import { ICharacter } from "common/types";
+import { IProgressCharacter } from "common/types";
 import { FINAL_LEVEL, Status } from "common/utils";
 import { CharacterModal } from "features/modals/CharacterModal";
 
@@ -25,17 +25,14 @@ const TabPanel: React.FC<TabPanelProps> = (props) => {
 	);
 };
 
-const ProgressClass: React.FC<ICharacter> = (character) => {
+const ProgressClass: React.FC<IProgressCharacter> = (character) => {
 	const dispatch = useAppDispatch();
-	const { name, characterClass, day, level, kills, maxBattleLevel, status, slainBy } = character;
+	const { id, name, characterClass, day, level, kills, maxBattleLevel, status, slainBy } = character;
 	const { portrait } = characterClass;
 	const hasVictory = maxBattleLevel >= FINAL_LEVEL;
 
 	const handleViewHero = () => {
-		if (!character) {
-			return;
-		}
-		dispatch(openCharacterModal({ character }));
+		dispatch(openCharacterModal({ id }));
 	};
 
 	return (
@@ -69,15 +66,15 @@ const ProgressClass: React.FC<ICharacter> = (character) => {
 				}}
 			>
 				<Box display="flex" justifyContent="space-between" mb={2}>
-					<Link component="button" onClick={handleViewHero}>
-						{name}
-					</Link>
 					<Typography textAlign="right">
 						<Box component="span" color="info.main">
-							Class:
+							Name:
 						</Box>{" "}
-						{characterClass.name}
+						{name}
 					</Typography>
+					<Link component="button" onClick={handleViewHero}>
+						Inspect
+					</Link>
 				</Box>
 
 				<Stack spacing={1}>
@@ -86,6 +83,12 @@ const ProgressClass: React.FC<ICharacter> = (character) => {
 							Level:
 						</Box>{" "}
 						{level}
+					</Typography>
+					<Typography>
+						<Box component="span" color="secondary.main">
+							Class:
+						</Box>{" "}
+						{characterClass.name}
 					</Typography>
 					<Typography>
 						<Box component="span" color="secondary.main">

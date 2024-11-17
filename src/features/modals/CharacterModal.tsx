@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, Grid, Link, Stack, Tooltip, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeCharacterModal, openEquipmentModal, openSkillModal } from "./modalsSlice";
-import { IArmour, ISkill, IWeapon } from "common/types";
+import { IArmour, ICharacter, ISkill, IWeapon } from "common/types";
 import { EquipmentIcon, HoverButton, SkillIcon, StatBonuses } from "common/components";
 import {
 	AuxiliaryStat,
@@ -16,6 +16,8 @@ import {
 	STATS,
 	STATS_NAME_MAP,
 } from "common/utils";
+import { useEffect } from "react";
+import { fetchCharacterByID } from "features/character";
 
 interface IBonus {
 	name: string;
@@ -121,18 +123,7 @@ const SkillItem: React.FC<{ skill: ISkill }> = ({ skill }) => {
 	);
 };
 
-export const CharacterModal: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const { open, character } = useAppSelector((state) => state.modals.characterModal);
-
-	const handleClose = () => {
-		dispatch(closeCharacterModal());
-	};
-
-	if (!character) {
-		return null;
-	}
-
+const CharacterContent: React.FC<ICharacter> = (character) => {
 	const { name, skills, equipmentAsArray, characterClass, level, baseStats, kills } = character;
 	const { portrait } = characterClass;
 	const baseArmourClass = character.equipment.body?.armourClass ?? 0;
@@ -144,100 +135,127 @@ export const CharacterModal: React.FC = () => {
 	};
 
 	return (
+		<Grid container spacing={2}>
+			<Grid item xs={12} sm={6} md={3} textAlign="center">
+				<Box
+					sx={{
+						position: "relative",
+						height: "100%",
+						minHeight: "400px",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						flexDirection: "column",
+					}}
+				>
+					<Box
+						sx={{
+							position: "absolute",
+							height: "100%",
+							width: "100%",
+							backgroundImage: `url(${portrait})`,
+							backgroundSize: "cover",
+							backgroundPosition: "top center",
+							opacity: 0.3,
+						}}
+					/>
+					<Box sx={{ position: "relative", zIndex: 1 }}>
+						<Typography variant="h6" color="primary.main">
+							{name}
+						</Typography>
+						<Typography color="text.secondary">
+							Level {level} {characterClass.name}
+						</Typography>
+						<Typography>
+							{kills} {kills === 1 ? "kill" : "kills"}
+						</Typography>
+					</Box>
+				</Box>
+			</Grid>
+			<Grid item xs={12} sm={6} md={3}>
+				<Stack spacing={1}>
+					<Typography color="text.secondary">Attributes</Typography>
+					<Stack spacing={1}>
+						{STATS.map((stat) => (
+							<StatItem
+								key={stat}
+								name={STATS_NAME_MAP[stat]}
+								baseValue={baseStats[stat]}
+								bonuses={getEquipmentBonus(PropertyType.Stat, stat)}
+								max={30}
+							/>
+						))}
+					</Stack>
+					<Typography color="text.secondary">Bonuses</Typography>
+					<Stack spacing={1}>
+						<StatItem
+							name="Armour Class"
+							baseValue={baseArmourClass}
+							bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass)}
+						/>
+						<StatItem
+							name="Hit Bonus"
+							baseValue={0}
+							bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.HitChance)}
+						/>
+						<StatItem
+							name="Crit Bonus"
+							baseValue={0}
+							bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.CritChance)}
+						/>
+					</Stack>
+				</Stack>
+			</Grid>
+			<Grid item xs={12} sm={6} md={3}>
+				<Stack>
+					<Typography color="text.secondary" mb={1}>
+						Equipment
+					</Typography>
+					{equipmentAsArray.map((equipment) => (
+						<EquipmentItem key={equipment.id} equipment={equipment} />
+					))}
+				</Stack>
+			</Grid>
+			<Grid item xs={12} sm={6} md={3}>
+				<Stack>
+					<Typography color="text.secondary" mb={1}>
+						Skills
+					</Typography>
+					{skills.map((skill) => (
+						<SkillItem key={skill.id} skill={skill} />
+					))}
+				</Stack>
+			</Grid>
+		</Grid>
+	);
+};
+
+export const CharacterModal: React.FC = () => {
+	const dispatch = useAppDispatch();
+	const { open, id } = useAppSelector((state) => state.modals.characterModal);
+	const characters = useAppSelector((state) => state.character.characters);
+	const character = id ? characters.find((c) => c.id === id) : null;
+
+	useEffect(() => {
+		if (!character && id) {
+			dispatch(fetchCharacterByID(id));
+		}
+	}, [dispatch, character, id]);
+
+	const handleClose = () => {
+		dispatch(closeCharacterModal());
+	};
+
+	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="md">
 			<DialogContent>
-				<Grid container spacing={2}>
-					<Grid item xs={12} sm={6} md={3} textAlign="center">
-						<Box
-							sx={{
-								position: "relative",
-								height: "100%",
-								minHeight: "400px",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center",
-								flexDirection: "column",
-							}}
-						>
-							<Box
-								sx={{
-									position: "absolute",
-									height: "100%",
-									width: "100%",
-									backgroundImage: `url(${portrait})`,
-									backgroundSize: "cover",
-									backgroundPosition: "top center",
-									opacity: 0.3,
-								}}
-							/>
-							<Box sx={{ position: "relative", zIndex: 1 }}>
-								<Typography variant="h6" color="primary.main">
-									{name}
-								</Typography>
-								<Typography color="text.secondary">
-									Level {level} {characterClass.name}
-								</Typography>
-								<Typography>
-									{kills} {kills === 1 ? "kill" : "kills"}
-								</Typography>
-							</Box>
-						</Box>
-					</Grid>
-					<Grid item xs={12} sm={6} md={3}>
-						<Stack spacing={1}>
-							<Typography color="text.secondary">Attributes</Typography>
-							<Stack spacing={1}>
-								{STATS.map((stat) => (
-									<StatItem
-										key={stat}
-										name={STATS_NAME_MAP[stat]}
-										baseValue={baseStats[stat]}
-										bonuses={getEquipmentBonus(PropertyType.Stat, stat)}
-										max={30}
-									/>
-								))}
-							</Stack>
-							<Typography color="text.secondary">Bonuses</Typography>
-							<Stack spacing={1}>
-								<StatItem
-									name="Armour Class"
-									baseValue={baseArmourClass}
-									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass)}
-								/>
-								<StatItem
-									name="Hit Bonus"
-									baseValue={0}
-									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.HitChance)}
-								/>
-								<StatItem
-									name="Crit Bonus"
-									baseValue={0}
-									bonuses={getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.CritChance)}
-								/>
-							</Stack>
-						</Stack>
-					</Grid>
-					<Grid item xs={12} sm={6} md={3}>
-						<Stack>
-							<Typography color="text.secondary" mb={1}>
-								Equipment
-							</Typography>
-							{equipmentAsArray.map((equipment) => (
-								<EquipmentItem key={equipment.id} equipment={equipment} />
-							))}
-						</Stack>
-					</Grid>
-					<Grid item xs={12} sm={6} md={3}>
-						<Stack>
-							<Typography color="text.secondary" mb={1}>
-								Skills
-							</Typography>
-							{skills.map((skill) => (
-								<SkillItem key={skill.id} skill={skill} />
-							))}
-						</Stack>
-					</Grid>
-				</Grid>
+				{!character ? (
+					<Box height={400} display="flex" justifyContent="center" alignItems="center">
+						<Typography>Loading...</Typography>
+					</Box>
+				) : (
+					<CharacterContent {...character} />
+				)}
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" onClick={handleClose}>

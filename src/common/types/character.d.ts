@@ -84,9 +84,21 @@ export interface IBuyPotionPayload {
 	quantity: number;
 }
 
+export interface IProgressCharacter {
+	id: string;
+	name: string;
+	level: number;
+	kills: number;
+	day: number;
+	status: Status;
+	maxBattleLevel: number;
+	characterClass: ICharacterClass;
+	slainBy?: string;
+}
+
 export interface IProgress {
-	overallProgress: ICharacter[];
-	classProgress: ICharacter[];
+	overallProgress: IProgressCharacter[];
+	classProgress: IProgressCharacter[];
 	rank: number | null;
 	victories: number;
 	kills: number;
