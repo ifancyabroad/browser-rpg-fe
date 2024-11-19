@@ -1,7 +1,11 @@
 import { Box, Stack, Tooltip } from "@mui/material";
 import { IActiveEffect, IStatus } from "common/types";
 import { Typography } from "@mui/material";
-import { AUXILIARY_EFFECTS_NAME_MAP, AuxiliaryEffect as AuxEffect } from "common/utils";
+import {
+	AUXILIARY_EFFECTS_DESCRIPTION_MAP,
+	AUXILIARY_EFFECTS_NAME_MAP,
+	AuxiliaryEffect as AuxEffect,
+} from "common/utils";
 import { PropertyList } from "common/components";
 import poisonIcon from "assets/images/icons/deadly_potion.png";
 import bleedIcon from "assets/images/icons/Skill_Bleeding.png";
@@ -35,6 +39,7 @@ const AuxiliaryDetails: React.FC<IActiveEffect> = (effect) => (
 		<Typography variant="h6" fontSize={16}>
 			{AUXILIARY_EFFECTS_NAME_MAP[effect.effect as AuxEffect]}
 		</Typography>
+		<Typography variant="body2">{AUXILIARY_EFFECTS_DESCRIPTION_MAP[effect.effect as AuxEffect]}</Typography>
 		<Typography variant="body2" fontStyle="italic" color="text.secondary">
 			{effect.remaining} turns remaining
 		</Typography>

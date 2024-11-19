@@ -127,6 +127,13 @@ export const AUXILIARY_EFFECTS_NAME_MAP: Record<AuxiliaryEffect, string> = {
 	[AuxiliaryEffect.Disarm]: "Disarm",
 };
 
+export const AUXILIARY_EFFECTS_DESCRIPTION_MAP: Record<AuxiliaryEffect, string> = {
+	[AuxiliaryEffect.Poison]: "Deals damage over time.",
+	[AuxiliaryEffect.Stun]: "Prevents any action.",
+	[AuxiliaryEffect.Bleed]: "Increases damage taken from physical attacks.",
+	[AuxiliaryEffect.Disarm]: "Cannot use weapons.",
+};
+
 export const AUXILIARY_EFFECTS_NAME_MAP_PASSED: Record<AuxiliaryEffect, string> = {
 	[AuxiliaryEffect.Poison]: "Poisoned",
 	[AuxiliaryEffect.Stun]: "Stunned",
