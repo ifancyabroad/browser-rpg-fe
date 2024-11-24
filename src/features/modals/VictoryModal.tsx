@@ -1,6 +1,6 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeVictoryModal } from "./modalsSlice";
+import { closeBattleModal, closeRewardsModal, closeVictoryModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
 import { openLeaderboard } from "features/leaderboard";
 
@@ -17,6 +17,8 @@ export const VictoryModal: React.FC = () => {
 	const handleExit = () => {
 		// TODO: retire character and change status to complete
 		dispatch(closeVictoryModal());
+		dispatch(closeBattleModal());
+		dispatch(closeRewardsModal());
 		navigate("/");
 	};
 

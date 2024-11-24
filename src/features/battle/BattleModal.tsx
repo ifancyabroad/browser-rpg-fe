@@ -79,9 +79,9 @@ export const BattleModal: React.FC = () => {
 								<Box sx={{ height: 35.5 }} display={{ sm: "none" }} />
 								<Box
 									sx={{
-										aspectRatio: "227/321",
-										width: { sm: "80%" },
-										height: { xs: 200, sm: "auto" },
+										aspectRatio: "1/1",
+										width: { xs: "auto", sm: "100%" },
+										height: { xs: 200, sm: "100%" },
 										verticalAlign: "middle",
 									}}
 								/>

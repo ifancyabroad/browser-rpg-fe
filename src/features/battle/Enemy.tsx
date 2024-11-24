@@ -20,14 +20,15 @@ const EnemyPortrait: React.FC = () => {
 				display: "flex",
 				justifyContent: "center",
 				alignItems: "center",
+				aspectRatio: { sm: "1/1" },
 			}}
 		>
 			<Box
 				component="img"
 				sx={{
-					aspectRatio: "227/321",
-					width: { sm: "80%" },
-					height: { xs: 200, sm: "auto" },
+					width: { xs: "auto", sm: "100%" },
+					height: { xs: 200, sm: "100%" },
+					objectFit: "contain",
 					verticalAlign: "middle",
 				}}
 				src={image}
