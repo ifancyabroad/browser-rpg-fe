@@ -29,8 +29,8 @@ export const EquipmentTable: React.FC<IProps> = ({ equipment }) => {
 	return (
 		<Stack>
 			{EQUIPMENT_SLOTS.map((slot, index) => (
-				<Fragment>
-					<EquipmentItem key={index} slot={slot} equipment={equipment[slot]} />
+				<Fragment key={index}>
+					<EquipmentItem slot={slot} equipment={equipment[slot]} />
 					{slot === EquipmentSlot.Hand1 && canSwap && (
 						<Box display="flex" justifyContent="flex-end" px={1}>
 							<Link component="button" onClick={handleSwap} disabled={isDisabled}>

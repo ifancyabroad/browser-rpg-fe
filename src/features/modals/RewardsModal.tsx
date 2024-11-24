@@ -4,11 +4,13 @@ import {
 	closeBattleModal,
 	closeRewardsModal,
 	openErrorModal,
+	openFinalBattleModal,
 	openLevelUpModal,
 	openTreasureModal,
 } from "./modalsSlice";
 import { getLevelUpAvailable } from "features/character";
 import { getTreasureAvailable, nextBattle, returnToTown } from "features/battle";
+import { FINAL_LEVEL } from "common/utils/constants";
 
 export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -32,6 +34,11 @@ export const RewardsModal: React.FC = () => {
 	};
 
 	const handleNextBattle = async () => {
+		if (battle && battle.level === FINAL_LEVEL - 1) {
+			dispatch(openFinalBattleModal());
+			return;
+		}
+
 		dispatch(closeRewardsModal());
 
 		try {

@@ -1,10 +1,16 @@
 import { useDungeonContext } from "common/context";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { rest } from "features/character";
-import { ConfirmationModal, openErrorModal, openPotionSellerModal, openShopModal } from "features/modals";
+import {
+	ConfirmationModal,
+	openErrorModal,
+	openFinalBattleModal,
+	openPotionSellerModal,
+	openShopModal,
+} from "features/modals";
 import { startBattle } from "features/battle";
 import { Fragment } from "react";
-import { TileType } from "common/utils";
+import { FINAL_LEVEL, TileType } from "common/utils";
 import { Box } from "@mui/material";
 import { openLeaderboard } from "features/leaderboard";
 
@@ -38,6 +44,12 @@ export const RoomModals: React.FC = () => {
 	};
 
 	const handleExit = async () => {
+		if (character && character.maxBattleLevel === FINAL_LEVEL - 1) {
+			dispatch(openFinalBattleModal());
+			localDispatch({ type: "CLOSE" });
+			return;
+		}
+
 		try {
 			await dispatch(startBattle()).unwrap();
 			localDispatch({ type: "CLOSE" });

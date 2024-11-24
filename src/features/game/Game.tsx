@@ -19,6 +19,7 @@ import {
 import { Fragment, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { Header } from "./Header";
+import { FinalBattleModal } from "features/modals/FInalBattleModal";
 
 export const Game: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
@@ -73,6 +74,7 @@ export const Game: React.FC = () => {
 			<ShopModal />
 			<PotionSellerModal />
 			<BattleModal />
+			<FinalBattleModal />
 			<VictoryModal />
 			<HowToPlayModal />
 		</Fragment>

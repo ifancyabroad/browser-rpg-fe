@@ -166,10 +166,15 @@ export enum ItemRarity {
 
 export enum Zone {
 	Forest = "forest",
-	Hills = "hills",
-	Volcano = "volcano",
+	Castle = "castle",
 	Desert = "desert",
+	Plains = "plains",
+	Hills = "hills",
 	Ocean = "ocean",
+	Volcano = "volcano",
+	Mountain = "mountain",
+	Dungeon = "dungeon",
+	Tower = "tower",
 }
 
 export enum TileType {

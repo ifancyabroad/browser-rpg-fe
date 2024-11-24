@@ -40,6 +40,7 @@ interface ModalsState {
 		open: boolean;
 		id?: string;
 	};
+	finalBattleModalOpen: boolean;
 }
 
 const initialState: ModalsState = {
@@ -73,6 +74,7 @@ const initialState: ModalsState = {
 	characterModal: {
 		open: false,
 	},
+	finalBattleModalOpen: false,
 };
 
 export const modalsSlice = createSlice({
@@ -205,6 +207,12 @@ export const modalsSlice = createSlice({
 			state.characterModal.open = false;
 			state.characterModal.id = undefined;
 		},
+		openFinalBattleModal: (state) => {
+			state.finalBattleModalOpen = true;
+		},
+		closeFinalBattleModal: (state) => {
+			state.finalBattleModalOpen = false;
+		},
 	},
 });
 
@@ -246,6 +254,8 @@ export const {
 	closePotionSellerModal,
 	openCharacterModal,
 	closeCharacterModal,
+	openFinalBattleModal,
+	closeFinalBattleModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
