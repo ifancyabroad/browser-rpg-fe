@@ -20,6 +20,7 @@ export const RewardsModal: React.FC = () => {
 	const isLoading = status === "loading";
 	const showLevelUp = useAppSelector(getLevelUpAvailable);
 	const showTreasure = useAppSelector(getTreasureAvailable);
+	const character = useAppSelector((state) => state.character.character);
 
 	const handleReturnToTown = async () => {
 		dispatch(closeBattleModal());
@@ -57,7 +58,7 @@ export const RewardsModal: React.FC = () => {
 		dispatch(openLevelUpModal());
 	};
 
-	if (!battle || !battle.reward) {
+	if (!battle || !battle.reward || !character) {
 		return null;
 	}
 
@@ -71,15 +72,12 @@ export const RewardsModal: React.FC = () => {
 				Victory!
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText textAlign="center">
+				<DialogContentText textAlign="center" mb={2}>
 					You have defeated {prefix}{" "}
 					<Box component="span" color="primary.main">
 						{name}
-					</Box>
-					.
-				</DialogContentText>
-				<DialogContentText textAlign="center">
-					You gain{" "}
+					</Box>{" "}
+					and earned{" "}
 					<Box component="span" color="text.secondary">
 						{experience} experience
 					</Box>{" "}
@@ -89,16 +87,34 @@ export const RewardsModal: React.FC = () => {
 					</Box>
 					.
 				</DialogContentText>
+				<DialogContentText textAlign="center">
+					Current gold:{" "}
+					<Box component="span" color="text.secondary">
+						{character.gold}
+					</Box>
+				</DialogContentText>
+				{character.nextLevelExperience &&
+					(showLevelUp ? (
+						<DialogContentText textAlign="center" sx={{ color: "text.secondary" }}>
+							New level reached!{" "}
+							<Link component="button" onClick={handleLevelUp} disabled={isLoading}>
+								Click here
+							</Link>{" "}
+							to level up.
+						</DialogContentText>
+					) : (
+						<DialogContentText textAlign="center">
+							XP to next level:{" "}
+							<Box component="span" color="text.secondary">
+								{character.nextLevelExperience - character.experience}
+							</Box>
+						</DialogContentText>
+					))}
 			</DialogContent>
 			<DialogActions>
 				{showTreasure && (
 					<Link component="button" color="info.light" onClick={handleClaimTreasure} disabled={isLoading}>
 						Claim Treasure
-					</Link>
-				)}
-				{showLevelUp && (
-					<Link component="button" color="info.light" onClick={handleLevelUp} disabled={isLoading}>
-						Level Up
 					</Link>
 				)}
 				<Link component="button" color="text.secondary" onClick={handleReturnToTown} disabled={isLoading}>
