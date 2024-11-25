@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeEquipmentModal } from "./modalsSlice";
 import {
 	ARMOUR_TYPE_NAME_MAP,
+	ArmourType,
 	EQUIPMENT_TYPE_NAME_MAP,
 	ITEM_RARITY_COLOR_MAP,
 	ITEM_RARITY_NAME_MAP,
@@ -40,7 +41,7 @@ export const EquipmentModal: React.FC = () => {
 	const type = isWeapon ? item.weaponType : item.type;
 
 	return (
-		<Dialog open={open} onClose={handleClose}>
+		<Dialog open={open} onClose={handleClose} fullWidth={false}>
 			<DialogTitle sx={{ display: "flex", alignItems: "center", gap: 2 }}>
 				<EquipmentIcon equipment={item} width={48} />
 				<Typography component="span" color={ITEM_RARITY_COLOR_MAP[level as ItemRarity]}>
@@ -64,6 +65,13 @@ export const EquipmentModal: React.FC = () => {
 							<Box display="flex" gap={1}>
 								<Typography color="secondary.main">Armour Class:</Typography>
 								<DialogContentText>{item.armourClass}</DialogContentText>
+								{(item.armourType === ArmourType.Miscellaneous ||
+									item.armourType === ArmourType.Light) && (
+									<DialogContentText>+ Dex</DialogContentText>
+								)}
+								{item.armourType === ArmourType.Medium && (
+									<DialogContentText>+ Dex (max 2)</DialogContentText>
+								)}
 							</Box>
 						</Fragment>
 					)}

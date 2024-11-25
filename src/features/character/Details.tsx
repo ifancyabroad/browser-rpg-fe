@@ -103,7 +103,12 @@ export const Details: React.FC = () => {
 		return null;
 	}
 
-	const { resistances, baseResistances, damageBonuses, stats, baseStats } = character;
+	const { resistances, baseResistances, damageBonuses, stats, baseStats, armourClass } = character;
+	const armourClassBonuses = equipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass);
+	const armourClassBonus = armourClassBonuses.reduce((acc, { value }) => acc + value, 0);
+	const dexterityBonus = armourClass - baseArmourClass - armourClassBonus;
+	armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
+
 	const mappedStats = STATS.map((type) => ({
 		name: STATS_NAME_MAP[type],
 		abbreviation: STATS_ABBR_MAP[type],
@@ -133,7 +138,7 @@ export const Details: React.FC = () => {
 			abbreviation: "AC",
 			baseValue: baseArmourClass,
 			value: character.armourClass,
-			bonuses: equipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass),
+			bonuses: armourClassBonuses,
 		},
 		{
 			name: "Hit Bonus",
