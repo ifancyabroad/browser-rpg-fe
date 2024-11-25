@@ -75,7 +75,7 @@ export const ShopItem: React.FC<IProps> = ({ item, replaceItems, onBuyItem }) =>
 					<Typography component="p" variant="caption">
 						Replace:{" "}
 						{replaceItems.map((replaceItem, index) => (
-							<Fragment key={replaceItem.id}>
+							<Fragment key={index}>
 								<EquipmentLink item={replaceItem} />
 								{index < replaceItems.length - 1 && ", "}
 							</Fragment>

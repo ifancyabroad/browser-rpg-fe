@@ -1,6 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeFinalBattleModal, closeRewardsModal, closeVictoryModal, openErrorModal } from "./modalsSlice";
+import { closeFinalBattleModal, closeRewardsModal, openErrorModal } from "./modalsSlice";
 import { nextBattle, startBattle } from "features/battle";
 import { State } from "common/utils";
 
@@ -19,13 +19,13 @@ export const FinalBattleModal: React.FC = () => {
 		}
 
 		dispatch(closeRewardsModal());
-		dispatch(closeVictoryModal());
+		dispatch(closeFinalBattleModal());
 
 		try {
 			if (character.state === State.Battle) {
-				await dispatch(startBattle()).unwrap();
-			} else {
 				await dispatch(nextBattle()).unwrap();
+			} else {
+				await dispatch(startBattle()).unwrap();
 			}
 		} catch (err) {
 			const { message } = err as Error;
