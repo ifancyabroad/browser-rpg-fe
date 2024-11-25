@@ -18,6 +18,7 @@ import {
 	ITEM_RARITY_COLOR_MAP,
 	ITEM_RARITY_NAME_MAP,
 	ItemRarity,
+	WEAPON_MODIFIER_MAP,
 	WEAPON_SIZE_NAME_MAP,
 } from "common/utils";
 import { Fragment } from "react";
@@ -91,6 +92,12 @@ export const EquipmentModal: React.FC = () => {
 								<Typography color="secondary.main">Damage Type:</Typography>
 								<DialogContentText sx={{ textTransform: "capitalize" }}>
 									{item.damageType}
+								</DialogContentText>
+							</Box>
+							<Box display="flex" gap={1}>
+								<Typography color="secondary.main">Modifier:</Typography>
+								<DialogContentText textTransform="capitalize">
+									{WEAPON_MODIFIER_MAP.get(item.weaponType)}
 								</DialogContentText>
 							</Box>
 						</Fragment>

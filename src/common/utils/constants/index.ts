@@ -62,11 +62,12 @@ export const STATS_DESCRIPTION_MAP: Record<Stat, string> = {
 		"Charisma measures your character's personality and persuasiveness. It affects prices at the tavern, potion seller, and merchant.",
 	[Stat.Constitution]:
 		"Constitution represents your character's health and stamina. A high Constitution increases hit points.",
-	[Stat.Dexterity]: "Dexterity measures agility, reflexes, and balance. It affects weapon accuracy and initiative.",
+	[Stat.Dexterity]:
+		"Dexterity measures agility, reflexes, and balance. It affects initiative and skill with certain weapons.",
 	[Stat.Intelligence]:
-		"Intelligence reflects your character's ability to learn and reason. It affects mage skill damage.",
-	[Stat.Strength]: "Strength measures your character's physical power. It affects melee damage.",
-	[Stat.Wisdom]: "Wisdom represents your character's insight and intuition. It affects cleric skill damage.",
+		"Intelligence reflects your character's ability to learn and reason. It affects damage of wizard skills.",
+	[Stat.Strength]: "Strength measures your character's physical power. It affects skill with certain weapons.",
+	[Stat.Wisdom]: "Wisdom represents your character's insight and intuition. It affects damage of cleric skills.",
 };
 
 export const AUXILIARY_STATS_ABBR_MAP: Record<AuxiliaryStat, string> = {
@@ -254,6 +255,21 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Rare]: "Rare",
 	[ItemRarity.Epic]: "Epic",
 };
+
+// TODO: Move this to CMS
+export const WEAPON_MODIFIER_MAP = new Map([
+	[WeaponType.Axe, Stat.Strength],
+	[WeaponType.Bow, Stat.Dexterity],
+	[WeaponType.Club, Stat.Strength],
+	[WeaponType.Crossbow, Stat.Dexterity],
+	[WeaponType.Dagger, Stat.Dexterity],
+	[WeaponType.Hammer, Stat.Strength],
+	[WeaponType.Mace, Stat.Strength],
+	[WeaponType.Spear, Stat.Strength],
+	[WeaponType.Staff, Stat.Strength],
+	[WeaponType.Sword, Stat.Strength],
+	[WeaponType.Wand, Stat.Intelligence],
+]);
 
 export const REWARD_GOLD_MULTIPLIER = 10;
 export const MAX_SKILLS = 7;

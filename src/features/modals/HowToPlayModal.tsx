@@ -33,8 +33,8 @@ export const HowToPlayModal: React.FC = () => {
 					Objective
 				</DialogContentText>
 				<DialogContentText textAlign="left" mb={2}>
-					Progress as far as you can through the dungeons, defeating monsters and collecting treasure along
-					the way.
+					Progress as far as you can through the zones, defeating monsters and collecting treasure along the
+					way.
 				</DialogContentText>
 				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
 					Controls
@@ -46,8 +46,8 @@ export const HowToPlayModal: React.FC = () => {
 					Town
 				</DialogContentText>
 				<DialogContentText textAlign="left" mb={2}>
-					Here you can purchase items from the shop, rest to restore abilities and health or enter the
-					dungeons.
+					Here you can purchase items from the shop, rest to restore abilities and health or leave the town to
+					fight monsters.
 				</DialogContentText>
 				<Stack spacing={1} mb={2}>
 					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
@@ -81,9 +81,9 @@ export const HowToPlayModal: React.FC = () => {
 						<img src={dungeon} alt="Dungeon" /> -{" "}
 						<span>
 							<Box component="span" color="text.secondary">
-								Dungeon:
+								Exit:
 							</Box>{" "}
-							Enter the dungeons to face monsters.
+							Leave the town to fight monsters.
 						</span>
 					</DialogContentText>
 				</Stack>
@@ -91,8 +91,8 @@ export const HowToPlayModal: React.FC = () => {
 					Combat
 				</DialogContentText>
 				<DialogContentText textAlign="left" mb={2}>
-					Once you enter the dungeons, you will face a series of monsters. Click on your abilities to defeat
-					them and progress through the levels.
+					Once you leave the town, you will face a series of monsters. Click on your abilities to defeat them
+					and progress through the levels.
 				</DialogContentText>
 				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
 					Experience
