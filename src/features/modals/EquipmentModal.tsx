@@ -37,7 +37,7 @@ export const EquipmentModal: React.FC = () => {
 	}
 
 	const { name, level, properties } = item;
-	const isArmour = "armourType" in item;
+	const isArmour = "armourClass" in item;
 	const isWeapon = "weaponType" in item;
 	const type = isWeapon ? item.weaponType : item.type;
 
