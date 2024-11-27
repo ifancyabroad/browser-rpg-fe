@@ -88,7 +88,13 @@ const ActionEffects: React.FC<IActionEffectProps> = ({
 			})}
 			{heal.map((heal, index) => (
 				<Typography key={index} variant="body2">
-					{getTarget(heal.target)} restores {heal.value} hit points
+					{getTarget(heal.target)} restores {heal.value} hit points{" "}
+					{isWeapon && (
+						<Box component="span" color="text.secondary" fontStyle="italic">
+							{" "}
+							({source})
+						</Box>
+					)}
 				</Typography>
 			))}
 			{status.map((status) =>
@@ -186,7 +192,7 @@ const Action: React.FC<IAction> = ({ self, enemy, skill, weapon, activeEffects }
 					enemy={enemy}
 					weaponDamage={[]}
 					damage={weapon.damage}
-					heal={[]}
+					heal={weapon.heal}
 					status={weapon.status}
 					auxiliary={weapon.auxiliary}
 					source={weapon.name}

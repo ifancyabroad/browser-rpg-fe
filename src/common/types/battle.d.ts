@@ -70,6 +70,7 @@ export interface IActiveEffect {
 export interface IActionWeaponEffect {
 	name: string;
 	damage: IDamage[];
+	heal: IHeal[];
 	status: IStatus[];
 	auxiliary: IAuxiliary[];
 }
