@@ -247,6 +247,7 @@ export const ITEM_RARITY_COLOR_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Uncommon]: "#99E64C",
 	[ItemRarity.Rare]: "#2F6BC6",
 	[ItemRarity.Epic]: "#FF47DA",
+	[ItemRarity.Legendary]: "#ff7800",
 };
 
 export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
@@ -254,6 +255,7 @@ export const ITEM_RARITY_NAME_MAP: Record<ItemRarity, string> = {
 	[ItemRarity.Uncommon]: "Uncommon",
 	[ItemRarity.Rare]: "Rare",
 	[ItemRarity.Epic]: "Epic",
+	[ItemRarity.Legendary]: "Legendary",
 };
 
 // TODO: Move this to CMS
