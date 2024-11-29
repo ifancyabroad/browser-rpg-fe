@@ -33,8 +33,7 @@ export const Leaderboard: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const showUserCharacters = leaderboardTab === LeaderboardTab.User;
-				await dispatch(fetchLeaderboard({ showUserCharacters })).unwrap();
+				await dispatch(fetchLeaderboard({ type: leaderboardTab })).unwrap();
 			} catch (err) {
 				const { message } = err as Error;
 				dispatch(openErrorModal({ message }));

@@ -14,5 +14,5 @@ export interface ILeaderboardCharacter {
 }
 
 export interface ILeaderboardPayload {
-	showUserCharacters: boolean;
+	type: string;
 }

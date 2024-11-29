@@ -189,8 +189,8 @@ export enum TileType {
 }
 
 export enum LeaderboardTab {
-	Overall,
-	User,
+	Overall = "overall",
+	User = "user",
 }
 
 export enum EnemyTab {
