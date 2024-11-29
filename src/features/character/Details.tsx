@@ -107,7 +107,10 @@ export const Details: React.FC = () => {
 	const armourClassBonuses = equipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass);
 	const armourClassBonus = armourClassBonuses.reduce((acc, { value }) => acc + value, 0);
 	const dexterityBonus = armourClass - baseArmourClass - armourClassBonus;
-	armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
+
+	if (dexterityBonus !== 0) {
+		armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
+	}
 
 	const mappedStats = STATS.map((type) => ({
 		name: STATS_NAME_MAP[type],

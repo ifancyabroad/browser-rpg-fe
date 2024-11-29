@@ -17,7 +17,7 @@ import {
 	STATS_NAME_MAP,
 } from "common/utils";
 import { useEffect } from "react";
-import { fetchCharacterByID, getBaseArmourClass } from "features/character";
+import { fetchCharacterByID } from "features/character";
 
 interface IBonus {
 	name: string;
@@ -124,9 +124,10 @@ const SkillItem: React.FC<{ skill: ISkill }> = ({ skill }) => {
 };
 
 const CharacterContent: React.FC<ICharacter> = (character) => {
-	const { name, skills, equipmentAsArray, characterClass, level, baseStats, kills, armourClass } = character;
+	const { name, skills, equipmentAsArray, characterClass, level, baseStats, kills, armourClass, equipment } =
+		character;
 	const { portrait } = characterClass;
-	const baseArmourClass = useAppSelector(getBaseArmourClass);
+	const baseArmourClass = equipment.body?.armourClass ?? 0;
 
 	const getEquipmentBonus = (type: PropertyType, property: string) => {
 		return equipmentAsArray
@@ -137,7 +138,10 @@ const CharacterContent: React.FC<ICharacter> = (character) => {
 	const armourClassBonuses = getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass);
 	const armourClassBonus = armourClassBonuses.reduce((acc, { value }) => acc + value, 0);
 	const dexterityBonus = armourClass - baseArmourClass - armourClassBonus;
-	armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
+
+	if (dexterityBonus !== 0) {
+		armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
+	}
 
 	return (
 		<Grid container spacing={2}>
@@ -212,8 +216,8 @@ const CharacterContent: React.FC<ICharacter> = (character) => {
 					<Typography color="text.secondary" mb={1}>
 						Equipment
 					</Typography>
-					{equipmentAsArray.map((equipment) => (
-						<EquipmentItem key={equipment.id} equipment={equipment} />
+					{equipmentAsArray.map((equipment, index) => (
+						<EquipmentItem key={index} equipment={equipment} />
 					))}
 				</Stack>
 			</Grid>
