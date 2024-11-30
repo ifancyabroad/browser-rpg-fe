@@ -1,5 +1,5 @@
-import { Box, Container, Link, Paper, Stack, Typography } from "@mui/material";
-import { Footer, Header } from "common/components";
+import { alpha, Box, Container, Link, Paper, Stack, Typography } from "@mui/material";
+import { Dragon, Footer, Header } from "common/components";
 import { useAppDispatch } from "common/hooks";
 import { openLoginModal, openRegistrationModal } from "features/modals";
 
@@ -20,13 +20,21 @@ export const Landing: React.FC = () => {
 				minHeight: "100svh",
 				display: "flex",
 				flexDirection: "column",
+				overflow: "hidden",
 			}}
 		>
 			<Header />
 
 			<Box flex={1} display="flex" alignItems="center" justifyContent="center">
 				<Container maxWidth="xs">
-					<Paper sx={{ p: 3 }}>
+					<Paper
+						sx={(theme) => ({
+							position: "relative",
+							p: 3,
+							backgroundColor: alpha(theme.palette.background.paper, 0.9),
+						})}
+					>
+						<Dragon />
 						<Stack spacing={3}>
 							<Typography variant="h1" textAlign="center">
 								Browser Heroes

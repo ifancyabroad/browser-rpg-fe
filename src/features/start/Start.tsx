@@ -1,10 +1,10 @@
-import { Box, Container, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
+import { alpha, Box, Container, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ConfirmationModal, openErrorModal } from "features/modals";
-import { Footer, Header, HoverButton } from "common/components";
+import { Dragon, Footer, Header, HoverButton } from "common/components";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -41,13 +41,21 @@ export const Start: React.FC = () => {
 					minHeight: "100svh",
 					display: "flex",
 					flexDirection: "column",
+					overflow: "hidden",
 				}}
 			>
 				<Header />
 
 				<Box flex={1} display="flex" alignItems="center" justifyContent="center">
 					<Container maxWidth="xs">
-						<Paper sx={{ p: 3 }}>
+						<Paper
+							sx={(theme) => ({
+								position: "relative",
+								p: 3,
+								backgroundColor: alpha(theme.palette.background.paper, 0.9),
+							})}
+						>
+							<Dragon />
 							{hasActiveCharacter ? (
 								<Stack spacing={3} alignItems="center">
 									<Typography variant="h1" textAlign="center">

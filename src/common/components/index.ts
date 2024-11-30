@@ -17,3 +17,4 @@ export * from "./ActiveEffects";
 export * from "./EquipmentIcon";
 export * from "./EquipmentLink";
 export * from "./StatBonuses";
+export * from "./Dragon";
