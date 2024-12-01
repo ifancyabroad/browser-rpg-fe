@@ -21,6 +21,8 @@ import {
 	EQUIPMENT_TYPE_NAME_MAP,
 	EquipmentSlot,
 	getItemsToReplace,
+	ITEM_RARITY_NAME_MAP,
+	ItemRarity,
 	WeaponSize,
 } from "common/utils";
 import { buyItem, getIsTwoHandedWeaponEquipped } from "features/character";
@@ -56,7 +58,7 @@ const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
 				<Stack>
 					<Typography color="text.secondary">{item.name}</Typography>
 					<Typography>
-						Level {item.level} {EQUIPMENT_TYPE_NAME_MAP[item.type]}
+						{ITEM_RARITY_NAME_MAP[item.level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[item.type]}
 					</Typography>
 				</Stack>
 			</Box>

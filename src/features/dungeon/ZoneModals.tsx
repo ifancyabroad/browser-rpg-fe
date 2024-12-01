@@ -110,7 +110,7 @@ export const RoomModals: React.FC = () => {
 			/>
 			<ConfirmationModal
 				title="Ready?"
-				content="Beyond this gate lies the unknown. Are you ready to begin your adventure?"
+				content="The exit is just ahead. Are you ready to leave?"
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleExit}
 				open={state[TileType.Exit]}

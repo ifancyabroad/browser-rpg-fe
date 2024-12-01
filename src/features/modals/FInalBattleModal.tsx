@@ -18,14 +18,14 @@ export const FinalBattleModal: React.FC = () => {
 			return;
 		}
 
-		dispatch(closeRewardsModal());
-		dispatch(closeFinalBattleModal());
-
 		try {
 			if (character.state === State.Battle) {
+				dispatch(closeRewardsModal());
+				dispatch(closeFinalBattleModal());
 				await dispatch(nextBattle()).unwrap();
 			} else {
 				await dispatch(startBattle()).unwrap();
+				dispatch(closeFinalBattleModal());
 			}
 		} catch (err) {
 			const { message } = err as Error;
@@ -54,10 +54,10 @@ export const FinalBattleModal: React.FC = () => {
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="text.secondary" onClick={handleExit}>
-					Cancel
+					Not yet
 				</Link>
 				<Link component="button" onClick={handleContinue}>
-					Continue
+					Yes, let's go!
 				</Link>
 			</DialogActions>
 		</Dialog>

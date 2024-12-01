@@ -10,6 +10,7 @@ import {
 	getSkillType,
 	getValueColor,
 	ITEM_RARITY_COLOR_MAP,
+	ITEM_RARITY_NAME_MAP,
 	ItemRarity,
 	PropertyType,
 	SKILL_TYPE_NAME_MAP,
@@ -76,7 +77,7 @@ const EquipmentItem: React.FC<{ equipment: IWeapon | IArmour }> = ({ equipment }
 						{equipment.name}
 					</Typography>
 					<Typography variant="body2" noWrap>
-						Level {equipment.level} {EQUIPMENT_TYPE_NAME_MAP[equipment.type]}
+						{ITEM_RARITY_NAME_MAP[equipment.level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[equipment.type]}
 					</Typography>
 				</Stack>
 			</Box>
