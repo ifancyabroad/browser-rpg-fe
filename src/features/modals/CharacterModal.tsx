@@ -124,10 +124,27 @@ const SkillItem: React.FC<{ skill: ISkill }> = ({ skill }) => {
 };
 
 const CharacterContent: React.FC<ICharacter> = (character) => {
-	const { name, skills, equipmentAsArray, characterClass, level, baseStats, kills, armourClass, equipment } =
-		character;
+	const {
+		name,
+		skills,
+		equipmentAsArray,
+		characterClass,
+		level,
+		baseStats,
+		kills,
+		armourClass,
+		equipment,
+		activeStatusEffects,
+	} = character;
 	const { portrait } = characterClass;
 	const baseArmourClass = equipment.body?.armourClass ?? 0;
+
+	const getActiveEffectBonus = (type: string, name: string) => {
+		return activeStatusEffects
+			.flatMap((effect) => effect.properties)
+			.filter((property) => property.type === type && property.name === name)
+			.reduce((n, { value }) => n + value, 0);
+	};
 
 	const getEquipmentBonus = (type: PropertyType, property: string) => {
 		return equipmentAsArray
@@ -137,7 +154,8 @@ const CharacterContent: React.FC<ICharacter> = (character) => {
 
 	const armourClassBonuses = getEquipmentBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass);
 	const armourClassBonus = armourClassBonuses.reduce((acc, { value }) => acc + value, 0);
-	const dexterityBonus = armourClass - baseArmourClass - armourClassBonus;
+	const activeEffectBonus = getActiveEffectBonus(PropertyType.AuxiliaryStat, AuxiliaryStat.ArmourClass);
+	const dexterityBonus = armourClass - activeEffectBonus - baseArmourClass - armourClassBonus;
 
 	if (dexterityBonus !== 0) {
 		armourClassBonuses.unshift({ name: "Dexterity", value: dexterityBonus });
