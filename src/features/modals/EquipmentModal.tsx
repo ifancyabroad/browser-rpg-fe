@@ -66,8 +66,7 @@ export const EquipmentModal: React.FC = () => {
 							<Box display="flex" gap={1}>
 								<Typography color="secondary.main">Armour Class:</Typography>
 								<DialogContentText>{item.armourClass}</DialogContentText>
-								{(item.armourType === ArmourType.Miscellaneous ||
-									item.armourType === ArmourType.Light) && (
+								{(item.armourType === ArmourType.Cloth || item.armourType === ArmourType.Light) && (
 									<DialogContentText>+ Dex</DialogContentText>
 								)}
 								{item.armourType === ArmourType.Medium && (
