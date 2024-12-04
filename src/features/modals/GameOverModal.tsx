@@ -29,6 +29,10 @@ export const GameOverModal: React.FC = () => {
 		navigate("/create");
 	};
 
+	const handleClose = () => {
+		dispatch(closeGameOverModal());
+	};
+
 	if (!battle) {
 		return null;
 	}
@@ -42,23 +46,29 @@ export const GameOverModal: React.FC = () => {
 				You Died
 			</DialogTitle>
 			<DialogContent>
-				<DialogContentText textAlign="center">
+				<DialogContentText textAlign="center" mb={2}>
 					You have been slain by {determiner}{" "}
 					<Box component="span" color="text.secondary">
 						{name}
 					</Box>
 					.
 				</DialogContentText>
+				<DialogContentText textAlign="center">
+					<Link component="button" onClick={handleViewLeaderboard} disabled={isLoading}>
+						Click here
+					</Link>{" "}
+					to take a look at the leaderboard or click below to play again.
+				</DialogContentText>
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="info.light" onClick={handlePlayAgain} disabled={isLoading}>
 					Play Again
 				</Link>
-				<Link component="button" color="text.secondary" onClick={handleViewLeaderboard}>
-					View Leaderboard
-				</Link>
 				<Link component="button" onClick={handleGameOver} disabled={isLoading}>
 					Back to Menu
+				</Link>
+				<Link component="button" color="text.secondary" onClick={handleClose} disabled={isLoading}>
+					What happened?
 				</Link>
 			</DialogActions>
 		</Dialog>

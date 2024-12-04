@@ -222,10 +222,11 @@ const Action: React.FC<IAction> = ({ self, enemy, skill, weapon, activeEffects }
 };
 
 export const CombatLog: React.FC = () => {
+	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
 	const isLoading = useAppSelector((state) => state.battle.status === "loading");
 
-	if (!battle) {
+	if (!battle || !character) {
 		return null;
 	}
 
@@ -255,6 +256,10 @@ export const CombatLog: React.FC = () => {
 					}}
 				>
 					{isLoading && <Typography variant="body2">Loading...</Typography>}
+
+					{!character.alive && <Typography variant="body2">{character.name} has died</Typography>}
+
+					{!battle.enemy.alive && <Typography variant="body2">{battle.enemy.name} has died</Typography>}
 
 					{reversedTurns.map((turn, index) => (
 						<Box

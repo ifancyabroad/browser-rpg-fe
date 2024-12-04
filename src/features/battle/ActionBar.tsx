@@ -1,11 +1,11 @@
-import { Box, ButtonBase, Stack, Tooltip, Typography, styled } from "@mui/material";
+import { Box, ButtonBase, Link, Stack, Tooltip, Typography, alpha, styled } from "@mui/material";
 import { EffectList, SkillIcon } from "common/components";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { ICharacter, ISkill } from "common/types";
 import React from "react";
 import { postAction } from "./battleSlice";
-import { openErrorModal } from "features/modals";
-import { MAX_POTIONS, MAX_SKILLS } from "common/utils";
+import { openErrorModal, openGameOverModal, openRewardsModal } from "features/modals";
+import { BattleResult, MAX_POTIONS, MAX_SKILLS } from "common/utils";
 import healthPotion from "assets/images/icons/Res_49_health.png";
 import AllInclusiveIcon from "@mui/icons-material/AllInclusive";
 
@@ -43,8 +43,10 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	const dispatch = useAppDispatch();
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
+	const battle = useAppSelector((state) => state.battle.battle);
+	const isBattleOver = Boolean(battle?.result);
 	const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);
-	const isDisabled = isLoading || isExhausted;
+	const isDisabled = isLoading || isExhausted || isBattleOver;
 	const className = isExhausted ? "exhausted" : "";
 
 	const handleUseSkill = async () => {
@@ -98,8 +100,10 @@ const PotionButton: React.FC<ICharacter> = (character) => {
 	const dispatch = useAppDispatch();
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
+	const battle = useAppSelector((state) => state.battle.battle);
+	const isBattleOver = Boolean(battle?.result);
 	const isExhausted = character.potions <= 0;
-	const isDisabled = isLoading || isExhausted;
+	const isDisabled = isLoading || isExhausted || isBattleOver;
 	const className = isExhausted ? "exhausted" : "";
 
 	const handleUseSkill = async () => {
@@ -128,7 +132,20 @@ const PotionButton: React.FC<ICharacter> = (character) => {
 };
 
 export const ActionBar: React.FC = () => {
+	const dispatch = useAppDispatch();
 	const character = useAppSelector((state) => state.character.character);
+	const battle = useAppSelector((state) => state.battle.battle);
+	const status = useAppSelector((state) => state.battle.status);
+	const isLoading = status === "loading";
+	const isBattleOver = Boolean(battle?.result);
+
+	const handleContinue = () => {
+		if (battle?.result === BattleResult.Won) {
+			dispatch(openRewardsModal());
+		} else if (battle?.result === BattleResult.Lost) {
+			dispatch(openGameOverModal());
+		}
+	};
 
 	if (!character) {
 		return null;
@@ -137,7 +154,7 @@ export const ActionBar: React.FC = () => {
 	const emptySlots = Array.from({ length: MAX_SKILLS - character.skills.length }).fill(null);
 
 	return (
-		<Box display="flex" justifyContent="center" gap="2px" flexWrap="wrap">
+		<Box position="relative" display="flex" justifyContent="center" gap="2px" flexWrap="wrap">
 			<PotionButton {...character} />
 
 			{character.skills.map((skill) => (
@@ -147,6 +164,26 @@ export const ActionBar: React.FC = () => {
 			{emptySlots.map((_, index) => (
 				<EmptySlot key={index} />
 			))}
+
+			{isBattleOver && (
+				<Box
+					sx={(theme) => ({
+						position: "absolute",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						bgcolor: alpha(theme.palette.background.paper, 0.8),
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					})}
+				>
+					<Link component="button" onClick={handleContinue} disabled={isLoading}>
+						Continue
+					</Link>
+				</Box>
+			)}
 		</Box>
 	);
 };

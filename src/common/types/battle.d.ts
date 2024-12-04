@@ -19,6 +19,7 @@ export interface IEnemy {
 	activeAuxiliaryEffects: IActiveEffect[];
 	boss: boolean;
 	hero: boolean;
+	alive: boolean;
 	username?: string;
 }
 

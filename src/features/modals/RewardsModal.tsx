@@ -58,6 +58,10 @@ export const RewardsModal: React.FC = () => {
 		dispatch(openLevelUpModal());
 	};
 
+	const handleClose = () => {
+		dispatch(closeRewardsModal());
+	};
+
 	if (!battle || !battle.reward || !character) {
 		return null;
 	}
@@ -122,6 +126,9 @@ export const RewardsModal: React.FC = () => {
 				</Link>
 				<Link component="button" onClick={handleNextBattle} disabled={isLoading}>
 					Continue
+				</Link>
+				<Link component="button" color="text.secondary" onClick={handleClose} disabled={isLoading}>
+					What happened?
 				</Link>
 			</DialogActions>
 		</Dialog>

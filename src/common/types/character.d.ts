@@ -68,6 +68,7 @@ export interface ICharacter {
 	baseResistances: TDamageTypes;
 	equipmentAsArray: (IWeapon | IArmour)[];
 	weaponsAsArray: IWeapon[];
+	alive: boolean;
 }
 
 export interface IBuyItemPayload {
