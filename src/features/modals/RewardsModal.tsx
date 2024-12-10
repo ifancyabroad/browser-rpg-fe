@@ -92,6 +92,12 @@ export const RewardsModal: React.FC = () => {
 					.
 				</DialogContentText>
 				<DialogContentText textAlign="center">
+					Next battle:{" "}
+					<Box component="span" color="text.secondary">
+						{character.maxBattleLevel + 1}
+					</Box>
+				</DialogContentText>
+				<DialogContentText textAlign="center">
 					Current gold:{" "}
 					<Box component="span" color="text.secondary">
 						{character.gold}
