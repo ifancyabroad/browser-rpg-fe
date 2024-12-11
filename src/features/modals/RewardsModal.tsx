@@ -8,7 +8,7 @@ import {
 	openLevelUpModal,
 	openTreasureModal,
 } from "./modalsSlice";
-import { getLevelUpAvailable } from "features/character";
+import { getExperienceProgress, getLevelUpAvailable } from "features/character";
 import { getTreasureAvailable, nextBattle, returnToTown } from "features/battle";
 import { FINAL_LEVEL } from "common/utils/constants";
 
@@ -21,6 +21,7 @@ export const RewardsModal: React.FC = () => {
 	const showLevelUp = useAppSelector(getLevelUpAvailable);
 	const showTreasure = useAppSelector(getTreasureAvailable);
 	const character = useAppSelector((state) => state.character.character);
+	const progress = useAppSelector(getExperienceProgress);
 
 	const handleReturnToTown = async () => {
 		dispatch(closeBattleModal());
@@ -69,6 +70,8 @@ export const RewardsModal: React.FC = () => {
 	const { experience, gold } = battle.reward;
 	const { name, boss, hero } = battle.enemy;
 	const prefix = boss || hero ? "" : "the ";
+	const nextBattleLevel = character.maxBattleLevel + 1;
+	const nextBattleBoss = nextBattleLevel % 10 === 0;
 
 	return (
 		<Dialog open={open} aria-labelledby="rewards-dialog-title" maxWidth="sm">
@@ -94,7 +97,19 @@ export const RewardsModal: React.FC = () => {
 				<DialogContentText textAlign="center">
 					Next battle:{" "}
 					<Box component="span" color="text.secondary">
-						{character.maxBattleLevel + 1}
+						{nextBattleLevel}
+					</Box>
+					{nextBattleBoss && (
+						<Box component="span" color="error.main">
+							{" "}
+							(Boss)
+						</Box>
+					)}
+				</DialogContentText>
+				<DialogContentText textAlign="center">
+					Remaining potions:{" "}
+					<Box component="span" color={character.potions > 0 ? "text.secondary" : "error.main"}>
+						{character.potions}
 					</Box>
 				</DialogContentText>
 				<DialogContentText textAlign="center">
@@ -114,9 +129,9 @@ export const RewardsModal: React.FC = () => {
 						</DialogContentText>
 					) : (
 						<DialogContentText textAlign="center">
-							XP to next level:{" "}
+							Next level progress:{" "}
 							<Box component="span" color="text.secondary">
-								{character.nextLevelExperience - character.experience}
+								{Math.round(progress)}%
 							</Box>
 						</DialogContentText>
 					))}

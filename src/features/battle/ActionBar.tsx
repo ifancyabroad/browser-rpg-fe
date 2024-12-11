@@ -46,7 +46,7 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const isBattleOver = Boolean(battle?.result);
 	const isExhausted = Boolean(skill.maxUses && skill.remaining <= 0);
-	const isDisabled = isLoading || isExhausted || isBattleOver;
+	const isDisabled = isLoading || isExhausted;
 	const className = isExhausted ? "exhausted" : "";
 
 	const handleUseSkill = async () => {
@@ -61,7 +61,12 @@ const SkillButton: React.FC<ISkill> = (skill) => {
 	return (
 		<Tooltip title={<SkillTooltip {...skill} />} placement="top" enterTouchDelay={700}>
 			<div>
-				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
+				<StyledButton
+					className={className}
+					onClick={handleUseSkill}
+					disabled={isDisabled}
+					sx={{ pointerEvents: isBattleOver ? "none" : undefined }}
+				>
 					<Box sx={{ position: "relative", height: 64, width: 64, img: { verticalAlign: "middle" } }}>
 						<SkillIcon skill={skill} width={64} />
 						{skill.maxUses > 0 ? (
@@ -103,7 +108,7 @@ const PotionButton: React.FC<ICharacter> = (character) => {
 	const battle = useAppSelector((state) => state.battle.battle);
 	const isBattleOver = Boolean(battle?.result);
 	const isExhausted = character.potions <= 0;
-	const isDisabled = isLoading || isExhausted || isBattleOver;
+	const isDisabled = isLoading || isExhausted;
 	const className = isExhausted ? "exhausted" : "";
 
 	const handleUseSkill = async () => {
@@ -118,7 +123,12 @@ const PotionButton: React.FC<ICharacter> = (character) => {
 	return (
 		<Tooltip title={<PotionTooltip {...character} />} placement="top" enterTouchDelay={700}>
 			<div>
-				<StyledButton className={className} onClick={handleUseSkill} disabled={isDisabled}>
+				<StyledButton
+					className={className}
+					onClick={handleUseSkill}
+					disabled={isDisabled}
+					sx={{ pointerEvents: isBattleOver ? "none" : undefined }}
+				>
 					<Box sx={{ position: "relative", height: 64, width: 64, img: { verticalAlign: "middle" } }}>
 						<img src={healthPotion} alt="Health potion" width="64" />
 						<Typography variant="caption" sx={{ position: "absolute", bottom: 0, right: 0 }}>

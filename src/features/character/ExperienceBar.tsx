@@ -1,5 +1,6 @@
 import { Box, Typography, styled } from "@mui/material";
 import { useAppSelector } from "common/hooks";
+import { getExperienceProgress } from ".";
 
 const BarWrapper = styled(Box)(({ theme }) => ({
 	position: "relative",
@@ -17,28 +18,18 @@ const Bar = styled(Box)(({ theme }) => ({
 
 export const ExperienceBar: React.FC = () => {
 	const character = useAppSelector((state) => state.character.character);
+	const progress = useAppSelector(getExperienceProgress);
 
 	if (!character) {
 		return null;
 	}
 
-	const { experience, currentLevelExperience, nextLevelExperience } = character;
-
-	let normalisedValue: number;
-
-	if (!nextLevelExperience) {
-		normalisedValue = 100;
-	} else if (experience > nextLevelExperience) {
-		normalisedValue = 100;
-	} else {
-		normalisedValue =
-			((experience - currentLevelExperience) * 100) / (nextLevelExperience - currentLevelExperience);
-	}
+	const { experience, nextLevelExperience } = character;
 
 	return (
 		<Box display="flex" gap={2} alignItems="center">
 			<BarWrapper>
-				<Bar sx={{ width: `${normalisedValue}%` }} />
+				<Bar sx={{ width: `${progress}%` }} />
 			</BarWrapper>
 
 			<Typography width="40%">

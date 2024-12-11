@@ -244,6 +244,20 @@ export const getLevelUpAvailable = createSelector(characterSelector, ({ characte
 	return experience >= nextLevelExperience;
 });
 
+export const getExperienceProgress = createSelector(characterSelector, ({ character }) => {
+	if (!character) {
+		return 0;
+	}
+	const { experience, currentLevelExperience, nextLevelExperience } = character;
+	if (!nextLevelExperience) {
+		return 100;
+	}
+	if (experience > nextLevelExperience) {
+		return 100;
+	}
+	return ((experience - currentLevelExperience) * 100) / (nextLevelExperience - currentLevelExperience);
+});
+
 export const getEquipmentBonus = createSelector(
 	getEquipmentAsArray,
 	(equipment) => (type: PropertyType, name: string) => {
