@@ -1,4 +1,5 @@
 export interface ILeaderboardCharacter {
+	id: string;
 	name: string;
 	level: number;
 	characterClass: {

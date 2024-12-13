@@ -1,13 +1,12 @@
 import { Box, Container, Grid, Link, Paper, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchProgress } from "./characterSlice";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { Loader } from "common/components";
 import { Header } from "./Header";
 import { IProgressCharacter } from "common/types";
 import { FINAL_LEVEL, Status } from "common/utils";
-import { CharacterModal } from "features/modals/CharacterModal";
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -210,81 +209,77 @@ export const Progress: React.FC = () => {
 	};
 
 	return (
-		<Fragment>
-			<Box
-				sx={{
-					minHeight: "100svh",
-					display: "flex",
-					flexDirection: "column",
-				}}
-			>
-				<Header />
+		<Box
+			sx={{
+				minHeight: "100svh",
+				display: "flex",
+				flexDirection: "column",
+			}}
+		>
+			<Header />
 
-				<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
-					<Container maxWidth="md">
-						<Typography textAlign="center" color="text.secondary" mb={4}>
-							Progress
-						</Typography>
-						{isLoading ? (
-							<Box height={480} display="flex" justifyContent="center" alignItems="center">
-								<Loader />
-							</Box>
-						) : (
-							<Grid container spacing={2}>
+			<Box py={4} flex={1} display="flex" alignItems="center" justifyContent="center">
+				<Container maxWidth="md">
+					<Typography textAlign="center" color="text.secondary" mb={4}>
+						Progress
+					</Typography>
+					{isLoading ? (
+						<Box height={480} display="flex" justifyContent="center" alignItems="center">
+							<Loader />
+						</Box>
+					) : (
+						<Grid container spacing={2}>
+							<Grid item xs={12}>
+								<OverallStats />
+							</Grid>
+							<Grid container spacing={2} item xs={12}>
 								<Grid item xs={12}>
-									<OverallStats />
+									<Tabs value={progressTab} onChange={handleChangeTab} variant="fullWidth">
+										<Tab label="Top 3 Overall" value={ProgressTab.Overall} />
+										<Tab label="Top 3 By Class" value={ProgressTab.Class} />
+									</Tabs>
 								</Grid>
-								<Grid container spacing={2} item xs={12}>
-									<Grid item xs={12}>
-										<Tabs value={progressTab} onChange={handleChangeTab} variant="fullWidth">
-											<Tab label="Top 3 Overall" value={ProgressTab.Overall} />
-											<Tab label="Top 3 By Class" value={ProgressTab.Class} />
-										</Tabs>
-									</Grid>
-									<Grid item xs={12}>
-										<TabPanel value={progressTab} index={ProgressTab.Overall}>
-											<Grid container spacing={2}>
-												{overallProgress.length ? (
-													overallProgress.map((character) => (
-														<Grid key={character.id} item xs={12} md={4}>
-															<ProgressClass {...character} />
-														</Grid>
-													))
-												) : (
-													<Grid item xs={12} height={416}>
-														<Typography textAlign="center">
-															You do not have any heroes to display.
-														</Typography>
+								<Grid item xs={12}>
+									<TabPanel value={progressTab} index={ProgressTab.Overall}>
+										<Grid container spacing={2}>
+											{overallProgress.length ? (
+												overallProgress.map((character) => (
+													<Grid key={character.id} item xs={12} md={4}>
+														<ProgressClass {...character} />
 													</Grid>
-												)}
-											</Grid>
-										</TabPanel>
-										<TabPanel value={progressTab} index={ProgressTab.Class}>
-											<Grid container spacing={2}>
-												{classProgress.length ? (
-													classProgress.map((character) => (
-														<Grid key={character.id} item xs={12} md={4}>
-															<ProgressClass {...character} />
-														</Grid>
-													))
-												) : (
-													<Grid item xs={12} height={416}>
-														<Typography textAlign="center">
-															You do not have any heroes to display.
-														</Typography>
+												))
+											) : (
+												<Grid item xs={12} height={416}>
+													<Typography textAlign="center">
+														You do not have any heroes to display.
+													</Typography>
+												</Grid>
+											)}
+										</Grid>
+									</TabPanel>
+									<TabPanel value={progressTab} index={ProgressTab.Class}>
+										<Grid container spacing={2}>
+											{classProgress.length ? (
+												classProgress.map((character) => (
+													<Grid key={character.id} item xs={12} md={4}>
+														<ProgressClass {...character} />
 													</Grid>
-												)}
-											</Grid>
-										</TabPanel>
-									</Grid>
+												))
+											) : (
+												<Grid item xs={12} height={416}>
+													<Typography textAlign="center">
+														You do not have any heroes to display.
+													</Typography>
+												</Grid>
+											)}
+										</Grid>
+									</TabPanel>
 								</Grid>
 							</Grid>
-						)}
-					</Container>
-				</Box>
+						</Grid>
+					)}
+				</Container>
 			</Box>
-
-			<CharacterModal />
-		</Fragment>
+		</Box>
 	);
 };

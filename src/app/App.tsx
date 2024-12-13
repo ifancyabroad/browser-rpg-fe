@@ -16,6 +16,7 @@ import { CharacterCreate, Progress } from "features/character";
 import { Leaderboard } from "features/leaderboard";
 import { Dungeon } from "features/dungeon";
 import { ContactModal } from "features/contact";
+import { CharacterModal } from "features/modals/CharacterModal";
 
 function App() {
 	const isLoggedIn = useAppSelector((state) => state.authentication.session);
@@ -45,6 +46,7 @@ function App() {
 					</HOCLayout>
 				)}
 				<Leaderboard />
+				<CharacterModal />
 				<EquipmentModal />
 				<SkillModal />
 				<CharacterClassModal />

@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
 import { Fragment, useEffect, useState } from "react";
-import { openErrorModal } from "features/modals";
+import { openCharacterModal, openErrorModal } from "features/modals";
 import { CHARACTER_STATUS_MAP, LeaderboardTab, Status } from "common/utils";
 
 export const Leaderboard: React.FC = () => {
@@ -51,6 +51,10 @@ export const Leaderboard: React.FC = () => {
 
 	const handleChangeTab = (event: React.SyntheticEvent, newValue: LeaderboardTab) => {
 		setLeaderboardTab(newValue);
+	};
+
+	const handleViewHero = (id: string) => {
+		dispatch(openCharacterModal({ id }));
 	};
 
 	return (
@@ -112,7 +116,13 @@ export const Leaderboard: React.FC = () => {
 													/>
 													<Box>
 														<Typography color="text.secondary">
-															{character.name}{" "}
+															<Link
+																component="button"
+																color="text.secondary"
+																onClick={handleViewHero.bind(null, character.id)}
+															>
+																{character.name}
+															</Link>{" "}
 															<Box
 																component="span"
 																color={
