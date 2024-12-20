@@ -2,13 +2,14 @@ import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTit
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeBattleModal, closeGameOverModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
-import { getDeterminer } from "common/utils";
+import { getDeterminer, SALVAGE_MULTIPLIER, STARTING_GOLD } from "common/utils";
 import { openLeaderboard } from "features/leaderboard";
 
 export const GameOverModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const open = useAppSelector((state) => state.modals.gameOverModalOpen);
+	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
@@ -33,12 +34,14 @@ export const GameOverModal: React.FC = () => {
 		dispatch(closeGameOverModal());
 	};
 
-	if (!battle) {
+	if (!battle || !character) {
 		return null;
 	}
 
 	const { name } = battle.enemy;
 	const determiner = getDeterminer(name);
+	const salvageValue = Math.round(character.goldValue * SALVAGE_MULTIPLIER);
+	const showSalvage = salvageValue > STARTING_GOLD;
 
 	return (
 		<Dialog open={open} aria-labelledby="game-over-dialog-title" maxWidth="xs">
@@ -53,6 +56,15 @@ export const GameOverModal: React.FC = () => {
 					</Box>
 					.
 				</DialogContentText>
+				{showSalvage && (
+					<DialogContentText textAlign="center" mb={2}>
+						Your items and gold will be salvaged for{" "}
+						<Box component="span" color="text.secondary">
+							{salvageValue}g
+						</Box>{" "}
+						made available for your next hero to spend.
+					</DialogContentText>
+				)}
 				<DialogContentText textAlign="center">
 					<Link component="button" onClick={handleViewLeaderboard} disabled={isLoading}>
 						Click here

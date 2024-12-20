@@ -69,6 +69,8 @@ export interface ICharacter {
 	equipmentAsArray: (IWeapon | IArmour)[];
 	weaponsAsArray: IWeapon[];
 	alive: boolean;
+	goldValue: number;
+	salvage: number;
 }
 
 export interface IBuyItemPayload {

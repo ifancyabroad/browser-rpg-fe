@@ -181,6 +181,19 @@ export const swapWeapons = createAsyncThunk("character/swapWeapons", async (_, {
 	}
 });
 
+export const salvageGold = createAsyncThunk("character/salvageGold", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.post<{ character: ICharacter }>("/api/character/salvage");
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
+
 export const fetchProgress = createAsyncThunk("character/fetchProgress", async (_, { rejectWithValue }) => {
 	try {
 		const response = await axios.get<{ progress: IProgress }>("/api/character/progress");
@@ -409,6 +422,17 @@ export const characterSlice = createSlice({
 			state.character = action.payload;
 		});
 		builder.addCase(swapWeapons.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(salvageGold.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(salvageGold.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.character = action.payload;
+		});
+		builder.addCase(salvageGold.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});

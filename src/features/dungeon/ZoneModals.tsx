@@ -1,6 +1,6 @@
 import { useDungeonContext } from "common/context";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { rest } from "features/character";
+import { rest, salvageGold } from "features/character";
 import {
 	ConfirmationModal,
 	openErrorModal,
@@ -64,6 +64,16 @@ export const RoomModals: React.FC = () => {
 		localDispatch({ type: "CLOSE" });
 	};
 
+	const handleSalvage = async () => {
+		try {
+			await dispatch(salvageGold()).unwrap();
+			localDispatch({ type: "CLOSE" });
+		} catch (err) {
+			const { message } = err as Error;
+			dispatch(openErrorModal({ message }));
+		}
+	};
+
 	const closeConfirmationModal = () => {
 		localDispatch({ type: "CLOSE" });
 	};
@@ -72,7 +82,7 @@ export const RoomModals: React.FC = () => {
 		return null;
 	}
 
-	const { gold, restPrice } = character;
+	const { gold, restPrice, salvage } = character;
 	const isRestDisabled = isCharacterLoading || gold < restPrice;
 
 	return (
@@ -122,6 +132,22 @@ export const RoomModals: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenLeaderboard}
 				open={state[TileType.Leaderboard]}
+			/>
+			<ConfirmationModal
+				title="Salvage"
+				content={
+					<Fragment>
+						Would you like to salvage{" "}
+						<Box component="span" color="text.secondary">
+							{salvage} gold
+						</Box>{" "}
+						from your last character?
+					</Fragment>
+				}
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleSalvage}
+				open={state[TileType.Salvage]}
+				disabled={isCharacterLoading}
 			/>
 		</Fragment>
 	);
