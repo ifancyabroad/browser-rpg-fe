@@ -1,4 +1,4 @@
-import { ILocation, ITileProperties } from "common/types";
+import { ICharacter, ILocation, ITileProperties } from "common/types";
 import Camera from "./Camera";
 import Loader from "./Loader";
 import { GameMap } from "./GameMap";
@@ -27,12 +27,12 @@ export class Game implements IGame {
 	/**
 	 * Constructor for the Game class.
 	 *
-	 * @param {string} hero - The character class for the player.
+	 * @param {ICharacter} hero - The character class for the player.
 	 * @param {HTMLCanvasElement} canvas - The HTML canvas element for rendering.
 	 * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
 	 */
 	constructor(
-		public hero: string,
+		public hero: ICharacter,
 		public canvas: HTMLCanvasElement,
 		public ctx: CanvasRenderingContext2D,
 	) {
@@ -164,6 +164,25 @@ export class Game implements IGame {
 	}
 
 	/**
+	 * Retrieves the global ID of a tile based on its type and active status.
+	 *
+	 * @param type - The type of the tile to search for.
+	 * @param active - The active status of the tile to search for.
+	 * @returns The global ID of the tile if found, otherwise `undefined`.
+	 */
+	private _getTileGlobalID(type: TileType, active: boolean): number | undefined {
+		if (!this._tileset.tiles) {
+			return;
+		}
+
+		return this._tileset.tiles.find(
+			(t) =>
+				t.properties?.find((p) => p.name === "type" && p.value === type) &&
+				t.properties?.find((p) => p.name === "active" && p.value === active),
+		)?.id;
+	}
+
+	/**
 	 * Retrieves the global ID of a tile based on the given property.
 	 *
 	 * @param className - The name of the class to search for.
@@ -212,7 +231,17 @@ export class Game implements IGame {
 		const tileAtlas = this._tileAtlas;
 
 		tileProperties.globalIDs.forEach((globalID) => {
-			const tilesetLocation = this._getTilesetLocationByGlobalID(globalID);
+			let id = globalID;
+
+			if (tileProperties.active) {
+				const inactiveID = this._getTileGlobalID(tileProperties.type, false);
+				const activeID = this._getTileGlobalID(tileProperties.type, true);
+				if (activeID && id === inactiveID) {
+					id = activeID;
+				}
+			}
+
+			const tilesetLocation = this._getTilesetLocationByGlobalID(id);
 
 			this.ctx.drawImage(
 				tileAtlas, // image
@@ -255,7 +284,7 @@ export class Game implements IGame {
 			return;
 		}
 
-		const globalID = this._getHeroGlobalID(this.hero);
+		const globalID = this._getHeroGlobalID(this.hero.characterClass.name);
 
 		if (!globalID) {
 			return;
@@ -416,12 +445,19 @@ export class Game implements IGame {
 	}
 
 	/**
-	 * Sets the hero data and updates the camera position.
+	 * Sets the hero data and updates the salvage sprite.
 	 *
 	 * @param {string} hero - The character class for the player.
 	 */
-	public setData(hero: string) {
+	public setData(hero: ICharacter) {
 		this.hero = hero;
-		this._camera.move(this._location.x * this._tiledMap.tilewidth, this._location.y * this._tiledMap.tileheight);
+
+		const salvageTileActive = this.hero.salvage <= 0;
+		const salvageTile = this._map.map.flat().find((tile) => tile.type === TileType.Salvage);
+		if (!salvageTile) {
+			return;
+		}
+
+		salvageTile.active = salvageTileActive;
 	}
 }

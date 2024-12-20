@@ -12,7 +12,6 @@ interface IProps {
 export const Map: React.FC<IProps> = memo(({ height, width }) => {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const character = useAppSelector((state) => state.character.character);
-	const characterClass = character?.characterClass.name;
 	const dungeonContext = useDungeonContext();
 	const [game, setGame] = useState<Game | null>(null);
 
@@ -22,10 +21,10 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 		}
 		const canvas = canvasRef.current;
 		const context = canvas?.getContext("2d");
-		if (canvas && context && characterClass) {
-			setGame(new Game(characterClass, canvas, context));
+		if (canvas && context && character) {
+			setGame(new Game(character, canvas, context));
 		}
-	}, [characterClass, game]);
+	}, [character, game]);
 
 	useEffect(() => {
 		if (game) {
@@ -34,10 +33,10 @@ export const Map: React.FC<IProps> = memo(({ height, width }) => {
 	}, [game]);
 
 	useEffect(() => {
-		if (game && characterClass) {
-			game.setData(characterClass);
+		if (game && character) {
+			game.setData(character);
 		}
-	}, [game, characterClass]);
+	}, [game, character]);
 
 	const handleMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
 		if (!game) {

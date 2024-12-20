@@ -286,7 +286,6 @@ export const MAX_SKILLS = 7;
 export const MAX_POTIONS = 3;
 export const MAX_STAT_VALUE = 22;
 export const FINAL_LEVEL = 100;
-export const STARTING_GOLD = 200;
 export const SALVAGE_MULTIPLIER = 0.5;
 
 export * from "./config";

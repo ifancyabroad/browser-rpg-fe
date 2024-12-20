@@ -6,11 +6,6 @@ export interface ILocation {
 	y: number;
 }
 
-export interface ITreasure {
-	items: (IWeapon | IArmour)[];
-	location: IMapLocation;
-}
-
 export interface ITileProperties {
 	globalIDs: number[];
 	location: ILocation;

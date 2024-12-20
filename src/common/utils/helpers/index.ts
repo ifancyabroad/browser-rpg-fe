@@ -111,7 +111,7 @@ export const getDamageTypeConfig = (damageType: DamageType) => {
 export const getDeterminer = (name: string) => (name.match(/^[aeiou]/i) ? "an" : "a");
 
 export const getIsActionTile = (tile: ITileProperties) => {
-	return ACTION_TILES.includes(tile.type);
+	return ACTION_TILES.includes(tile.type) && !tile.active;
 };
 
 export const decodeLayerData = function (data: string): number[] {
