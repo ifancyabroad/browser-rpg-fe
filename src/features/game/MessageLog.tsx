@@ -27,13 +27,14 @@ export const MessageLog: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		function scrollToBottom() {
-			ref.current?.scrollIntoView();
+		if (ref.current) {
+			ref.current.scrollTop = ref.current.scrollHeight;
 		}
+	}, [messages.length]);
 
+	useEffect(() => {
 		function onMessageEvent(data: IMessage) {
 			setMessages((previous) => [...previous, data]);
-			scrollToBottom();
 		}
 
 		socket.on("message", onMessageEvent);
