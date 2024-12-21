@@ -1,10 +1,11 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useAppSelector } from "common/hooks";
 import { IMessage } from "common/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { socket } from "socket";
 
 export const MessageLog: React.FC = () => {
+	const ref = useRef<HTMLDivElement>(null);
 	const character = useAppSelector((state) => state.character.character);
 	const [messages, setMessages] = useState<IMessage[]>([
 		{
@@ -26,8 +27,13 @@ export const MessageLog: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
+		function scrollToBottom() {
+			ref.current?.scrollIntoView();
+		}
+
 		function onMessageEvent(data: IMessage) {
 			setMessages((previous) => [...previous, data]);
+			scrollToBottom();
 		}
 
 		socket.on("message", onMessageEvent);
@@ -37,16 +43,15 @@ export const MessageLog: React.FC = () => {
 		};
 	}, []);
 
-	const latestMessages = [...messages].reverse().slice(0, 8);
+	const latestMessages = [...messages].slice(-8);
 
 	return (
 		<Box py={2}>
 			<Container maxWidth={false}>
 				<Box
+					ref={ref}
 					sx={{
 						height: 192,
-						display: "flex",
-						flexDirection: "column-reverse",
 						overflowY: "hidden",
 					}}
 				>
