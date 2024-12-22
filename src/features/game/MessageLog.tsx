@@ -58,7 +58,7 @@ export const MessageLog: React.FC = () => {
 				>
 					{latestMessages.map((data, index) => (
 						<Typography key={index} color={data.color}>
-							{data.message}
+							{data.username ? `[${data.username}] ${data.message}` : data.message}
 						</Typography>
 					))}
 				</Box>
