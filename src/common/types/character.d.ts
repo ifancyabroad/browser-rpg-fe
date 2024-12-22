@@ -70,6 +70,7 @@ export interface ICharacter {
 	weaponsAsArray: IWeapon[];
 	alive: boolean;
 	goldValue: number;
+	salvageValue: number;
 	salvage: number;
 }
 
