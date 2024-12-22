@@ -21,6 +21,11 @@ export interface ILevelUpData {
 	skills: ISkill[];
 }
 
+export interface ISalvage {
+	value: number;
+	claimed: boolean;
+}
+
 export interface ICharacterPayload {
 	name: string;
 	characterClass: string;
@@ -71,7 +76,7 @@ export interface ICharacter {
 	alive: boolean;
 	goldValue: number;
 	salvageValue: number;
-	salvage: number;
+	salvage: ISalvage;
 }
 
 export interface IBuyItemPayload {

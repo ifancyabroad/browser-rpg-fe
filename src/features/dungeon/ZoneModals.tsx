@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { rest, salvageGold } from "features/character";
 import {
 	ConfirmationModal,
+	InfoModal,
 	openErrorModal,
 	openFinalBattleModal,
 	openPotionSellerModal,
@@ -133,22 +134,31 @@ export const RoomModals: React.FC = () => {
 				handleConfirm={handleOpenLeaderboard}
 				open={state[TileType.Leaderboard]}
 			/>
-			<ConfirmationModal
-				title="Salvage"
-				content={
-					<Fragment>
-						Would you like to salvage{" "}
-						<Box component="span" color="text.secondary">
-							{salvage} gold
-						</Box>{" "}
-						from your last character?
-					</Fragment>
-				}
-				handleClose={closeConfirmationModal}
-				handleConfirm={handleSalvage}
-				open={state[TileType.Salvage]}
-				disabled={isCharacterLoading}
-			/>
+			{salvage.value > 0 ? (
+				<ConfirmationModal
+					title="Salvage"
+					content={
+						<Fragment>
+							Would you like to salvage{" "}
+							<Box component="span" color="text.secondary">
+								{salvage.value} gold
+							</Box>{" "}
+							from your last character?
+						</Fragment>
+					}
+					handleClose={closeConfirmationModal}
+					handleConfirm={handleSalvage}
+					open={state[TileType.Salvage]}
+					disabled={isCharacterLoading}
+				/>
+			) : (
+				<InfoModal
+					title="Salvage"
+					content="There is nothing to salvage. When a hero falls or retires, they will leave behind some gold for the next hero."
+					handleClose={closeConfirmationModal}
+					open={state[TileType.Salvage]}
+				/>
+			)}
 		</Fragment>
 	);
 };

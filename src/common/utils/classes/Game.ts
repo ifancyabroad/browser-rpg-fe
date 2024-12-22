@@ -452,7 +452,7 @@ export class Game implements IGame {
 	public setData(hero: ICharacter) {
 		this.hero = hero;
 
-		const salvageTileActive = this.hero.salvage <= 0;
+		const salvageTileActive = this.hero.salvage.claimed;
 		const salvageTile = this._map.map.flat().find((tile) => tile.type === TileType.Salvage);
 		if (!salvageTile) {
 			return;
