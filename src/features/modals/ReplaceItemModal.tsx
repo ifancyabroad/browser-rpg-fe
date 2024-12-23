@@ -21,6 +21,7 @@ import {
 	EQUIPMENT_TYPE_NAME_MAP,
 	EquipmentSlot,
 	getItemsToReplace,
+	ITEM_RARITY_COLOR_MAP,
 	ITEM_RARITY_NAME_MAP,
 	ItemRarity,
 	WeaponSize,
@@ -53,10 +54,12 @@ const ItemLabel: React.FC<IProps> = ({ item, isSelected }) => {
 			isActive={isSelected}
 			sx={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 3, p: 1 }}
 		>
-			<Box display="flex" alignItems="center" gap={2}>
+			<Box display="flex" alignItems="center" gap={2} overflow="hidden">
 				<EquipmentIcon equipment={item} width={40} />
-				<Stack>
-					<Typography color="text.secondary">{item.name}</Typography>
+				<Stack overflow="hidden">
+					<Typography color={ITEM_RARITY_COLOR_MAP[item.level as ItemRarity]} noWrap>
+						{item.name}
+					</Typography>
 					<Typography>
 						{ITEM_RARITY_NAME_MAP[item.level as ItemRarity]} {EQUIPMENT_TYPE_NAME_MAP[item.type]}
 					</Typography>
