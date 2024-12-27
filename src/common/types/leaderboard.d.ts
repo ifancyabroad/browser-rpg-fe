@@ -16,4 +16,5 @@ export interface ILeaderboardCharacter {
 
 export interface ILeaderboardPayload {
 	type: string;
+	characterClass: string;
 }

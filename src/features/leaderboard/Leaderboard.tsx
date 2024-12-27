@@ -5,6 +5,7 @@ import {
 	DialogContent,
 	DialogTitle,
 	Link,
+	Stack,
 	Tab,
 	Table,
 	TableBody,
@@ -14,13 +15,15 @@ import {
 	TableRow,
 	Tabs,
 	Typography,
+	useMediaQuery,
+	useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
 import { Fragment, useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
-import { CHARACTER_STATUS_MAP, LeaderboardTab, Status } from "common/utils";
+import { CHARACTER_STATUS_MAP, CharacterClassTab, LeaderboardTab, Status } from "common/utils";
 
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -29,11 +32,14 @@ export const Leaderboard: React.FC = () => {
 	const status = useAppSelector((state) => state.leaderboard.status);
 	const isLoading = status === "loading";
 	const [leaderboardTab, setLeaderboardTab] = useState<LeaderboardTab>(LeaderboardTab.Overall);
+	const [characterClass, setCharacterClass] = useState<CharacterClassTab>(CharacterClassTab.All);
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				await dispatch(fetchLeaderboard({ type: leaderboardTab })).unwrap();
+				await dispatch(fetchLeaderboard({ type: leaderboardTab, characterClass })).unwrap();
 			} catch (err) {
 				const { message } = err as Error;
 				dispatch(openErrorModal({ message }));
@@ -43,7 +49,7 @@ export const Leaderboard: React.FC = () => {
 		if (open) {
 			fetchData();
 		}
-	}, [dispatch, open, leaderboardTab]);
+	}, [dispatch, open, leaderboardTab, characterClass]);
 
 	const handleClose = () => {
 		dispatch(closeLeaderboard());
@@ -53,21 +59,39 @@ export const Leaderboard: React.FC = () => {
 		setLeaderboardTab(newValue);
 	};
 
+	const handleChangeClass = (event: React.SyntheticEvent, newValue: CharacterClassTab) => {
+		setCharacterClass(newValue);
+	};
+
 	const handleViewHero = (id: string) => {
 		dispatch(openCharacterModal({ id }));
 	};
 
 	return (
-		<Dialog open={open} onClose={handleClose} aria-labelledby="leaderboard-dialog-title" maxWidth="md">
+		<Dialog
+			open={open}
+			onClose={handleClose}
+			aria-labelledby="leaderboard-dialog-title"
+			maxWidth="md"
+			fullScreen={isMobile}
+		>
 			<DialogTitle id="leaderboard-dialog-title" textAlign="center">
 				Hall of Legends
 			</DialogTitle>
 			<DialogContent>
 				<Box>
-					<Tabs value={leaderboardTab} onChange={handleChangeTab} variant="fullWidth">
-						<Tab label="Overall" value={LeaderboardTab.Overall} />
-						<Tab label="Your Heroes" value={LeaderboardTab.User} />
-					</Tabs>
+					<Stack spacing={0.5}>
+						<Tabs value={leaderboardTab} onChange={handleChangeTab} variant="fullWidth">
+							<Tab label="Overall" value={LeaderboardTab.Overall} />
+							<Tab label="Your Heroes" value={LeaderboardTab.User} />
+						</Tabs>
+						<Tabs value={characterClass} onChange={handleChangeClass} variant="fullWidth">
+							<Tab label="All" value={CharacterClassTab.All} sx={{ minWidth: 0 }} />
+							<Tab label="Fighter" value={CharacterClassTab.Fighter} sx={{ minWidth: 0 }} />
+							<Tab label="Thief" value={CharacterClassTab.Thief} sx={{ minWidth: 0 }} />
+							<Tab label="Mage" value={CharacterClassTab.Mage} sx={{ minWidth: 0 }} />
+						</Tabs>
+					</Stack>
 					<TableContainer sx={{ minHeight: 600 }}>
 						<Table size="small" sx={{ bgcolor: "#000" }}>
 							<TableHead>

@@ -195,6 +195,13 @@ export enum LeaderboardTab {
 	User = "user",
 }
 
+export enum CharacterClassTab {
+	All = "all",
+	Fighter = "fighter",
+	Thief = "thief",
+	Mage = "mage",
+}
+
 export enum EnemyTab {
 	Portrait,
 	CombatLog,
