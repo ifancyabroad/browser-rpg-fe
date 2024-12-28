@@ -67,7 +67,7 @@ export const EquipmentModal: React.FC = () => {
 								<Typography color="secondary.main">Armour Class:</Typography>
 								<DialogContentText>{item.armourClass}</DialogContentText>
 								{(item.armourType === ArmourType.Cloth || item.armourType === ArmourType.Light) && (
-									<DialogContentText>+ Dex</DialogContentText>
+									<DialogContentText>+ Dex (max 5)</DialogContentText>
 								)}
 								{item.armourType === ArmourType.Medium && (
 									<DialogContentText>+ Dex (max 2)</DialogContentText>
