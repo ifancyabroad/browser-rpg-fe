@@ -5,6 +5,7 @@ import tavern from "assets/images/tutorial/tile319.png";
 import dungeon from "assets/images/tutorial/tile365.png";
 import merchant from "assets/images/tutorial/tile549.png";
 import hut from "assets/images/tutorial/tile326.png";
+import salvageChest from "assets/images/tutorial/tile413.png";
 
 export const HowToPlayModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -75,6 +76,15 @@ export const HowToPlayModal: React.FC = () => {
 								Potion Seller:
 							</Box>{" "}
 							Purchase potions to restore health.
+						</span>
+					</DialogContentText>
+					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
+						<img src={salvageChest} alt="Salvage Chest" /> -{" "}
+						<span>
+							<Box component="span" color="text.secondary">
+								Salvage Chest:
+							</Box>{" "}
+							Collect gold from previous hero.
 						</span>
 					</DialogContentText>
 					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>

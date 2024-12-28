@@ -100,13 +100,15 @@ export const Start: React.FC = () => {
 									<Typography variant="h1" textAlign="center">
 										Browser Heroes
 									</Typography>
-									<Typography textAlign="center">
-										Welcome{" "}
-										<Box component="span" color="text.secondary">
-											{user?.username}
-										</Box>
-										, your new adventure awaits you!
-									</Typography>
+									<Box>
+										<Typography textAlign="center">
+											Welcome{" "}
+											<Box component="span" color="text.secondary">
+												{user?.username}
+											</Box>
+										</Typography>
+										<Typography textAlign="center">Your new adventure awaits you!</Typography>
+									</Box>
 									<Stack alignItems="center">
 										<MuiLink component={Link} to="/create">
 											Create Character
