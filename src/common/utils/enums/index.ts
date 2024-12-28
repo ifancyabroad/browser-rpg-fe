@@ -191,6 +191,7 @@ export enum TileType {
 }
 
 export enum LeaderboardTab {
+	Daily = "daily",
 	Overall = "overall",
 	User = "user",
 }

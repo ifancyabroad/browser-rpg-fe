@@ -6,6 +6,7 @@ import {
 	DialogTitle,
 	Link,
 	Stack,
+	styled,
 	Tab,
 	Table,
 	TableBody,
@@ -25,16 +26,22 @@ import { Fragment, useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { CHARACTER_STATUS_MAP, CharacterClassTab, LeaderboardTab, Status } from "common/utils";
 
+const StyledTab = styled(Tab)(({ theme }) => ({
+	minWidth: 0,
+	whiteSpace: "nowrap",
+}));
+
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.leaderboard.isOpen);
 	const rankings = useAppSelector((state) => state.leaderboard.leaderboard);
 	const status = useAppSelector((state) => state.leaderboard.status);
 	const isLoading = status === "loading";
-	const [leaderboardTab, setLeaderboardTab] = useState<LeaderboardTab>(LeaderboardTab.Overall);
+	const [leaderboardTab, setLeaderboardTab] = useState<LeaderboardTab>(LeaderboardTab.Daily);
 	const [characterClass, setCharacterClass] = useState<CharacterClassTab>(CharacterClassTab.All);
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+	const noRankings = rankings.length === 0 && status === "succeeded";
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -82,14 +89,15 @@ export const Leaderboard: React.FC = () => {
 				<Box>
 					<Stack spacing={0.5}>
 						<Tabs value={leaderboardTab} onChange={handleChangeTab} variant="fullWidth">
-							<Tab label="Overall" value={LeaderboardTab.Overall} />
-							<Tab label="Your Heroes" value={LeaderboardTab.User} />
+							<StyledTab label="Daily" value={LeaderboardTab.Daily} />
+							<StyledTab label="Overall" value={LeaderboardTab.Overall} />
+							<StyledTab label="Your Heroes" value={LeaderboardTab.User} />
 						</Tabs>
 						<Tabs value={characterClass} onChange={handleChangeClass} variant="fullWidth">
-							<Tab label="All" value={CharacterClassTab.All} sx={{ minWidth: 0 }} />
-							<Tab label="Fighter" value={CharacterClassTab.Fighter} sx={{ minWidth: 0 }} />
-							<Tab label="Thief" value={CharacterClassTab.Thief} sx={{ minWidth: 0 }} />
-							<Tab label="Mage" value={CharacterClassTab.Mage} sx={{ minWidth: 0 }} />
+							<StyledTab label="All" value={CharacterClassTab.All} />
+							<StyledTab label="Fighter" value={CharacterClassTab.Fighter} />
+							<StyledTab label="Thief" value={CharacterClassTab.Thief} />
+							<StyledTab label="Mage" value={CharacterClassTab.Mage} />
 						</Tabs>
 					</Stack>
 					<TableContainer sx={{ minHeight: 600 }}>
@@ -119,6 +127,12 @@ export const Leaderboard: React.FC = () => {
 									<TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
 										<TableCell component="th" scope="row" colSpan={6} align="center">
 											<Loader />
+										</TableCell>
+									</TableRow>
+								) : noRankings ? (
+									<TableRow sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+										<TableCell component="th" scope="row" colSpan={6} align="center">
+											No characters found.
 										</TableCell>
 									</TableRow>
 								) : (
