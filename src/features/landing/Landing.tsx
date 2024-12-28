@@ -1,13 +1,13 @@
 import { alpha, Box, Container, Link, Paper, Stack, Typography } from "@mui/material";
 import { Dragon, Footer, Header } from "common/components";
 import { useAppDispatch } from "common/hooks";
-import { openLoginModal, openRegistrationModal } from "features/modals";
+import { openLoginModal, openUsernameModal } from "features/modals";
 
 export const Landing: React.FC = () => {
 	const dispatch = useAppDispatch();
 
-	const handleRegister = () => {
-		dispatch(openRegistrationModal());
+	const handleStart = () => {
+		dispatch(openUsernameModal());
 	};
 
 	const handleLogin = () => {
@@ -47,14 +47,16 @@ export const Landing: React.FC = () => {
 								, a free to play role playing game that can be played in your browser.
 							</Typography>
 							<Box display="flex" justifyContent="center" gap={1}>
-								<Link component="button" onClick={handleRegister}>
-									Register
+								<Link component="button" onClick={handleStart}>
+									PLAY NOW
 								</Link>
-								<Typography color="text.secondary">or</Typography>
+							</Box>
+							<Typography textAlign="center">
+								Already have an account?{" "}
 								<Link component="button" onClick={handleLogin}>
 									Login
 								</Link>
-							</Box>
+							</Typography>
 						</Stack>
 					</Paper>
 				</Container>

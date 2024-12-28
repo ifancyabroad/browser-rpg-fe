@@ -11,6 +11,7 @@ export const Start: React.FC = () => {
 	const navigate = useNavigate();
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 	const hasActiveCharacter = useAppSelector(getHasActiveCharacter);
+	const user = useAppSelector((state) => state.authentication.user);
 	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.character.status);
 	const isLoading = status === "loading";
@@ -100,9 +101,9 @@ export const Start: React.FC = () => {
 										Browser Heroes
 									</Typography>
 									<Typography textAlign="center">
-										Welcome to{" "}
+										Welcome{" "}
 										<Box component="span" color="text.secondary">
-											Browser Heroes
+											{user?.username}
 										</Box>
 										, your new adventure awaits you!
 									</Typography>

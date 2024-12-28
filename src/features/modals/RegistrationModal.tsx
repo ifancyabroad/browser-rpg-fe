@@ -2,22 +2,24 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, L
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, register } from "features/authentication";
 import { closeRegistrationModal, openErrorModal, openLoginModal } from "features/modals";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const RegistrationModal: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const isLoggedIn = useAppSelector((state) => state.authentication.session);
+	const user = useAppSelector((state) => state.authentication.user);
 	const open = useAppSelector((state) => state.modals.registrationModalOpen);
 	const isLoading = useAppSelector(getIsLoading);
-	const usernameRef = useRef<HTMLInputElement>(null);
+	const [username, setUsername] = useState(user?.username || "");
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
-		if (isLoggedIn) {
-			dispatch(closeRegistrationModal());
+		if (open && user) {
+			setUsername(user?.username || "");
+		} else {
+			setUsername("");
 		}
-	}, [dispatch, isLoggedIn]);
+	}, [user, open]);
 
 	const handleClose = () => {
 		dispatch(closeRegistrationModal());
@@ -28,15 +30,20 @@ export const RegistrationModal: React.FC = () => {
 		dispatch(openLoginModal());
 	};
 
+	const handleUpdateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+	};
+
 	const handleRegister = async () => {
 		try {
 			await dispatch(
 				register({
-					username: usernameRef.current!.value,
+					username,
 					email: emailRef.current!.value,
 					password: passwordRef.current!.value,
 				}),
 			).unwrap();
+			dispatch(closeRegistrationModal());
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
@@ -48,14 +55,14 @@ export const RegistrationModal: React.FC = () => {
 			<DialogTitle id="registration-dialog-title">Register</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>
-					Please enter a username and password to register or click{" "}
-					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
-						here
-					</Link>{" "}
-					to sign in.
+					Please enter a username, email, and password. Already have an account?{" "}
+					<Link component="button" onClick={handleChangeModal}>
+						Login
+					</Link>
 				</DialogContentText>
 				<TextField
-					inputRef={usernameRef}
+					value={username}
+					onChange={handleUpdateUsername}
 					autoFocus
 					margin="dense"
 					label="Username"

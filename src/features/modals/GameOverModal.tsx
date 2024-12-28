@@ -1,14 +1,16 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeBattleModal, closeGameOverModal } from "./modalsSlice";
+import { closeBattleModal, closeGameOverModal, openRegistrationModal } from "./modalsSlice";
 import { useNavigate } from "react-router-dom";
 import { getDeterminer } from "common/utils";
 import { openLeaderboard } from "features/leaderboard";
+import { getIsRegistered } from "features/authentication";
 
 export const GameOverModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const open = useAppSelector((state) => state.modals.gameOverModalOpen);
+	const isRegistered = useAppSelector(getIsRegistered);
 	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
 	const status = useAppSelector((state) => state.battle.status);
@@ -16,6 +18,10 @@ export const GameOverModal: React.FC = () => {
 
 	const handleViewLeaderboard = () => {
 		dispatch(openLeaderboard());
+	};
+
+	const handleRegister = () => {
+		dispatch(openRegistrationModal());
 	};
 
 	const handleGameOver = async () => {
@@ -61,12 +67,21 @@ export const GameOverModal: React.FC = () => {
 					</Box>{" "}
 					made available for your next hero to spend.
 				</DialogContentText>
-				<DialogContentText textAlign="center">
-					<Link component="button" onClick={handleViewLeaderboard} disabled={isLoading}>
-						Click here
-					</Link>{" "}
-					to take a look at the leaderboard or click below to play again.
-				</DialogContentText>
+				{isRegistered ? (
+					<DialogContentText textAlign="center">
+						<Link component="button" onClick={handleViewLeaderboard} disabled={isLoading}>
+							Click here
+						</Link>{" "}
+						to take a look at the leaderboard or click below to play again.
+					</DialogContentText>
+				) : (
+					<DialogContentText textAlign="center">
+						<Link component="button" onClick={handleRegister} disabled={isLoading}>
+							Click here
+						</Link>{" "}
+						to register an account and save your progress or click below to play again.
+					</DialogContentText>
+				)}
 			</DialogContent>
 			<DialogActions>
 				<Link component="button" color="info.light" onClick={handlePlayAgain} disabled={isLoading}>

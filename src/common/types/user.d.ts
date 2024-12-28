@@ -1,10 +1,15 @@
 export interface IUser {
+	id: string;
 	username: string;
-	email: string;
+	email?: string;
 }
 
 export interface ISession {
 	session: boolean;
+}
+
+export interface IRegisterGuestPayload {
+	username: string;
 }
 
 export interface IRegisterPayload {

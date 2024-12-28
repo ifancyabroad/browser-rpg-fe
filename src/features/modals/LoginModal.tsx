@@ -2,21 +2,14 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, L
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { getIsLoading, login } from "features/authentication";
 import { closeLoginModal, openErrorModal, openRegistrationModal } from "features/modals";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 export const LoginModal: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const isLoggedIn = useAppSelector((state) => state.authentication.session);
 	const open = useAppSelector((state) => state.modals.loginModalOpen);
 	const isLoading = useAppSelector(getIsLoading);
 	const emailRef = useRef<HTMLInputElement>(null);
 	const passwordRef = useRef<HTMLInputElement>(null);
-
-	useEffect(() => {
-		if (isLoggedIn) {
-			dispatch(closeLoginModal());
-		}
-	}, [dispatch, isLoggedIn]);
 
 	const handleClose = () => {
 		dispatch(closeLoginModal());
@@ -35,6 +28,7 @@ export const LoginModal: React.FC = () => {
 					password: passwordRef.current!.value,
 				}),
 			).unwrap();
+			dispatch(closeLoginModal());
 		} catch (err) {
 			const { message } = err as Error;
 			dispatch(openErrorModal({ message }));
@@ -46,11 +40,10 @@ export const LoginModal: React.FC = () => {
 			<DialogTitle id="login-dialog-title">Login</DialogTitle>
 			<DialogContent>
 				<DialogContentText mb={2}>
-					Please enter your email and password to login or click{" "}
-					<Link component="button" sx={{ verticalAlign: "baseline" }} onClick={handleChangeModal}>
-						here
-					</Link>{" "}
-					to sign up.
+					Please enter your email and password to login. Don't have an account?{" "}
+					<Link component="button" onClick={handleChangeModal}>
+						Register
+					</Link>
 				</DialogContentText>
 				<TextField
 					inputRef={emailRef}

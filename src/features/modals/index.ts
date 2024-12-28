@@ -16,4 +16,5 @@ export * from "./VictoryModal";
 export * from "./HowToPlayModal";
 export * from "./PotionSellerModal";
 export * from "./InfoModal";
+export * from "./UsernameModal";
 export * from "./modalsSlice";

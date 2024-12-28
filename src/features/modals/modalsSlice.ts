@@ -4,6 +4,7 @@ import { IArmour, ICharacterClass, ISkill, IWeapon } from "common/types";
 interface ModalsState {
 	loginModalOpen: boolean;
 	registrationModalOpen: boolean;
+	usernameModalOpen: boolean;
 	confirmationModalOpen: boolean;
 	errorModal: {
 		open: boolean;
@@ -46,6 +47,7 @@ interface ModalsState {
 const initialState: ModalsState = {
 	loginModalOpen: false,
 	registrationModalOpen: false,
+	usernameModalOpen: false,
 	confirmationModalOpen: false,
 	errorModal: {
 		open: false,
@@ -92,6 +94,12 @@ export const modalsSlice = createSlice({
 		},
 		closeRegistrationModal: (state) => {
 			state.registrationModalOpen = false;
+		},
+		openUsernameModal: (state) => {
+			state.usernameModalOpen = true;
+		},
+		closeUsernameModal: (state) => {
+			state.usernameModalOpen = false;
 		},
 		openConfirmationModal: (state) => {
 			state.confirmationModalOpen = true;
@@ -256,6 +264,8 @@ export const {
 	closeCharacterModal,
 	openFinalBattleModal,
 	closeFinalBattleModal,
+	openUsernameModal,
+	closeUsernameModal,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

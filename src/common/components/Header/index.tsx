@@ -1,15 +1,15 @@
 import { Box, Container, Link } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { logout } from "features/authentication";
+import { getIsRegistered, logout } from "features/authentication";
 import { openContactModal } from "features/contact";
-import { openLoginModal } from "features/modals";
+import { openRegistrationModal } from "features/modals";
 
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const isLoggedIn = useAppSelector((state) => state.authentication.session);
+	const isRegistered = useAppSelector(getIsRegistered);
 
-	const handleLogin = () => {
-		dispatch(openLoginModal());
+	const handleRegister = () => {
+		dispatch(openRegistrationModal());
 	};
 
 	const handleLogout = async () => {
@@ -27,13 +27,13 @@ export const Header: React.FC = () => {
 					<Link component="button" onClick={handleOpenContact} color="text.secondary">
 						Contact
 					</Link>
-					{isLoggedIn ? (
+					{isRegistered ? (
 						<Link component="button" onClick={handleLogout}>
 							Sign Out
 						</Link>
 					) : (
-						<Link component="button" onClick={handleLogin}>
-							Sign In
+						<Link component="button" onClick={handleRegister}>
+							Register
 						</Link>
 					)}
 				</Box>

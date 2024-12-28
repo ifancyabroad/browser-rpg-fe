@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IApiError, ILoginPayload, IRegisterPayload, ISession, IUser } from "common/types";
+import { IApiError, ILoginPayload, IRegisterGuestPayload, IRegisterPayload, IUser } from "common/types";
 
 interface IAuthenticationState {
 	sessionChecked: boolean;
@@ -20,8 +20,8 @@ const initialState: IAuthenticationState = {
 
 export const fetchSession = createAsyncThunk("authentication/fetchSession", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<ISession>("/api/auth/session");
-		return response.data.session;
+		const response = await axios.get<{ user: IUser }>("/api/auth/session");
+		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -33,7 +33,7 @@ export const fetchSession = createAsyncThunk("authentication/fetchSession", asyn
 
 export const fetchUser = createAsyncThunk("authentication/fetchUser", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<IUser>("/api/auth/user");
+		const response = await axios.get<{ user: IUser }>("/api/auth/user");
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -44,11 +44,27 @@ export const fetchUser = createAsyncThunk("authentication/fetchUser", async (_, 
 	}
 });
 
+export const registerGuest = createAsyncThunk(
+	"authentication/registerGuest",
+	async (payload: IRegisterGuestPayload, { rejectWithValue }) => {
+		try {
+			const response = await axios.put<{ user: IUser }>("/api/auth/registerGuest", payload);
+			return response.data;
+		} catch (err) {
+			const error = err as AxiosError<IApiError>;
+			if (!error.response) {
+				throw err;
+			}
+			return rejectWithValue(error.response.data.error);
+		}
+	},
+);
+
 export const register = createAsyncThunk(
 	"authentication/register",
 	async (payload: IRegisterPayload, { rejectWithValue }) => {
 		try {
-			const response = await axios.put<IUser>("/api/auth/register", payload);
+			const response = await axios.put<{ user: IUser }>("/api/auth/register", payload);
 			return response.data;
 		} catch (err) {
 			const error = err as AxiosError<IApiError>;
@@ -62,7 +78,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk("authentication/login", async (payload: ILoginPayload, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<IUser>("/api/auth/login", payload);
+		const response = await axios.post<{ user: IUser }>("/api/auth/login", payload);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -90,6 +106,8 @@ export const authenticationSelector = (state: RootState) => state.authentication
 
 export const getIsLoading = createSelector(authenticationSelector, ({ status }) => status === "loading");
 
+export const getIsRegistered = createSelector(authenticationSelector, ({ user }) => Boolean(user?.email));
+
 export const authenticationSlice = createSlice({
 	name: "authentication",
 	initialState,
@@ -100,8 +118,9 @@ export const authenticationSlice = createSlice({
 		});
 		builder.addCase(fetchSession.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.session = action.payload;
+			state.session = true;
 			state.sessionChecked = true;
+			state.user = action.payload.user;
 		});
 		builder.addCase(fetchSession.rejected, (state, action) => {
 			state.status = "failed";
@@ -114,9 +133,21 @@ export const authenticationSlice = createSlice({
 		builder.addCase(fetchUser.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.session = true;
-			state.user = action.payload;
+			state.user = action.payload.user;
 		});
 		builder.addCase(fetchUser.rejected, (state, action) => {
+			state.status = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(registerGuest.pending, (state) => {
+			state.status = "loading";
+		});
+		builder.addCase(registerGuest.fulfilled, (state, action) => {
+			state.status = "succeeded";
+			state.session = true;
+			state.user = action.payload.user;
+		});
+		builder.addCase(registerGuest.rejected, (state, action) => {
 			state.status = "failed";
 			state.error = action.error.message;
 		});
@@ -126,7 +157,7 @@ export const authenticationSlice = createSlice({
 		builder.addCase(register.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.session = true;
-			state.user = action.payload;
+			state.user = action.payload.user;
 		});
 		builder.addCase(register.rejected, (state, action) => {
 			state.status = "failed";
@@ -138,7 +169,7 @@ export const authenticationSlice = createSlice({
 		builder.addCase(login.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.session = true;
-			state.user = action.payload;
+			state.user = action.payload.user;
 		});
 		builder.addCase(login.rejected, (state, action) => {
 			state.status = "failed";

@@ -9,6 +9,7 @@ import {
 	LoginModal,
 	RegistrationModal,
 	SkillModal,
+	UsernameModal,
 } from "features/modals";
 import { useAppSelector } from "common/hooks";
 import { Start } from "features/start";
@@ -50,6 +51,7 @@ function App() {
 				<EquipmentModal />
 				<SkillModal />
 				<CharacterClassModal />
+				<UsernameModal />
 				<LoginModal />
 				<RegistrationModal />
 				<ContactModal />
