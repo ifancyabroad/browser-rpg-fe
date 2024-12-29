@@ -9,6 +9,7 @@ import { NavLink } from "react-router-dom";
 export const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isRegistered = useAppSelector(getIsRegistered);
+	const isLoggedIn = useAppSelector((state) => state.authentication.session);
 
 	const handleRegister = () => {
 		dispatch(openRegistrationModal());
@@ -35,9 +36,11 @@ export const Header: React.FC = () => {
 							Progress
 						</Link>
 					)}
-					<Link component="button" onClick={handleOpenLeaderboard} color="text.secondary">
-						Leaderboard
-					</Link>
+					{isLoggedIn && (
+						<Link component="button" onClick={handleOpenLeaderboard} color="text.secondary">
+							Leaderboard
+						</Link>
+					)}
 					<Link component="button" onClick={handleOpenContact} color="text.secondary">
 						Contact
 					</Link>
