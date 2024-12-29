@@ -19,8 +19,7 @@ export const DailyWinner: React.FC = () => {
 	return (
 		<Stack spacing={2} width="100%">
 			<Typography textAlign="center">
-				Congratulations to yesterday's champion
-				<br />
+				Congratulations to yesterday's champion{" "}
 				<Box component="span" color="text.secondary">
 					{dailyWinner.username}!
 				</Box>
