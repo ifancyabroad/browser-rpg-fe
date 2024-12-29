@@ -99,9 +99,6 @@ export const Start: React.FC = () => {
 											</MuiLink>
 										</Typography>
 									</HoverButton>
-									<MuiLink component={Link} to="/progress" color="text.secondary">
-										View Progress
-									</MuiLink>
 								</Stack>
 							) : (
 								<Stack spacing={3} alignItems="center">
@@ -117,15 +114,9 @@ export const Start: React.FC = () => {
 										</Typography>
 										<Typography textAlign="center">Your new adventure awaits you!</Typography>
 									</Stack>
-									<Stack alignItems="center">
-										<MuiLink component={Link} to="/create">
-											Create Character
-										</MuiLink>
-										<Typography textAlign="center">OR</Typography>
-										<MuiLink component={Link} to="/progress" color="text.secondary">
-											View Progress
-										</MuiLink>
-									</Stack>
+									<MuiLink component={Link} to="/create">
+										CREATE CHARACTER
+									</MuiLink>
 								</Stack>
 							)}
 						</Paper>
