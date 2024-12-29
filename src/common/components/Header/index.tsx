@@ -30,7 +30,7 @@ export const Header: React.FC = () => {
 	return (
 		<Box py={1}>
 			<Container maxWidth={false}>
-				<Box display="flex" justifyContent={{ xs: "space-between", sm: "flex-end" }} gap={{ xs: 1, sm: 3 }}>
+				<Box display="flex" justifyContent="flex-end" flexWrap="wrap" gap={{ xs: 2, sm: 3 }}>
 					{isRegistered && (
 						<Link component={NavLink} to="/progress" color="text.secondary">
 							Progress

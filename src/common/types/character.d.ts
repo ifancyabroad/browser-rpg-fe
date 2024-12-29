@@ -114,3 +114,11 @@ export interface IProgress {
 	deaths: number;
 	days: number;
 }
+
+export interface IDailyWinner {
+	id: string;
+	username: string;
+	name: string;
+	characterClass: string;
+	maxBattleLevel: number;
+}

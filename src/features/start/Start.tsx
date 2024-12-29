@@ -1,10 +1,11 @@
-import { alpha, Box, Container, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
+import { alpha, Box, Container, Divider, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { getHasActiveCharacter, retireCharacter } from "features/character";
-import { Fragment, useState } from "react";
+import { fetchDailyWinner, getHasActiveCharacter, retireCharacter } from "features/character";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ConfirmationModal, openErrorModal } from "features/modals";
-import { Dragon, Footer, Header, HoverButton } from "common/components";
+import { Dragon, Footer, Header, HoverButton, PageLoader } from "common/components";
+import { DailyWinner } from "./DailyWinner";
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -14,7 +15,23 @@ export const Start: React.FC = () => {
 	const user = useAppSelector((state) => state.authentication.user);
 	const character = useAppSelector((state) => state.character.character);
 	const status = useAppSelector((state) => state.character.status);
-	const isLoading = status === "loading";
+	const isCharacterLoading = status === "loading";
+	const dailyWinner = useAppSelector((state) => state.character.dailyWinner);
+	const dailyWinnerStatus = useAppSelector((state) => state.character.dailyWinnerStatus);
+	const isLoading = dailyWinnerStatus === "loading";
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				await dispatch(fetchDailyWinner()).unwrap();
+			} catch (err) {
+				const { message } = err as Error;
+				dispatch(openErrorModal({ message }));
+			}
+		};
+
+		fetchData();
+	}, [dispatch]);
 
 	const openConfirmationModal = () => {
 		setIsConfirmationOpen(true);
@@ -34,6 +51,10 @@ export const Start: React.FC = () => {
 			dispatch(openErrorModal({ message }));
 		}
 	};
+
+	if (isLoading) {
+		return <PageLoader />;
+	}
 
 	return (
 		<Fragment>
@@ -99,6 +120,8 @@ export const Start: React.FC = () => {
 											</MuiLink>
 										</Typography>
 									</HoverButton>
+									{dailyWinner && <Divider flexItem />}
+									<DailyWinner />
 								</Stack>
 							) : (
 								<Stack spacing={3} alignItems="center">
@@ -117,6 +140,8 @@ export const Start: React.FC = () => {
 									<MuiLink component={Link} to="/create">
 										CREATE CHARACTER
 									</MuiLink>
+									{dailyWinner && <Divider flexItem />}
+									<DailyWinner />
 								</Stack>
 							)}
 						</Paper>
@@ -132,7 +157,7 @@ export const Start: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleNewCharacter}
 				open={isConfirmationOpen}
-				disabled={isLoading}
+				disabled={isCharacterLoading}
 			/>
 		</Fragment>
 	);

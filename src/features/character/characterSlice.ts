@@ -8,6 +8,7 @@ import {
 	ICharacter,
 	ICharacterClass,
 	ICharacterPayload,
+	IDailyWinner,
 	ILevelUpPayload,
 	IProgress,
 } from "common/types";
@@ -19,6 +20,7 @@ interface ICharacterState {
 	characters: ICharacter[];
 	classes: ICharacterClass[];
 	progress: IProgress | null;
+	dailyWinner: IDailyWinner | null;
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
 	hasViewedItems: boolean;
@@ -27,6 +29,7 @@ interface ICharacterState {
 	classesStatus: "idle" | "loading" | "succeeded" | "failed";
 	progressStatus: "idle" | "loading" | "succeeded" | "failed";
 	characterByIDStatus: "idle" | "loading" | "succeeded" | "failed";
+	dailyWinnerStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
 }
 
@@ -38,11 +41,13 @@ const initialState: ICharacterState = {
 	hasViewedItems: false,
 	classes: [],
 	progress: null,
+	dailyWinner: null,
 	status: "idle",
 	characterStatus: "idle",
 	classesStatus: "idle",
 	progressStatus: "idle",
 	characterByIDStatus: "idle",
+	dailyWinnerStatus: "idle",
 };
 
 export const fetchCharacter = createAsyncThunk("character/fetchCharacter", async (_, { rejectWithValue }) => {
@@ -222,6 +227,19 @@ export const fetchCharacterByID = createAsyncThunk(
 		}
 	},
 );
+
+export const fetchDailyWinner = createAsyncThunk("character/fetchDailyWinner", async (_, { rejectWithValue }) => {
+	try {
+		const response = await axios.get<{ character: IDailyWinner | null }>(`/api/character/dailyWinner`);
+		return response.data.character;
+	} catch (err) {
+		const error = err as AxiosError<IApiError>;
+		if (!error.response) {
+			throw err;
+		}
+		return rejectWithValue(error.response.data.error);
+	}
+});
 
 export const characterSelector = (state: RootState) => state.character;
 
@@ -471,6 +489,17 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(fetchCharacterByID.rejected, (state, action) => {
 			state.characterByIDStatus = "failed";
+			state.error = action.error.message;
+		});
+		builder.addCase(fetchDailyWinner.pending, (state) => {
+			state.dailyWinnerStatus = "loading";
+		});
+		builder.addCase(fetchDailyWinner.fulfilled, (state, action) => {
+			state.dailyWinnerStatus = "succeeded";
+			state.dailyWinner = action.payload;
+		});
+		builder.addCase(fetchDailyWinner.rejected, (state, action) => {
+			state.dailyWinnerStatus = "failed";
 			state.error = action.error.message;
 		});
 	},

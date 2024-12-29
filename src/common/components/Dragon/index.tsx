@@ -4,18 +4,15 @@ import dragon2 from "assets/images/dragon/Dragon_1_zejymo_c_scale,w_1105.png";
 import dragon3 from "assets/images/dragon/Dragon_1_zejymo_c_scale,w_1478.png";
 import dragon4 from "assets/images/dragon/Dragon_1_zejymo_c_scale,w_1800.png";
 
-const Image = styled("img")(({ theme }) => ({
+const Image = styled("img")({
 	position: "absolute",
-	top: 10,
-	right: -200,
-	width: 500,
+	top: 0,
+	left: 0,
+	width: "100%",
+	height: "100%",
+	objectFit: "cover",
 	zIndex: -1,
-	[theme.breakpoints.up("sm")]: {
-		width: 600,
-		top: -40,
-		right: -300,
-	},
-}));
+});
 
 export const Dragon: React.FC = () => {
 	return (
