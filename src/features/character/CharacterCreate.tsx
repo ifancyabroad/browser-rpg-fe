@@ -1,4 +1,16 @@
-import { Box, Card, CardActions, CardContent, CardMedia, Container, Grid, Link, Typography } from "@mui/material";
+import {
+	Avatar,
+	Box,
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	CardMedia,
+	Container,
+	Grid,
+	Link,
+	Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { Fragment, useEffect, useState } from "react";
 import { createCharacter, fetchClasses, getHasActiveCharacter } from "./characterSlice";
@@ -93,15 +105,29 @@ export const CharacterCreate: React.FC = () => {
 							</Box>
 						) : (
 							<Grid container spacing={2} justifyContent="center">
-								{classes.map(({ id, portrait, name, description }) => (
-									<Grid key={id} item xs={12} sm={3}>
+								{classes.map(({ id, portrait, name, description, icon }) => (
+									<Grid key={id} item xs={12} md={3}>
 										<Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+											<CardHeader
+												sx={{
+													display: { md: "none" },
+												}}
+												avatar={<Avatar alt={name} src={icon} sx={{ width: 56, height: 56 }} />}
+												title={name}
+												titleTypographyProps={{ color: "text.secondary" }}
+												subheader={description}
+												subheaderTypographyProps={{ color: "text.primary" }}
+											/>
 											<CardMedia
-												sx={{ height: 300, backgroundPosition: "top" }}
+												sx={{
+													height: 300,
+													backgroundPosition: "top",
+													display: { xs: "none", md: "block" },
+												}}
 												image={portrait}
 												title={name}
 											/>
-											<CardContent sx={{ flex: 1 }}>
+											<CardContent sx={{ flex: 1, display: { xs: "none", md: "block" } }}>
 												<Typography color="text.secondary" gutterBottom>
 													{name}
 												</Typography>

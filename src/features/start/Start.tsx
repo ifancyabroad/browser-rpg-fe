@@ -62,12 +62,20 @@ export const Start: React.FC = () => {
 									<Typography variant="h1" textAlign="center">
 										Browser Heroes
 									</Typography>
-									<Typography textAlign="center">
-										<MuiLink component="button" onClick={openConfirmationModal}>
-											Click here
-										</MuiLink>{" "}
-										to start a new game or continue the below journey.
-									</Typography>
+									<Stack spacing={1}>
+										<Typography textAlign="center">
+											Welcome back{" "}
+											<Box component="span" color="text.secondary">
+												{user?.username}
+											</Box>
+										</Typography>
+										<Typography textAlign="center">
+											<MuiLink component="button" onClick={openConfirmationModal}>
+												Click here
+											</MuiLink>{" "}
+											to start a new game or continue the below journey.
+										</Typography>
+									</Stack>
 									<HoverButton
 										component="div"
 										isActive
@@ -100,7 +108,7 @@ export const Start: React.FC = () => {
 									<Typography variant="h1" textAlign="center">
 										Browser Heroes
 									</Typography>
-									<Box>
+									<Stack spacing={1}>
 										<Typography textAlign="center">
 											Welcome{" "}
 											<Box component="span" color="text.secondary">
@@ -108,7 +116,7 @@ export const Start: React.FC = () => {
 											</Box>
 										</Typography>
 										<Typography textAlign="center">Your new adventure awaits you!</Typography>
-									</Box>
+									</Stack>
 									<Stack alignItems="center">
 										<MuiLink component={Link} to="/create">
 											Create Character
