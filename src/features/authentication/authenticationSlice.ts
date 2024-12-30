@@ -118,7 +118,7 @@ export const authenticationSlice = createSlice({
 		});
 		builder.addCase(fetchSession.fulfilled, (state, action) => {
 			state.status = "succeeded";
-			state.session = true;
+			state.session = Boolean(action.payload.user);
 			state.sessionChecked = true;
 			state.user = action.payload.user;
 		});
