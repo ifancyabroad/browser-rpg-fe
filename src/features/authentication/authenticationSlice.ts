@@ -20,7 +20,7 @@ const initialState: IAuthenticationState = {
 
 export const fetchSession = createAsyncThunk("authentication/fetchSession", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<{ user: IUser }>("/api/auth/session");
+		const response = await axios.get<{ user: IUser | null }>("/api/auth/session");
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
