@@ -6,6 +6,7 @@ import dungeon from "assets/images/tutorial/tile365.png";
 import merchant from "assets/images/tutorial/tile549.png";
 import hut from "assets/images/tutorial/tile326.png";
 import salvageChest from "assets/images/tutorial/tile413.png";
+import { STATS, STATS_NAME_MAP, STATS_SHORT_DESCRIPTION_MAP } from "common/utils";
 
 export const HowToPlayModal: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -111,6 +112,19 @@ export const HowToPlayModal: React.FC = () => {
 					Defeating monsters will earn you experience points. Gain enough experience points to level up and
 					improve your attributes and abilities.
 				</DialogContentText>
+				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
+					Attributes
+				</DialogContentText>
+				<Stack spacing={1} mb={2}>
+					{STATS.map((stat) => (
+						<DialogContentText key={stat} textAlign="left">
+							<Box component="span" color="text.secondary">
+								{STATS_NAME_MAP[stat]}:
+							</Box>{" "}
+							{STATS_SHORT_DESCRIPTION_MAP[stat]}
+						</DialogContentText>
+					))}
+				</Stack>
 				<DialogContentText textAlign="left" sx={{ color: "info.light" }}>
 					Equipment
 				</DialogContentText>

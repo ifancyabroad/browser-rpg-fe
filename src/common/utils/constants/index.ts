@@ -63,11 +63,21 @@ export const STATS_DESCRIPTION_MAP: Record<Stat, string> = {
 	[Stat.Constitution]:
 		"Constitution represents your character's health and stamina. A high Constitution increases hit points.",
 	[Stat.Dexterity]:
-		"Dexterity measures agility, reflexes, and balance. It affects initiative and skill with certain weapons.",
+		"Dexterity measures agility, reflexes, and balance. It affects initiative, armour class with light or medium armour and skill with certain weapons.",
 	[Stat.Intelligence]:
 		"Intelligence reflects your character's ability to learn and reason. It affects damage of wizard skills.",
 	[Stat.Strength]: "Strength measures your character's physical power. It affects skill with certain weapons.",
 	[Stat.Wisdom]: "Wisdom represents your character's insight and intuition. It affects damage of cleric skills.",
+};
+
+export const STATS_SHORT_DESCRIPTION_MAP: Record<Stat, string> = {
+	[Stat.Charisma]: "Reduces all prices.",
+	[Stat.Constitution]: "Increases hit points.",
+	[Stat.Dexterity]:
+		"Increases proficiency with certain weapons, armour class with light or medium armour and determines turn order.",
+	[Stat.Intelligence]: "Increases damage of wizard skills.",
+	[Stat.Strength]: "Increases proficiency with certain weapons.",
+	[Stat.Wisdom]: "Increases damage of cleric skills.",
 };
 
 export const AUXILIARY_STATS_ABBR_MAP: Record<AuxiliaryStat, string> = {
