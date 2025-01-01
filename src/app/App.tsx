@@ -35,6 +35,7 @@ function App() {
 								<Route path="/game" element={<Game />}>
 									<Route index element={<Dungeon />} />
 								</Route>
+								<Route path="*" element={<Navigate to="/" replace />} />
 							</Routes>
 						</HOCLayout>
 					</HOCGameData>
