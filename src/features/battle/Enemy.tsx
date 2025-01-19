@@ -6,7 +6,7 @@ import { useState } from "react";
 import { CombatLog } from "./CombatLog";
 
 const EnemyPortrait: React.FC = () => {
-	const enemy = useAppSelector((state) => state.battle.battle?.enemy);
+	const enemy = useAppSelector((state) => state.battle.enemy);
 
 	if (!enemy) {
 		return null;
@@ -39,7 +39,7 @@ const EnemyPortrait: React.FC = () => {
 };
 
 export const Enemy: React.FC = () => {
-	const enemy = useAppSelector((state) => state.battle.battle?.enemy);
+	const enemy = useAppSelector((state) => state.battle.enemy);
 	const [enemyTab, setEnemyTab] = useState(EnemyTab.CombatLog);
 	const showCombatLog = enemyTab === EnemyTab.CombatLog;
 

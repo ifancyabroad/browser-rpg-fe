@@ -13,6 +13,7 @@ export const GameOverModal: React.FC = () => {
 	const isRegistered = useAppSelector(getIsRegistered);
 	const character = useAppSelector((state) => state.character.character);
 	const battle = useAppSelector((state) => state.battle.battle);
+	const enemy = useAppSelector((state) => state.battle.enemy);
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
 
@@ -40,11 +41,11 @@ export const GameOverModal: React.FC = () => {
 		dispatch(closeGameOverModal());
 	};
 
-	if (!battle || !character) {
+	if (!battle || !character || !enemy) {
 		return null;
 	}
 
-	const { name } = battle.enemy;
+	const { name } = enemy;
 	const determiner = getDeterminer(name);
 
 	return (

@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import axios, { AxiosError } from "axios";
-import { IActionPayload, IApiError, IBattle, ICharacter, ITreasurePayload } from "common/types";
+import { IActionPayload, IApiError, IBattle, ICharacter, IEnemy, ITreasurePayload } from "common/types";
 
 interface IGameState {
 	battle: IBattle | null;
+	enemy: IEnemy | null;
 	status: "idle" | "loading" | "succeeded" | "failed";
 	modalStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -12,13 +13,16 @@ interface IGameState {
 
 const initialState: IGameState = {
 	battle: null,
+	enemy: null,
 	status: "idle",
 	modalStatus: "idle",
 };
 
 export const startBattle = createAsyncThunk("battle/startBattle", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/start");
+		const response = await axios.post<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>(
+			"/api/battle/start",
+		);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -31,7 +35,9 @@ export const startBattle = createAsyncThunk("battle/startBattle", async (_, { re
 
 export const nextBattle = createAsyncThunk("battle/nextBattle", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/next");
+		const response = await axios.post<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>(
+			"/api/battle/next",
+		);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -44,7 +50,7 @@ export const nextBattle = createAsyncThunk("battle/nextBattle", async (_, { reje
 
 export const fetchBattle = createAsyncThunk("battle/fetchBattle", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.get<{ battle: IBattle; character: ICharacter }>("/api/battle");
+		const response = await axios.get<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>("/api/battle");
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -59,7 +65,7 @@ export const postAction = createAsyncThunk(
 	"battle/postAction",
 	async (payload: IActionPayload, { rejectWithValue }) => {
 		try {
-			const response = await axios.post<{ battle: IBattle; character: ICharacter }>(
+			const response = await axios.post<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>(
 				"/api/battle/action",
 				payload,
 			);
@@ -78,7 +84,7 @@ export const takeTreasure = createAsyncThunk(
 	"character/takeTreasure",
 	async (payload: ITreasurePayload, { rejectWithValue }) => {
 		try {
-			const response = await axios.post<{ battle: IBattle; character: ICharacter }>(
+			const response = await axios.post<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>(
 				"/api/battle/takeTreasure",
 				payload,
 			);
@@ -95,7 +101,9 @@ export const takeTreasure = createAsyncThunk(
 
 export const returnToTown = createAsyncThunk("battle/returnToTown", async (_, { rejectWithValue }) => {
 	try {
-		const response = await axios.post<{ battle: IBattle; character: ICharacter }>("/api/battle/return");
+		const response = await axios.post<{ battle: IBattle; character: ICharacter; enemy: IEnemy }>(
+			"/api/battle/return",
+		);
 		return response.data;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
@@ -129,6 +137,7 @@ export const battleSlice = createSlice({
 			state.status = "succeeded";
 			state.modalStatus = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(startBattle.rejected, (state, action) => {
 			state.status = "failed";
@@ -143,6 +152,7 @@ export const battleSlice = createSlice({
 			state.status = "succeeded";
 			state.modalStatus = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(nextBattle.rejected, (state, action) => {
 			state.status = "failed";
@@ -157,6 +167,7 @@ export const battleSlice = createSlice({
 			state.status = "succeeded";
 			state.modalStatus = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(fetchBattle.rejected, (state, action) => {
 			state.status = "failed";
@@ -169,6 +180,7 @@ export const battleSlice = createSlice({
 		builder.addCase(postAction.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(postAction.rejected, (state, action) => {
 			state.status = "failed";
@@ -180,6 +192,7 @@ export const battleSlice = createSlice({
 		builder.addCase(takeTreasure.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(takeTreasure.rejected, (state, action) => {
 			state.status = "failed";
@@ -191,6 +204,7 @@ export const battleSlice = createSlice({
 		builder.addCase(returnToTown.fulfilled, (state, action) => {
 			state.status = "succeeded";
 			state.battle = action.payload.battle;
+			state.enemy = action.payload.enemy;
 		});
 		builder.addCase(returnToTown.rejected, (state, action) => {
 			state.status = "failed";

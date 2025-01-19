@@ -16,6 +16,7 @@ export const RewardsModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const open = useAppSelector((state) => state.modals.rewardsModalOpen);
 	const battle = useAppSelector((state) => state.battle.battle);
+	const enemy = useAppSelector((state) => state.battle.enemy);
 	const status = useAppSelector((state) => state.battle.status);
 	const isLoading = status === "loading";
 	const showLevelUp = useAppSelector(getLevelUpAvailable);
@@ -63,12 +64,12 @@ export const RewardsModal: React.FC = () => {
 		dispatch(closeRewardsModal());
 	};
 
-	if (!battle || !battle.reward || !character) {
+	if (!battle || !battle.reward || !character || !enemy) {
 		return null;
 	}
 
 	const { experience, gold } = battle.reward;
-	const { name, boss, hero } = battle.enemy;
+	const { name, boss, hero } = enemy;
 	const prefix = boss || hero ? "" : "the ";
 	const nextBattleLevel = character.maxBattleLevel + 1;
 	const nextBattleBoss = nextBattleLevel % 10 === 0;
