@@ -18,3 +18,4 @@ export * from "./EquipmentIcon";
 export * from "./EquipmentLink";
 export * from "./StatBonuses";
 export * from "./Dragon";
+export * from "./CoffeeButton";
