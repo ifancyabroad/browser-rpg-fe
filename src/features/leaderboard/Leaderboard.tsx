@@ -22,9 +22,9 @@ import {
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
-import { CHARACTER_STATUS_MAP, CharacterClassTab, LeaderboardTab, Status } from "common/utils";
+import { CharacterClassTab, LeaderboardTab } from "common/utils";
 
 const StyledTab = styled(Tab)(({ theme }) => ({
 	minWidth: 0,
@@ -113,11 +113,28 @@ export const Leaderboard: React.FC = () => {
 									<TableCell sx={{ color: "info.light" }}>Name</TableCell>
 									<TableCell
 										align="right"
-										sx={{ color: "info.light", display: { xs: "none", md: "table-cell" } }}
+										sx={{
+											color: "info.light",
+											width: 80,
+											display: { xs: "none", sm: "table-cell" },
+										}}
 									>
-										Status
+										Gold
 									</TableCell>
-									<TableCell align="right" sx={{ color: "info.light" }}>
+									<TableCell
+										align="right"
+										sx={{
+											color: "info.light",
+											width: 80,
+											display: { xs: "none", sm: "table-cell" },
+										}}
+									>
+										Day
+									</TableCell>
+									<TableCell
+										align="right"
+										sx={{ color: "info.light", width: { xs: "auto", sm: 80 } }}
+									>
 										Kills
 									</TableCell>
 								</TableRow>
@@ -177,21 +194,21 @@ export const Leaderboard: React.FC = () => {
 													</Box>
 												</Box>
 											</TableCell>
-											<TableCell align="right" sx={{ display: { xs: "none", md: "table-cell" } }}>
-												{character.status === Status.Dead ? (
-													<Fragment>
-														Slain By{" "}
-														<Box component="span" color="text.secondary">
-															{character.slainBy}
-														</Box>
-													</Fragment>
-												) : (
-													<Box component="span" color="text.secondary">
-														{CHARACTER_STATUS_MAP[character.status as Status]}
-													</Box>
-												)}
+											<TableCell
+												align="right"
+												sx={{ width: 80, display: { xs: "none", sm: "table-cell" } }}
+											>
+												{character.gold}
 											</TableCell>
-											<TableCell align="right">{character.kills}</TableCell>
+											<TableCell
+												align="right"
+												sx={{ width: 80, display: { xs: "none", sm: "table-cell" } }}
+											>
+												{character.day}
+											</TableCell>
+											<TableCell align="right" sx={{ width: { xs: "auto", sm: 80 } }}>
+												{character.kills}
+											</TableCell>
 										</TableRow>
 									))
 								)}

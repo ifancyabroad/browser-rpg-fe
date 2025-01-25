@@ -16,8 +16,9 @@ import {
 	SKILL_TYPE_NAME_MAP,
 	STATS,
 	STATS_NAME_MAP,
+	Status,
 } from "common/utils";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { fetchCharacterByID } from "features/character";
 
 interface IBonus {
@@ -136,6 +137,9 @@ const CharacterContent: React.FC<ICharacter> = (character) => {
 		armourClass,
 		equipment,
 		activeStatusEffects,
+		status,
+		slainBy,
+		day,
 	} = character;
 	const { portrait } = characterClass;
 	const baseArmourClass = equipment.body?.armourClass ?? 0;
@@ -196,6 +200,19 @@ const CharacterContent: React.FC<ICharacter> = (character) => {
 						</Typography>
 						<Typography>
 							{kills} {kills === 1 ? "kill" : "kills"}
+						</Typography>
+						<Typography>
+							{day} {day === 1 ? "day" : "days"}
+						</Typography>
+						<Typography>
+							{
+								{
+									[Status.Alive]: "Alive",
+									[Status.Complete]: null, // Not being used
+									[Status.Retired]: "Retired",
+									[Status.Dead]: <Fragment>Slain By {slainBy}</Fragment>,
+								}[status]
+							}
 						</Typography>
 					</Box>
 				</Box>
