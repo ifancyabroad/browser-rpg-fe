@@ -265,6 +265,7 @@ const theme = createTheme({
 				body: {
 					// scrollbarColor: "#6b6b6b #293132",
 					"&::-webkit-scrollbar, & *::-webkit-scrollbar": {
+						height: 2,
 						width: 2,
 					},
 					"&::-webkit-scrollbar-thumb, & *::-webkit-scrollbar-thumb": {

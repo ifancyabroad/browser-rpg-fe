@@ -10,7 +10,6 @@ import {
 	ICharacterPayload,
 	IDailyWinner,
 	ILevelUpPayload,
-	IProgress,
 } from "common/types";
 import { CharacterSheetTab, getItemPropertyBonus, PropertyType, Status, WeaponSize } from "common/utils";
 import { fetchBattle, postAction, returnToTown, startBattle, takeTreasure } from "features/battle";
@@ -19,7 +18,6 @@ interface ICharacterState {
 	character: ICharacter | null;
 	characters: ICharacter[];
 	classes: ICharacterClass[];
-	progress: IProgress | null;
 	dailyWinner: IDailyWinner | null;
 	isCharacterSheetOpen: boolean;
 	characterSheetTab: CharacterSheetTab;
@@ -27,7 +25,6 @@ interface ICharacterState {
 	status: "idle" | "loading" | "succeeded" | "failed";
 	characterStatus: "idle" | "loading" | "succeeded" | "failed";
 	classesStatus: "idle" | "loading" | "succeeded" | "failed";
-	progressStatus: "idle" | "loading" | "succeeded" | "failed";
 	characterByIDStatus: "idle" | "loading" | "succeeded" | "failed";
 	dailyWinnerStatus: "idle" | "loading" | "succeeded" | "failed";
 	error?: string;
@@ -40,12 +37,10 @@ const initialState: ICharacterState = {
 	characterSheetTab: CharacterSheetTab.Details,
 	hasViewedItems: false,
 	classes: [],
-	progress: null,
 	dailyWinner: null,
 	status: "idle",
 	characterStatus: "idle",
 	classesStatus: "idle",
-	progressStatus: "idle",
 	characterByIDStatus: "idle",
 	dailyWinnerStatus: "idle",
 };
@@ -190,19 +185,6 @@ export const salvageGold = createAsyncThunk("character/salvageGold", async (_, {
 	try {
 		const response = await axios.post<{ character: ICharacter }>("/api/character/salvage");
 		return response.data.character;
-	} catch (err) {
-		const error = err as AxiosError<IApiError>;
-		if (!error.response) {
-			throw err;
-		}
-		return rejectWithValue(error.response.data.error);
-	}
-});
-
-export const fetchProgress = createAsyncThunk("character/fetchProgress", async (_, { rejectWithValue }) => {
-	try {
-		const response = await axios.get<{ progress: IProgress }>("/api/character/progress");
-		return response.data.progress;
 	} catch (err) {
 		const error = err as AxiosError<IApiError>;
 		if (!error.response) {
@@ -468,17 +450,6 @@ export const characterSlice = createSlice({
 		});
 		builder.addCase(returnToTown.fulfilled, (state, action) => {
 			state.character = action.payload.character;
-		});
-		builder.addCase(fetchProgress.pending, (state) => {
-			state.progressStatus = "loading";
-		});
-		builder.addCase(fetchProgress.fulfilled, (state, action) => {
-			state.progressStatus = "succeeded";
-			state.progress = action.payload;
-		});
-		builder.addCase(fetchProgress.rejected, (state, action) => {
-			state.progressStatus = "failed";
-			state.error = action.error.message;
 		});
 		builder.addCase(fetchCharacterByID.pending, (state) => {
 			state.characterByIDStatus = "loading";

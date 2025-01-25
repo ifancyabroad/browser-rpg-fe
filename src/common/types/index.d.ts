@@ -17,3 +17,4 @@ export * from "./level";
 export * from "./leaderboard";
 export * from "./contact";
 export * from "./message";
+export * from "./stats";

@@ -5,6 +5,7 @@ import characterReducer from "features/character/characterSlice";
 import battleReducer from "features/battle/battleSlice";
 import leaderboardReducer from "features/leaderboard/leaderboardSlice";
 import contactReducer from "features/contact/contactSlice";
+import statsReducer from "features/stats/statsSlice";
 
 export const store = configureStore({
 	reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
 		battle: battleReducer,
 		leaderboard: leaderboardReducer,
 		contact: contactReducer,
+		stats: statsReducer,
 	},
 });
 

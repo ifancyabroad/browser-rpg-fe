@@ -207,3 +207,12 @@ export enum EnemyTab {
 	Portrait,
 	CombatLog,
 }
+
+export enum HistorySortStat {
+	Name = "name",
+	Level = "level",
+	CharacterClass = "characterClass",
+	Kills = "kills",
+	Day = "day",
+	UpdatedAt = "updatedAt",
+}

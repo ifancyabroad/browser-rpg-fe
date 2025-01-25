@@ -32,8 +32,8 @@ export const Header: React.FC = () => {
 			<Container maxWidth={false}>
 				<Box display="flex" justifyContent="flex-end" flexWrap="wrap" gap={{ xs: 2, sm: 3 }}>
 					{isRegistered && (
-						<Link component={NavLink} to="/progress" color="text.secondary">
-							Progress
+						<Link component={NavLink} to="/stats" color="text.secondary">
+							Stats
 						</Link>
 					)}
 					{isLoggedIn && (
