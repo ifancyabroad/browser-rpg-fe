@@ -354,7 +354,7 @@ export const Stats: React.FC = () => {
 		>
 			<Header />
 
-			<Box flex={1}>
+			<Box flex={1} py={2}>
 				<Container maxWidth="md">
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
