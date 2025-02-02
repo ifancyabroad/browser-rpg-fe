@@ -39,6 +39,14 @@ export enum AuxiliaryEffect {
 	Stun = "stun",
 	Bleed = "bleed",
 	Disarm = "disarm",
+	Silence = "silence",
+	Blind = "blind",
+	Frenzy = "frenzy",
+	Charm = "charm",
+	Haste = "haste",
+	Cripple = "cripple",
+	Bless = "bless",
+	Curse = "curse",
 }
 
 export enum SkillClass {
@@ -196,11 +204,14 @@ export enum LeaderboardTab {
 	User = "user",
 }
 
-export enum CharacterClassTab {
-	All = "all",
+export enum CharacterClass {
 	Fighter = "fighter",
 	Thief = "thief",
 	Mage = "mage",
+	Priest = "priest",
+	Paladin = "paladin",
+	Battlemage = "battlemage",
+	Shadowblade = "shadowblade",
 }
 
 export enum EnemyTab {

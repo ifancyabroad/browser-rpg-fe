@@ -2,6 +2,7 @@ import {
 	ArmourType,
 	AuxiliaryEffect,
 	AuxiliaryStat,
+	CharacterClass,
 	DamageType,
 	EquipmentSlot,
 	EquipmentType,
@@ -136,6 +137,14 @@ export const AUXILIARY_EFFECTS_NAME_MAP: Record<AuxiliaryEffect, string> = {
 	[AuxiliaryEffect.Stun]: "Stun",
 	[AuxiliaryEffect.Bleed]: "Bleed",
 	[AuxiliaryEffect.Disarm]: "Disarm",
+	[AuxiliaryEffect.Silence]: "Silence",
+	[AuxiliaryEffect.Blind]: "Blind",
+	[AuxiliaryEffect.Frenzy]: "Frenzy",
+	[AuxiliaryEffect.Charm]: "Charm",
+	[AuxiliaryEffect.Haste]: "Haste",
+	[AuxiliaryEffect.Cripple]: "Cripple",
+	[AuxiliaryEffect.Bless]: "Bless",
+	[AuxiliaryEffect.Curse]: "Curse",
 };
 
 export const AUXILIARY_EFFECTS_DESCRIPTION_MAP: Record<AuxiliaryEffect, string> = {
@@ -143,6 +152,14 @@ export const AUXILIARY_EFFECTS_DESCRIPTION_MAP: Record<AuxiliaryEffect, string> 
 	[AuxiliaryEffect.Stun]: "Prevents any action.",
 	[AuxiliaryEffect.Bleed]: "Increases damage taken from physical attacks.",
 	[AuxiliaryEffect.Disarm]: "Cannot use weapons.",
+	[AuxiliaryEffect.Silence]: "Cannot use spells.",
+	[AuxiliaryEffect.Blind]: "Decreases hit chance.",
+	[AuxiliaryEffect.Frenzy]: "Increases damage dealt based on missing health.",
+	[AuxiliaryEffect.Charm]: "Chance for attacks to hit user.",
+	[AuxiliaryEffect.Haste]: "Always goes first.",
+	[AuxiliaryEffect.Cripple]: "Always goes last.",
+	[AuxiliaryEffect.Bless]: "Passes all saving throws.",
+	[AuxiliaryEffect.Curse]: "Fails all saving throws.",
 };
 
 export const AUXILIARY_EFFECTS_NAME_MAP_PASSED: Record<AuxiliaryEffect, string> = {
@@ -150,6 +167,14 @@ export const AUXILIARY_EFFECTS_NAME_MAP_PASSED: Record<AuxiliaryEffect, string> 
 	[AuxiliaryEffect.Stun]: "Stunned",
 	[AuxiliaryEffect.Bleed]: "Bled",
 	[AuxiliaryEffect.Disarm]: "Disarmed",
+	[AuxiliaryEffect.Silence]: "Silenced",
+	[AuxiliaryEffect.Blind]: "Blinded",
+	[AuxiliaryEffect.Frenzy]: "Frenzied",
+	[AuxiliaryEffect.Charm]: "Charmed",
+	[AuxiliaryEffect.Haste]: "Hasted",
+	[AuxiliaryEffect.Cripple]: "Crippled",
+	[AuxiliaryEffect.Bless]: "Blessed",
+	[AuxiliaryEffect.Curse]: "Cursed",
 };
 
 export const CLASS_NAME_MAP: Record<SkillClass, string> = {
@@ -290,6 +315,26 @@ export const WEAPON_MODIFIER_MAP = new Map([
 	[WeaponType.Sword, Stat.Strength],
 	[WeaponType.Wand, Stat.Intelligence],
 ]);
+
+export const CHARACTER_CLASSES = [
+	CharacterClass.Fighter,
+	CharacterClass.Mage,
+	CharacterClass.Thief,
+	CharacterClass.Priest,
+	CharacterClass.Paladin,
+	CharacterClass.Battlemage,
+	CharacterClass.Shadowblade,
+];
+
+export const CHARACTER_CLASS_NAME_MAP: Record<CharacterClass, string> = {
+	[CharacterClass.Fighter]: "Fighter",
+	[CharacterClass.Mage]: "Mage",
+	[CharacterClass.Thief]: "Thief",
+	[CharacterClass.Priest]: "Priest",
+	[CharacterClass.Paladin]: "Paladin",
+	[CharacterClass.Battlemage]: "Battlemage",
+	[CharacterClass.Shadowblade]: "Shadowblade",
+};
 
 export const REWARD_GOLD_MULTIPLIER = 10;
 export const MAX_SKILLS = 7;

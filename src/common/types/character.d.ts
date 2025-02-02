@@ -1,4 +1,4 @@
-import { ArmourType, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
+import { ArmourType, AuxiliaryEffect, EquipmentSlot, SkillClass, Stat, State, Status, WeaponType } from "common/utils";
 import { IActiveEffect, IArmour, IEquipment, ISkill, IStatus, IWeapon, TDamageTypes, TStats } from "common/types";
 
 export interface ICharacterClass {
@@ -77,6 +77,7 @@ export interface ICharacter {
 	goldValue: number;
 	salvageValue: number;
 	salvage: ISalvage;
+	auxiliaryEffects: Record<AuxiliaryEffect, boolean>;
 }
 
 export interface IBuyItemPayload {

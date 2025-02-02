@@ -215,6 +215,14 @@ const Action: React.FC<IAction> = ({ self, enemy, skill, weapon, activeEffects }
 						),
 						[AuxiliaryEffect.Bleed]: null,
 						[AuxiliaryEffect.Disarm]: null,
+						[AuxiliaryEffect.Silence]: null,
+						[AuxiliaryEffect.Blind]: null,
+						[AuxiliaryEffect.Frenzy]: null,
+						[AuxiliaryEffect.Charm]: null,
+						[AuxiliaryEffect.Haste]: null,
+						[AuxiliaryEffect.Cripple]: null,
+						[AuxiliaryEffect.Bless]: null,
+						[AuxiliaryEffect.Curse]: null,
 					})[effect.effect as AuxiliaryEffect],
 			)}
 		</Fragment>

@@ -4,6 +4,7 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
+	IconButton,
 	Link,
 	Stack,
 	styled,
@@ -24,7 +25,11 @@ import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
 import { Loader } from "common/components";
 import { useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
-import { CharacterClassTab, LeaderboardTab } from "common/utils";
+import { CHARACTER_CLASS_NAME_MAP, CHARACTER_CLASSES, CharacterClass, LeaderboardTab } from "common/utils";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+
+type CharacterClassTab = "all" | CharacterClass;
 
 const StyledTab = styled(Tab)(({ theme }) => ({
 	minWidth: 0,
@@ -38,7 +43,7 @@ export const Leaderboard: React.FC = () => {
 	const status = useAppSelector((state) => state.leaderboard.status);
 	const isLoading = status === "loading";
 	const [leaderboardTab, setLeaderboardTab] = useState<LeaderboardTab>(LeaderboardTab.Daily);
-	const [characterClass, setCharacterClass] = useState<CharacterClassTab>(CharacterClassTab.All);
+	const [characterClass, setCharacterClass] = useState<CharacterClassTab>("all");
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 	const noRankings = rankings.length === 0 && status === "succeeded";
@@ -66,8 +71,24 @@ export const Leaderboard: React.FC = () => {
 		setLeaderboardTab(newValue);
 	};
 
-	const handleChangeClass = (event: React.SyntheticEvent, newValue: CharacterClassTab) => {
-		setCharacterClass(newValue);
+	const handlePreviousClass = () => {
+		if (characterClass === "all") {
+			setCharacterClass(CHARACTER_CLASSES[CHARACTER_CLASSES.length - 1]);
+			return;
+		}
+		const index = CHARACTER_CLASSES.indexOf(characterClass);
+		const previousClass = CHARACTER_CLASSES[index - 1] || "all";
+		setCharacterClass(previousClass);
+	};
+
+	const handleNextClass = () => {
+		if (characterClass === "all") {
+			setCharacterClass(CHARACTER_CLASSES[0]);
+			return;
+		}
+		const index = CHARACTER_CLASSES.indexOf(characterClass);
+		const nextClass = CHARACTER_CLASSES[index + 1] || "all";
+		setCharacterClass(nextClass);
 	};
 
 	const handleViewHero = (id: string) => {
@@ -88,17 +109,49 @@ export const Leaderboard: React.FC = () => {
 			<DialogContent>
 				<Box>
 					<Stack spacing={0.5}>
-						<Tabs value={leaderboardTab} onChange={handleChangeTab} variant="fullWidth">
-							<StyledTab label="Daily" value={LeaderboardTab.Daily} />
-							<StyledTab label="Overall" value={LeaderboardTab.Overall} />
-							<StyledTab label="Your Heroes" value={LeaderboardTab.User} />
-						</Tabs>
-						<Tabs value={characterClass} onChange={handleChangeClass} variant="fullWidth">
-							<StyledTab label="All" value={CharacterClassTab.All} />
-							<StyledTab label="Fighter" value={CharacterClassTab.Fighter} />
-							<StyledTab label="Thief" value={CharacterClassTab.Thief} />
-							<StyledTab label="Mage" value={CharacterClassTab.Mage} />
-						</Tabs>
+						<Box
+							display="flex"
+							alignItems="stretch"
+							justifyContent="space-between"
+							gap={0.5}
+							flexDirection={{
+								xs: "column",
+								sm: "row",
+							}}
+						>
+							<Box
+								sx={{
+									flex: 1,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "space-between",
+									border: "1px solid #757575",
+									backgroundColor: "#000",
+								}}
+							>
+								<IconButton onClick={handlePreviousClass} disabled={isLoading} sx={{ p: 0.5 }}>
+									<ArrowLeftIcon />
+								</IconButton>
+								<Typography color="text.secondary" textAlign="center">
+									{characterClass === "all"
+										? "All Classes"
+										: CHARACTER_CLASS_NAME_MAP[characterClass]}
+								</Typography>
+								<IconButton onClick={handleNextClass} disabled={isLoading} sx={{ p: 0.5 }}>
+									<ArrowRightIcon />
+								</IconButton>
+							</Box>
+							<Tabs
+								value={leaderboardTab}
+								onChange={handleChangeTab}
+								variant="fullWidth"
+								sx={{ flex: 3 }}
+							>
+								<StyledTab label="Daily" value={LeaderboardTab.Daily} />
+								<StyledTab label="Overall" value={LeaderboardTab.Overall} />
+								<StyledTab label="Your Heroes" value={LeaderboardTab.User} />
+							</Tabs>
+						</Box>
 					</Stack>
 					<TableContainer sx={{ minHeight: 600 }}>
 						<Table size="small" sx={{ bgcolor: "#000" }}>

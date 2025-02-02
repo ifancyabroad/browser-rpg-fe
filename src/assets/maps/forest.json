@@ -2584,9 +2584,14 @@
                  "id":544,
                  "properties":[
                         {
-                         "name":"blocking",
-                         "type":"bool",
-                         "value":true
+                         "name":"class",
+                         "type":"string",
+                         "value":"Thief"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
                         }]
                 }, 
                 {
@@ -2595,7 +2600,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Thief"
+                         "value":"Fighter"
                         }, 
                         {
                          "name":"type",
@@ -2624,7 +2629,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Fighter"
+                         "value":"Paladin"
                         }, 
                         {
                          "name":"type",
@@ -2639,6 +2644,62 @@
                          "name":"type",
                          "type":"string",
                          "value":"merchant"
+                        }]
+                }, 
+                {
+                 "id":550,
+                 "properties":[
+                        {
+                         "name":"class",
+                         "type":"string",
+                         "value":"Priest"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
+                        }]
+                }, 
+                {
+                 "id":551,
+                 "properties":[
+                        {
+                         "name":"class",
+                         "type":"string",
+                         "value":"Sorcerer"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
+                        }]
+                }, 
+                {
+                 "id":552,
+                 "properties":[
+                        {
+                         "name":"class",
+                         "type":"string",
+                         "value":"Shadowblade"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
+                        }]
+                }, 
+                {
+                 "id":553,
+                 "properties":[
+                        {
+                         "name":"class",
+                         "type":"string",
+                         "value":"Battlemage"
+                        }, 
+                        {
+                         "name":"type",
+                         "type":"string",
+                         "value":"hero"
                         }]
                 }, 
                 {
@@ -2730,7 +2791,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":574,
                  "properties":[
@@ -2766,8 +2828,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":578,
                  "properties":[
@@ -2875,7 +2936,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":595,
                  "properties":[
@@ -2911,8 +2973,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":604,
                  "properties":[
@@ -3020,7 +3081,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":621,
                  "properties":[
@@ -3056,8 +3118,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":625,
                  "properties":[
