@@ -13,6 +13,7 @@ export interface IDamageEffect {
 	damageType: DamageType;
 	min: number;
 	max: number;
+	modifier?: Stat;
 }
 
 export interface IHealEffect {
@@ -20,6 +21,7 @@ export interface IHealEffect {
 	target: Target;
 	min: number;
 	max: number;
+	modifier?: Stat;
 }
 
 export interface IStatusEffect {

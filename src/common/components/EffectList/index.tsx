@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/material";
+import { Box, Stack, Tooltip, Typography } from "@mui/material";
 import {
 	IAuxiliaryEffect,
 	IDamageEffect,
@@ -11,6 +11,7 @@ import {
 	AUXILIARY_EFFECTS_NAME_MAP_PASSED,
 	EffectType,
 	RESISTANCES_NAME_MAP,
+	STATS_ABBR_MAP,
 	STATS_NAME_MAP,
 	Target,
 	getPropertyText,
@@ -23,9 +24,16 @@ const TARGET_NAME_MAP: Record<Target, string> = {
 	[Target.Self]: "User",
 };
 
-const DamageEffect: React.FC<IDamageEffect> = ({ damageType, min, max, target }) => (
+const DamageEffect: React.FC<IDamageEffect> = ({ damageType, min, max, target, modifier }) => (
 	<Typography>
-		{TARGET_NAME_MAP[target as Target]} takes {min}-{max} {RESISTANCES_NAME_MAP[damageType]} damage
+		{TARGET_NAME_MAP[target as Target]} takes {min}-{max} {RESISTANCES_NAME_MAP[damageType]} damage{" "}
+		{modifier && (
+			<Tooltip title={`Your ${STATS_NAME_MAP[modifier]} modifier is added to this attack`} placement="top">
+				<Box component="span" color="text.secondary">
+					(+ {STATS_ABBR_MAP[modifier]})
+				</Box>
+			</Tooltip>
+		)}
 	</Typography>
 );
 
