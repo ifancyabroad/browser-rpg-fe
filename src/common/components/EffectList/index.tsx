@@ -43,9 +43,16 @@ const WeaponDamageEffect: React.FC<IWeaponDamageEffect> = ({ multiplier, target 
 	</Typography>
 );
 
-const HealEffect: React.FC<IHealEffect> = ({ min, max, target }) => (
+const HealEffect: React.FC<IHealEffect> = ({ min, max, target, modifier }) => (
 	<Typography>
-		Heals {TARGET_NAME_MAP[target as Target]} for {min}-{max} hit points
+		Heals {TARGET_NAME_MAP[target as Target]} for {min}-{max} hit points{" "}
+		{modifier && (
+			<Tooltip title={`Your ${STATS_NAME_MAP[modifier]} modifier is added to this heal`} placement="top">
+				<Box component="span" color="text.secondary">
+					(+ {STATS_ABBR_MAP[modifier]})
+				</Box>
+			</Tooltip>
+		)}
 	</Typography>
 );
 
