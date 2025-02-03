@@ -2600,7 +2600,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Fighter"
+                         "value":"Shadowblade"
                         }, 
                         {
                          "name":"type",
@@ -2614,7 +2614,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Mage"
+                         "value":"Battlemage"
                         }, 
                         {
                          "name":"type",
@@ -2666,21 +2666,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Sorcerer"
-                        }, 
-                        {
-                         "name":"type",
-                         "type":"string",
-                         "value":"hero"
-                        }]
-                }, 
-                {
-                 "id":552,
-                 "properties":[
-                        {
-                         "name":"class",
-                         "type":"string",
-                         "value":"Shadowblade"
+                         "value":"Mage"
                         }, 
                         {
                          "name":"type",
@@ -2694,7 +2680,7 @@
                         {
                          "name":"class",
                          "type":"string",
-                         "value":"Battlemage"
+                         "value":"Fighter"
                         }, 
                         {
                          "name":"type",
@@ -2791,8 +2777,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":574,
                  "properties":[
@@ -2801,7 +2786,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":575,
                  "properties":[
@@ -2936,8 +2922,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":595,
                  "properties":[
@@ -2946,7 +2931,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":596,
                  "properties":[
@@ -3081,8 +3067,7 @@
                          "type":"bool",
                          "value":true
                         }]
-                },
-            
+                }, 
                 {
                  "id":621,
                  "properties":[
@@ -3091,7 +3076,8 @@
                          "type":"bool",
                          "value":true
                         }]
-                }, 
+                },
+            
                 {
                  "id":622,
                  "properties":[

@@ -4,37 +4,35 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogContentText,
-	DialogTitle,
-	Divider,
 	Grid,
 	Link,
 	Stack,
 	Typography,
-	useMediaQuery,
-	useTheme,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { closeCharacterClassModal, openEquipmentModal, openSkillModal } from "./modalsSlice";
-import { IArmour, ISkill, IWeapon } from "common/types";
-import { STATS, STATS_ABBR_MAP, mapToArray } from "common/utils";
-import { Fragment } from "react";
+import { closeCharacterClassModal } from "./modalsSlice";
+import { STATS, STATS_NAME_MAP, getPrimaryStats, mapToArray } from "common/utils";
+import { EquipmentItem, SkillItem } from "./CharacterModal";
+import { IArmour, IWeapon } from "common/types";
+
+interface IStatItemProps {
+	name: string;
+	value: number;
+}
+
+const StatItem: React.FC<IStatItemProps> = ({ name, value }) => (
+	<Box display="flex" justifyContent="space-between">
+		<Typography color="secondary.main">{name}</Typography>
+		<Typography>{value}</Typography>
+	</Box>
+);
 
 export const CharacterClassModal: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { open, characterClass } = useAppSelector((state) => state.modals.characterClassModal);
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
 	const handleClose = () => {
 		dispatch(closeCharacterClassModal());
-	};
-
-	const handleViewSkill = (skill: ISkill) => {
-		dispatch(openSkillModal({ skill }));
-	};
-
-	const handleViewEquipment = (item: IWeapon | IArmour) => {
-		dispatch(openEquipmentModal({ item }));
 	};
 
 	if (!characterClass) {
@@ -42,75 +40,79 @@ export const CharacterClassModal: React.FC = () => {
 	}
 
 	const { name, description, skills, equipment, portrait, stats } = characterClass;
+	let equipmentAsArray: (IWeapon | IArmour)[] = [];
+	if (equipment) {
+		equipmentAsArray = mapToArray(equipment);
+	}
 
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm">
-			{isMobile && <DialogTitle>{name}</DialogTitle>}
 			<DialogContent>
 				<Grid container spacing={2}>
-					<Grid item xs={12} md={5} textAlign="center">
+					<Grid item xs={12} sm={6} md={4} textAlign="center">
 						<Box
-							component="img"
-							src={portrait || "https://via.placeholder.com/1024"}
-							alt={name}
-							maxWidth="100%"
-						/>
+							sx={{
+								position: "relative",
+								height: "100%",
+								minHeight: "400px",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								flexDirection: "column",
+							}}
+						>
+							<Box
+								sx={{
+									position: "absolute",
+									height: "100%",
+									width: "100%",
+									backgroundImage: `url(${portrait})`,
+									backgroundSize: "cover",
+									backgroundPosition: "top center",
+									opacity: 0.3,
+								}}
+							/>
+							<Box sx={{ position: "relative", zIndex: 1 }}>
+								<Typography variant="h6" color="primary.main">
+									{name}
+								</Typography>
+								<Typography color="text.secondary">Primary Stats</Typography>
+								<Stack>
+									{getPrimaryStats(stats).map((stat) => (
+										<Typography>{STATS_NAME_MAP[stat]}</Typography>
+									))}
+								</Stack>
+							</Box>
+						</Box>
 					</Grid>
-					<Grid item xs={12} md={7}>
-						{!isMobile && (
-							<Typography variant="h5" color="text.secondary" mb={2}>
-								{name}
-							</Typography>
-						)}
-						<Typography color="info.main">Description</Typography>
-						<DialogContentText mb={2}>{description}</DialogContentText>
-						<Stack spacing={2}>
-							<Stack direction="row" spacing={1} flexWrap="wrap">
+					<Grid item xs={12} sm={6} md={4}>
+						<Stack spacing={1}>
+							<Typography color="text.secondary">Description</Typography>
+							<DialogContentText>{description}</DialogContentText>
+							<Typography color="text.secondary">Attributes</Typography>
+							<Stack spacing={1}>
 								{STATS.map((stat) => (
-									<Fragment key={stat}>
-										<Box sx={{ textAlign: "center", flex: 1 }}>
-											<Typography variant="body2">{STATS_ABBR_MAP[stat]}</Typography>
-											<Typography color="text.secondary" fontSize={20}>
-												{stats[stat]}
-											</Typography>
-										</Box>
-
-										<Divider
-											sx={{
-												"&:last-of-type": {
-													display: "none",
-												},
-											}}
-											orientation="vertical"
-											flexItem
-										/>
-									</Fragment>
+									<StatItem key={stat} name={STATS_NAME_MAP[stat]} value={stats[stat]} />
 								))}
 							</Stack>
-							<Box>
-								<Typography color="info.main">Starting Skills</Typography>
-								<Stack direction="row" spacing={2} flexWrap="wrap">
-									{skills.map((skill) => (
-										<Link component="button" key={skill.id} onClick={() => handleViewSkill(skill)}>
-											{skill.name}
-										</Link>
-									))}
-								</Stack>
-							</Box>
-							<Box>
-								<Typography color="info.main">Starting Equipment</Typography>
-								<Stack direction="row" spacing={2} flexWrap="wrap">
-									{mapToArray(equipment ?? {}).map((equipment) => (
-										<Link
-											component="button"
-											key={equipment.id}
-											onClick={() => handleViewEquipment(equipment)}
-										>
-											{equipment.name}
-										</Link>
-									))}
-								</Stack>
-							</Box>
+						</Stack>
+					</Grid>
+					<Grid item xs={12} sm={6} md={4}>
+						<Stack>
+							<Typography color="text.secondary" mb={1}>
+								Starting Skill
+							</Typography>
+							{skills.map((skill) => (
+								<SkillItem key={skill.id} skill={skill} />
+							))}
+						</Stack>
+						<Stack>
+							<Typography color="text.secondary" mb={1}>
+								Starting Equipment
+							</Typography>
+							{equipmentAsArray.map((equipment, index) => (
+								<EquipmentItem key={index} equipment={equipment} />
+							))}
 						</Stack>
 					</Grid>
 				</Grid>

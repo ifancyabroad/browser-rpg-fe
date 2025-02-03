@@ -59,7 +59,7 @@ const StatItem: React.FC<IStatItemProps> = ({ name, baseValue, bonuses, max }) =
 	);
 };
 
-const EquipmentItem: React.FC<{ equipment: IWeapon | IArmour }> = ({ equipment }) => {
+export const EquipmentItem: React.FC<{ equipment: IWeapon | IArmour }> = ({ equipment }) => {
 	const dispatch = useAppDispatch();
 
 	const handleViewEquipment = () => {
@@ -86,7 +86,7 @@ const EquipmentItem: React.FC<{ equipment: IWeapon | IArmour }> = ({ equipment }
 	);
 };
 
-const SkillItem: React.FC<{ skill: ISkill }> = ({ skill }) => {
+export const SkillItem: React.FC<{ skill: ISkill }> = ({ skill }) => {
 	const dispatch = useAppDispatch();
 
 	const handleViewSkill = () => {

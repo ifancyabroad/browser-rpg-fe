@@ -1,4 +1,4 @@
-import { IArmour, IEquipment, ISkill, ITileProperties, IWeapon, TProperty } from "common/types";
+import { IArmour, IEquipment, ISkill, ITileProperties, IWeapon, TProperty, TStats } from "common/types";
 import {
 	DamageType,
 	EffectType,
@@ -6,6 +6,7 @@ import {
 	EquipmentType,
 	PropertyType,
 	SkillType,
+	Stat,
 	Target,
 	WeaponSize,
 } from "common/utils/enums";
@@ -199,4 +200,11 @@ export const getItemPropertyBonus = (item: IWeapon | IArmour, type: PropertyType
 		.filter((property) => property.type === type && property.name === name)
 		.reduce((n, { value }) => n + value, 0);
 	return { name: item.name, value };
+};
+
+export const getPrimaryStats = (stats: TStats) => {
+	const maxStatValue = Math.max(...Object.values(stats));
+	return Object.entries(stats)
+		.filter(([, value]) => value === maxStatValue)
+		.map(([key]) => key) as Stat[];
 };
