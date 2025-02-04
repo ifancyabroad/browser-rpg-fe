@@ -231,6 +231,15 @@ export const PROPERTY_CONFIG: Record<PropertyType, IPropertyTypeConfig> = {
 		suffix: "%",
 		properties: DAMAGE_CONFIG,
 	},
+	[PropertyType.Heal]: {
+		name: "Heal",
+		min: -100,
+		max: 100,
+		step: 5,
+		prefix: "+",
+		suffix: "%",
+		properties: [{ key: "heal", abbr: "HEA", name: "Healing" }],
+	},
 };
 
 export const PROPERTY_TYPES = [
@@ -238,4 +247,5 @@ export const PROPERTY_TYPES = [
 	PropertyType.AuxiliaryStat,
 	PropertyType.Resistance,
 	PropertyType.Damage,
+	PropertyType.Heal,
 ] as const;
