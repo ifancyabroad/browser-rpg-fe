@@ -95,7 +95,7 @@ export const HowToPlayModal: React.FC = () => {
 							<Box component="span" color="text.secondary">
 								Well:
 							</Box>{" "}
-							Ward of spirits of other heroes.
+							Ward off spirits of other heroes.
 						</span>
 					</DialogContentText>
 					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>

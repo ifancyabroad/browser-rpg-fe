@@ -4,7 +4,6 @@ import {
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	IconButton,
 	Link,
 	Stack,
 	styled,
@@ -26,8 +25,7 @@ import { Loader } from "common/components";
 import { useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { CHARACTER_CLASS_NAME_MAP, CHARACTER_CLASSES, CharacterClass, LeaderboardTab } from "common/utils";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 type CharacterClassTab = "all" | CharacterClass;
 
@@ -35,6 +33,43 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 	minWidth: 0,
 	whiteSpace: "nowrap",
 }));
+
+const SelectWrapper = styled("div")(({ theme }) => ({
+	flex: 1,
+	position: "relative",
+	display: "flex",
+	alignItems: "stretch",
+	[theme.breakpoints.down("sm")]: {
+		order: 1,
+	},
+}));
+
+const StyledSelect = styled("select")(({ theme }) => ({
+	flex: 1,
+	appearance: "none",
+	border: "1px solid #757575",
+	backgroundColor: "#000",
+	color: "#fff",
+	padding: theme.spacing(1),
+	fontFamily: theme.typography.fontFamily,
+	fontSize: theme.typography.fontSize,
+	textAlign: "center",
+	cursor: "pointer",
+	"&:focus, &:focus-visible": {
+		outline: "none",
+	},
+}));
+
+const IconWrapper = styled("div")({
+	position: "absolute",
+	right: 8,
+	top: "50%",
+	transform: "translateY(-50%)",
+	pointerEvents: "none",
+	"& svg": {
+		verticalAlign: "middle",
+	},
+});
 
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -71,24 +106,8 @@ export const Leaderboard: React.FC = () => {
 		setLeaderboardTab(newValue);
 	};
 
-	const handlePreviousClass = () => {
-		if (characterClass === "all") {
-			setCharacterClass(CHARACTER_CLASSES[CHARACTER_CLASSES.length - 1]);
-			return;
-		}
-		const index = CHARACTER_CLASSES.indexOf(characterClass);
-		const previousClass = CHARACTER_CLASSES[index - 1] || "all";
-		setCharacterClass(previousClass);
-	};
-
-	const handleNextClass = () => {
-		if (characterClass === "all") {
-			setCharacterClass(CHARACTER_CLASSES[0]);
-			return;
-		}
-		const index = CHARACTER_CLASSES.indexOf(characterClass);
-		const nextClass = CHARACTER_CLASSES[index + 1] || "all";
-		setCharacterClass(nextClass);
+	const handleSelectClass = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setCharacterClass(e.target.value as CharacterClassTab);
 	};
 
 	const handleViewHero = (id: string) => {
@@ -119,28 +138,19 @@ export const Leaderboard: React.FC = () => {
 								sm: "row",
 							}}
 						>
-							<Box
-								sx={{
-									flex: 1,
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "space-between",
-									border: "1px solid #757575",
-									backgroundColor: "#000",
-								}}
-							>
-								<IconButton onClick={handlePreviousClass} disabled={isLoading} sx={{ p: 0.5 }}>
-									<ArrowLeftIcon />
-								</IconButton>
-								<Typography color="text.secondary" textAlign="center">
-									{characterClass === "all"
-										? "All Classes"
-										: CHARACTER_CLASS_NAME_MAP[characterClass]}
-								</Typography>
-								<IconButton onClick={handleNextClass} disabled={isLoading} sx={{ p: 0.5 }}>
-									<ArrowRightIcon />
-								</IconButton>
-							</Box>
+							<SelectWrapper>
+								<StyledSelect value={characterClass} onChange={handleSelectClass} disabled={isLoading}>
+									<option value="all">All Classes</option>
+									{CHARACTER_CLASSES.map((characterClass) => (
+										<option key={characterClass} value={characterClass}>
+											{CHARACTER_CLASS_NAME_MAP[characterClass]}
+										</option>
+									))}
+								</StyledSelect>
+								<IconWrapper>
+									<ArrowDropDownIcon />
+								</IconWrapper>
+							</SelectWrapper>
 							<Tabs
 								value={leaderboardTab}
 								onChange={handleChangeTab}
