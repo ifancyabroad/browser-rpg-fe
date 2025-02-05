@@ -184,6 +184,10 @@ export const CLASS_NAME_MAP: Record<SkillClass, string> = {
 	[SkillClass.Mage]: "Mage",
 	[SkillClass.Rogue]: "Rogue",
 	[SkillClass.Cleric]: "Cleric",
+	[SkillClass.Assassin]: "Assassin",
+	[SkillClass.Warlock]: "Warlock",
+	[SkillClass.Occultist]: "Occultist",
+	[SkillClass.Barbarian]: "Barbarian",
 };
 
 export const SKILL_TYPE_NAME_MAP: Record<SkillType, string> = {
