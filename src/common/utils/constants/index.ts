@@ -283,6 +283,7 @@ export const ACTION_TILES = [
 	TileType.Exit,
 	TileType.Leaderboard,
 	TileType.Salvage,
+	TileType.Spirits,
 ];
 
 export const ITEM_RARITY_COLOR_MAP: Record<ItemRarity, string> = {

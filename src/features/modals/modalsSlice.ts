@@ -37,6 +37,7 @@ interface ModalsState {
 	victoryModalOpen: boolean;
 	howToPlayModalOpen: boolean;
 	potionSellerModalOpen: boolean;
+	spiritsModalOpen: boolean;
 	characterModal: {
 		open: boolean;
 		id?: string;
@@ -73,6 +74,7 @@ const initialState: ModalsState = {
 	victoryModalOpen: false,
 	howToPlayModalOpen: false,
 	potionSellerModalOpen: false,
+	spiritsModalOpen: false,
 	characterModal: {
 		open: false,
 	},
@@ -207,6 +209,12 @@ export const modalsSlice = createSlice({
 		closePotionSellerModal: (state) => {
 			state.potionSellerModalOpen = false;
 		},
+		openSpiritsModal: (state) => {
+			state.spiritsModalOpen = true;
+		},
+		closeSpiritsModal: (state) => {
+			state.spiritsModalOpen = false;
+		},
 		openCharacterModal: (state, action: PayloadAction<{ id: string }>) => {
 			state.characterModal.open = true;
 			state.characterModal.id = action.payload.id;
@@ -260,6 +268,8 @@ export const {
 	closeHowToPlayModal,
 	openPotionSellerModal,
 	closePotionSellerModal,
+	openSpiritsModal,
+	closeSpiritsModal,
 	openCharacterModal,
 	closeCharacterModal,
 	openFinalBattleModal,

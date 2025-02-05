@@ -8,6 +8,7 @@ import {
 	openFinalBattleModal,
 	openPotionSellerModal,
 	openShopModal,
+	openSpiritsModal,
 } from "features/modals";
 import { startBattle } from "features/battle";
 import { Fragment } from "react";
@@ -41,6 +42,11 @@ export const RoomModals: React.FC = () => {
 
 	const handleOpenPotionSeller = () => {
 		dispatch(openPotionSellerModal());
+		localDispatch({ type: "CLOSE" });
+	};
+
+	const handleOpenSpiritsModal = () => {
+		dispatch(openSpiritsModal());
 		localDispatch({ type: "CLOSE" });
 	};
 
@@ -118,6 +124,13 @@ export const RoomModals: React.FC = () => {
 				handleClose={closeConfirmationModal}
 				handleConfirm={handleOpenPotionSeller}
 				open={state[TileType.Hut]}
+			/>
+			<ConfirmationModal
+				title="Mysterious Well"
+				content="Would you like to investigate the well?"
+				handleClose={closeConfirmationModal}
+				handleConfirm={handleOpenSpiritsModal}
+				open={state[TileType.Spirits]}
 			/>
 			<ConfirmationModal
 				title="Ready?"

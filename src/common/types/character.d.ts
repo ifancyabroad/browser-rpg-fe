@@ -78,6 +78,8 @@ export interface ICharacter {
 	salvageValue: number;
 	salvage: ISalvage;
 	auxiliaryEffects: Record<AuxiliaryEffect, boolean>;
+	spiritsDisabled: boolean;
+	disableSpiritsPrice: number;
 }
 
 export interface IBuyItemPayload {

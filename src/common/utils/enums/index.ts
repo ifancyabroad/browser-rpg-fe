@@ -197,6 +197,7 @@ export enum TileType {
 	Hut = "hut",
 	Leaderboard = "leaderboard",
 	Salvage = "salvage",
+	Spirits = "spirits",
 }
 
 export enum LeaderboardTab {

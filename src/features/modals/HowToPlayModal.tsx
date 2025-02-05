@@ -6,6 +6,7 @@ import dungeon from "assets/images/tutorial/tile365.png";
 import merchant from "assets/images/tutorial/tile549.png";
 import hut from "assets/images/tutorial/tile326.png";
 import salvageChest from "assets/images/tutorial/tile413.png";
+import well from "assets/images/tutorial/tile381.png";
 import { STATS, STATS_NAME_MAP, STATS_SHORT_DESCRIPTION_MAP } from "common/utils";
 
 export const HowToPlayModal: React.FC = () => {
@@ -86,6 +87,15 @@ export const HowToPlayModal: React.FC = () => {
 								Salvage Chest:
 							</Box>{" "}
 							Collect gold from previous hero.
+						</span>
+					</DialogContentText>
+					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
+						<img src={well} alt="Well" /> -{" "}
+						<span>
+							<Box component="span" color="text.secondary">
+								Well:
+							</Box>{" "}
+							Ward of spirits of other heroes.
 						</span>
 					</DialogContentText>
 					<DialogContentText textAlign="left" display="flex" alignItems="center" gap={1}>
