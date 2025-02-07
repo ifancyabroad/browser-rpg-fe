@@ -29,10 +29,11 @@ const SelectContainer = styled("div")(({ theme }) => ({
 	backgroundColor: "#000",
 	color: "#fff",
 	padding: theme.spacing(1),
-	cursor: "pointer",
 	textAlign: "center",
 	lineHeight: 1.25,
 	fontSize: 14,
+	cursor: "pointer",
+	WebkitTapHighlightColor: "transparent",
 
 	"&:hover": {
 		borderColor: "#fff",
@@ -55,6 +56,7 @@ const DropdownItem = styled("li")(({ theme }) => ({
 	lineHeight: 1.25,
 	textAlign: "center",
 	cursor: "pointer",
+	WebkitTapHighlightColor: "transparent",
 	"&:hover": {
 		color: "#FFF",
 	},
