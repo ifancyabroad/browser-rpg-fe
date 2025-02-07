@@ -94,7 +94,7 @@ export const Select: React.FC<SelectProps> = ({ options, value, onChange }) => {
 				<Popper
 					open={Boolean(anchorEl)}
 					anchorEl={anchorEl}
-					sx={{ width: "100%" }}
+					sx={{ width: "100%", zIndex: 1 }}
 					placement="bottom-start"
 					disablePortal
 				>
