@@ -21,11 +21,10 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { closeLeaderboard, fetchLeaderboard } from "./leaderboardSlice";
-import { Loader } from "common/components";
+import { Loader, Select } from "common/components";
 import { useEffect, useState } from "react";
 import { openCharacterModal, openErrorModal } from "features/modals";
 import { CHARACTER_CLASS_NAME_MAP, CHARACTER_CLASSES, CharacterClass, LeaderboardTab } from "common/utils";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 type CharacterClassTab = "all" | CharacterClass;
 
@@ -36,40 +35,10 @@ const StyledTab = styled(Tab)(({ theme }) => ({
 
 const SelectWrapper = styled("div")(({ theme }) => ({
 	flex: 1,
-	position: "relative",
-	display: "flex",
-	alignItems: "stretch",
 	[theme.breakpoints.down("sm")]: {
 		order: 1,
 	},
 }));
-
-const StyledSelect = styled("select")(({ theme }) => ({
-	flex: 1,
-	appearance: "none",
-	border: "1px solid #757575",
-	backgroundColor: "#000",
-	color: "#fff",
-	padding: theme.spacing(1),
-	fontFamily: theme.typography.fontFamily,
-	fontSize: theme.typography.fontSize,
-	textAlign: "center",
-	cursor: "pointer",
-	"&:focus, &:focus-visible": {
-		outline: "none",
-	},
-}));
-
-const IconWrapper = styled("div")({
-	position: "absolute",
-	right: 8,
-	top: "50%",
-	transform: "translateY(-50%)",
-	pointerEvents: "none",
-	"& svg": {
-		verticalAlign: "middle",
-	},
-});
 
 export const Leaderboard: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -82,6 +51,11 @@ export const Leaderboard: React.FC = () => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 	const noRankings = rankings.length === 0 && status === "succeeded";
+	const options = CHARACTER_CLASSES.map((characterClass) => ({
+		label: CHARACTER_CLASS_NAME_MAP[characterClass],
+		value: characterClass as CharacterClassTab,
+	}));
+	options.unshift({ label: "All Classes", value: "all" });
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -106,8 +80,8 @@ export const Leaderboard: React.FC = () => {
 		setLeaderboardTab(newValue);
 	};
 
-	const handleSelectClass = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setCharacterClass(e.target.value as CharacterClassTab);
+	const handleSelectClass = (option: string) => {
+		setCharacterClass(option as CharacterClassTab);
 	};
 
 	const handleViewHero = (id: string) => {
@@ -139,17 +113,7 @@ export const Leaderboard: React.FC = () => {
 							}}
 						>
 							<SelectWrapper>
-								<StyledSelect value={characterClass} onChange={handleSelectClass} disabled={isLoading}>
-									<option value="all">All Classes</option>
-									{CHARACTER_CLASSES.map((characterClass) => (
-										<option key={characterClass} value={characterClass}>
-											{CHARACTER_CLASS_NAME_MAP[characterClass]}
-										</option>
-									))}
-								</StyledSelect>
-								<IconWrapper>
-									<ArrowDropDownIcon />
-								</IconWrapper>
+								<Select options={options} value={characterClass} onChange={handleSelectClass} />
 							</SelectWrapper>
 							<Tabs
 								value={leaderboardTab}
