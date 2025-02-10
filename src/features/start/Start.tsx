@@ -1,4 +1,4 @@
-import { alpha, Box, Container, Divider, Link as MuiLink, Paper, Stack, Typography } from "@mui/material";
+import { alpha, Box, Container, Divider, Link as MuiLink, Paper, Stack, styled, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { fetchDailyWinner, getHasActiveCharacter, retireCharacter } from "features/character";
 import { Fragment, useEffect, useState } from "react";
@@ -6,6 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { ConfirmationModal, openErrorModal } from "features/modals";
 import { Dragon, Footer, Header, HoverButton, PageLoader } from "common/components";
 import { DailyWinner } from "./DailyWinner";
+import logo from "assets/images/logos/browser_heroes.png";
+
+const Logo = styled("img")({
+	width: "100%",
+	maxWidth: 260,
+	marginRight: -20,
+});
 
 export const Start: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -80,9 +87,7 @@ export const Start: React.FC = () => {
 							<Dragon />
 							{hasActiveCharacter ? (
 								<Stack spacing={3} alignItems="center">
-									<Typography variant="h1" textAlign="center">
-										Browser Heroes
-									</Typography>
+									<Logo src={logo} alt="Browser Heroes" width="200" />
 									<Stack spacing={1}>
 										<Typography textAlign="center">
 											Welcome back{" "}
@@ -126,9 +131,7 @@ export const Start: React.FC = () => {
 								</Stack>
 							) : (
 								<Stack spacing={3} alignItems="center">
-									<Typography variant="h1" textAlign="center">
-										Browser Heroes
-									</Typography>
+									<Logo src={logo} alt="Browser Heroes" width="200" />
 									<Stack spacing={1}>
 										<Typography textAlign="center">
 											Welcome{" "}

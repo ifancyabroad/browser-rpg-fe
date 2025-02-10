@@ -1,7 +1,14 @@
-import { alpha, Box, Container, Link, Paper, Stack, Typography } from "@mui/material";
+import { alpha, Box, Container, Link, Paper, Stack, styled, Typography } from "@mui/material";
 import { Dragon, Footer, Header } from "common/components";
 import { useAppDispatch } from "common/hooks";
 import { openLoginModal, openUsernameModal } from "features/modals";
+import logo from "assets/images/logos/browser_heroes.png";
+
+const Logo = styled("img")({
+	width: "100%",
+	maxWidth: 260,
+	marginRight: -20,
+});
 
 export const Landing: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -35,10 +42,8 @@ export const Landing: React.FC = () => {
 						})}
 					>
 						<Dragon />
-						<Stack spacing={3}>
-							<Typography variant="h1" textAlign="center">
-								Browser Heroes
-							</Typography>
+						<Stack spacing={3} alignItems="center">
+							<Logo src={logo} alt="Browser Heroes" width="200" />
 							<Typography textAlign="center">
 								Welcome to{" "}
 								<Box component="span" color="text.secondary">
